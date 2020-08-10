@@ -6,7 +6,7 @@
 + [**Variants in the middle of sequences originating from exon skipping**](#VariantM)
 + [**Disease related (and not) variants**](#Disease)
 
-[**Existing methods for the prediction of the outcome of variants**](#MethodPre)
+[**Existing methods for the prediction of the outcome of variants**](#MethodPred)
 
 <br><a name="RDB"></a>
 <h2 align="center">Relevant DataBases</h2>
@@ -33,7 +33,7 @@
 + [Eduardo Pérez-Palma, Marie Gramm, Peter Nürnberg, Patrick May, Dennis Lal, Simple ClinVar: an interactive web server to explore and retrieve gene and disease variants aggregated in ClinVar database, Nucleic Acids Research, Volume 47, Issue W1, 02 July 2019, Pages W99–W105](https://academic.oup.com/nar/article/47/W1/W99/5494761)
 + [Landrum MJ, Lee JM, Riley GR, et al. ClinVar: public archive of relationships among sequence variation and human phenotype. Nucleic Acids Res. 2014;42(Database issue):D980-D985](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3965032/)
 
-<a name="MethodPre"></a>
+<a name="MethodPred"></a>
 <br><h2 align="center">Existing methods for the prediction of the outcome of variants</h2>
 
 ###
