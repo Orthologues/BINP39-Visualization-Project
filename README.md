@@ -1,5 +1,6 @@
 <h1 align="center">Thesis-Data Collection</h1>
-<p align="left">A repository for the data collection stage of my degree project in protein truncation.</p><br>
+<p align="left">A repository for the data collection stage of my master's degree project in <em>protein truncation</em> at Lund University.</p>
+<p>Project tutor: <em>Mauno Vihinen</em></p><br>
 
 [**Relevant Databases**](#RDB)
 + [**N- & C-Terminal variants**](#VariantNC)
