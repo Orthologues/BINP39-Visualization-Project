@@ -9,6 +9,10 @@
 
 [**Existing methods for the prediction of the outcome of variants**](#MethodPred)
 
+[**Tutorials of potentially useful tools for data collection**](#tutorial)
++ [**Jupyter Notebook**](#jupyter)
++ [**Scrapy**](#scrapy)
+
 <br><a name="RDB"></a>
 <h2 align="center">Relevant DataBases</h2>
 
@@ -33,13 +37,28 @@
 [**ClinVar**](https://www.ncbi.nlm.nih.gov/clinvar/)
 + [Eduardo Pérez-Palma, Marie Gramm, Peter Nürnberg, Patrick May, Dennis Lal, Simple ClinVar: an interactive web server to explore and retrieve gene and disease variants aggregated in ClinVar database, Nucleic Acids Research, Volume 47, Issue W1, 02 July 2019, Pages W99–W105](https://academic.oup.com/nar/article/47/W1/W99/5494761)
 + [Landrum MJ, Lee JM, Riley GR, et al. ClinVar: public archive of relationships among sequence variation and human phenotype. Nucleic Acids Res. 2014;42(Database issue):D980-D985](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3965032/)
++ [Pagel KA, Antaki D, Lian A, et al. Pathogenicity and functional impact of non-frameshifting insertion/deletion variation in the human genome. PLoS Comput Biol. 2019;15(6):e1007112. Published 2019 Jun 14](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3965032/)
 
 <a name="MethodPred"></a>
 <br><h2 align="center">Existing methods for the prediction of the outcome of variants</h2>
 
 ###
 [**MutPred-Indel**](http://mutpredindel.cs.indiana.edu/)
-+ [Pagel KA, Antaki D, Lian A, et al. Pathogenicity and functional impact of non-frameshifting insertion/deletion variation in the human genome. PLoS Comput Biol. 2019;15(6):e1007112. Published 2019 Jun 14](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3965032/)
++ [Mort, M., Sterne-Weiler, T., Li, B. et al. MutPred Splice: machine learning-based prediction of exonic variants that disrupt splicing. Genome Biol 15, R19 (2014)](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2014-15-1-r19#citeas)
 
 [**SIFT-Indel**](https://sift.bii.a-star.edu.sg/www/SIFT_indels2.html)
 + [Hu J, Ng PC. SIFT Indel: predictions for the functional effects of amino acid insertions/deletions in proteins. PLoS One. 2013;8(10):e77940. Published 2013 Oct 23](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3806772/)
+
+<a name="tutorial"></a>
+<br><h2 align="center">Tutorials of potentially useful tools for data collection</h2>
+
+###
+<a name="jupyter"></a>
+[**Jupyter Notebook**](https://jupyter.org/)
++ [Jupyter Notebook Tutorial: The Definitive Guide](https://www.datacamp.com/community/tutorials/tutorial-jupyter-notebook)
++ [Jupyter Notebook for Beginners: A Tutorial towards .ipynb](https://www.dataquest.io/blog/jupyter-notebook-tutorial/)
+
+<a name="scrapy"></a>
+[**Scrapy**](https://docs.scrapy.org/en/latest/intro/tutorial.html)
++ [Python Scrapy tutorial for beginners – 01 – Creating your first spider](https://letslearnabout.net/tutorial/scrapy-tutorial/python-scrapy-tutorial-for-beginners-01-creating-your-first-spider/)
++ [Python Scrapy tutorial for beginners – 02 – Extract all the data!](https://letslearnabout.net/tutorial/python-scrapy-tutorial-for-beginners-02-extract-all-the-data/)
