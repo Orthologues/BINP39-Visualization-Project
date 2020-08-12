@@ -2,18 +2,24 @@
 <p align="left">A repository for the data collection stage of my master's degree project in <em>protein truncation</em> at Lund University.</p>
 <p>Project tutor: <em>Mauno Vihinen</em></p><br>
 
-[**Relevant Databases**](#RDB)
+[*Relevant Databases*](#RDB)
 + [**N- & C-Terminal variants**](#VariantNC)
 + [**Variants in the middle of sequences originating from exon skipping**](#VariantM)
 + [**Disease related (and not) variants**](#Disease)
 + [**Annotation of splice isoforms in protein-coding genes**](#spliceIsoform)
 
-[**Existing papers of relevant analysis**](#papers)
+[*Existing papers of relevant analysis*](#papers)
 + [**The Characteristics of Heterozygous Protein Truncating Variants in the Human Genome**](#HumanTruncation)
++ [**The Functional Human C-Terminome**](#HumanCTerminome)
++ [**Genome-scale CRISPR-Cas9 knockout screening in human cells**](#crispr9-knockout)
++ [**Genetic screens in human cells using the CRISPR-Cas9 system**](#crispr9-screen)
++ [**The carboxy-terminus, a key regulator of protein function**](#carboxy-terminus)
 
-[**Existing methods for the prediction of the outcome of variants**](#MethodPred)
+[*Existing methods for the prediction of the outcome of variants*](#MethodPred)
++ [**MutPred-Indel**](#mutpred-indel)
++ [**SIFT-Indel**](#sift-indel)
 
-[**Tutorials of potentially useful tools for data collection**](#tutorial)
+[*Tutorials of potentially useful tools for data collection*](#tutorial)
 + [**Jupyter Notebook**](#jupyter)
 + [**Scrapy**](#scrapy)
 
@@ -54,9 +60,11 @@
 <br><h2 align="center">Existing methods for the prediction of the outcome of variants</h2>
 
 ###
+<a name="mutpred-indel"></a>
 [**MutPred-Indel**](http://mutpredindel.cs.indiana.edu/)
 + [Mort, M., Sterne-Weiler, T., Li, B. et al. MutPred Splice: machine learning-based prediction of exonic variants that disrupt splicing. Genome Biol 15, R19 (2014)](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2014-15-1-r19#citeas)
 
+<a name="sift-indel"></a>
 [**SIFT-Indel**](https://sift.bii.a-star.edu.sg/www/SIFT_indels2.html)
 + [Hu J, Ng PC. SIFT Indel: predictions for the functional effects of amino acid insertions/deletions in proteins. PLoS One. 2013;8(10):e77940. Published 2013 Oct 23](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3806772/)
 
@@ -66,6 +74,20 @@
 ###
 <a name="HumanTruncation"></a>
 [**Bartha I, Rausell A, McLaren PJ, et al. The Characteristics of Heterozygous Protein Truncating Variants in the Human Genome. PLoS Comput Biol. 2015;11(12):e1004647. Published 2015 Dec 7**](https://pubmed.ncbi.nlm.nih.gov/26642228/)
+
+<a name="HumanCTerminome"></a>
+[**Sharma S, Toledo O, Hedden M, et al. The Functional Human C-Terminome. PLoS One. 2016;11(4):e0152731. Published 2016 Apr 6**](https://pubmed.ncbi.nlm.nih.gov/27050421/)
+
+<a name="crispr9-knockout"></a>
+[**Shalem O, Sanjana NE, Hartenian E, et al. Genome-scale CRISPR-Cas9 knockout screening in human cells. Science. 2014**](https://pubmed.ncbi.nlm.nih.gov/24336571/)
+
+<a name="crispr9-screen"></a>
+[**Wang T, Wei JJ, Sabatini DM, Lander ES. Genetic screens in human cells using the CRISPR-Cas9 system. Science. 2014**](https://pubmed.ncbi.nlm.nih.gov/24336569/)
+
+<a name="carboxy-terminus"></a>
+[**Sharma S, Schiller MR. The carboxy-terminus, a key regulator of protein function. Crit Rev Biochem Mol Biol. 2019**](https://pubmed.ncbi.nlm.nih.gov/31106589/)
+
+
 
 <a name="tutorial"></a>
 <br><h2 align="center">Tutorials of potentially useful tools for data collection</h2>
