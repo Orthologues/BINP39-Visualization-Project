@@ -7,6 +7,9 @@
 + [**Variants in the middle of sequences originating from exon skipping**](#VariantM)
 + [**Disease related (and not) variants**](#Disease)
 + [**Length-variant Protein domains**](#lenvar)
++ [**Gene sequence variation associated with human phenotypes**](#humangenevar)
++ [**Human gene mutation**](#humangenemutation)
++ [**Proteolytic events**](#proteolytic)
 + [**Annotation of splice isoforms in protein-coding genes**](#spliceIsoform)
 
 [*Existing papers of relevant analysis*](#papers)
@@ -59,6 +62,30 @@
 ###
 [**LenVarDB**](http://caps.ncbs.res.in/lenvardb/)
 + [Mutt E, Mathew OK, Sowdhamini R. LenVarDB: database of length-variant protein domains. Nucleic Acids Res. 2014;42(Database issue):D246-D250](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3964994/)
+
+<a name="humangenevar"></a>
+## Gene sequence variation associated with human phenotypes
+###
+[**LOVD**](https://www.lovd.nl/)
++ [Fokkema IF, Taschner PE, Schaafsma GC, Celli J, Laros JF, den Dunnen JT. LOVD v.2.0: the next generation in gene variant databases. Hum Mutat. 2011;32(5):557-563](https://pubmed.ncbi.nlm.nih.gov/21520333/)
++ [LOVD 3.0 User Manual](http://www.lovd.nl/3.0/docs/LOVD_manual_3.0.pdf)
+
+
+<a name="humangenemutation"></a>
+## Human Gene Mutation 
+###
+[**HGMD**](http://www.hgmd.cf.ac.uk/ac/introduction.php?lang=english)
++ [Stenson PD, Mort M, Ball EV, et al. The Human Gene Mutation Database: towards a comprehensive repository of inherited mutation data for medical research, genetic diagnosis and next-generation sequencing studies. Hum Genet. 2017;136(6):665-677](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5429360/)
+
+<a name="proteolytic"></a>
+## Proteolytic events
+###
+[**General guide**](http://www.uwm.edu.pl/biochemia/index.php/en/biopep/42-proteolysis)
+[**CutDB**](http://cutdb.burnham.org)
++ [Stenson PD, Mort M, Ball EV, et al. The Human Gene Mutation Database: towards a comprehensive repository of inherited mutation data for medical research, genetic diagnosis and next-generation sequencing studies. Hum Genet. 2017;136(6):665-677](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5429360/)
+
+[**MEROPS**](http://merops.sanger.ac.uk/)
++ [Rawlings ND, Barrett AJ, Thomas PD, Huang X, Bateman A, Finn RD. The MEROPS database of proteolytic enzymes, their substrates and inhibitors in 2017 and a comparison with peptidases in the PANTHER database. Nucleic Acids Res. 2018;46(D1):D624-D632](https://pubmed.ncbi.nlm.nih.gov/29145643/)
 
 <a name="spliceIsoform"></a>
 ## Annotation of splice isoforms in protein-coding genes
