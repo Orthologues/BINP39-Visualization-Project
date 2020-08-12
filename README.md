@@ -6,6 +6,7 @@
 + [**N- & C-Terminal variants**](#VariantNC)
 + [**Variants in the middle of sequences originating from exon skipping**](#VariantM)
 + [**Disease related (and not) variants**](#Disease)
++ [**Length-variant Protein domains**](#lenvar)
 + [**Annotation of splice isoforms in protein-coding genes**](#spliceIsoform)
 
 [*Existing papers of relevant analysis*](#papers)
@@ -18,7 +19,6 @@
 + [**PPM1D-truncating mutations confer resistance to chemotherapy and sensitivity to PPM1D inhibition in hematopoietic cells**](#PPM1D-truncating)
 + [**Deletion mutation analysis of the mutS gene in Escherichia coli**](#del-ecoli)
 + [**Gene deletions causing human genetic disease: mechanisms of mutagenesis and the role of the local DNA sequence environment**](#gene-del-disease)
-
 
 [*Existing methods for the prediction of the outcome of variants*](#MethodPred)
 + [**MutPred-Indel**](#mutpred-indel)
@@ -52,7 +52,13 @@
 [**ClinVar**](https://www.ncbi.nlm.nih.gov/clinvar/)
 + [Eduardo Pérez-Palma, Marie Gramm, Peter Nürnberg, Patrick May, Dennis Lal, Simple ClinVar: an interactive web server to explore and retrieve gene and disease variants aggregated in ClinVar database, Nucleic Acids Research, Volume 47, Issue W1, 02 July 2019, Pages W99–W105](https://academic.oup.com/nar/article/47/W1/W99/5494761)
 + [Landrum MJ, Lee JM, Riley GR, et al. ClinVar: public archive of relationships among sequence variation and human phenotype. Nucleic Acids Res. 2014;42(Database issue):D980-D985](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3965032/)
-+ [Pagel KA, Antaki D, Lian A, et al. Pathogenicity and functional impact of non-frameshifting insertion/deletion variation in the human genome. PLoS Comput Biol. 2019;15(6):e1007112. Published 2019 Jun 14](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3965032/)
++ [Pagel KA, Antaki D, Lian A, et al. Pathogenicity and functional impact of non-frameshifting insertion/deletion variation in the human genome. PLoS Comput Biol. 2019;15(6):e1007112. Published 2019 Jun 14](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6594643/)
+
+<a name="lenvar"></a>
+## Length-variant Protein domains
+###
+[**LenVarDB**](http://caps.ncbs.res.in/lenvardb/)
++ [Mutt E, Mathew OK, Sowdhamini R. LenVarDB: database of length-variant protein domains. Nucleic Acids Res. 2014;42(Database issue):D246-D250](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3964994/)
 
 <a name="spliceIsoform"></a>
 ## Annotation of splice isoforms in protein-coding genes
