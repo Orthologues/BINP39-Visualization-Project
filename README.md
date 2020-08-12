@@ -6,6 +6,10 @@
 + [**N- & C-Terminal variants**](#VariantNC)
 + [**Variants in the middle of sequences originating from exon skipping**](#VariantM)
 + [**Disease related (and not) variants**](#Disease)
++ [**Annotation of splice isoforms in protein-coding genes**](#spliceIsoform)
+
+[**Existing papers of relevant analysis**](#papers)
++ [**The Characteristics of Heterozygous Protein Truncating Variants in the Human Genome**](#HumanTruncation)
 
 [**Existing methods for the prediction of the outcome of variants**](#MethodPred)
 
@@ -39,6 +43,13 @@
 + [Landrum MJ, Lee JM, Riley GR, et al. ClinVar: public archive of relationships among sequence variation and human phenotype. Nucleic Acids Res. 2014;42(Database issue):D980-D985](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3965032/)
 + [Pagel KA, Antaki D, Lian A, et al. Pathogenicity and functional impact of non-frameshifting insertion/deletion variation in the human genome. PLoS Comput Biol. 2019;15(6):e1007112. Published 2019 Jun 14](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3965032/)
 
+<a name="spliceIsoform"></a>
+## Annotation of splice isoforms in protein-coding genes
+###
+[**APPRIS**](http://appris-tools.org)
++ [Github Link](https://github.com/appris/appris)
++ [Jose Manuel Rodriguez, Juan Rodriguez-Rivas, Tomás Di Domenico, Jesús Vázquez, Alfonso Valencia, Michael L Tress, APPRIS 2017: principal isoforms for multiple gene sets, Nucleic Acids Research, Volume 46, Issue D1, 4 January 2018, Pages D213–D217](https://academic.oup.com/nar/article/46/D1/D213/4561658)
+
 <a name="MethodPred"></a>
 <br><h2 align="center">Existing methods for the prediction of the outcome of variants</h2>
 
@@ -48,6 +59,13 @@
 
 [**SIFT-Indel**](https://sift.bii.a-star.edu.sg/www/SIFT_indels2.html)
 + [Hu J, Ng PC. SIFT Indel: predictions for the functional effects of amino acid insertions/deletions in proteins. PLoS One. 2013;8(10):e77940. Published 2013 Oct 23](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3806772/)
+
+<a name="papers"></a>
+<br><h2 align="center">Existing papers of relevant analysis</h2>
+
+###
+<a name="HumanTruncation"></a>
+[**Bartha I, Rausell A, McLaren PJ, et al. The Characteristics of Heterozygous Protein Truncating Variants in the Human Genome. PLoS Comput Biol. 2015;11(12):e1004647. Published 2015 Dec 7**](https://pubmed.ncbi.nlm.nih.gov/26642228/)
 
 <a name="tutorial"></a>
 <br><h2 align="center">Tutorials of potentially useful tools for data collection</h2>
