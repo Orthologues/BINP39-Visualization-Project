@@ -11,6 +11,8 @@
 + [**Human gene mutation**](#humangenemutation)
 + [**Proteolytic events**](#proteolytic)
 + [**Annotation of splice isoforms in protein-coding genes**](#spliceIsoform)
++ [**Intein, unseen in human**](#intein)
++ [**Variation benchmark datasets for variation interpretation**](#varibench)
 
 [*Existing papers of relevant analysis*](#papers)
 + [**The Characteristics of Heterozygous Protein Truncating Variants in the Human Genome**](#HumanTruncation)
@@ -70,7 +72,6 @@
 + [Fokkema IF, Taschner PE, Schaafsma GC, Celli J, Laros JF, den Dunnen JT. LOVD v.2.0: the next generation in gene variant databases. Hum Mutat. 2011;32(5):557-563](https://pubmed.ncbi.nlm.nih.gov/21520333/)
 + [LOVD 3.0 User Manual](http://www.lovd.nl/3.0/docs/LOVD_manual_3.0.pdf)
 
-
 <a name="humangenemutation"></a>
 ## Human Gene Mutation 
 ###
@@ -93,6 +94,18 @@
 [**APPRIS**](http://appris-tools.org)
 + [Github Link](https://github.com/appris/appris)
 + [Jose Manuel Rodriguez, Juan Rodriguez-Rivas, Tomás Di Domenico, Jesús Vázquez, Alfonso Valencia, Michael L Tress, APPRIS 2017: principal isoforms for multiple gene sets, Nucleic Acids Research, Volume 46, Issue D1, 4 January 2018, Pages D213–D217](https://academic.oup.com/nar/article/46/D1/D213/4561658)
+
+<a name="intein"></a>
+## Intein, unseen in human
+###
+[**InBase, requires registration**](https://inteins-19.biocenter.helsinki.fi/index.php)
++ [Perler FB. InBase, the New England Biolabs Intein Database. Nucleic Acids Res. 1999;27(1):346-347](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC148179/)
+
+<a name="varibench"></a>
+## Variation benchmark datasets for variation interpretation
+###
+[**VariBench**](http://structure.bmc.lu.se/VariBench/)
++ [Sarkar A, Yang Y, Vihinen M. Variation benchmark datasets: update, criteria, quality and applications. Database (Oxford). 2020;2020:baz117](https://pubmed.ncbi.nlm.nih.gov/32016318/)
 
 <a name="MethodPred"></a>
 <br><h2 align="center">Existing methods for the prediction of the outcome of variants</h2>
