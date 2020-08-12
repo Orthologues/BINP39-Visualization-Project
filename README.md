@@ -14,6 +14,11 @@
 + [**Genome-scale CRISPR-Cas9 knockout screening in human cells**](#crispr9-knockout)
 + [**Genetic screens in human cells using the CRISPR-Cas9 system**](#crispr9-screen)
 + [**The carboxy-terminus, a key regulator of protein function**](#carboxy-terminus)
++ [**ProteinCCD: enabling the design of protein truncation constructs for expression and crystallization experiments**](#protein-ccd)
++ [**PPM1D-truncating mutations confer resistance to chemotherapy and sensitivity to PPM1D inhibition in hematopoietic cells**](#PPM1D-truncating)
++ [**Deletion mutation analysis of the mutS gene in Escherichia coli**](#del-ecoli)
++ [**Gene deletions causing human genetic disease: mechanisms of mutagenesis and the role of the local DNA sequence environment**](#gene-del-disease)
+
 
 [*Existing methods for the prediction of the outcome of variants*](#MethodPred)
 + [**MutPred-Indel**](#mutpred-indel)
@@ -87,6 +92,17 @@
 <a name="carboxy-terminus"></a>
 [**Sharma S, Schiller MR. The carboxy-terminus, a key regulator of protein function. Crit Rev Biochem Mol Biol. 2019**](https://pubmed.ncbi.nlm.nih.gov/31106589/)
 
+<a name="protein-ccd"></a>
+[**Mooij WT, Mitsiki E, Perrakis A. ProteinCCD: enabling the design of protein truncation constructs for expression and crystallization experiments. Nucleic Acids Res. 2009;37(Web Server issue):W402-W405**](https://pubmed.ncbi.nlm.nih.gov/19395596/)
+
+<a name="PPM1D-truncating"></a>
+[**Kahn JD, Miller PG, Silver AJ, et al. PPM1D-truncating mutations confer resistance to chemotherapy and sensitivity to PPM1D inhibition in hematopoietic cells. Blood. 2018;132(11):1095-1105**](https://pubmed.ncbi.nlm.nih.gov/29954749/)
+
+<a name="del-ecoli"></a>
+[**Wu TH, Marinus MG. Deletion mutation analysis of the mutS gene in Escherichia coli. J Biol Chem. 1999;274(9):5948-5952**](https://pubmed.ncbi.nlm.nih.gov/10026220/)
+
+<a name="gene-del-disease"></a>
+[**Krawczak M, Cooper DN. Gene deletions causing human genetic disease: mechanisms of mutagenesis and the role of the local DNA sequence environment. Hum Genet. 1991;86(5):425-441**](https://pubmed.ncbi.nlm.nih.gov/2016084/)
 
 
 <a name="tutorial"></a>
