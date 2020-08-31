@@ -645,13 +645,4 @@ git push
 which python
 which python3
 conda list|grep python
-df -h
-cd /media/jiawei/64GB/
-ls
-ls -a
-rm -rf VIDEO/
-ls
-df -h
-cd /media/jiawei/UBUNTU1910/
-ls
-df -h
+nano .bash_history 
