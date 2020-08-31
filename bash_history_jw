@@ -459,3 +459,75 @@ ls
 df
 top
 poweroff
+greo -h|grep -e "-c"
+grep -h|grep -e "-c"
+grep --help|grep -e "-c"
+wget -v https://liveatlund.lu.se/departments/biology/BINP28/BINP28_2020VT_100_1_NML__1281/CourseDocuments/AnnaExtraSlidesTranscriptomics.pptx 
+cd Downloads/
+ls
+rm *.fasta
+curl -Lk --username ji8842zh-s:Ce4f@Djeu[JP]1913-/k8 
+curl -Lk --user ji8842zh-s:Ce4f@Djeu[JP]1913-/k8 
+curl -Lk --user ji8842zh-s:Ce4f@Djeu[JP]1913-/k8 https://liveatlund.lu.se/departments/biology/BINP28/BINP28_2020VT_100_1_NML__1281/Pages/default.aspx
+ls
+rm ContactInfoBioinformaticsProjectsForMSc2020.docx 
+ls
+curl -L --user ji884k2zh-s:Ce4f@Djeu[JP]1913-/k8 https://liveatlund.lu.se/departments/biology/BINP28/BINP28_2020VT_100_1_NML__1281/Pages/default.aspx
+curl --cookie key=val -Lk --user ji8842zh-s:Ce4f@Djeu[JP]1913-/k8 https://liveatlund.lu.se/departments/biology/BINP28/BINP28_2020VT_100_1_NML__1281/Pages/default.aspx
+curl --cookie key=-L -e URL --user ji8842zh-s:Ce4f@Djeu[JP]1913-/k8 https://liveatlund.lu.se/departments/biology/BINP28/BINP28_2020VT_100_1_NML__1281/Pages/default.aspx
+curl --cookie key=-L -e URL --user ji8842zh-s:Ce4f@Djeu[JP]1913-/k8 https://liveatlund.lu.se/departments/biology/BINP28/BINP28_2020VT_100_1_NML__1281/Pages/default.aspx -v
+ls
+conda list|grep selenium
+conda install -y selenium && conda list|grep -e "selenium"
+echo $PATH
+echo $PATH|grep --color -e "usr/bin"
+echo $PATH|cut -d :|grep --color -e "usr/bin"
+echo $PATH|tr : \n|grep --color -e "usr/bin"
+echo $PATH|tr : "\n"|grep --color -e "usr/bin"
+ls
+cd ../Desktop/
+ls
+cd ..
+ls
+cd Desktop/
+ls
+rm bash_history 
+ls
+cd ..
+cd Desktop/
+ls
+cd github-repo/Thesis-Data-Collection/
+wc -l ~/.bash_history 
+ls
+touch update_sh_history
+ls
+mv update_sh_history update_sh_history.sh
+ls
+sudo chmodugo +rxw update_sh_history.sh 
+sudo chmodugo+rxw update_sh_history.sh 
+sudo chmod ugo+rxw update_sh_history.sh 
+ls -a
+which sh
+which bash
+PATH+=":~/Desktop/github-repo/Thesis-Data-Collection/
+PATH+=":~/Desktop/github-repo/Thesis-Data-Collection/"
+update_sh_history.sh 
+less ~/.bashrc 
+realpath .
+less ~/.bashrc 
+sh_line_count=${wc -l /home/jiawei/.bash_history}
+sh_line_count=$(wc -l /home/jiawei/.bash_history)
+echo $sh_line_count 
+nano ~/.bash_history 
+nano ~/.bashrc
+source ~/.bashrc
+echo "good"
+top
+git config --global user.email "zaapzungsyugei@gmail.com"
+less ~/.bash_history 
+echo $sh_linecount
+top
+echo $sh_linecount_init 
+cd /home/jiawei/Desktop/github-repo/Thesis-Data-Collection/
+git status
+ls -a
