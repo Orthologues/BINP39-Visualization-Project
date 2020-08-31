@@ -652,3 +652,6 @@ ls -a
 rm -rf VIDEO/
 ls
 df -h
+cd /media/jiawei/UBUNTU1910/
+ls
+df -h
