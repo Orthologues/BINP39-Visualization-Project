@@ -604,3 +604,12 @@ git rm bash_history_jw
 git status
 git commit -m "change repo structure"
 git push
+cd Desktop/github-repo/Thesis-Data-Collection/
+ls
+nano .gitignore
+nano .gitignore 
+ls
+git add -A
+git commit -m "update"
+git push
+git status
