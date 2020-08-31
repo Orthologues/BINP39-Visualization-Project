@@ -562,3 +562,7 @@ if [[ "$firstcount" == "$secondcount" ]];then echo "yes!";else echo "no!";fi
 nano .bashrc
 echo $PATH
 nano .bashrc
+echo $PATH
+PATH=$(echo $PATH|sed -e 's/:\/home\/jiawei\/Desktop\/github-repo\/Thesis-Data-Collection//')
+echo $PATH
+nano .bashrc
