@@ -566,3 +566,5 @@ echo $PATH
 PATH=$(echo $PATH|sed -e 's/:\/home\/jiawei\/Desktop\/github-repo\/Thesis-Data-Collection//')
 echo $PATH
 nano .bashrc
+clear
+echo $PATH
