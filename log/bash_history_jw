@@ -613,3 +613,17 @@ git add -A
 git commit -m "update"
 git push
 git status
+cd Downloads/
+wget https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz
+sudo sh -c 'tar -x geckodriver -zf geckodriver-v0.23.0-linux64.tar.gz -O > /usr/bin/geckodriver'
+ls
+tar -h|O
+tar -h|grep -e "O"
+tar --help|grep -e "O"
+tar --help|grep -e "-O"
+which geckodriver
+ls /sur/bin/geckodriver
+ls /usr/bin/geckodriver
+sudo chmod +x /usr/bin/geckodriver
+which geckodriver
+rm geckodriver-v0.23.0-linux64.tar.gz
