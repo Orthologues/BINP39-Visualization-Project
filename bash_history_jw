@@ -532,3 +532,4 @@ cd /home/jiawei/Desktop/github-repo/Thesis-Data-Collection/
 git status
 ls -a
 conda list
+ls
