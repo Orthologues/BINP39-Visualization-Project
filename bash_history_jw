@@ -560,3 +560,5 @@ echo $secondcount
 echo $firstcount 
 if [[ "$firstcount" == "$secondcount" ]];then echo "yes!";else echo "no!";fi
 nano .bashrc
+echo $PATH
+nano .bashrc
