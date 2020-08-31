@@ -1,0 +1,598 @@
+df -h
+sudo snap install atom --classic && sudo snap install telegram-desktop
+sudo snap install qbittorrent-arnatious
+sudo apt-get install -y ffmpeg && sudo apt-get install -y gparted && sudo apt-get install git
+ls
+cd Desktop/
+ls
+mkdir github-repo
+cd github-repo/
+git init
+cd ..
+cd ../Downloads/
+ls
+sudo apt-get install ./google-chrome-stable_current_amd64.deb 
+sudo apt install -y fcitx-bin && sudo apt install -y fcitx-googlepinyin
+reboot
+sudo apt remove fcitx-ui-classic -y && sudo apt install -y fcitx-ui-qimpanel 
+reboot
+man ffmpeg
+man ssh-keygen
+ssh-keygen -t rsa -C "zaapzungsyugei@gmail.com"
+nano ./.ssh/id_rsa.pub 
+echo ./.ssh/id_rsa.pub 
+cat ./.ssh/id_rsa.pub 
+ls
+cd Desktop/github-repo/
+git clone git@github.com:Orthologues/Thesis-Data-Collection.git
+ls
+cd Thesis-Data-Collection/
+ls
+git status
+git log --oneline
+cd ..
+ls
+git clone git@github.com:Orthologues/DataScienceExercise.git
+ls
+git clone git@github.com:Orthologues/Orthologues.github.io.git
+ls
+git clone git@github.com:Orthologues/FrontendExercise.git
+ls
+cd FrontendExercise/
+git branch
+git log --oneline
+ls
+cd ..
+ls
+less /usr/share/i18n/SUPPORTED
+vim /var/lib/locales/supported.d/local
+vi /var/lib/locales/supported.d/local
+sudo apt-get install fcitx-anthy
+which atom
+ls
+ls -a
+ls
+cp .bash_history bash_history
+ls
+mv bash_history Desktop/
+df -h
+df 
+df -h
+du -sh .atom
+less .bash_history 
+cp .bash_history Desktop/bash_history 
+rm Desktop/bash_history 
+reboot
+ls
+cd Desktop/
+ls
+cd github-repo/
+ls
+cd FrontendExercise/
+ls
+git reset HEAD~2
+git status
+git log --oneline
+git remote
+git pull origin master
+ls
+git merge origin master
+git stash
+git pull origin master
+git log --oneline
+sudo apt-get install wps-office
+sudo snap install wps-office
+sudo snap remove wps-office
+top
+sudo snap remove wps-office
+sudo snap install wps-office
+fdisk -l
+sudo fdisk -l
+df -h
+sudo tlmgr install latexmk
+sudo apt install tlmgr -y 
+sudo apt-get install tlmgr -y 
+sudo snap install tlmgr 
+ls -a
+which tlmgr
+which texlive
+ls
+cd Downloads/\
+cd Downloads/
+ls
+rm google-chrome-stable_current_amd64.deb 
+gunzip tlmgr.1.gz 
+ls
+less tlmgr.1 
+rm tlmgr.1 
+sudo apt-get install texlive-full
+sudo apt-get install texlive
+sudo apt-get install texlive -y
+ls
+unzip plos-latex-template.zip 
+ls
+rm *.zip
+ls
+mkdir plos_template
+mv plos_template/ template;mv plos* template;mv template plos_template
+ls
+ls plos_template/
+sudo tlmgr install latexmk
+tmlgr init-usertree
+tlmgr init-usertree
+sudo tlmgr install latexmk
+tlmgr install latexmk
+tlmgr init-usertree
+tlmgr install latexmk
+man tlmgr
+tlmgr gui
+sudo apt-get update && sudo apt-get upgrade
+sudo apt-get install -y perl-tk
+tlmgr gui
+tlmgr gui &
+sudo apt-get omstall --reinstall texlive-base
+sudo apt-get install --reinstall texlive-base
+tlmgr gui &
+tlmgr init-usertree
+tlmgr install latexmk
+ls
+tlmgr list
+tlmgr update --self
+wget http://mirror.ctan.org/systems/texlive/tlnet/update-tlmgr-latest.sh
+ls
+sudo kpsewhich --var-value=SELFAUTOPARENT
+echo $PATH
+which tlmgr
+chmod +x update-tlmgr-latest.sh 
+sudo env PATH="$PATH" ./update-tlmgr-latest.sh 
+cd ../..
+ls
+cd ..
+ls
+find -name -d "texlive"
+find -name -d "*texlive"
+find -name "*texlive"
+ls
+cd home/
+ls
+cd jiawei/
+echo $PATH
+ls
+nano .bashrc
+source .bashrc
+echo $PATH
+cd Downloads/
+chmod +x update-tlmgr-latest.sh 
+sudo env PATH="$PATH" ./update-tlmgr-latest.sh 
+kpsewhich --var-value=SELFAUTOPARENT
+wget -P /tmp https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
+sha256sum /tmp/Anaconda3-2020.02-Linux-x86_64.sh 
+bash /tmp/Anaconda3-2020.02-Linux-x86_64.sh 
+conda list
+du -sh anaconda3/
+df  -h
+conda install scrapy -y
+conda list|grep regex
+conda install regex -y
+which python
+which tlmgr
+which texlive
+ls
+cd ../..
+ls
+find -name "texlive"
+find -name "texlive"|grep -v "^find"
+find -name "texlive"|grep -v "^\find"
+sudo apt remove texlive-base
+sudo apt remove texlive -y
+sudo apt remove texlive-all -y
+ls
+cd ~/Downloads/
+ls
+less ../.bash_history 
+rm bash /tmp/Anaconda3-2020.02-Linux-x86_64.sh 
+rm /tmp/Anaconda3-2020.02-Linux-x86_64.sh 
+rm tmp/Anaconda3-2020.02-Linux-x86_64.sh 
+ls /tmp
+df -h
+ls
+ls /usr/local/texlive
+cd ..
+ls -a
+rm texmf/
+rm -rf texmf/
+ls
+ls Templates/
+mv Downloads/plos_template/ Templates/
+ls
+mv Templates/plos_template/ Desktop/
+cd Downloads/
+ls
+gunzip install-tl-unx.tar.gz 
+ls
+tar -xvzf ./install-tl-unx.tar
+ls
+rm install-tl-unx.tar 
+ls
+tar -xzvf install-tl-unx.tar.gz 
+ls
+rm install-tl-unx.tar.gz 
+ls
+cd install-tl-20200827/
+ls
+perl install-tl -gui
+sudo perl install-tl 
+sudo perl install-tl -gui
+rm -rf /usr/local/texlive/2020
+sudo rm -rf /usr/local/texlive/2020
+sudo rm -rf ~/.texlive2020
+ls
+sudo apt install texlive-base
+ls /usr/share/texlive/
+ls /usr/share/texlive/debian/
+ls /usr/local/texlive/
+ls /usr/local/texlive/texmf-local/
+cd /usr/local/texlive/texmf-local/
+find -name "*bin"
+ls tex
+ls tex/latex/
+ls tex/latex/local/
+cd ../..
+cd ..
+ls
+cd ..
+sudo apt remove texlive-base
+ls
+cd ~
+ls
+ls -a
+cd Downloads/
+ls
+cd install-tl-20200827/
+ls
+cd ..
+ls
+rm -rf install-tl-20200827/
+man mkdir
+man curl
+curl -h
+curl -h|grep -s
+curl -h|
+curl -h > curlhelp
+grep "-s" curlhelp 
+grep "-s" ./curlhelp.txt
+ls
+rm curlhelp 
+curl -h
+ls
+nano min-install-tl.sh
+ls
+chmod +x min-install-tl.sh 
+./min-install-tl.sh 
+echo ls /tmp/
+ls /tmp/
+rm -rf /tmp/install-texlive/
+ls /tmp/
+ls
+rm min-install-tl.sh 
+ls
+nano basic_tl_profile
+ls
+tar -xzf install-tl-unx.tar.gz 
+rm install-tl-unx.tar.gz 
+ls
+mv basic_tl_profile install-tl-20200827/
+cd install-tl-20200827/
+ls
+perl install-tl --profile=basic_tl_profile 
+sudo perl install-tl --profile=basic_tl_profile 
+which tlmgr
+ls /usr/local/texlive/2020/bin/
+sudo perl install-tl --profile=basic_tl_profile 
+ls
+nano .bashrc 
+source .bashrc
+echo $PATH
+which tlmgr
+tlmgr install latexmk
+sudo tlmgr install latexmk
+which tlmgr
+rm -rf /usr/local/texlive/2020
+sudo rm -rf /usr/local/texlive/2020
+rm -rf ~/.texlive2020
+df -h
+cd Downloads/
+ls
+echo $PATH
+cd install-tl-20200827/
+ls
+echo $PATH
+sudo env PATH="$PATH" tlmgr install tabulary latexmk ulem environ trimspaces titlesec                       varwidth framed threeparttable wrapfig upquote capt-of                       multirow eqparbox needspace fncychap
+cd ..
+ls
+tail -n 5 .bash_history 
+cp .bash_history Desktop/bash_history
+cd Downloads/
+ls
+bash update-tlmgr-latest.sh 
+sudo bash update-tlmgr-latest.sh 
+echo $PATH
+ls
+rm update-tlmgr-latest.sh 
+rm -rf install-tl-20200827/
+which tlmgr
+cd ../Desktop/github-repo/DataScienceExercise/
+cd ../Thesis-Data-Collection/
+git status
+rm -rg *pdf
+rm -rf *pdf
+ls
+git stash
+git status
+rm -rf *pdf
+which apm
+amp list --installed
+apm list --installed
+apm list --installed -bare
+apm list --installed -bare > atom-pkg-list.txt
+ls
+mv atom-pkg-list.txt ../../../Desktop/
+sudo env "PATH=$PATH" tlmgr install algorithms
+du -sh .atom
+sudo env PATH=$PATH tlmgr install dicy
+sudo env PATH=$PATH tlmgr install DiCy
+du -sh .atom
+which latex
+sudo env PATH=$PATH tlmgr install changepage
+sudo env PATH=$PATH tlmgr install utf8x
+sudo env PATH=$PATH tlmgr install usc
+sudo apt-file update
+sudo apt-file 
+sudo apt-get update -y
+sudo apt-get install -y texlive-latex-extra
+which latex
+which latex-extra
+cp .bash_history Desktop/bash_history 
+du -sh .cache
+reboot
+echo $PATH
+あたし
+poweroff
+df -h
+sudo apt-get uninstall Mahjong
+sudo apt-get remove Mahjongg
+sudo apt-get remove Mahjong
+which Mahjong
+which Mahjongg
+sudo apt-get -y remove mahjongg && sudo apt-get -y remove autoremove --purge mahjongg
+sudo apt-get -y remove mahjongg && sudo apt-get -y autoremove --purge mahjongg
+sudo apt-get purge mahjongg
+sudo apt autoremove --purge
+sudo apt-get upgrade && sudo apt autoremove --purge
+sudo apt-get -y upgrade && sudo apt autoremove --purge
+sudo apt autoremove --purge
+df -h
+git rebase -h
+git push -h
+git rebase -h
+git reset -h
+ls
+ls Downloads/
+ls Downloads/*|grep -v ^Pro
+ls Downloads/*|grep -v \s+
+ls Downloads/*|grep -v \s
+cd Downloads/|ls *|grep -v \s
+ls
+cd Downloads/
+ls
+rm 'ProjectReport*
+rm \'ProjectReport*
+ls
+ls *|grep -v ^Pro
+ls *|grep -v ^\P
+ls
+ls *|grep -v ^"Pro"
+ls *;grep -v ^"Pro"
+ls *;grep -v ^"P"
+ls *"grep -v ^"P"
+ls *|grep -v ^"P"
+rm 'ProjectReport ([12]).docx'
+rm 'ProjectReport (1).docx'
+rm 'ProjectReport (2).docx'
+ls
+cd ..
+ls
+ls -r *
+ls -r *|grep -v ^D
+ls
+cd Downloads/
+ls
+cd ..
+ls
+cd Desktop/
+ls
+cd github-repo/
+ls
+cd Thesis-Data-Collection/
+ls
+git log --oneline
+git status
+git reset --soft HEAD~2
+git log --oneline
+git status
+ls
+git pull origin master
+less test.py 
+git status
+git stash -h
+df -h
+snap remove wps-office
+snap purge wps-office
+sudo apt-get install wps-office
+sudo apt update && sudo apt -y install r-base gdebi-core
+cd Downloads/
+ls
+sudo gdebi rstudio-1.3.1073-amd64.deb 
+sudo gdebi rstudio-1.3.1073-amd64.deb -y
+sudo gdebi rstudio-1.3.1073-amd64.deb 
+sudo gdebi -y rstudio-1.3.1073-amd64.deb 
+sudo gdebi rstudio-1.3.1073-amd64.deb 
+ls
+cd ..
+ls
+grep clone .bash_history 
+cd Desktop/github-repo/
+ls
+which jupyter-notebook
+git clone gitgit@github.com:Orthologues/LUfungiProject.git
+git clone git@github.com:Orthologues/LUfungiProject.git
+ls
+cd Downloads/
+ls
+rm rstudio-1.3.1073-amd64.deb 
+df -h
+cd ..
+ls
+du -sh .atom
+du -sh .cache
+ls
+df
+top
+poweroff
+greo -h|grep -e "-c"
+grep -h|grep -e "-c"
+grep --help|grep -e "-c"
+wget -v https://liveatlund.lu.se/departments/biology/BINP28/BINP28_2020VT_100_1_NML__1281/CourseDocuments/AnnaExtraSlidesTranscriptomics.pptx 
+cd Downloads/
+ls
+rm *.fasta
+curl -Lk --username ji8842zh-s:Ce4f@Djeu[JP]1913-/k8 
+curl -Lk --user ji8842zh-s:Ce4f@Djeu[JP]1913-/k8 
+curl -Lk --user ji8842zh-s:Ce4f@Djeu[JP]1913-/k8 https://liveatlund.lu.se/departments/biology/BINP28/BINP28_2020VT_100_1_NML__1281/Pages/default.aspx
+ls
+rm ContactInfoBioinformaticsProjectsForMSc2020.docx 
+ls
+curl -L --user ji884k2zh-s:Ce4f@Djeu[JP]1913-/k8 https://liveatlund.lu.se/departments/biology/BINP28/BINP28_2020VT_100_1_NML__1281/Pages/default.aspx
+curl --cookie key=val -Lk --user ji8842zh-s:Ce4f@Djeu[JP]1913-/k8 https://liveatlund.lu.se/departments/biology/BINP28/BINP28_2020VT_100_1_NML__1281/Pages/default.aspx
+curl --cookie key=-L -e URL --user ji8842zh-s:Ce4f@Djeu[JP]1913-/k8 https://liveatlund.lu.se/departments/biology/BINP28/BINP28_2020VT_100_1_NML__1281/Pages/default.aspx
+curl --cookie key=-L -e URL --user ji8842zh-s:Ce4f@Djeu[JP]1913-/k8 https://liveatlund.lu.se/departments/biology/BINP28/BINP28_2020VT_100_1_NML__1281/Pages/default.aspx -v
+ls
+conda list|grep selenium
+conda install -y selenium && conda list|grep -e "selenium"
+echo $PATH
+echo $PATH|grep --color -e "usr/bin"
+echo $PATH|cut -d :|grep --color -e "usr/bin"
+echo $PATH|tr : \n|grep --color -e "usr/bin"
+echo $PATH|tr : "\n"|grep --color -e "usr/bin"
+ls
+cd ../Desktop/
+ls
+cd ..
+ls
+cd Desktop/
+ls
+rm bash_history 
+ls
+cd ..
+cd Desktop/
+ls
+cd github-repo/Thesis-Data-Collection/
+wc -l ~/.bash_history 
+ls
+touch update_sh_history
+ls
+mv update_sh_history update_sh_history.sh
+ls
+sudo chmodugo +rxw update_sh_history.sh 
+sudo chmodugo+rxw update_sh_history.sh 
+sudo chmod ugo+rxw update_sh_history.sh 
+ls -a
+which sh
+which bash
+PATH+=":~/Desktop/github-repo/Thesis-Data-Collection/
+PATH+=":~/Desktop/github-repo/Thesis-Data-Collection/"
+update_sh_history.sh 
+less ~/.bashrc 
+realpath .
+less ~/.bashrc 
+sh_line_count=${wc -l /home/jiawei/.bash_history}
+sh_line_count=$(wc -l /home/jiawei/.bash_history)
+echo $sh_line_count 
+nano ~/.bash_history 
+nano ~/.bashrc
+source ~/.bashrc
+echo "good"
+top
+git config --global user.email "zaapzungsyugei@gmail.com"
+less ~/.bash_history 
+echo $sh_linecount
+top
+echo $sh_linecount_init 
+cd /home/jiawei/Desktop/github-repo/Thesis-Data-Collection/
+git status
+ls -a
+conda list
+ls
+top
+echo $sh_linecount_init 
+clear
+echo $sh_linecount_init 
+echo $sh_linecount
+
+echo $sh_linecount_init 
+nano .bash_rc
+nano .bashrc
+echo $sh_linecount_init 
+ls
+rm bash_history_jw 
+wc -l /home/jiawei/.bash_history 
+wc -l /home/jiawei/.bash_history|cut -d " " -f 1
+echo (wc -l /home/jiawei/.bash_history|cut -d " " -f 1) > .count_last_bash_history
+echo $(wc -l /home/jiawei/.bash_history|cut -d " " -f 1) > .count_last_bash_history
+cat .count_last_bash_history 
+firstcount=$(wc -l /home/jiawei/.bash_history|cut -d " " -f 1) 
+secondcount=$(cat .count_last_bash_history)
+echo $secondcount 
+if [[ "$firstcount" == "$secondcount" ]];then echo "yes!";else echo "no!";fi
+firstcount=$(wc -l /home/jiawei/.bash_history|cut -d " " -f 1) 
+secondcount=$(cat .count_last_bash_history)
+echo $secondcount 
+echo $firstcount 
+if [[ "$firstcount" == "$secondcount" ]];then echo "yes!";else echo "no!";fi
+nano .bashrc
+echo $PATH
+nano .bashrc
+echo $PATH
+PATH=$(echo $PATH|sed -e 's/:\/home\/jiawei\/Desktop\/github-repo\/Thesis-Data-Collection//')
+echo $PATH
+nano .bashrc
+clear
+echo $PATH
+ls
+cd Desktop/github-repo/Thesis-Data-Collection/
+git status
+git log --oneline
+git reset HEAD~1
+git status
+git log --oneline
+git status
+git log --oneline
+git push
+ls
+mkdir script
+mv test.py script/
+git add -A
+git commit-m "change repo structure"
+git commit -m "change repo structure"
+git push
+ls
+man mkdir
+cd /home/jiawei/
+ls
+cd Desktop/github-repo/
+ls
+cd Thesis-Data-Collection/
+ls
+mkdir log
+touch /log/test.txt
+touch log/test.txt
