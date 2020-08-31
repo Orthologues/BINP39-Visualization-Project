@@ -627,3 +627,28 @@ ls /usr/bin/geckodriver
 sudo chmod +x /usr/bin/geckodriver
 which geckodriver
 rm geckodriver-v0.23.0-linux64.tar.gz
+cd Downloads/
+ls
+mkdir ~/Desktop/github-repo/Thesis-Data-Collection/preliminary
+cd ~/Desktop/github-repo/Thesis-Data-Collection/preliminary
+ls
+cd ..
+nano .gitignore 
+mv ~/Downloads/WebScraping.py preliminary/
+git status
+ls preliminary/
+git status
+git add -A
+ls
+git commit -m "update .gitignore"
+git push
+which python
+which python3
+conda list|grep python
+df -h
+cd /media/jiawei/64GB/
+ls
+ls -a
+rm -rf VIDEO/
+ls
+df -h
