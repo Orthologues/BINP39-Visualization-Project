@@ -596,3 +596,11 @@ ls
 mkdir log
 touch /log/test.txt
 touch log/test.txt
+ls
+cd Desktop/github-repo/Thesis-Data-Collection/
+ls
+ls log
+git rm bash_history_jw 
+git status
+git commit -m "change repo structure"
+git push
