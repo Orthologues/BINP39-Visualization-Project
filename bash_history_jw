@@ -534,3 +534,5 @@ ls -a
 conda list
 ls
 top
+echo $sh_linecount_init 
+clear
