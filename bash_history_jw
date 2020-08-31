@@ -536,3 +536,27 @@ ls
 top
 echo $sh_linecount_init 
 clear
+echo $sh_linecount_init 
+echo $sh_linecount
+
+echo $sh_linecount_init 
+nano .bash_rc
+nano .bashrc
+echo $sh_linecount_init 
+ls
+rm bash_history_jw 
+wc -l /home/jiawei/.bash_history 
+wc -l /home/jiawei/.bash_history|cut -d " " -f 1
+echo (wc -l /home/jiawei/.bash_history|cut -d " " -f 1) > .count_last_bash_history
+echo $(wc -l /home/jiawei/.bash_history|cut -d " " -f 1) > .count_last_bash_history
+cat .count_last_bash_history 
+firstcount=$(wc -l /home/jiawei/.bash_history|cut -d " " -f 1) 
+secondcount=$(cat .count_last_bash_history)
+echo $secondcount 
+if [[ "$firstcount" == "$secondcount" ]];then echo "yes!";else echo "no!";fi
+firstcount=$(wc -l /home/jiawei/.bash_history|cut -d " " -f 1) 
+secondcount=$(cat .count_last_bash_history)
+echo $secondcount 
+echo $firstcount 
+if [[ "$firstcount" == "$secondcount" ]];then echo "yes!";else echo "no!";fi
+nano .bashrc
