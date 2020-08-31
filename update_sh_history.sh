@@ -8,8 +8,8 @@ cd /home/jiawei/Desktop/github-repo/Thesis-Data-Collection
 sh_last_linecount=$(cat /home/jiawei/.count_last_bash_history)
 sh_linecount=$(wc -l /home/jiawei/.bash_history|cut -d " " -f 1)
 if [[ ! "$sh_linecount" == "$sh_last_linecount" ]];then
-  cp /home/jiawei/.bash_history bash_history_jw
-  git add bash_history_jw
+  cp /home/jiawei/.bash_history ./log/bash_history_jw
+  git add ./log/bash_history_jw
   git commit -m "automatically update my ubuntu bash history at office"
   git push
   echo $sh_linecount > /home/jiawei/.count_last_bash_history
