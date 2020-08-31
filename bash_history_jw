@@ -533,3 +533,4 @@ git status
 ls -a
 conda list
 ls
+top
