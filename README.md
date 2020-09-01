@@ -34,6 +34,7 @@
 [*Tutorials of potentially useful tools for data collection*](#tutorial)
 + [**Jupyter Notebook**](#jupyter)
 + [**Scrapy**](#scrapy)
++ [**Pandas**](#pandas)
 
 <br><a name="RDB"></a>
 <h2 align="center">Relevant DataBases</h2>
@@ -172,3 +173,7 @@
 [**Scrapy**](https://docs.scrapy.org/en/latest/intro/tutorial.html)
 + [Python Scrapy tutorial for beginners – 01 – Creating your first spider](https://letslearnabout.net/tutorial/scrapy-tutorial/python-scrapy-tutorial-for-beginners-01-creating-your-first-spider/)
 + [Python Scrapy tutorial for beginners – 02 – Extract all the data!](https://letslearnabout.net/tutorial/python-scrapy-tutorial-for-beginners-02-extract-all-the-data/)
+
+<a name="pandas"></a>
+[**Pandas**](https://pandas.pydata.org/docs/)
++ [Selecting Subsets of Data in Pandas: Part 1](https://medium.com/dunder-data/selecting-subsets-of-data-in-pandas-6fcd0170be9c)
