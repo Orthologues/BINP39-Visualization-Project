@@ -646,3 +646,4 @@ which python
 which python3
 conda list|grep python
 nano .bash_history 
+poweroff
