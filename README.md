@@ -15,6 +15,7 @@
 + [**Variation benchmark datasets for variation interpretation**](#varibench)
 
 [*Existing papers of relevant analysis*](#papers)
++ [**A meta-analysis of nonsense mutations causing human genetic disease**](#MetaAnalysis)
 + [**The Characteristics of Heterozygous Protein Truncating Variants in the Human Genome**](#HumanTruncation)
 + [**The Functional Human C-Terminome**](#HumanCTerminome)
 + [**Genome-scale CRISPR-Cas9 knockout screening in human cells**](#crispr9-knockout)
@@ -24,6 +25,7 @@
 + [**PPM1D-truncating mutations confer resistance to chemotherapy and sensitivity to PPM1D inhibition in hematopoietic cells**](#PPM1D-truncating)
 + [**Deletion mutation analysis of the mutS gene in Escherichia coli**](#del-ecoli)
 + [**Gene deletions causing human genetic disease: mechanisms of mutagenesis and the role of the local DNA sequence environment**](#gene-del-disease)
++ [**Random single amino acid deletion sampling unveils structural tolerance and the benefits of helical registry shift on GFP folding and structure**](#random-aa-del)
 
 [*Existing methods for the prediction of the outcome of variants*](#MethodPred)
 + [**MutPred-Indel**](#mutpred-indel)
@@ -122,7 +124,10 @@
 <a name="papers"></a>
 <br><h2 align="center">Existing papers of relevant analysis</h2>
 
-###
+### 
+<a name="MetaAnalysis"></a>
+[**Mort M, Ivanov D, Cooper DN, Chuzhanova NA. A meta-analysis of nonsense mutations causing human genetic disease. Hum Mutat. 2008;29(8):1037-1047.**](https://pubmed.ncbi.nlm.nih.gov/18454449/)
+
 <a name="HumanTruncation"></a>
 [**Bartha I, Rausell A, McLaren PJ, et al. The Characteristics of Heterozygous Protein Truncating Variants in the Human Genome. PLoS Comput Biol. 2015;11(12):e1004647. Published 2015 Dec 7**](https://pubmed.ncbi.nlm.nih.gov/26642228/)
 
@@ -149,6 +154,9 @@
 
 <a name="gene-del-disease"></a>
 [**Krawczak M, Cooper DN. Gene deletions causing human genetic disease: mechanisms of mutagenesis and the role of the local DNA sequence environment. Hum Genet. 1991;86(5):425-441**](https://pubmed.ncbi.nlm.nih.gov/2016084/)
+
+<a name="random-aa-del"></a>
+[**Arpino JA, Reddington SC, Halliwell LM, Rizkallah PJ, Jones DD. Random single amino acid deletion sampling unveils structural tolerance and the benefits of helical registry shift on GFP folding and structure. Structure. 2014;22(6):889-898.**](https://pubmed.ncbi.nlm.nih.gov/24856363/)
 
 
 <a name="tutorial"></a>
