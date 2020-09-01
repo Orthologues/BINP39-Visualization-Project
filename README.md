@@ -177,3 +177,4 @@
 <a name="pandas"></a>
 [**Pandas**](https://pandas.pydata.org/docs/)
 + [Selecting Subsets of Data in Pandas: Part 1](https://medium.com/dunder-data/selecting-subsets-of-data-in-pandas-6fcd0170be9c)
++ [How to select rows from a DataFrame based on column values?](https://stackoverflow.com/questions/17071871/how-to-select-rows-from-a-dataframe-based-on-column-values)
