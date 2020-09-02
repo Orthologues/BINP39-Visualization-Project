@@ -727,3 +727,37 @@ ls
 git status
 git push
 git remote -v
+df -h
+ls
+cd Desktop/github-repo/Thesis-Data-Collection/
+ls
+nano .gitignore
+./script/test.py 
+git status
+nano numbers.txt
+mv numbers.txt file.txt
+grep -e "[0-9]{3}\-\[0-9]{3}\-[0-9]{4}" file.txt;grep -e "\([0-9]{3}\)\s{1}[0-9]{3}\-[0-9]{4}" file.txt
+ls
+grep -e "[0-9]{3}\-\[0-9]{3}\-[0-9]{4}" file.txt
+less file.txt 
+rm file.txt 
+nano file.txt
+grep -e "[0-9]{3}-[0-9]{3}-[0-9]{4}" file.txt
+grep "[0-9]{3}-[0-9]{3}-[0-9]{4}" file.txt
+grep [0-9]{3}-[0-9]{3}-[0-9]{4} file.txt
+cat file.txt|grep [0-9]{3}-[0-9]{3}-[0-9]{4} 
+cat file.txt|grep [0-9]{3}
+ls
+cat file.txt|grep [0-9]
+cat file.txt|grep -r [0-9]
+cat file.txt|grep -e "[0-9]"
+cat file.txt|grep -e "[0-9]\-"
+cat file.txt|grep -e "[0-9]{3}\-"
+man grep
+cat file.txt|grep -E [0-9]{3}-[0-9]{3}-[0-9]{4} 
+man grep
+ls
+rm file.txt 
+git add -A
+git commit -m "Update at office 20-09-02"
+git push
