@@ -647,3 +647,83 @@ which python3
 conda list|grep python
 nano .bash_history 
 poweroff
+ls
+ls Downloads/
+ls
+df -h
+cp -d Downloads/ /media/jiawei/64GB/
+cp -r Downloads/ /media/jiawei/64GB/
+cd Desktop/github-repo/Thesis-Data-Collection/
+git status
+git remote -v
+git pull 
+fdisk -l
+sudo fdisk -l
+df -h
+which sqlite
+which sqlite3
+which libre-office
+which libreoffice
+which libreoffice-calculator
+sudo apt-get install --force-reinstall -y libreoffice
+sudo apt-get install --force-reinstall=True -y libreoffice
+ls
+cd script/
+ls
+chmod +x *
+ls
+chmod +xrw *
+which sqlite3
+sqlite3 ./concepts.sql
+sqlite3 ./concepts.sqlite 
+cd ../log/
+ls
+tr ',' '\t' concepts.txt > concept.txt
+rm concept.txt
+sed -r 's/,/\t/g' concepts.txt >> concept.txt 
+les concept.txt 
+cat concept.txt 
+rm concepts.txt 
+mv concept.txt concepts.txt 
+ls
+chmod +XRW *
+chmod +xrw *
+ls
+cd ../script/
+ls
+sqlite3 concepts.sqlite 
+sqlite3 new.sqlite
+ls
+cd ../log/
+ls
+touch concepts.csv
+cd ../script/
+sqlite3 new.sqlite
+ls
+cd ../log/
+ls
+rm concepts.txt 
+ls -lsa
+cd ../script/
+ls
+sqlite3 new.sqlite
+ls
+rm new.sqlite 
+ls
+rm concepts.sqlite 
+cd ..
+git status
+ls
+rm concepts.*
+ls
+git add -A
+git commit -m "use pandas"
+git push
+git pull origin master
+ls
+ls script/
+git log --oneline
+ls
+git status
+git push
+git remote -v
