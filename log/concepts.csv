@@ -2,3 +2,15 @@ word,explanation,link,paper,pdf,page
 methylation,a -CH3 group added,https://en.wikipedia.org/wiki/Methylation,A meta-analysis of nonsense mutations causing human genetic disease,https://onlinelibrary.wiley.com/doi/pdf/10.1002/humu.20763,1
 missense,Non-nonsense non-synonymous substitution,https://en.wikipedia.org/wiki/Missense_mutation,A meta-analysis of nonsense mutations causing human genetic disease,https://onlinelibrary.wiley.com/doi/pdf/10.1002/humu.20763,1
 germline,a series of germ cells each descended or developed from earlier cells in the series,https://en.wikipedia.org/wiki/Germline,A meta-analysis of nonsense mutations causing human genetic disease,https://onlinelibrary.wiley.com/doi/pdf/10.1002/humu.20763,1
+TS,tumor suppresor,,A meta-analysis of nonsense mutations causing human genetic disease,https://onlinelibrary.wiley.com/doi/pdf/10.1002/humu.20763,1
+PTC,premature termination codons,,A meta-analysis of nonsense mutations causing human genetic disease,https://onlinelibrary.wiley.com/doi/pdf/10.1002/humu.20763,1
+EJC,Exon-junction complexes,,A meta-analysis of nonsense mutations causing human genetic disease,https://onlinelibrary.wiley.com/doi/pdf/10.1002/humu.20763,1
+UPF,Up-frameshift,,A meta-analysis of nonsense mutations causing human genetic disease,https://onlinelibrary.wiley.com/doi/pdf/10.1002/humu.20763,1
+sequence conservation,"if freqs of all bases in position(i) are 0.25, then Rseq(i) would be 0",,A meta-analysis of nonsense mutations causing human genetic disease,https://onlinelibrary.wiley.com/doi/pdf/10.1002/humu.20763,3
+5mC,5-end methycytosine (甲基胞嘧啶),,A meta-analysis of nonsense mutations causing human genetic disease,https://onlinelibrary.wiley.com/doi/pdf/10.1002/humu.20763,4
+choroideremia,"a rare hereditary retinal degeneration, its gene has 29 nonsense mutations but not a single reported missense mutation ",https://en.wikipedia.org/wiki/Choroideremia,A meta-analysis of nonsense mutations causing human genetic disease,https://onlinelibrary.wiley.com/doi/pdf/10.1002/humu.20763,6
+frameshift indels,genes displaying an unusual high ratio of nonsense to missense mutations are also likely to exhibit an unusually high ratio of frameshift micro-indels to in-frame micro-indels,,"A meta-analysis of nonsense mutations causing human genetic disease
+
+",https://onlinelibrary.wiley.com/doi/pdf/10.1002/humu.20763,7
+"
+",,,,,
