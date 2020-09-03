@@ -16,7 +16,7 @@
 
 [*Existing papers of relevant analysis*](#papers)
 + [**A meta-analysis of nonsense mutations causing human genetic disease <em>(read)</em>**](#MetaAnalysis)
-+ [**The Characteristics of Heterozygous Protein Truncating Variants in the Human Genome**](#HumanTruncation)
++ [**The Characteristics of Heterozygous Protein Truncating Variants in the Human Genome <em>(read)</em>**](#HumanTruncation)
 + [**PON-P2: Prediction Method for Fast and Reliable Identification of Harmful Variants.**](#ponp2)
 + [**The Functional Human C-Terminome**](#HumanCTerminome)
 + [**Genome-scale CRISPR-Cas9 knockout screening in human cells**](#crispr9-knockout)
