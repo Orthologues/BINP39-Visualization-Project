@@ -761,3 +761,55 @@ rm file.txt
 git add -A
 git commit -m "Update at office 20-09-02"
 git push
+cd ls
+cd Desktop/github-repo/Thesis-Data-Collection/
+ls
+./script/test.py 
+./script/test.py|sed -r 's/\t+/ /g'
+./script/test.py|sed -r 's/\s{2,}/ /g'
+./script/test.py|sed -r 's/\s{2,}/\t/g' -r 's/^\d+//'
+./script/test.py|sed -r 's/\s{2,}/\t/g' -r 's/^[0-9]+//'
+./script/test.py|sed -r 's/\s{2,}/\t/g' -r 's/\^[0-9]+//g'
+./script/test.py|sed -r 's/\s{2,}/\t/g'|sed -r 's/^\d+//g'
+./script/test.py|sed -r 's/\s{2,}/\t/g'|sed -r 's/^\[0-9]+//g'
+./script/test.py|sed -r 's/\s{2,}/\t/g'|sed -r 's/^[0-9]+//g'
+./script/test.py|sed -r 's/\s{2,}/\t/g'|sed -r 's/^[0-9]+\t//g'
+./script/test.py|sed -r 's/\s{2,}/\t/g'|sed -r 's/^\d+\t//g'
+./script/test.py|sed -r 's/\s{2,}/\t/g'|sed -r 's/^(\d+)\t//g'
+./script/test.py|sed -r 's/\s{2,}/\t/g'|sed -r 's/^[0-9]+\t//g'
+which gsed
+sudo apt-get install -y gsed
+man sed
+./script/test.py|sed -rE 's/\s{2,}/\t/g'|sed -rE 's/^\d+\t//g'
+./script/test.py|sed -r 's/\s{2,}/\t/g'|sed -r 's/^[0-9]+\t//g'
+./script/test.py|sed -r 's/\s{2,}/\t/g'|sed -r 's/^[0-9]+//g'
+git status
+git log --oneline
+git log origin master --oneline
+git log origin master 
+git fetch origin master
+git log --oneline
+git status
+git remote
+git remote -v
+git log FETCH_HEAD
+git diff HEAD FETCH_HEAD
+git whatchanged HEAD FETCH_HEAD --decorate=full
+git log HEAD FETCH_HEAD --decorate=full
+git log HEAD FETCH_HEAD 
+git log FETCH_HEAD --decorate=full
+git log FETCH_HEAD --oneline --decorate=full
+git rebase 9a433a3
+git commit -A
+git add -A
+git commit -m "more notes"
+git rebase 9a433a3
+git log --oneline FETCH_HEAD
+git log --oneline FETCH_HEAD --decorate=full
+git status
+git -log FETCH_HEAD HEAD --decorate=full
+git -log oneline
+git log --oneline
+git reset --mixed HEAD~1
+git log --decorate=full
+git status
