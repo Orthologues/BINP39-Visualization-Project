@@ -17,6 +17,7 @@
 [*Existing papers of relevant analysis*](#papers)
 + [**A meta-analysis of nonsense mutations causing human genetic disease <em>(read)</em>**](#MetaAnalysis)
 + [**The Characteristics of Heterozygous Protein Truncating Variants in the Human Genome**](#HumanTruncation)
++ [**PON-P2: Prediction Method for Fast and Reliable Identification of Harmful Variants.**](#ponp2)
 + [**The Functional Human C-Terminome**](#HumanCTerminome)
 + [**Genome-scale CRISPR-Cas9 knockout screening in human cells**](#crispr9-knockout)
 + [**Genetic screens in human cells using the CRISPR-Cas9 system**](#crispr9-screen)
@@ -131,6 +132,9 @@
 
 <a name="HumanTruncation"></a>
 [**Bartha I, Rausell A, McLaren PJ, et al. The Characteristics of Heterozygous Protein Truncating Variants in the Human Genome. PLoS Comput Biol. 2015;11(12):e1004647. Published 2015 Dec 7**](https://pubmed.ncbi.nlm.nih.gov/26642228/)
+
+<a name="ponp2"></a>
+[**Niroula A, Urolagin S, Vihinen M. PON-P2: prediction method for fast and reliable identification of harmful variants. PLoS One. 2015;10(2):e0117380. Published 2015 Feb 3.**](https://pubmed.ncbi.nlm.nih.gov/25647319/)
 
 <a name="HumanCTerminome"></a>
 [**Sharma S, Toledo O, Hedden M, et al. The Functional Human C-Terminome. PLoS One. 2016;11(4):e0152731. Published 2016 Apr 6**](https://pubmed.ncbi.nlm.nih.gov/27050421/)
