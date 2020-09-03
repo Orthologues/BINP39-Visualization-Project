@@ -813,3 +813,25 @@ git log --oneline
 git reset --mixed HEAD~1
 git log --decorate=full
 git status
+cd Desktop/github-repo/Thesis-Data-Collection/
+ls
+git log --oneline
+git fetch
+git log --oneline
+git log FETCH_HEAD 
+git status
+git log FETCH_HEAD
+git log FETCH_HEAD --oneline
+git fetch
+git log FETCH_HEAD --oneline
+git add -A
+git commit -m "2020-9-3"
+git log --oneline FETCH_HEAD
+git log --oneline FETCH_HEAD HEAD
+git reset --mixed HEAD~1
+git status
+git merge origin master
+git add -A
+git commit -m "2020-09-03"
+git status
+git push
