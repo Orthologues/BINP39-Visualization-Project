@@ -110,6 +110,7 @@
 ###
 [**VariBench**](http://structure.bmc.lu.se/VariBench/)
 + [Sarkar A, Yang Y, Vihinen M. Variation benchmark datasets: update, criteria, quality and applications. Database (Oxford). 2020;2020:baz117](https://pubmed.ncbi.nlm.nih.gov/32016318/)
++ [Training and Test datasets of ponp2](http://structure.bmc.lu.se/VariBench/tolerance.php)
 
 <a name="MethodPred"></a>
 <br><h2 align="center">Existing methods for the prediction of the outcome of variants</h2>
