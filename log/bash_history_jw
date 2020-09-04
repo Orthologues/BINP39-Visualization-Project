@@ -865,3 +865,18 @@ git rebase 59fd7b1
 git merge origin master
 git status
 git log --oneline FETCH_HEAD HEAD
+cd Desktop/github-repo/Thesis-Data-Collection/
+ls
+git status
+git log --oneline
+git branch
+which R
+R --version
+which Rstudio
+which R[Ss]tudio
+which RStudio
+df -h
+ls
+git add -A
+git commit -m "2020-09-04"
+git push origin master
