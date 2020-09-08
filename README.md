@@ -9,7 +9,7 @@
 [*Existing papers of relevant analysis and algorithms*](#papers)
 + [**A meta-analysis of nonsense mutations causing human genetic disease <em>(read)</em>**](#MetaAnalysis)
 
-[*Tutorials of potentially useful tools for data collection*](#tutorial)
+[*Tutorials of potentially useful software and packages*](#tutorial)
 + [**Jupyter Notebook**](#jupyter)
 + [**Scrapy**](#scrapy)
 + [**Pandas**](#pandas)
@@ -17,7 +17,7 @@
 + [**ScikitLearn**](#scikitlearn)
 
 <br><a name="RTool"></a>
-<h2 align="center">Relevant DataBases</h2>
+<h2 align="center">Relevant Tools</h2>
 
 <a name="STRIDE"></a>
 ## Secondary Structural Identification
@@ -39,7 +39,7 @@
 [**Mort M, Ivanov D, Cooper DN, Chuzhanova NA. A meta-analysis of nonsense mutations causing human genetic disease. Hum Mutat. 2008;29(8):1037-1047.**](https://pubmed.ncbi.nlm.nih.gov/18454449/)
 
 <a name="tutorial"></a>
-<br><h2 align="center">Tutorials of potentially useful tools for data collection</h2>
+<br><h2 align="center">Tutorials of potentially useful software and packages</h2>
 
 ###
 <a name="jupyter"></a>
