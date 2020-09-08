@@ -9,9 +9,6 @@
 [*Existing papers of relevant analysis and algorithms*](#papers)
 + [**A meta-analysis of nonsense mutations causing human genetic disease <em>(read)</em>**](#MetaAnalysis)
 
-[*Existing methods for the prediction of the outcome of variants*](#MethodPred)
-+ [**MutPred-Indel**](#mutpred-indel)
-
 [*Tutorials of potentially useful tools for data collection*](#tutorial)
 + [**Jupyter Notebook**](#jupyter)
 + [**Scrapy**](#scrapy)
@@ -32,16 +29,7 @@
 ## Rotamer Library
 ###
 [**A Backbone-dependent Rotamer Library**](http://dunbrack.fccc.edu/bbdep2010/)
-+ [Shapovalov MV, Dunbrack RL Jr. A smoothed backbone-dependent rotamer library for proteins derived from adaptive kernel density estimates and regressions. Structure. 2011;19(6):844-858. doi:10.1016/j.str.2011.03.019](http://dunbrack.fccc.edu/bbdep2010/)
-
-
-<a name="MethodPred"></a>
-<br><h2 align="center">Existing methods for the prediction of the outcome of variants</h2>
-
-###
-<a name="mutpred-indel"></a>
-[**MutPred-Indel**](http://mutpredindel.cs.indiana.edu/)
-+ [Mort, M., Sterne-Weiler, T., Li, B. et al. MutPred Splice: machine learning-based prediction of exonic variants that disrupt splicing. Genome Biol 15, R19 (2014)](https://genomebiology.biomedcentral.com/articles/10.1186/gb-2014-15-1-r19#citeas)
++ [Shapovalov MV, Dunbrack RL Jr. A smoothed backbone-dependent rotamer library for proteins derived from adaptive kernel density estimates and regressions. Structure. 2011;19(6):844-858. doi:10.1016/j.str.2011.03.019](https://pubmed.ncbi.nlm.nih.gov/21645855/)
 
 <a name="papers"></a>
 <br><h2 align="center">Existing papers of relevant analysis and algorithms</h2>
