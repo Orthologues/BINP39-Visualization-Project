@@ -942,3 +942,31 @@ less .count_last_bash_history
 wc -l .bash_history 
 nano .bashrc
 wc -l .bash_history 
+cd Desktop/github-repo/
+ls
+cd BINP39/
+ls
+git pull
+git fetch
+git status
+cd ~
+nano .bashrc
+cd Desktop/github-repo/BINP39/
+git remote -v
+git remote set-url git@github.com:Orthologues/BINP39-Visualization-Project
+git remote set-url origin git@github.com:Orthologues/BINP39-Visualization-Project
+git fetch
+git status
+git log --oneline FETCH_HEAD
+git remote -v
+git status
+git add -A
+git status
+git commit -m "2020-09-08"
+git push
+git fetch
+git log FETCH_HEAD
+git status
+git merge origin master
+git log FETCH_HEAD
+git pull
