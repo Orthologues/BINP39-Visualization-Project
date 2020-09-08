@@ -880,3 +880,64 @@ ls
 git add -A
 git commit -m "2020-09-04"
 git push origin master
+ls
+cd Desktop/
+ls
+cd github-repo/
+ls
+cd Thesis-Data-Collection/
+git remote -v
+git remote set-url origin git@github.com:Orthologues/BINP39-Data-Collection
+git remote -v
+ls
+ls preliminary/
+ls script/
+ls log
+mv README.md README_old.md
+ls
+cp README_old.md README.md
+mv README_old.md log/
+ls
+git add -A 
+git rm -A
+git status
+git rm --cached
+git rm * --cached
+git rm -r --cached
+git rm -r --cached *
+git status
+git restore --staged -A *
+git restore --staged *
+git status
+git restore --staged log/*
+git status
+git add -A
+git checkout
+git branch
+git commit -m "change to BINP39"
+git push
+man ssh-keygen
+git config
+git config --get-all
+git config --get-all user.name
+git config -list
+git config --list
+cd ..
+mv Thesis-Data-Collection/ BINP39
+ls
+vim .bashrc
+vi .bashrc
+nano .bashrc
+ls
+cd Desktop/
+ld
+cd 
+ls
+cd Desktop/github-repo/BINP39/
+ls
+ls -lash
+cd ~
+ls -a
+less .count_last_bash_history 
+wc -l .bash_history 
+nano .bashrc
