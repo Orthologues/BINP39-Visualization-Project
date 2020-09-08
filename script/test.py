@@ -9,7 +9,7 @@ print(re.sub("(?<=\d{4})[A-Za-z]{1,2}?", "punish", testString))
 
 # Test dataframe in pandas
 concepts=pd.read_csv("log/concepts.csv")
-keylist=["methylation","sequence conservation","PTV","NMD","NMD failure","dN/dS","biallelic","MCC"]
+keylist=["methylation","rotamer","PTV","NMD","NMD failure","dN/dS","biallelic","MCC"]
 
 # use list() for conversion
 result1=list(concepts['explanation'].loc[concepts['word']=="missense"])

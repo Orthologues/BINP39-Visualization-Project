@@ -1,10 +1,10 @@
 # add '''
-#     PATH+=":/home/jiawei/Desktop/github-repo/Thesis-Data-Collection"
+#     PATH+=":/home/jiawei/Desktop/github-repo/BINP39"
 #     update_sh_history.sh 1>/dev/null 2>&1
-#     PATH=$(echo $PATH|sed -e 's/:\/home\/jiawei\/Desktop\/github-repo\/Thesis-Data-Collection//')
+#     PATH=$(echo $PATH|sed -e 's/:\/home\/jiawei\/Desktop\/github-repo\/BINP39//')
 #     '''
 # into ~/.bashrc first to activate this script
-cd /home/jiawei/Desktop/github-repo/Thesis-Data-Collection
+cd /home/jiawei/Desktop/github-repo/BINP39
 sh_last_linecount=$(cat /home/jiawei/.count_last_bash_history)
 sh_linecount=$(wc -l /home/jiawei/.bash_history|cut -d " " -f 1)
 if [[ ! "$sh_linecount" == "$sh_last_linecount" ]];then
