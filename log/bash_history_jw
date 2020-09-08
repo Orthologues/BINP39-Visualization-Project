@@ -941,3 +941,4 @@ ls -a
 less .count_last_bash_history 
 wc -l .bash_history 
 nano .bashrc
+wc -l .bash_history 
