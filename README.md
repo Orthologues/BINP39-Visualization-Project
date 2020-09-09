@@ -5,6 +5,7 @@
 [*Relevant Tools*](#RTool)
 + [**Secondary Structural Identification**](#STRIDE)
 + [**A Backbone-dependent Rotamer Library**](#ROTAMER)
++ [**JSmol, the web version of a 3D chemical structure viewer**](#jsmol)
 
 [*Existing papers of relevant analysis and algorithms*](#papers)
 + [**A meta-analysis of nonsense mutations causing human genetic disease <em>(read)</em>**](#MetaAnalysis)
@@ -30,6 +31,15 @@
 ###
 [**A Backbone-dependent Rotamer Library**](http://dunbrack.fccc.edu/bbdep2010/)
 + [Shapovalov MV, Dunbrack RL Jr. A smoothed backbone-dependent rotamer library for proteins derived from adaptive kernel density estimates and regressions. Structure. 2011;19(6):844-858. doi:10.1016/j.str.2011.03.019](https://pubmed.ncbi.nlm.nih.gov/21645855/)
+
+<a name="jsmol"></a>
+## JSmol
+###
+[**An open-source html5-modality viewer for chemical structures in 3D**](https://sourceforge.net/projects/jsmol/)
++ [Official Tutorial](http://wiki.jmol.org/index.php/JSmol)
++ [Additional Tutorial 1](https://chemapps.stolaf.edu/jmol/jsmol/jsmol.htm)
++ [Addtional Tutorial 2](https://www.andrew.cmu.edu/user/rule/jsmol/jsmol_tutorial.html)
++ [Simple web demo in JavaScript](http://jmol.sourceforge.net/demo/jssample0.html)
 
 <a name="papers"></a>
 <br><h2 align="center">Existing papers of relevant analysis and algorithms</h2>
