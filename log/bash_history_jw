@@ -970,3 +970,5 @@ git status
 git merge origin master
 git log FETCH_HEAD
 git pull
+fdisk -l
+sudo fdisk -l
