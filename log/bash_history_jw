@@ -972,3 +972,30 @@ git log FETCH_HEAD
 git pull
 fdisk -l
 sudo fdisk -l
+which jupyter
+sudo apt-get install -y npm &
+ls
+which npm
+sudo apt install -y npm &
+fd
+sudo apt install -y npm 
+
+du -sh $(which npm)
+du -sh $(echo|which npm)
+npmpath=$(echo|which npm);du -sh $npmpath;unset $npmpath
+npmpath=$(echo|which npm);du -sh $npmpath;unset npmpath
+du -sh /usr/bin/npm
+du -sh /usr/bin/npm/
+df -h
+du -sh .cache
+du -sh .atom
+npm --version
+conda install -c anaconda django -y
+conda list|grep django
+ls
+cd Desktop/github-repo/BINP39/
+ls
+git add -A
+git commit -m "2020-09-09"
+git push
+df -h
