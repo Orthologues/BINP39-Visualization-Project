@@ -1059,3 +1059,89 @@ git commit -m "add a bash script"
 git push
 cd Desktop/github-repo/BINP39/
 nano ~/.bash_history 
+cd Desktop/github-repo/BINP39/
+ls
+curl -SL //code.jquery.com/jquery-1.9.1.js"
+curl -SL //code.jquery.com/jquery-1.9.1.js
+ls
+cd preliminary/
+ls
+curl -SL https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif -o AA_hydrophobicity.gif
+ls
+curl -SL https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif -O AA_hydrophobicity.gif
+ls
+ls Papers/
+curl -SL https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif -o ./AA_hydrophobicity.gif
+ls
+which curl
+curl -SL https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif > ./AA_hydrophobicity.gif
+ls
+rm AA_hydrophobicity.gif 
+wget -v https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif 
+ls
+rm wget-log 
+rm 'getimg.pl?id=P19544' 
+ls
+curl -SL -d "https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif" -o "./AA_hydrophobicity.gif"
+curl -SL -d https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif -o "./AA_hydrophobicity.gif"
+ls
+curl -SL -d https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif 
+ls
+curl -SL https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif 
+ls
+dir_id_rep1115943/
+ls -lash
+du -sh ~/.cache
+du -sh ~/.cache/*
+curl -h
+curl -h|grep -e "\-o"
+curl -SL https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif -o AAhydro.gif
+ls
+curl -SL https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif -o AAhydro.gif-o: command not found
+curl -o AAhydro.gif -SL https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif
+ls
+rm AAhydro.gif 
+ls
+curl -LS http://3Dmol.csb.pitt.edu/build/3Dmol-min.js -o 3Dmol-min.js
+apm listy
+apm list
+apm list|grep ja
+apm uninstall -y autocomplete-js-import
+apm list
+apm uninstall autocomplete-js-import@1.4.0
+apm uninstall autocomplete-js-import
+apm list
+du -sh *
+top
+echo $HOSTNAME
+echo $HOST
+ls
+curl -SL https://raw.githubusercontent.com/biasmv/pv/master/bio-pv.min.js -o bio-pv.min.js
+ls
+which django
+curl -SL http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js -o ajax_jquery.js
+ls
+mkdir materials
+ls *|grep -v *.js
+ls *
+ls -p
+ls -h|grep -e "-p"
+man ls|grep -e "-p"
+ls -p|grep -v /
+ls -p|grep -v /|grep -e ".pdf"
+ls -p|grep -v /|grep -ve ".js"
+ls -p|grep -v /|grep -ve ".js" -ve ".py"
+ls -p|grep -v /|grep -ve ".js" -ve ".py"|while read file;do mv $file materials/;done
+ls
+mv 'Not on exam BirdMalaria.pdf' malaria.pdf
+mv malaria.pdf materials/
+ls
+mkdir scripts
+ls -p|grep -v /
+ls -p|grep -v /|while read file;do mv $file scripts/
+ls -p|grep -v /|while read file;do mv $file scripts/;done
+ls
+du -sh scripts/
+cd scripts/
+ls
+conda list|grep json
