@@ -4,6 +4,8 @@
 #     PATH=$(echo $PATH|sed -e 's/:\/home\/jiawei\/Desktop\/github-repo\/BINP39//')
 #     '''
 # into ~/.bashrc first to activate this script
+#! /usr/bin/bash
+
 cd /home/jiawei/Desktop/github-repo/BINP39
 sh_last_linecount=$(cat /home/jiawei/.count_last_bash_history)
 sh_linecount=$(wc -l /home/jiawei/.bash_history|cut -d " " -f 1)
@@ -15,5 +17,4 @@ if [[ ! "$sh_linecount" == "$sh_last_linecount" ]];then
   git push origin master
   echo $sh_linecount > /home/jiawei/.count_last_bash_history
 fi
-unset sh_last_linecount
-unset sh_linecount
+unset sh_last_linecount sh_linecount
