@@ -1007,3 +1007,4 @@ ls
 cd ..
 cd Desktop/github-repo/BINP39/
 git pull origin master
+poweroff
