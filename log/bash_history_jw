@@ -1019,7 +1019,84 @@ ls
 cd preliminary/
 ls
 cd Papers/
+ls
 nano pdf_links.txt
+cat pdf_links.txt|while read line;do curl -SL "$line" -o ${line};done
+ls
+nano pdf_links.txt 
+cat pdf_links.txt|while read line;do title=$(echo $line|cut -d " " -f 1);echo $title;done
+cat pdf_links.txt|while read line;do echo $1;done
+cat pdf_links.txt|while read line;do echo $0;done
+nano pdf_links.txt 
+cat pdf_links.txt|while read line;do echo $1;done
+cat pdf_links.txt|while read line;do title=$(echo $line|cut -f 1);echo $title;done
+cat pdf_links.txt|while read line;do title=$(echo $line|cut -d "\t" -f 1);echo $title;done
+nano pdf_links.txt 
+cat pdf_links.txt|while read line;do title=$(echo $line|cut -f 1);echo $title;done
+cat pdf_links.txt|while read line;do title=$(echo $line|cut -d " " -f 1);echo $title;done
+cat pdf_links.txt|while read line;do title=$(echo $line|cut -d " " -f 1);url=$(echo $line|cut -d " " -f 2);echo $url;done
 cat pdf_links.txt|while read line;do title=$(echo $line|cut -d " " -f 1);url=$(echo $line|cut -d " " -f 2);curl -SL ${url} -o ${title}.pdf;done
 ls
+curl -h}grep -e "-[sS]" "-L"
+curl -h}grep -e "-[sS]" -e "-L"
+curl -h|grep -e "-[sS]" -e "-L"
+curl -h|grep -e "^-[sS]" -e "-L"
+curl -h|grep -e "^\-[sS]" -e "^\-L"
+curl -h|grep -e "^\-[sS]" -e "^-L"
+curl -h|grep -eE "^\-[sS]" -eE "^-L"
+curl -h|grep -eE "^-[sS]" -eE "^-L"
+curl -h|grep -eE ^\-[sS] -eE ^\-L
+curl -h|grep -eE ^\-s -eE ^-L
+curl -h|grep -eE ^S
+curl -h|grep -eE ^-
+curl -h|grep -eE ^"-"
+curl -h|grep -eE ^\-
+curl -h|grep -e ^\-
+curl -h|grep -e "^\-s"
+curl -h|grep -e "^\s+"
+curl -h|grep -e "^s+"
+curl -h|grep -e "^/s+"
+curl -h|grep -e "^"
+curl -h|grep -e "^\t"
+curl -h|grep -e "^\t+"
+curl -h|grep -e "\-S"
+curl -h|grep -eE "\-S"
+curl -h|grep -e "\-S"
 curl -h|grep -e "\-S" -e "\-L"
+ls
+cd Desktop/github-repo/BINP39/
+git fetch;get merge origin master
+git fetch;git merge origin master
+ls
+cd preliminary/
+cd ..
+ls
+git pull origin master
+ls
+cd preliminary/
+ls
+cd Papers/
+ls
+nano pdf_links.txt 
+cat pdf_links.txt|while read line;do title=$(echo $line|cut -d " " -f 1);url=$(echo $line|cut -d " " -f 2);curl -SL ${url} -o ${title}.pdf;done
+ls
+which bash
+ls
+rm 3Dmol.pdf 
+ls
+cd ../../script/
+ls
+chmod +x DownloadPaper.sh 
+./DownloadPaper.sh 
+ls ../preliminary/Papers/
+rm -rf ../preliminary/Papers/HUMA.pdf -rf ../preliminary/Papers/3Dmol.pdf 
+./DownloadPaper.sh 
+ls ../preliminary/Papers/
+ls -slah ../preliminary/Papers/
+echo $url
+echo $PATH
+echo $title
+cd ..
+git add -A
+git commit -m "add a bash script"
+git push
