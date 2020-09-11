@@ -6,6 +6,7 @@
 + [**Secondary Structural Identification**](#STRIDE)
 + [**A Backbone-dependent Rotamer Library**](#ROTAMER)
 + [**JSmol, the web version of a 3D chemical structure viewer**](#jsmol)
++ [**3Dmol.js: molecular visualization with WebGL**](#3dmol)
 + [**VarSite: Disease variants and protein structure**](#varsite)
 + [**HUMA: A platform for the analysis of genetic variation in humans**](#huma)
 + [**BTKbase: the mutation database for X-linked agammaglobulinemia**](#btkbase)
@@ -43,6 +44,13 @@
 + [Additional Tutorial 1](https://chemapps.stolaf.edu/jmol/jsmol/jsmol.htm)
 + [Addtional Tutorial 2](https://www.andrew.cmu.edu/user/rule/jsmol/jsmol_tutorial.html)
 + [Simple web demo in JavaScript](http://jmol.sourceforge.net/demo/jssample0.html)
+
+<a name="3dmol"></a>
+## 3Dmol
+###
+[**3Dmol.js: molecular visualization with WebGL**](https://3dmol.csb.pitt.edu/)
++ [Github Link](https://github.com/3dmol/3Dmol.js)
++ [Rego N, Koes D. 3Dmol.js: molecular visualization with WebGL. Bioinformatics. 2015;31(8):1322-1324. doi:10.1093/bioinformatics/btu829](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4393526/)
 
 <a name="varsite"></a>
 ## Varsite
