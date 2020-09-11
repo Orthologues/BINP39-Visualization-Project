@@ -6,9 +6,12 @@
 + [**Secondary Structural Identification**](#STRIDE)
 + [**A Backbone-dependent Rotamer Library**](#ROTAMER)
 + [**JSmol, the web version of a 3D chemical structure viewer**](#jsmol)
++ [**VarSite: Disease variants and protein structure**](#varsite)
++ [**HUMA: A platform for the analysis of genetic variation in humans**](#huma)
++ [**BTKbase: the mutation database for X-linked agammaglobulinemia**](#btkbase)
 
 [*Existing papers of relevant analysis and algorithms*](#papers)
-+ [**A meta-analysis of nonsense mutations causing human genetic disease <em>(read)</em>**](#MetaAnalysis)
++ [**PON-SC – program for identifying steric clashes caused by amino acid substitutions <em>(read)</em>**](#ponsc)
 
 [*Tutorials of potentially useful software and packages*](#tutorial)
 + [**Jupyter Notebook**](#jupyter)
@@ -41,12 +44,32 @@
 + [Addtional Tutorial 2](https://www.andrew.cmu.edu/user/rule/jsmol/jsmol_tutorial.html)
 + [Simple web demo in JavaScript](http://jmol.sourceforge.net/demo/jssample0.html)
 
+<a name="varsite"></a>
+## Varsite
+###
+[**VarSite: Disease variants and protein structure**](https://www.ebi.ac.uk/thornton-srv/databases/VarSite)
++ [Laskowski RA, Stephenson JD, Sillitoe I, Orengo CA, Thornton JM. VarSite: Disease variants and protein structure. Protein Sci. 2020;29(1):111-119. doi:10.1002/pro.3746](https://pubmed.ncbi.nlm.nih.gov/31606900/)
+
+<a name="huma"></a>
+## HUMA
+###
+[**HUMA: A platform for the analysis of genetic variation in humans**](https://huma.rubi.ru.ac.za)
++ [Brown DK, Tastan Bishop Ö. HUMA: A platform for the analysis of genetic variation in humans. Hum Mutat. 2018;39(1):40-51. doi:10.1002/humu.23334](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5722678/)
+
+<a name="btkbase"></a>
+## BTKbase
+###
+[**BTKbase: the mutation database for X-linked agammaglobulinemia**](http://structure.bmc.lu.se/idbase/BTKbase/index.php?content=bioinfor/IDbases)
++ [Väliaho J, Smith CI, Vihinen M. BTKbase: the mutation database for X-linked agammaglobulinemia. Hum Mutat. 2006;27(12):1209-1217. doi:10.1002/humu.20410
+](https://pubmed.ncbi.nlm.nih.gov/16969761/)
+
+
 <a name="papers"></a>
 <br><h2 align="center">Existing papers of relevant analysis and algorithms</h2>
 
 ###
-<a name="MetaAnalysis"></a>
-[**Mort M, Ivanov D, Cooper DN, Chuzhanova NA. A meta-analysis of nonsense mutations causing human genetic disease. Hum Mutat. 2008;29(8):1037-1047.**](https://pubmed.ncbi.nlm.nih.gov/18454449/)
+<a name="ponsc"></a>
+[**Čalyševa J, Vihinen M. PON-SC - program for identifying steric clashes caused by amino acid substitutions. BMC Bioinformatics. 2017;18(1):531. Published 2017 Nov 29. doi:10.1186/s12859-017-1947-7**](https://pubmed.ncbi.nlm.nih.gov/29187139/)
 
 <a name="tutorial"></a>
 <br><h2 align="center">Tutorials of potentially useful software and packages</h2>
