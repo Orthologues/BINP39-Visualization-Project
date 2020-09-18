@@ -1224,3 +1224,6 @@ ssh jiawei@structure.bmc.lu.se
 ssh-keygen
 ssh-copy-id -i .ssh/id_rsa.pub jiawei@structure.bmc.lu.se
 ssh-add
+ssh jiawei@structure.bmc.lu.se
+lsb_release -a
+ssh jiawei@structure.bmc.lu.se
