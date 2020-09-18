@@ -1182,3 +1182,7 @@ sudo fdisk -l
 sudo umount /dev/sdh[23]
 df -h
 poweroff
+ls
+cd Desktop/github-repo/BINP39/
+ls
+git pull origin master
