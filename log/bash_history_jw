@@ -1186,3 +1186,41 @@ ls
 cd Desktop/github-repo/BINP39/
 ls
 git pull origin master
+cd Desktop/github-repo/
+ls
+cd FrontendExercise/
+ls
+less .gitignore 
+ls
+cd bootstrap/
+ls
+mdkir Downloads
+mkdir downloads
+ls
+cd ..
+git status
+ls
+cd bootstrap/downloads/
+git clone https://github.com/londonappbrewery/TinDog-Start
+cd ../..
+git status
+nano .gitignore 
+git status
+ls
+mkdir jsExer
+git status
+cd bootstrap/
+ls
+cp downloads/TinDog-Start/ .
+cp -r downloads/TinDog-Start/ .
+ls
+cd TinDog-Start/
+ls
+git status
+git remote -v
+ls
+google-chrome index.html 
+ssh jiawei@structure.bmc.lu.se
+ssh-keygen
+ssh-copy-id -i .ssh/id_rsa.pub jiawei@structure.bmc.lu.se
+ssh-add
