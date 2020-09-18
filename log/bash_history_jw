@@ -1151,3 +1151,34 @@ git status
 git add -A
 git commit -m "2020-09-11"
 git push
+df -h
+df -h|grep sdh2
+df -h|grep sdh2|cut -f -1
+df -h|grep sdh2|tr \t \n
+df -h|grep sdh2|tr "\t" "\n"
+df -h|grep sdh2|sed 's/\s+/\t/g'|tr "\t" "\n"
+df -h|grep sdh2|sed -r 's/\s+/\t/g'|
+df -h|grep sdh2|sed -r 's/\s+/\t/g'
+df -h|grep sdh2|sed -r 's/\s+/\t/g'|tr \t \n
+df -h|grep sdh2|sed -r 's/\s+/\t/g'|tr "\t" "\n"
+df -h|grep sdh2|sed -r 's/\s+/\t/g'|tr "\t" "\n"|tail -n 1
+df -h|grep sdh3|sed -r 's/\s+/\t/g'|tr "\t" "\n"|tail -n 1
+exbkp=$(df -h|grep sdh3|sed -r 's/\s+/\t/g'|tr "\t" "\n"|tail -n 1);ls $exbkp
+exbkp=$(df -h|grep sdh3|sed -r 's/\s+/\t/g'|tr "\t" "\n"|tail -n 1);ls \$\{exbkp\}/Office-Ubuntu/
+exbkp=$(df -h|grep sdh3|sed -r 's/\s+/\t/g'|tr "\t" "\n"|tail -n 1);ls ${exbkp}/Office-Ubuntu/
+exbkp=$(df -h|grep sdh3|sed -r 's/\s+/\t/g'|tr "\t" "\n"|tail -n 1);rm -rf ${exbkp}/Office-Ubuntu/Desktop/
+cp -d Desktop/ ${exbkp}/Office-Ubuntu/Desktop
+cp -rf Desktop/ ${exbkp}/Office-Ubuntu/Desktop
+rm -rf ${exbkp}/Office-Ubuntu/Downloads
+cp -rf Downloads/  ${exbkp}/Office-Ubuntu/Downloads
+cd $exbkp
+ls
+ls -lsah Office-Ubuntu/
+cd ~
+df -h
+sudo umount /dev/sdh[23]
+fdisk -l
+sudo fdisk -l
+sudo umount /dev/sdh[23]
+df -h
+poweroff
