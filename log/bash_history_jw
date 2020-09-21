@@ -1236,3 +1236,43 @@ git status
 git add -A
 git commit -m "pon-sc path"
 git push
+cd Desktop/github-repo/BINP39/
+ls
+jupyter notebook
+jupyter notebook &
+ls
+cd script/
+ls
+rm -rf test.
+
+rm -rf test.ipynb 
+pkill jupyter
+top
+ls
+cd ..
+ls
+git status
+nano .gitignore 
+git status
+git add -A
+git commit -m "test .ipynb";git push
+conda install -c r r-essentials
+df -h
+cp -rf Documents/* /media/jiawei/ExFat/Office-Ubuntu/ &
+top
+df -h
+ls
+ssh -X jiawei@structure.bmc.lu.se
+ls
+cd Desktop/
+ls
+cd github-repo/BINP39/
+ls
+jupyter notebook
+ls
+cd script/
+ls
+ls -a
+rm -rf .ipynb_checkpoints/
+ls
+less temp.txt 
