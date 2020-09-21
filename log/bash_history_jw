@@ -1212,3 +1212,27 @@ cd ~
 ls
 ls -lsah pon-sc.sh 
 ./pon-sc.sh 
+ls
+ssh -X jiawei@structure.bmc.lu.se
+ls
+cd Documents/
+ls
+scp jiawei@structure.bmc.lu.se:/home/structure/ponp/PONP_site/aaclash .
+scp -r jiawei@structure.bmc.lu.se:/home/structure/ponp/PONP_site/aaclash .
+du -sh *
+scp -r jiawei@structure.bmc.lu.se:/srv/www/htdocs/PON-SC .
+ls
+df -h
+du -sh *
+ls
+cd Desktop/
+ls
+cd github-repo/
+ls
+cd BINP39/
+ls
+git statua
+git status
+git add -A
+git commit -m "pon-sc path"
+git push
