@@ -1197,3 +1197,18 @@ ssh -X jiawei@structure.bmc.lu.se
 grep -e "ssh" .bash_history
 grep -e "structure" .bash_history
 ssh structure@structure.bmc.lu.se
+ls
+cd Desktop/
+ls
+cp pon-sc.sh github-repo/BINP39/script/
+ls
+cd github-repo/BINP39/script/
+ls -lsah
+chmod +x pon-sc.sh 
+nano DownloadPaper.sh 
+nano pon-sc.sh 
+cp pon-sc.sh ~/
+cd ~
+ls
+ls -lsah pon-sc.sh 
+./pon-sc.sh 
