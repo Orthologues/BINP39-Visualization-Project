@@ -1188,3 +1188,12 @@ tail -n 5 .bash_his
 rm .bash_history;mv .bash_his .bash_history
 cd Desktop/github-repo/FrontendExercise/bootstrap/TinDog_exer/
 xdg-open index.html &
+ls
+cd Desktop/
+ls
+nano pon-sc_backend.txt
+ssh jiawei@structure.bmc.lu.se
+ssh -X jiawei@structure.bmc.lu.se
+grep -e "ssh" .bash_history
+grep -e "structure" .bash_history
+ssh structure@structure.bmc.lu.se
