@@ -1276,3 +1276,47 @@ ls -a
 rm -rf .ipynb_checkpoints/
 ls
 less temp.txt 
+cd Desktop/
+ls
+cd github-repo/
+ls
+cd BINP39/
+ls
+cd script/
+ls
+ls -lsa
+rm -rf .ipynb_checkpoints/
+top
+ls
+jupyter notebook
+ls
+rm -rf .ipynb_checkpoints/
+jupyter notebook
+ls
+cd ..
+git pull origin master
+git status
+rm script/temp.txt 
+git fetch
+git merge origin master
+git add -A
+git commit -m "more ipynb"
+git fetch
+git log --oneline
+git reset --hard HEAD~1
+git status
+conda list|grep r
+conda install -c r r-essentials
+conda install -c r r-essentials --force-reinstall
+ls
+conda list
+conda env
+conda-env list
+conda create -n my-r-env -c r r-essentials
+conda create -n my-r-env -c r r-essentials -y
+conda env
+conda-env list
+conda activate my-r-env
+jupyter notebook
+conda deactivate
+jupyter notebook
