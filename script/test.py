@@ -17,10 +17,23 @@ print("missense",result1)
 
 # A more generic solution to deal with problems in widths of printing
 pd.set_option('display.max_colwidth', None)
-# Or to set a specific maximum
-# pd.options.display.max_colwidth = 150 #
+# Or to set a specific maximum by pd.options.display.max_colwidth = 150
 result2=concepts[['word','explanation']].loc[concepts['word'].isin(keylist)]
 print(result2)
 
 # run the following bash statement to have a better view at terminal
 # ./script/test.py|sed -r 's/\s{2,}/\t/g'|sed -r 's/^[0-9]+//g' #
+
+# Test re.match().group() method
+statements=("You love Mary","Du liebst Margot",
+            "Tu aimes Marie","Amas Maria")
+pats = [("You love (\w+)", "He used to love {0}" ),
+("Du liebst (\w+)", "Er hatte {0} geliebt" ),
+("Amas (\w+)", "El amaba a {0}")]
+
+for statement in statements:
+    for p1,p2 in pats:
+        m=re.match(p1,statement)
+        if m:
+            print(p2.format(m.group()),"  ",p2.format(m.group(1)))
+            break

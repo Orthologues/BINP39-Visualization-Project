@@ -3,3 +3,4 @@
 log/test.txt
 preliminary
 *.csv#
+*.ipynb_checkpoints/
