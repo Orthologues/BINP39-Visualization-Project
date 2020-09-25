@@ -1212,12 +1212,26 @@ cd ~
 ls
 ls -lsah pon-sc.sh 
 ./pon-sc.sh 
+ls
 ssh -X jiawei@structure.bmc.lu.se
+ls
 cd Documents/
+ls
 scp jiawei@structure.bmc.lu.se:/home/structure/ponp/PONP_site/aaclash .
 scp -r jiawei@structure.bmc.lu.se:/home/structure/ponp/PONP_site/aaclash .
+du -sh *
 scp -r jiawei@structure.bmc.lu.se:/srv/www/htdocs/PON-SC .
+ls
 df -h
+du -sh *
+ls
+cd Desktop/
+ls
+cd github-repo/
+ls
+cd BINP39/
+ls
+git statua
 git status
 git add -A
 git commit -m "pon-sc path"
@@ -1226,10 +1240,17 @@ cd Desktop/github-repo/BINP39/
 ls
 jupyter notebook
 jupyter notebook &
+ls
 cd script/
+ls
 rm -rf test.
+
 rm -rf test.ipynb 
 pkill jupyter
+top
+ls
+cd ..
+ls
 git status
 nano .gitignore 
 git status
@@ -1239,17 +1260,36 @@ conda install -c r r-essentials
 df -h
 cp -rf Documents/* /media/jiawei/ExFat/Office-Ubuntu/ &
 top
+df -h
+ls
 ssh -X jiawei@structure.bmc.lu.se
+ls
 cd Desktop/
+ls
 cd github-repo/BINP39/
+ls
 jupyter notebook
+ls
 cd script/
+ls
+ls -a
 rm -rf .ipynb_checkpoints/
+ls
 less temp.txt 
+cd Desktop/
+ls
+cd github-repo/
+ls
+cd BINP39/
+ls
+cd script/
+ls
 ls -lsa
 rm -rf .ipynb_checkpoints/
 top
+ls
 jupyter notebook
+ls
 rm -rf .ipynb_checkpoints/
 jupyter notebook
 ls
@@ -1268,6 +1308,7 @@ git status
 conda list|grep r
 conda install -c r r-essentials
 conda install -c r r-essentials --force-reinstall
+ls
 conda list
 conda env
 conda-env list
@@ -1280,20 +1321,39 @@ jupyter notebook
 conda deactivate
 jupyter notebook
 poweroff
+ls
 cd Desktop/
+ls
 cd github-repo/
+ls
 cd FrontendExercise/
+ls
 git pull origin master
 cd ../BINP39/
+ls
 git pull origin master
 git stash
+git pull origin master
 git log --oneline
 git reset HEAD~2 --hard
+ls
+cd Desktop/
+ls
+cd github-repo/
+ls
+cd BINP39/
 git log --oneline
+ls
 git fetch
 git merge origin master
+git log --oneline
 git status
 rm script/.Rhistory 
+ls
 git push
 conda list
 conda-env list
+ls
+cd Desktop/github-repo/BINP39/
+ls
+git pull origin master
