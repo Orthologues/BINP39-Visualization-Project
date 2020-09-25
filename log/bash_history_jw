@@ -1336,3 +1336,20 @@ git stash
 git pull origin master
 git log --oneline
 git reset HEAD~2 --hard
+ls
+cd Desktop/
+ls
+cd github-repo/
+ls
+cd BINP39/
+git log --oneline
+ls
+git fetch
+git merge origin master
+git log --oneline
+git status
+rm script/.Rhistory 
+ls
+git push
+conda list
+conda-env list
