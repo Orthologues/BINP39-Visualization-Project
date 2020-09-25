@@ -1357,3 +1357,24 @@ ls
 cd Desktop/github-repo/BINP39/
 ls
 git pull origin master
+atm list
+apm list
+ls
+cd Desktop/github-repo/BINP39/
+ls
+cd ../FrontendExercise/bootstrap/TinDog_exer/
+google-chrome index.html 
+ls
+cd ../..
+ls
+git status
+git add -A && igt commit -m "exer in js 2020-09-25" && git push
+git add -A && git commit -m "exer in js 2020-09-25" && git push
+which ruby
+ls
+cd bootstrap/TinDog_exer/
+ls
+xdg-open index.html 
+which npm
+npm list
+nano .atom/.apmrc
