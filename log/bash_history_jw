@@ -1320,3 +1320,19 @@ conda activate my-r-env
 jupyter notebook
 conda deactivate
 jupyter notebook
+poweroff
+ls
+cd Desktop/
+ls
+cd github-repo/
+ls
+cd FrontendExercise/
+ls
+git pull origin master
+cd ../BINP39/
+ls
+git pull origin master
+git stash
+git pull origin master
+git log --oneline
+git reset HEAD~2 --hard
