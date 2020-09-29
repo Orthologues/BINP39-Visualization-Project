@@ -1378,3 +1378,120 @@ xdg-open index.html
 which npm
 npm list
 nano .atom/.apmrc
+cd Desktop/github-repo/FrontendExercise/
+ls
+git pull origin master
+cd ../BINP39/
+ls
+git pull origin master
+cd ../FrontendExercise/
+apm install atom-typescript
+apm list
+ls
+cd bootstrap/
+ls
+cd TinDog_exer/
+ls
+google-chrome index.html 
+ls
+cd ../../js_exer_basic/
+mv ~/Downloads/*.zip .
+ls
+mv 'DOM Challenge Starting Files.zip' DOMexer.zip
+ls
+nzip DOMexer.zip DOMexer
+unzip DOMexer.zip DOMexer
+ls
+gunzip DOMexer.zip DOMexer
+ls
+unzip DOMexer.zip 
+ls
+rm 'DOM Challenge Starting Files'/
+rm -rf 'DOM Challenge Starting Files'/
+ls
+rm -rf DOMexer.zip 
+man unzip
+ls
+rm-rf __MACOSX/
+rm -rf __MACOSX/
+mv 'DOM Challenge Starting Files.zip' DOMexer.zip
+mv ~/Downloads/*.zip .
+mv 'DOM Challenge Starting Files.zip' DOMexer.zip
+unzip DOMexer.zip -d DOMexer
+ls
+rm -rf DOMexer
+ls
+unzip DOMexer.zip -d DOMexer
+rm -rf *.zip
+ls
+cd DOMexer/
+ls
+cd 'DOM Challenge Starting Files'/
+ls
+google-chrome index.html 
+ls
+cd ../..
+ls
+cd ../bootstrap/
+ls
+cd TinDog_exer/
+ls
+google-chrome index.html 
+cd ../../js_exer_basic/
+ls
+rm -rf DOMexer/
+ls
+touch DOM_basic.js
+ls
+ls -lsah *
+ls
+cd ../bootstrap/TinDog_exer/
+ls
+firefox index.html 
+ls
+cd ../..
+ls
+git pull origin master
+git fetch origin master
+git stash
+git status
+ls
+cd bootstrap/TinDog_exer/
+ls
+google-chrome index.html 
+ls
+google-chrome index.html 
+npm install -g typescript
+sudo npm install -g typescript
+npm list
+npm install -g npm
+sudo npm install -g npm
+cd ../../js_exer_basic/
+ls
+npm list
+npm list -g
+npm list -g|grep query
+sudo npm install -g vue
+npm init
+cd ..
+ls
+npm init
+ls
+npm install -S typescript
+npm install -S vue
+ls
+less package-lock.json 
+less package.json 
+sudo npm install -g react -g react-dom
+npm list -g|grep react
+ls
+less package-lock.json 
+ls node_modules/
+ls node_modules/typescript/
+du -sh *
+ls
+df -h
+which npm
+du -sh /usr/local/lib/node
+du -sh /usr/local/lib/node_modules/
+du -sh /usr/local/lib/node_modules/*
