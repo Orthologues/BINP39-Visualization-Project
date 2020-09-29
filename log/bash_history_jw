@@ -1522,3 +1522,41 @@ sudo npm install -g yarn
 which yarn
 which vue
 which react
+ls
+cd Desktop/github-repo/FrontendExercise/
+ls
+apm list
+ls
+cd bootstrap/TinDog_exer/
+ls
+tsc test.ts 
+ls
+rm test.js
+tsc test_class_Student.ts 
+rm test_class_Student.js
+tsc test_class_Student.ts 
+rm test_class_Student.js
+tsc test_class_Student.ts 
+ls
+cd ../..
+ls
+which vue
+cd ~
+find -name "*package.json"
+ls
+cd Desktop/github-repo/FrontendExercise/
+ls
+git status
+git add -A 
+git status
+git commit -m "DOM exer 2020-09-29" && git push && echo "push success"
+cd ./.atom/packages/script/node_modules/
+cd ~/.atom/packages/script/node_modules/
+ls
+cd global
+cd globals
+ls
+less globals.json 
+grep -e ".*react.*" globals.json
+grep react globals.json 
+grep vue  globals.json 
