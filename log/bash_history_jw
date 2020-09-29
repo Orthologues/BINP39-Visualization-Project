@@ -1495,3 +1495,30 @@ which npm
 du -sh /usr/local/lib/node
 du -sh /usr/local/lib/node_modules/
 du -sh /usr/local/lib/node_modules/*
+ls
+cd Desktop/github-repo/FrontendExercise/
+ls
+less package
+less package.json 
+nano .gitignore 
+nano package-lock.json 
+git status
+which vue
+less package
+less package.json 
+nano package.json 
+less package.json 
+less package-lock.json 
+ls
+ls -a
+rm -rf node_modules/
+rm *.json
+ls
+ls -a
+du -sh .git
+npm list -g
+which tsc
+sudo npm install -g yarn
+which yarn
+which vue
+which react
