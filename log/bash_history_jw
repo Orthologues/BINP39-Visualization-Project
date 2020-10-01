@@ -11,8 +11,6 @@ reboot
 man ffmpeg
 man ssh-keygen
 ssh-keygen -t rsa -C "zaapzungsyugei@gmail.com"
-nano ./.ssh/id_rsa.pub 
-echo ./.ssh/id_rsa.pub 
 cat ./.ssh/id_rsa.pub 
 git clone git@github.com:Orthologues/Thesis-Data-Collection.git
 git clone git@github.com:Orthologues/DataScienceExercise.git
@@ -36,7 +34,6 @@ git pull origin master
 sudo apt-get install wps-office
 sudo snap install wps-office
 sudo snap remove wps-office
-top
 sudo snap remove wps-office
 sudo snap install wps-office
 fdisk -l
@@ -76,17 +73,13 @@ tlmgr list
 tlmgr update --self
 wget http://mirror.ctan.org/systems/texlive/tlnet/update-tlmgr-latest.sh
 sudo kpsewhich --var-value=SELFAUTOPARENT
-echo $PATH
 which tlmgr
 chmod +x update-tlmgr-latest.sh 
 sudo env PATH="$PATH" ./update-tlmgr-latest.sh 
 find -name -d "texlive"
 find -name -d "*texlive"
 find -name "*texlive"
-echo $PATH
-nano .bashrc
 source .bashrc
-echo $PATH
 chmod +x update-tlmgr-latest.sh 
 sudo env PATH="$PATH" ./update-tlmgr-latest.sh 
 kpsewhich --var-value=SELFAUTOPARENT
@@ -126,29 +119,22 @@ curl -h > curlhelp
 grep "-s" curlhelp 
 grep "-s" ./curlhelp.txt
 curl -h
-nano min-install-tl.sh
 chmod +x min-install-tl.sh 
 ./min-install-tl.sh 
-nano basic_tl_profile
 tar -xzf install-tl-unx.tar.gz 
 perl install-tl --profile=basic_tl_profile 
 sudo perl install-tl --profile=basic_tl_profile 
 which tlmgr
 sudo perl install-tl --profile=basic_tl_profile 
-nano .bashrc 
 source .bashrc
-echo $PATH
 which tlmgr
 tlmgr install latexmk
 sudo tlmgr install latexmk
 which tlmgr
-echo $PATH
-echo $PATH
 sudo env PATH="$PATH" tlmgr install tabulary latexmk ulem environ trimspaces titlesec                       varwidth framed threeparttable wrapfig upquote capt-of                       multirow eqparbox needspace fncychap
 tail -n 5 .bash_history 
 bash update-tlmgr-latest.sh 
 sudo bash update-tlmgr-latest.sh 
-echo $PATH
 which tlmgr
 git stash
 which apm
@@ -173,7 +159,6 @@ which latex
 which latex-extra
 du -sh .cache
 reboot
-echo $PATH
 あたし
 poweroff
 sudo apt-get uninstall Mahjong
@@ -211,7 +196,6 @@ git clone gitgit@github.com:Orthologues/LUfungiProject.git
 git clone git@github.com:Orthologues/LUfungiProject.git
 du -sh .atom
 du -sh .cache
-top
 poweroff
 greo -h|grep -e "-c"
 grep -h|grep -e "-c"
@@ -226,11 +210,6 @@ curl --cookie key=-L -e URL --user ji8842zh-s:Ce4f@Djeu[JP]1913-/k8 https://live
 curl --cookie key=-L -e URL --user ji8842zh-s:Ce4f@Djeu[JP]1913-/k8 https://liveatlund.lu.se/departments/biology/BINP28/BINP28_2020VT_100_1_NML__1281/Pages/default.aspx -v
 conda list|grep selenium
 conda install -y selenium && conda list|grep -e "selenium"
-echo $PATH
-echo $PATH|grep --color -e "usr/bin"
-echo $PATH|cut -d :|grep --color -e "usr/bin"
-echo $PATH|tr : \n|grep --color -e "usr/bin"
-echo $PATH|tr : "\n"|grep --color -e "usr/bin"
 wc -l ~/.bash_history 
 sudo chmodugo +rxw update_sh_history.sh 
 sudo chmodugo+rxw update_sh_history.sh 
@@ -245,49 +224,21 @@ realpath .
 less ~/.bashrc 
 sh_line_count=${wc -l /home/jiawei/.bash_history}
 sh_line_count=$(wc -l /home/jiawei/.bash_history)
-echo $sh_line_count 
-nano ~/.bash_history 
-nano ~/.bashrc
 source ~/.bashrc
-echo "good"
-top
 git config --global user.email "zaapzungsyugei@gmail.com"
 less ~/.bash_history 
-echo $sh_linecount
-top
-echo $sh_linecount_init 
 conda list
-top
-echo $sh_linecount_init 
 clear
-echo $sh_linecount_init 
-echo $sh_linecount
 
-echo $sh_linecount_init 
-nano .bash_rc
-nano .bashrc
-echo $sh_linecount_init 
 wc -l /home/jiawei/.bash_history 
 wc -l /home/jiawei/.bash_history|cut -d " " -f 1
-echo (wc -l /home/jiawei/.bash_history|cut -d " " -f 1) > .count_last_bash_history
-echo $(wc -l /home/jiawei/.bash_history|cut -d " " -f 1) > .count_last_bash_history
 cat .count_last_bash_history 
 firstcount=$(wc -l /home/jiawei/.bash_history|cut -d " " -f 1) 
 secondcount=$(cat .count_last_bash_history)
-echo $secondcount 
 firstcount=$(wc -l /home/jiawei/.bash_history|cut -d " " -f 1) 
 secondcount=$(cat .count_last_bash_history)
-echo $secondcount 
-echo $firstcount 
-nano .bashrc
-echo $PATH
-nano .bashrc
-echo $PATH
 PATH=$(echo $PATH|sed -e 's/:\/home\/jiawei\/Desktop\/github-repo\/Thesis-Data-Collection//')
-echo $PATH
-nano .bashrc
 clear
-echo $PATH
 git reset HEAD~1
 git push
 mkdir script
@@ -299,8 +250,6 @@ man mkdir
 mkdir log
 git commit -m "change repo structure"
 git push
-nano .gitignore
-nano .gitignore 
 git add -A
 git commit -m "update"
 git push
@@ -314,14 +263,12 @@ which geckodriver
 sudo chmod +x /usr/bin/geckodriver
 which geckodriver
 mkdir ~/Desktop/github-repo/Thesis-Data-Collection/preliminary
-nano .gitignore 
 git add -A
 git commit -m "update .gitignore"
 git push
 which python
 which python3
 conda list|grep python
-nano .bash_history 
 poweroff
 git remote -v
 git pull 
@@ -355,13 +302,10 @@ git push
 git pull origin master
 git push
 git remote -v
-nano .gitignore
 ./script/test.py 
-nano numbers.txt
 grep -e "[0-9]{3}\-\[0-9]{3}\-[0-9]{4}" file.txt;grep -e "\([0-9]{3}\)\s{1}[0-9]{3}\-[0-9]{4}" file.txt
 grep -e "[0-9]{3}\-\[0-9]{3}\-[0-9]{4}" file.txt
 less file.txt 
-nano file.txt
 grep -e "[0-9]{3}-[0-9]{3}-[0-9]{4}" file.txt
 grep "[0-9]{3}-[0-9]{3}-[0-9]{4}" file.txt
 grep [0-9]{3}-[0-9]{3}-[0-9]{4} file.txt
@@ -475,15 +419,12 @@ git config -list
 git config --list
 vim .bashrc
 vi .bashrc
-nano .bashrc
 ld
 less .count_last_bash_history 
 wc -l .bash_history 
-nano .bashrc
 wc -l .bash_history 
 git pull
 git fetch
-nano .bashrc
 git remote -v
 git remote set-url git@github.com:Orthologues/BINP39-Visualization-Project
 git remote set-url origin git@github.com:Orthologues/BINP39-Visualization-Project
@@ -509,13 +450,10 @@ sudo apt install -y npm
 
 du -sh $(which npm)
 du -sh $(echo|which npm)
-npmpath=$(echo|which npm);du -sh $npmpath;unset $npmpath
-npmpath=$(echo|which npm);du -sh $npmpath;unset npmpath
 du -sh /usr/bin/npm
 du -sh /usr/bin/npm/
 du -sh .cache
 du -sh .atom
-npm --version
 conda install -c anaconda django -y
 conda list|grep django
 git add -A
@@ -529,24 +467,18 @@ git pull origin master
 man curl
 curl -h
 curl -h|grep -e "-s" -e "-S" -e "-L"
-nano pdf_links.txt 
 cat pdf_links.txt|while read line;do title=$(echo $line|cut -d " " -f 1);url=$(echo $line|cut -d " " -f 2);curl -SL ${url} -o ${title}.pdf;done
 curl -h|grep -e "\-S" -e "\-L"
 git fetch;git merge origin master
 git pull origin master
-nano pdf_links.txt 
 cat pdf_links.txt|while read line;do title=$(echo $line|cut -d " " -f 1);url=$(echo $line|cut -d " " -f 2);curl -SL ${url} -o ${title}.pdf;done
 which bash
 chmod +x DownloadPaper.sh 
 ./DownloadPaper.sh 
 ./DownloadPaper.sh 
-echo $url
-echo $PATH
-echo $title
 git add -A
 git commit -m "add a bash script"
 git push
-nano ~/.bash_history 
 curl -SL //code.jquery.com/jquery-1.9.1.js"
 curl -SL //code.jquery.com/jquery-1.9.1.js
 curl -SL https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif -o AA_hydrophobicity.gif
@@ -577,9 +509,6 @@ apm uninstall autocomplete-js-import@1.4.0
 apm uninstall autocomplete-js-import
 apm list
 du -sh *
-top
-echo $HOSTNAME
-echo $HOST
 which django
 curl -SL http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js -o ajax_jquery.js
 mkdir scripts
@@ -596,15 +525,12 @@ poweroff
 head -n 1185 .bash_history >> .bash_his
 tail -n 5 .bash_his
 xdg-open index.html &
-nano pon-sc_backend.txt
 ssh jiawei@structure.bmc.lu.se
 ssh -X jiawei@structure.bmc.lu.se
 grep -e "ssh" .bash_history
 grep -e "structure" .bash_history
 ssh structure@structure.bmc.lu.se
 chmod +x pon-sc.sh 
-nano DownloadPaper.sh 
-nano pon-sc.sh 
 ./pon-sc.sh 
 ssh -X jiawei@structure.bmc.lu.se
 du -sh *
@@ -617,15 +543,11 @@ jupyter notebook
 jupyter notebook &
 
 pkill jupyter
-top
-nano .gitignore 
 git add -A
 git commit -m "test .ipynb";git push
-top
 ssh -X jiawei@structure.bmc.lu.se
 jupyter notebook
 less temp.txt 
-top
 jupyter notebook
 jupyter notebook
 git pull origin master
@@ -665,14 +587,11 @@ git add -A && git commit -m "exer in js 2020-09-25" && git push
 which ruby
 xdg-open index.html 
 which npm
-npm list
-nano .atom/.apmrc
 git pull origin master
 git pull origin master
 apm install atom-typescript
 apm list
 google-chrome index.html 
-nzip DOMexer.zip DOMexer
 unzip DOMexer.zip DOMexer
 gunzip DOMexer.zip DOMexer
 unzip DOMexer.zip 
@@ -687,23 +606,12 @@ git fetch origin master
 git stash
 google-chrome index.html 
 google-chrome index.html 
-npm install -g typescript
 sudo npm install -g typescript
-npm list
-npm install -g npm
 sudo npm install -g npm
-npm list
-npm list -g
-npm list -g|grep query
 sudo npm install -g vue
-npm init
-npm init
-npm install -S typescript
-npm install -S vue
 less package-lock.json 
 less package.json 
 sudo npm install -g react -g react-dom
-npm list -g|grep react
 less package-lock.json 
 du -sh *
 which npm
@@ -712,16 +620,12 @@ du -sh /usr/local/lib/node_modules/
 du -sh /usr/local/lib/node_modules/*
 less package
 less package.json 
-nano .gitignore 
-nano package-lock.json 
 which vue
 less package
 less package.json 
-nano package.json 
 less package.json 
 less package-lock.json 
 du -sh .git
-npm list -g
 which tsc
 sudo npm install -g yarn
 which yarn
@@ -740,41 +644,30 @@ poweroff
 git merge origin master
 grep -A 10 -eE "\^git\sclone" ~/.bash_history
 grep -A 10 -e "^git\sclone" ~/.bash_history
-nano README.md 
 =git clone git@github.com:Orthologues/FrontendExercise.git
 git clone git@github.com:Orthologues/FrontendExercise.git
 less pon-sc.sh 
-nano README.md 
 git push man
 man git push
 man ssh
 whoami
 uname
 which node
-node --version
 uname
 pwd
-node test_class_Student.js 
 which node
 less pon-sc.sh 
 ./pon-sc.sh 
 sudo npm install n -g
 sudo n stable
 which node
-node --version
 which node
 which npm
-npm --version
 which tsc
-npm list -g
-npm list -g |grep react
 pwd
-node --version
 cd Desktop/github-repo/
 cd FrontendExercise/
 cd bootstrap/TinDog_exer/
-node ./test_class_Student.js
-node ./test_class_Student.ts
 cd ../..
 mkdir node_exer_basic
 git remote -v
@@ -787,14 +680,10 @@ git fetch origin master
 git log --oneline FETCH_HEAD
 touch node_exer_basic/fileSystem.js
 mkdir -p node_exer_basic/test_files
-nano .gitignore 
 touch node_exer_basic/test_files/test1.txt
-nano node_exer_basic/test_files/test1.txt
-node node_exer_basic/fileSystem.js 
 cd node_exer_basic/
 chmod +x *
 chmod +x test_files/*
-node fileSystem.js 
 cd test_files/
 chmod +rw test2.txt
 chmod -rw-r--r-- test2.txt
@@ -803,48 +692,26 @@ sudo chmod -rw-r--r-- ./test2.txt
 rm -rf test1.txt 
 rm -rf test*.txt 
 cd ..
-node fileSystem.js 
 rm test_files/*
 touch test_files/test1.txt
-node fileSystem.js 
 touch fileSystem.js 
 rm -rf fileSystem.js 
 touch try_file_system.js
-node try_file_system.js 
 rm test_files/test2.txt 
-node try_file_system.js 
 rm test_files/*
-node try_file_system.js 
 touch test_files/test1.txt
-node try_file_system.js 
 grep npm ~/.bash_history
 grep -A 3 npm ~/.bash_history
-node try_file_system.js 
 cd ../bootstrap/TinDog_exer/
 xdg-open index.html &
 apm install sublime-style-column-selection
-apm list
-apm list |grep -A -e "^Community.*"
-apm list |grep -A -e "^Community"
-apm list |grep -A -E "^Community"
-apm list |grep -A "^Community"
-apm list |grep "^Community"
-apm list |grep "\^Community"
-apm list |grep \^Community
-apm list |grep ^Community
-apm list |grep ^Sublime
-apm list |grep \^Sublime
-apm list |grep "^Sublime"
-nano .bash_history 
 rm .bash_history 
 cd ~
-nano .bash_history1
 less .bash_history1
 less .bash_history_1
 rm .bash_history_1
 less .bash_history1
 grep -vE ".*status.*|.*oneline$|^df" ~/.bash_history1 >> .bash_history2
-nano .bash_history2
 rm .bash_history
 rm .bash_history1
 grep status .bash_history2
@@ -861,3 +728,11 @@ rm .bash_history.save .bash_history2
 less .bash_logout 
 grep cp .bash_history 
 grep -vE "ls.*" .bash_history >> .bash_history1;rm .bash_history;mv .bash_history1 .bash_history 
+nano .bash_history 
+grep -Ev "^cp|^ls|^nano|^less|^cd|^rm" .bash_history > .bash_history1
+grep cd .bash_history1
+wc -l .bash_history1
+grep "rm" .bash_history1
+grep -Ev "^top|^echo|^\n|^\s" .bash_history > .bash_history1
+wc -l .bash_history1
+rm .bash_history; mv .bash_history1 .bash_history
