@@ -736,3 +736,92 @@ grep "rm" .bash_history1
 grep -Ev "^top|^echo|^\n|^\s" .bash_history > .bash_history1
 wc -l .bash_history1
 rm .bash_history; mv .bash_history1 .bash_history
+cd home/jiawei/Desktop/github-repo/FrontendExercise/bootstrap/TinDog_exer/
+cd /home/jiawei/Desktop/github-repo/FrontendExercise/bootstrap/TinDog_exer/
+ls
+apm list|tail -n 30
+apm list|tail -n 35
+cd ../..;git status
+git add -A
+git commit -m "test node-fs and bootstrap-carousel" && git push
+ls
+git remote -v
+ls
+cd bootstrap/TinDog_exer/
+xdg-open index.html &
+git remote -v
+ls
+cd ../..
+ls
+git add -A && git commit -m "2020-10-01" && git push
+ls
+cd ..
+mv FrontendExercise WebProgrammingExercise
+cd WebProgrammingExercise/
+ls
+mkdir vue_exer
+ls
+cd vue_exer/
+mv ~/Downloads/*.zip .
+ls
+unzip *.zip
+ls
+ls *|while read zip;do new_zip=$(echo $zip|tr - _);mv $zip $new_zip;done
+ls
+ls *|while read zip;do prefix=$(echo $zip|cut -d . -f 1);unzip $zip -d ./${prefix};done
+ls
+ls ~/Downloads/
+mv ~/Downloads/*.zip .
+ls
+ls -lsah
+ls *|while read zip;do new_zip=$(echo $zip|tr - _);mv $zip $new_zip;done
+ls *|while read zip;do prefix=$(echo $zip|cut -d . -f 1);unzip $zip -d ./${prefix};done
+ls
+ls *|grep -v 03
+rm -rf */*MACOSX
+rm -rf */je*
+ls
+ls *.zip|while read zip;do prefix=$(echo $zip|cut -d . -f 1);unzip $zip -d ./${prefix};done
+ls
+rm -rf */*MACOSX
+rm gs_0[12]*.zip
+ls
+ls *.zip|while read zip;do prefix=$(echo $zip|cut -d . -f 1);unzip $zip -d ./${prefix};done
+rm *.zip */*MACOSX
+rm -rf */*MACOSX
+mv ~/Downloads/*.zip .
+ls
+unzip Slides.zip -d ./section1_slides
+ls
+rm *.zip
+ls section1_slides/
+rm -rf */*MACOSX
+ls section1_slides/
+ls section1_slides/Slides/
+git status
+ls
+git status
+ls
+cd gs_03_rebuilding_the_app_with_vue/
+ls
+cd gs-03-rebuilding-the-app-with-vue/
+xdg-open index.html 
+ls
+ls ../..
+mkdir ../../myApp_01; mv * ../../myApp_01;
+cd ../..
+ls
+rm -rf gs_03*
+cd ..
+git add -A
+git commit -m "tried basic vue" && git push
+cd ../..
+cd ..
+ls
+cd ..
+ls
+df -h
+cd jiawei/
+ls
+man cp
+yes |cp -rf Desktop/ /media/jiawei/ExFat/Office-Ubuntu/
