@@ -1560,3 +1560,4 @@ less globals.json
 grep -e ".*react.*" globals.json
 grep react globals.json 
 grep vue  globals.json 
+poweroff
