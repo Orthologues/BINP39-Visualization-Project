@@ -773,13 +773,9 @@ node --version
 cd Desktop/github-repo/
 cd FrontendExercise/
 cd bootstrap/TinDog_exer/
-ls
 node ./test_class_Student.js
 node ./test_class_Student.ts
-ls -lsah
-ls
 cd ../..
-ls
 mkdir node_exer_basic
 git remote -v
 git remote set-url git@github.com:Orthologues/WebProgrammingExer.git 
@@ -789,66 +785,42 @@ git status
 git branch 
 git fetch origin master
 git log --oneline FETCH_HEAD
-ls
 touch node_exer_basic/fileSystem.js
 mkdir -p node_exer_basic/test_files
 nano .gitignore 
 touch node_exer_basic/test_files/test1.txt
 nano node_exer_basic/test_files/test1.txt
 node node_exer_basic/fileSystem.js 
-ls
 cd node_exer_basic/
-ls
 chmod +x *
-ls
-ls -slah test_files/*
 chmod +x test_files/*
-ls -slah test_files/*
 node fileSystem.js 
-ls
 cd test_files/
-ls -lsah
 chmod +rw test2.txt
-ls -lsah
 chmod -rw-r--r-- test2.txt
-ls
-ls -lsah
 chmod -rw-r--r-- ./test2.txt
-ls -lsah
 sudo chmod -rw-r--r-- ./test2.txt
-ls -lsah
 rm -rf test1.txt 
-ls
 rm -rf test*.txt 
-ls
 cd ..
-ls
 node fileSystem.js 
 rm test_files/*
 touch test_files/test1.txt
 node fileSystem.js 
-ls -lsah test_files/*
 touch fileSystem.js 
 rm -rf fileSystem.js 
 touch try_file_system.js
-ls test_files/
 node try_file_system.js 
-ls -lsah
 rm test_files/test2.txt 
 node try_file_system.js 
-ls
-ls -lsah
 rm test_files/*
 node try_file_system.js 
 touch test_files/test1.txt
 node try_file_system.js 
-ls
 grep npm ~/.bash_history
 grep -A 3 npm ~/.bash_history
-ls
 node try_file_system.js 
 cd ../bootstrap/TinDog_exer/
-ls
 xdg-open index.html &
 apm install sublime-style-column-selection
 apm list
@@ -863,42 +835,29 @@ apm list |grep ^Community
 apm list |grep ^Sublime
 apm list |grep \^Sublime
 apm list |grep "^Sublime"
-grep -v "ls" -v "cd" -v "touch" -v "rm" ~/.bash_history >> .bash_history
 nano .bash_history 
 rm .bash_history 
 cd ~
-grep -v "ls|cd|touch|rm" ~/.bash_history >> .bash_history_1
 nano .bash_history1
 less .bash_history1
 less .bash_history_1
 rm .bash_history_1
-grep -vE "ls.*|cd.*|touch.*|rm.*" ~/.bash_history >> .bash_history1
 less .bash_history1
 grep -vE ".*status.*|.*oneline$|^df" ~/.bash_history1 >> .bash_history2
 nano .bash_history2
 rm .bash_history
 rm .bash_history1
-ls .bash*
 grep status .bash_history2
 grep "status" .bash_history2
 less .bash_history.save 
-ls
 grep -vE mv.*|cp.*|^df" ~/.bash_history2 >> .bash_history
 grep -vE "mv.*|cp.*|^df" ~/.bash_history2 >> .bash_history
 grep "df" .bash_history
-ls
 cp -r Videos Videos2
-ls
 cp -d Videos Videos2
 rm .bash_history[2|\.save]
-ls
-ls -lsah
-ls .*
-ls .bash*
 rm .bash_history[2|*]
-ls .bash*
 rm .bash_history.save .bash_history2
-ls .bash*
 less .bash_logout 
 grep cp .bash_history 
-grep ls .bash_history 
+grep -vE "ls.*" .bash_history >> .bash_history1;rm .bash_history;mv .bash_history1 .bash_history 
