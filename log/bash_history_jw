@@ -1561,3 +1561,62 @@ grep -e ".*react.*" globals.json
 grep react globals.json 
 grep vue  globals.json 
 poweroff
+ls
+cd Desktop/github-repo/FrontendExercise/
+ls
+git merge origin master
+ls
+grep -A 10 -eE "\^git\sclone" ~/.bash_history
+grep -A 10 -e "^git\sclone" ~/.bash_history
+nano README.md 
+cd ~
+ls
+=git clone git@github.com:Orthologues/FrontendExercise.git
+git clone git@github.com:Orthologues/FrontendExercise.git
+ls
+ls -a
+ls
+rm -rf FrontendExercise/
+ls
+less pon-sc.sh 
+ls Documents/
+mv pon-sc.sh Documents/
+ls
+cd Desktop/github-repo/FrontendExercise/
+ls
+nano README.md 
+git status
+git push man
+man git push
+man ssh
+whoami
+uname
+which node
+node --version
+ls
+uname
+pwd
+ls
+cd bootstrap/TinDog_exer/
+ls
+node test_class_Student.js 
+which node
+ls
+cd Documents/
+ls
+less pon-sc.sh 
+./pon-sc.sh 
+ls
+sudo npm install n -g
+sudo n stable
+which node
+node --version
+sudo rm -rf /usr/bin/node
+which node
+which npm
+npm --version
+which tsc
+npm list -g
+npm list -g |grep react
+pwd
+ls
