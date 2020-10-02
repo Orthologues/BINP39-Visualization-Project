@@ -826,3 +826,22 @@ ls
 man cp
 yes |cp -rf Desktop/ /media/jiawei/ExFat/Office-Ubuntu/
 poweroff
+l
+cd Desktop/github-repo/WebProgrammingExercise/
+git merge origin master
+ls -lsah
+git pull origin master
+ls
+cd vue_exer/
+ls
+ls -lsah section1_slides/
+ls -lsah section1_slides/Slides/
+grep "npm" ~/.bash_history 
+yarn global bin
+npm uninstall -g vue 
+grep "npm" ~/.bash_history 
+sudo npm uninstall -g vue -g react -g react-dom -g typescript
+echo $PATH
+yarnBin=$(yarn global bin)
+yarnBin=$(yarn global bin);addrc=$(echo "PATH+=\":${yarnBin}\"");echo $addrc >> ~/.bashrc && unset addrc
+tail -n 5 ~/.bashrc
