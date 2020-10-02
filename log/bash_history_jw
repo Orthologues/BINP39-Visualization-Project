@@ -825,3 +825,4 @@ cd jiawei/
 ls
 man cp
 yes |cp -rf Desktop/ /media/jiawei/ExFat/Office-Ubuntu/
+poweroff
