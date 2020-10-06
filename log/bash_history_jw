@@ -845,3 +845,108 @@ echo $PATH
 yarnBin=$(yarn global bin)
 yarnBin=$(yarn global bin);addrc=$(echo "PATH+=\":${yarnBin}\"");echo $addrc >> ~/.bashrc && unset addrc
 tail -n 5 ~/.bashrc
+yarn global add typescript
+yarn global ad @vue/cli
+yarn global add @vue/cli
+which vue
+yarn global add react react-dom
+which react
+yarn global remove react react-dom
+yarn global add https://yarn.pm/react
+yarn global add @jsx/react
+yarn global add react
+yarn global remove react
+yarn -v
+npm -v
+node -v
+node global bin
+node 
+which vue
+yarn global add @react/jsx
+ls
+npm install react
+which react
+ls -a
+cd .yarn/
+ls
+cd bin
+ls
+which tsc
+yarn remove react
+yarn rm react
+yarn uninstall react
+cd ../..
+ls
+yarn uninstall react
+yarn rm react
+ls package-lock.json 
+less package-lock.json 
+find -name "react"
+./node_modules/react
+cd ./node_modules/react
+ls
+cd ..
+rm -rf react
+ls
+rm -rf *
+ls
+cd ..
+ls
+rm -rf node_modules/
+rm package-lock.json 
+ls
+yarn global add create-react-app
+which react
+which create-react-app 
+create-react-app -h
+which npx
+which react-app
+ls
+cd Desktop/github-repo/WebProgrammingExercise/
+ls
+npm init
+ls -a
+less package.json 
+npm install react react-dom
+which react
+which react-dom
+npm bin
+cd /home/jiawei/Desktop/github-repo/WebProgrammingExercise/node_modules/.bin
+ls
+cd ..
+ls
+cd react
+ls
+cd umd/
+ls
+which create-react-app 
+cd ../..
+cd ..
+git status
+du -sh node_modules/
+rm -rf *.json -rf node_modules/
+ls
+git status
+yarn global add react-cli
+which react
+which react-cli
+which vue
+cd ../..
+ls -a
+cd ..
+ls -a
+where .yarnclean
+find -name ".yarnclean"
+find -name "*.yarnclean"
+find -name "*yarnclean*"
+which typescript
+which react-cli
+du -sh /home/jiawei/.yarn/bin/react-cli
+du -sh /home/jiawei/.yarn
+df -h
+man pgrep
+ls
+cd Documents/
+ls
+./pon-sc.sh 
+poweroff
