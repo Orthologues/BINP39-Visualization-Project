@@ -950,3 +950,96 @@ cd Documents/
 ls
 ./pon-sc.sh 
 poweroff
+ls
+cd Desktop/
+ls
+cd github-repo/WebProgrammingExercise/
+git pull origin master
+touch test.js
+gedit test.js 
+node test.js 
+gedit test.js 
+node test.js 
+gedit test.js 
+node test.js 
+rm test.js 
+cd bootstrap/TinDog_exer/
+ls
+xdg-open index.html &
+cd ../..
+ls
+git status
+git add -A && git commit -m "add selector combination" && git push && echo "push succeeded"
+ls
+mv ~/Downloads/*.zip js_exer_basic/
+less js_exer_basic/
+ls js_exer_basic/
+ls ~/Downloads/
+cd js_exer_basic/
+ls
+mv 'Dicee Challenge - Starting Files.zip' "Dicee_challenge"
+mv "Dicee_challenge" "Dicee_DOM.zip"
+unzip Dicee_DOM.zip 
+ls
+rm -rf __MACOSX/
+mv 'Dicee Challenge - Starting Files'/ "Dicee_DOM_exer"
+ls
+du -sh *
+cd ..
+touch js_exer_basic/Dicee_DOM_exer/index.js
+xdg-open js_exer_basic/Dicee_DOM_exer/dicee.html 
+git add -A && git commit -m "DICE exer" && git push && echo "push succeeded"
+ls ~/Downloads/
+rm ~/Downloads/*zip*
+ls ~/Downloads/
+man curl
+curl -h
+ls
+cd js_exer_basic/
+ls
+rm Dicee_DOM.zip 
+curl -sSL https://drive.google.com/uc?export=download&id=15mCNTdl76jPIG-T239u1XBEY81wrYy7Y 
+ls
+mv ~/Downloads/*zip .
+ls
+unzip 'Drum Kit Starting Files.zip' 
+ls
+rm -rf __MACOSX/
+mv "Drum Kit Starting Files" "Drum_kit_DOM_exer"
+ls
+xdg-open  Dicee_DOM_exer/dicee.html 
+cd ..
+git add -A && git commit -m "use let instead of var" && git push && echo "push succeeded"
+git rebase HEAD~1 && git commit -m "revert last commit"
+git reset HEAD~1 && git commit -m "revert last commit"
+git push
+git stash
+git pull origin master
+git merge origin master
+git stash
+git merge origin master
+git rm -rf js_exer_basic/Drum_kit_DOM_exer/
+ls js_exer_basic/
+rm -rf js_exer_basic/Drum_kit_DOM_exer/
+git pull origin master
+du -sh js_exer_basic/Drum_kit_DOM_exer/
+git log --oneline
+git revert 
+git revert c30937c
+git push
+git log --oneline
+git reset HEAD~1 --hard
+git push
+git pull origin master
+git rm -rf js_exer_basic/Drum_kit_DOM_exer/ && git commit -m "rm DrumKit" && git push 
+ls js_exer_basic/
+unzip js_exer_basic/*zip*
+rm -rf js_exer_basic/*MACOSX
+ls js_exer_basic/
+cd js_exer_basic/
+ls
+unzip 'Drum Kit Starting Files.zip' 
+ls
+rm -rf *MACOSX
+mv "Drum Kit Starting Files" "DrumKit_DOM_exer"
+ls
