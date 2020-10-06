@@ -11,19 +11,14 @@ reboot
 man ffmpeg
 man ssh-keygen
 ssh-keygen -t rsa -C "zaapzungsyugei@gmail.com"
-cat ./.ssh/id_rsa.pub 
 git clone git@github.com:Orthologues/Thesis-Data-Collection.git
 git clone git@github.com:Orthologues/DataScienceExercise.git
 git clone git@github.com:Orthologues/Orthologues.github.io.git
 git clone git@github.com:Orthologues/FrontendExercise.git
 git branch
-less /usr/share/i18n/SUPPORTED
 vim /var/lib/locales/supported.d/local
 vi /var/lib/locales/supported.d/local
 sudo apt-get install fcitx-anthy
-which atom
-du -sh .atom
-less .bash_history 
 reboot
 git reset HEAD~2
 git remote
@@ -42,14 +37,9 @@ sudo tlmgr install latexmk
 sudo apt install tlmgr -y 
 sudo apt-get install tlmgr -y 
 sudo snap install tlmgr 
-which tlmgr
-which texlive
-gunzip tlmgr.1.gz 
-less tlmgr.1 
 sudo apt-get install texlive-full
 sudo apt-get install texlive
 sudo apt-get install texlive -y
-unzip plos-latex-template.zip 
 mkdir plos_template
 sudo tlmgr install latexmk
 tmlgr init-usertree
@@ -72,8 +62,6 @@ tlmgr install latexmk
 tlmgr list
 tlmgr update --self
 wget http://mirror.ctan.org/systems/texlive/tlnet/update-tlmgr-latest.sh
-sudo kpsewhich --var-value=SELFAUTOPARENT
-which tlmgr
 chmod +x update-tlmgr-latest.sh 
 sudo env PATH="$PATH" ./update-tlmgr-latest.sh 
 find -name -d "texlive"
@@ -82,26 +70,19 @@ find -name "*texlive"
 source .bashrc
 chmod +x update-tlmgr-latest.sh 
 sudo env PATH="$PATH" ./update-tlmgr-latest.sh 
-kpsewhich --var-value=SELFAUTOPARENT
 wget -P /tmp https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
 sha256sum /tmp/Anaconda3-2020.02-Linux-x86_64.sh 
 bash /tmp/Anaconda3-2020.02-Linux-x86_64.sh 
 conda list
-du -sh anaconda3/
 conda install scrapy -y
 conda list|grep regex
 conda install regex -y
-which python
-which tlmgr
-which texlive
 find -name "texlive"
 find -name "texlive"|grep -v "^find"
 find -name "texlive"|grep -v "^\find"
 sudo apt remove texlive-base
 sudo apt remove texlive -y
 sudo apt remove texlive-all -y
-less ../.bash_history 
-gunzip install-tl-unx.tar.gz 
 tar -xvzf ./install-tl-unx.tar
 tar -xzvf install-tl-unx.tar.gz 
 perl install-tl -gui
@@ -124,30 +105,22 @@ chmod +x min-install-tl.sh
 tar -xzf install-tl-unx.tar.gz 
 perl install-tl --profile=basic_tl_profile 
 sudo perl install-tl --profile=basic_tl_profile 
-which tlmgr
 sudo perl install-tl --profile=basic_tl_profile 
 source .bashrc
-which tlmgr
 tlmgr install latexmk
 sudo tlmgr install latexmk
-which tlmgr
 sudo env PATH="$PATH" tlmgr install tabulary latexmk ulem environ trimspaces titlesec                       varwidth framed threeparttable wrapfig upquote capt-of                       multirow eqparbox needspace fncychap
 tail -n 5 .bash_history 
 bash update-tlmgr-latest.sh 
 sudo bash update-tlmgr-latest.sh 
-which tlmgr
 git stash
-which apm
 amp list --installed
 apm list --installed
 apm list --installed -bare
 apm list --installed -bare > atom-pkg-list.txt
 sudo env "PATH=$PATH" tlmgr install algorithms
-du -sh .atom
 sudo env PATH=$PATH tlmgr install dicy
 sudo env PATH=$PATH tlmgr install DiCy
-du -sh .atom
-which latex
 sudo env PATH=$PATH tlmgr install changepage
 sudo env PATH=$PATH tlmgr install utf8x
 sudo env PATH=$PATH tlmgr install usc
@@ -155,17 +128,11 @@ sudo apt-file update
 sudo apt-file 
 sudo apt-get update -y
 sudo apt-get install -y texlive-latex-extra
-which latex
-which latex-extra
-du -sh .cache
 reboot
 あたし
-poweroff
 sudo apt-get uninstall Mahjong
 sudo apt-get remove Mahjongg
 sudo apt-get remove Mahjong
-which Mahjong
-which Mahjongg
 sudo apt-get -y remove mahjongg && sudo apt-get -y remove autoremove --purge mahjongg
 sudo apt-get -y remove mahjongg && sudo apt-get -y autoremove --purge mahjongg
 sudo apt-get purge mahjongg
@@ -179,7 +146,6 @@ git rebase -h
 git reset -h
 git reset --soft HEAD~2
 git pull origin master
-less test.py 
 git stash -h
 snap remove wps-office
 snap purge wps-office
@@ -191,12 +157,8 @@ sudo gdebi rstudio-1.3.1073-amd64.deb
 sudo gdebi -y rstudio-1.3.1073-amd64.deb 
 sudo gdebi rstudio-1.3.1073-amd64.deb 
 grep clone .bash_history 
-which jupyter-notebook
 git clone gitgit@github.com:Orthologues/LUfungiProject.git
 git clone git@github.com:Orthologues/LUfungiProject.git
-du -sh .atom
-du -sh .cache
-poweroff
 greo -h|grep -e "-c"
 grep -h|grep -e "-c"
 grep --help|grep -e "-c"
@@ -211,32 +173,22 @@ curl --cookie key=-L -e URL --user ji8842zh-s:Ce4f@Djeu[JP]1913-/k8 https://live
 conda list|grep selenium
 conda install -y selenium && conda list|grep -e "selenium"
 wc -l ~/.bash_history 
-sudo chmodugo +rxw update_sh_history.sh 
-sudo chmodugo+rxw update_sh_history.sh 
 sudo chmod ugo+rxw update_sh_history.sh 
-which sh
-which bash
 PATH+=":~/Desktop/github-repo/Thesis-Data-Collection/
 PATH+=":~/Desktop/github-repo/Thesis-Data-Collection/"
 update_sh_history.sh 
-less ~/.bashrc 
 realpath .
-less ~/.bashrc 
 sh_line_count=${wc -l /home/jiawei/.bash_history}
 sh_line_count=$(wc -l /home/jiawei/.bash_history)
 source ~/.bashrc
 git config --global user.email "zaapzungsyugei@gmail.com"
-less ~/.bash_history 
 conda list
 clear
 
 wc -l /home/jiawei/.bash_history 
 wc -l /home/jiawei/.bash_history|cut -d " " -f 1
-cat .count_last_bash_history 
 firstcount=$(wc -l /home/jiawei/.bash_history|cut -d " " -f 1) 
-secondcount=$(cat .count_last_bash_history)
 firstcount=$(wc -l /home/jiawei/.bash_history|cut -d " " -f 1) 
-secondcount=$(cat .count_last_bash_history)
 PATH=$(echo $PATH|sed -e 's/:\/home\/jiawei\/Desktop\/github-repo\/Thesis-Data-Collection//')
 clear
 git reset HEAD~1
@@ -259,37 +211,25 @@ tar -h|O
 tar -h|grep -e "O"
 tar --help|grep -e "O"
 tar --help|grep -e "-O"
-which geckodriver
 sudo chmod +x /usr/bin/geckodriver
-which geckodriver
 mkdir ~/Desktop/github-repo/Thesis-Data-Collection/preliminary
 git add -A
 git commit -m "update .gitignore"
 git push
-which python
-which python3
 conda list|grep python
-poweroff
 git remote -v
 git pull 
 fdisk -l
 sudo fdisk -l
-which sqlite
-which sqlite3
-which libre-office
-which libreoffice
-which libreoffice-calculator
 sudo apt-get install --force-reinstall -y libreoffice
 sudo apt-get install --force-reinstall=True -y libreoffice
 chmod +x *
 chmod +xrw *
-which sqlite3
 sqlite3 ./concepts.sql
 sqlite3 ./concepts.sqlite 
 tr ',' '\t' concepts.txt > concept.txt
 sed -r 's/,/\t/g' concepts.txt >> concept.txt 
 les concept.txt 
-cat concept.txt 
 chmod +XRW *
 chmod +xrw *
 sqlite3 concepts.sqlite 
@@ -305,19 +245,10 @@ git remote -v
 ./script/test.py 
 grep -e "[0-9]{3}\-\[0-9]{3}\-[0-9]{4}" file.txt;grep -e "\([0-9]{3}\)\s{1}[0-9]{3}\-[0-9]{4}" file.txt
 grep -e "[0-9]{3}\-\[0-9]{3}\-[0-9]{4}" file.txt
-less file.txt 
 grep -e "[0-9]{3}-[0-9]{3}-[0-9]{4}" file.txt
 grep "[0-9]{3}-[0-9]{3}-[0-9]{4}" file.txt
 grep [0-9]{3}-[0-9]{3}-[0-9]{4} file.txt
-cat file.txt|grep [0-9]{3}-[0-9]{3}-[0-9]{4} 
-cat file.txt|grep [0-9]{3}
-cat file.txt|grep [0-9]
-cat file.txt|grep -r [0-9]
-cat file.txt|grep -e "[0-9]"
-cat file.txt|grep -e "[0-9]\-"
-cat file.txt|grep -e "[0-9]{3}\-"
 man grep
-cat file.txt|grep -E [0-9]{3}-[0-9]{3}-[0-9]{4} 
 man grep
 git add -A
 git commit -m "Update at office 20-09-02"
@@ -335,7 +266,6 @@ git push
 ./script/test.py|sed -r 's/\s{2,}/\t/g'|sed -r 's/^\d+\t//g'
 ./script/test.py|sed -r 's/\s{2,}/\t/g'|sed -r 's/^(\d+)\t//g'
 ./script/test.py|sed -r 's/\s{2,}/\t/g'|sed -r 's/^[0-9]+\t//g'
-which gsed
 sudo apt-get install -y gsed
 man sed
 ./script/test.py|sed -rE 's/\s{2,}/\t/g'|sed -rE 's/^\d+\t//g'
@@ -391,11 +321,7 @@ git rebase 59fd7b1
 git merge origin master
 git log --oneline FETCH_HEAD HEAD
 git branch
-which R
 R --version
-which Rstudio
-which R[Ss]tudio
-which RStudio
 git add -A
 git commit -m "2020-09-04"
 git push origin master
@@ -420,7 +346,6 @@ git config --list
 vim .bashrc
 vi .bashrc
 ld
-less .count_last_bash_history 
 wc -l .bash_history 
 wc -l .bash_history 
 git pull
@@ -441,38 +366,25 @@ git log FETCH_HEAD
 git pull
 fdisk -l
 sudo fdisk -l
-which jupyter
 sudo apt-get install -y npm &
-which npm
 sudo apt install -y npm &
 fd
 sudo apt install -y npm 
 
-du -sh $(which npm)
-du -sh $(echo|which npm)
-du -sh /usr/bin/npm
-du -sh /usr/bin/npm/
-du -sh .cache
-du -sh .atom
 conda install -c anaconda django -y
 conda list|grep django
 git add -A
 git commit -m "2020-09-09"
 git push
-which google-chrome
 git pull origin master
-poweroff
 git merge origin master
 git pull origin master
 man curl
 curl -h
 curl -h|grep -e "-s" -e "-S" -e "-L"
-cat pdf_links.txt|while read line;do title=$(echo $line|cut -d " " -f 1);url=$(echo $line|cut -d " " -f 2);curl -SL ${url} -o ${title}.pdf;done
 curl -h|grep -e "\-S" -e "\-L"
 git fetch;git merge origin master
 git pull origin master
-cat pdf_links.txt|while read line;do title=$(echo $line|cut -d " " -f 1);url=$(echo $line|cut -d " " -f 2);curl -SL ${url} -o ${title}.pdf;done
-which bash
 chmod +x DownloadPaper.sh 
 ./DownloadPaper.sh 
 ./DownloadPaper.sh 
@@ -484,7 +396,6 @@ curl -SL //code.jquery.com/jquery-1.9.1.js
 curl -SL https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif -o AA_hydrophobicity.gif
 curl -SL https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif -O AA_hydrophobicity.gif
 curl -SL https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif -o ./AA_hydrophobicity.gif
-which curl
 curl -SL https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif > ./AA_hydrophobicity.gif
 wget -v https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif 
 curl -SL -d "https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif" -o "./AA_hydrophobicity.gif"
@@ -492,14 +403,11 @@ curl -SL -d https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.
 curl -SL -d https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif 
 curl -SL https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif 
 dir_id_rep1115943/
-du -sh ~/.cache
-du -sh ~/.cache/*
 curl -h
 curl -h|grep -e "\-o"
 curl -SL https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif -o AAhydro.gif
 curl -SL https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif -o AAhydro.gif-o: command not found
 curl -o AAhydro.gif -SL https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif
-curl -LS http://3Dmol.csb.pitt.edu/build/3Dmol-min.js -o 3Dmol-min.js
 apm listy
 apm list
 apm list|grep ja
@@ -508,11 +416,8 @@ apm list
 apm uninstall autocomplete-js-import@1.4.0
 apm uninstall autocomplete-js-import
 apm list
-du -sh *
-which django
 curl -SL http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js -o ajax_jquery.js
 mkdir scripts
-du -sh scripts/
 conda list|grep json
 git add -A
 git commit -m "2020-09-11"
@@ -521,7 +426,6 @@ sudo umount /dev/sdh[23]
 fdisk -l
 sudo fdisk -l
 sudo umount /dev/sdh[23]
-poweroff
 head -n 1185 .bash_history >> .bash_his
 tail -n 5 .bash_his
 xdg-open index.html &
@@ -533,8 +437,6 @@ ssh structure@structure.bmc.lu.se
 chmod +x pon-sc.sh 
 ./pon-sc.sh 
 ssh -X jiawei@structure.bmc.lu.se
-du -sh *
-du -sh *
 git statua
 git add -A
 git commit -m "pon-sc path"
@@ -547,7 +449,6 @@ git add -A
 git commit -m "test .ipynb";git push
 ssh -X jiawei@structure.bmc.lu.se
 jupyter notebook
-less temp.txt 
 jupyter notebook
 jupyter notebook
 git pull origin master
@@ -567,7 +468,6 @@ conda activate my-r-env
 jupyter notebook
 conda deactivate
 jupyter notebook
-poweroff
 git pull origin master
 git pull origin master
 git stash
@@ -584,20 +484,12 @@ apm list
 google-chrome index.html 
 git add -A && igt commit -m "exer in js 2020-09-25" && git push
 git add -A && git commit -m "exer in js 2020-09-25" && git push
-which ruby
 xdg-open index.html 
-which npm
 git pull origin master
 git pull origin master
 apm install atom-typescript
 apm list
 google-chrome index.html 
-unzip DOMexer.zip DOMexer
-gunzip DOMexer.zip DOMexer
-unzip DOMexer.zip 
-man unzip
-unzip DOMexer.zip -d DOMexer
-unzip DOMexer.zip -d DOMexer
 google-chrome index.html 
 google-chrome index.html 
 firefox index.html 
@@ -609,66 +501,32 @@ google-chrome index.html
 sudo npm install -g typescript
 sudo npm install -g npm
 sudo npm install -g vue
-less package-lock.json 
-less package.json 
 sudo npm install -g react -g react-dom
-less package-lock.json 
-du -sh *
-which npm
-du -sh /usr/local/lib/node
-du -sh /usr/local/lib/node_modules/
-du -sh /usr/local/lib/node_modules/*
-less package
-less package.json 
-which vue
-less package
-less package.json 
-less package.json 
-less package-lock.json 
-du -sh .git
-which tsc
 sudo npm install -g yarn
-which yarn
-which vue
-which react
 apm list
 tsc test.ts 
 tsc test_class_Student.ts 
 tsc test_class_Student.ts 
 tsc test_class_Student.ts 
-which vue
 find -name "*package.json"
 git add -A 
 git commit -m "DOM exer 2020-09-29" && git push && echo "push success"
-poweroff
 git merge origin master
 grep -A 10 -eE "\^git\sclone" ~/.bash_history
 grep -A 10 -e "^git\sclone" ~/.bash_history
 =git clone git@github.com:Orthologues/FrontendExercise.git
 git clone git@github.com:Orthologues/FrontendExercise.git
-less pon-sc.sh 
 git push man
 man git push
 man ssh
 whoami
 uname
-which node
 uname
 pwd
-which node
-less pon-sc.sh 
 ./pon-sc.sh 
 sudo npm install n -g
 sudo n stable
-which node
-which node
-which npm
-which tsc
 pwd
-cd Desktop/github-repo/
-cd FrontendExercise/
-cd bootstrap/TinDog_exer/
-cd ../..
 mkdir node_exer_basic
 git remote -v
 git remote set-url git@github.com:Orthologues/WebProgrammingExer.git 
@@ -681,161 +539,43 @@ git log --oneline FETCH_HEAD
 touch node_exer_basic/fileSystem.js
 mkdir -p node_exer_basic/test_files
 touch node_exer_basic/test_files/test1.txt
-cd node_exer_basic/
 chmod +x *
 chmod +x test_files/*
-cd test_files/
 chmod +rw test2.txt
 chmod -rw-r--r-- test2.txt
 chmod -rw-r--r-- ./test2.txt
 sudo chmod -rw-r--r-- ./test2.txt
-rm -rf test1.txt 
-rm -rf test*.txt 
-cd ..
-rm test_files/*
 touch test_files/test1.txt
 touch fileSystem.js 
-rm -rf fileSystem.js 
 touch try_file_system.js
-rm test_files/test2.txt 
-rm test_files/*
 touch test_files/test1.txt
 grep npm ~/.bash_history
 grep -A 3 npm ~/.bash_history
-cd ../bootstrap/TinDog_exer/
 xdg-open index.html &
 apm install sublime-style-column-selection
-rm .bash_history 
-cd ~
-less .bash_history1
-less .bash_history_1
-rm .bash_history_1
-less .bash_history1
-grep -vE ".*status.*|.*oneline$|^df" ~/.bash_history1 >> .bash_history2
-rm .bash_history
-rm .bash_history1
 grep status .bash_history2
 grep "status" .bash_history2
-less .bash_history.save 
-grep -vE mv.*|cp.*|^df" ~/.bash_history2 >> .bash_history
-grep -vE "mv.*|cp.*|^df" ~/.bash_history2 >> .bash_history
-grep "df" .bash_history
-cp -r Videos Videos2
-cp -d Videos Videos2
-rm .bash_history[2|\.save]
-rm .bash_history[2|*]
-rm .bash_history.save .bash_history2
-less .bash_logout 
-grep cp .bash_history 
-grep -vE "ls.*" .bash_history >> .bash_history1;rm .bash_history;mv .bash_history1 .bash_history 
 nano .bash_history 
-grep -Ev "^cp|^ls|^nano|^less|^cd|^rm" .bash_history > .bash_history1
-grep cd .bash_history1
 wc -l .bash_history1
-grep "rm" .bash_history1
 grep -Ev "^top|^echo|^\n|^\s" .bash_history > .bash_history1
 wc -l .bash_history1
-rm .bash_history; mv .bash_history1 .bash_history
-cd home/jiawei/Desktop/github-repo/FrontendExercise/bootstrap/TinDog_exer/
-cd /home/jiawei/Desktop/github-repo/FrontendExercise/bootstrap/TinDog_exer/
-ls
 apm list|tail -n 30
 apm list|tail -n 35
-cd ../..;git status
 git add -A
 git commit -m "test node-fs and bootstrap-carousel" && git push
-ls
 git remote -v
-ls
-cd bootstrap/TinDog_exer/
 xdg-open index.html &
 git remote -v
-ls
-cd ../..
-ls
 git add -A && git commit -m "2020-10-01" && git push
-ls
-cd ..
-mv FrontendExercise WebProgrammingExercise
-cd WebProgrammingExercise/
-ls
 mkdir vue_exer
-ls
-cd vue_exer/
-mv ~/Downloads/*.zip .
-ls
-unzip *.zip
-ls
-ls *|while read zip;do new_zip=$(echo $zip|tr - _);mv $zip $new_zip;done
-ls
-ls *|while read zip;do prefix=$(echo $zip|cut -d . -f 1);unzip $zip -d ./${prefix};done
-ls
-ls ~/Downloads/
-mv ~/Downloads/*.zip .
-ls
-ls -lsah
-ls *|while read zip;do new_zip=$(echo $zip|tr - _);mv $zip $new_zip;done
-ls *|while read zip;do prefix=$(echo $zip|cut -d . -f 1);unzip $zip -d ./${prefix};done
-ls
-ls *|grep -v 03
-rm -rf */*MACOSX
-rm -rf */je*
-ls
-ls *.zip|while read zip;do prefix=$(echo $zip|cut -d . -f 1);unzip $zip -d ./${prefix};done
-ls
-rm -rf */*MACOSX
-rm gs_0[12]*.zip
-ls
-ls *.zip|while read zip;do prefix=$(echo $zip|cut -d . -f 1);unzip $zip -d ./${prefix};done
-rm *.zip */*MACOSX
-rm -rf */*MACOSX
-mv ~/Downloads/*.zip .
-ls
-unzip Slides.zip -d ./section1_slides
-ls
-rm *.zip
-ls section1_slides/
-rm -rf */*MACOSX
-ls section1_slides/
-ls section1_slides/Slides/
 git status
-ls
 git status
-ls
-cd gs_03_rebuilding_the_app_with_vue/
-ls
-cd gs-03-rebuilding-the-app-with-vue/
 xdg-open index.html 
-ls
-ls ../..
-mkdir ../../myApp_01; mv * ../../myApp_01;
-cd ../..
-ls
-rm -rf gs_03*
-cd ..
 git add -A
 git commit -m "tried basic vue" && git push
-cd ../..
-cd ..
-ls
-cd ..
-ls
-df -h
-cd jiawei/
-ls
-man cp
-yes |cp -rf Desktop/ /media/jiawei/ExFat/Office-Ubuntu/
-poweroff
 l
-cd Desktop/github-repo/WebProgrammingExercise/
 git merge origin master
-ls -lsah
 git pull origin master
-ls
-cd vue_exer/
-ls
-ls -lsah section1_slides/
-ls -lsah section1_slides/Slides/
 grep "npm" ~/.bash_history 
 yarn global bin
 npm uninstall -g vue 
@@ -848,9 +588,7 @@ tail -n 5 ~/.bashrc
 yarn global add typescript
 yarn global ad @vue/cli
 yarn global add @vue/cli
-which vue
 yarn global add react react-dom
-which react
 yarn global remove react react-dom
 yarn global add https://yarn.pm/react
 yarn global add @jsx/react
@@ -861,99 +599,26 @@ npm -v
 node -v
 node global bin
 node 
-which vue
 yarn global add @react/jsx
-ls
 npm install react
-which react
-ls -a
-cd .yarn/
-ls
-cd bin
-ls
-which tsc
 yarn remove react
-yarn rm react
 yarn uninstall react
-cd ../..
-ls
 yarn uninstall react
-yarn rm react
-ls package-lock.json 
-less package-lock.json 
 find -name "react"
-./node_modules/react
-cd ./node_modules/react
-ls
-cd ..
-rm -rf react
-ls
-rm -rf *
-ls
-cd ..
-ls
-rm -rf node_modules/
-rm package-lock.json 
-ls
 yarn global add create-react-app
-which react
-which create-react-app 
 create-react-app -h
-which npx
-which react-app
-ls
-cd Desktop/github-repo/WebProgrammingExercise/
-ls
 npm init
-ls -a
-less package.json 
 npm install react react-dom
-which react
-which react-dom
 npm bin
-cd /home/jiawei/Desktop/github-repo/WebProgrammingExercise/node_modules/.bin
-ls
-cd ..
-ls
-cd react
-ls
-cd umd/
-ls
-which create-react-app 
-cd ../..
-cd ..
 git status
-du -sh node_modules/
-rm -rf *.json -rf node_modules/
-ls
 git status
 yarn global add react-cli
-which react
-which react-cli
-which vue
-cd ../..
-ls -a
-cd ..
-ls -a
 where .yarnclean
 find -name ".yarnclean"
 find -name "*.yarnclean"
 find -name "*yarnclean*"
-which typescript
-which react-cli
-du -sh /home/jiawei/.yarn/bin/react-cli
-du -sh /home/jiawei/.yarn
-df -h
 man pgrep
-ls
-cd Documents/
-ls
 ./pon-sc.sh 
-poweroff
-ls
-cd Desktop/
-ls
-cd github-repo/WebProgrammingExercise/
 git pull origin master
 touch test.js
 gedit test.js 
@@ -962,53 +627,16 @@ gedit test.js
 node test.js 
 gedit test.js 
 node test.js 
-rm test.js 
-cd bootstrap/TinDog_exer/
-ls
 xdg-open index.html &
-cd ../..
-ls
 git status
 git add -A && git commit -m "add selector combination" && git push && echo "push succeeded"
-ls
-mv ~/Downloads/*.zip js_exer_basic/
-less js_exer_basic/
-ls js_exer_basic/
-ls ~/Downloads/
-cd js_exer_basic/
-ls
-mv 'Dicee Challenge - Starting Files.zip' "Dicee_challenge"
-mv "Dicee_challenge" "Dicee_DOM.zip"
-unzip Dicee_DOM.zip 
-ls
-rm -rf __MACOSX/
-mv 'Dicee Challenge - Starting Files'/ "Dicee_DOM_exer"
-ls
-du -sh *
-cd ..
 touch js_exer_basic/Dicee_DOM_exer/index.js
 xdg-open js_exer_basic/Dicee_DOM_exer/dicee.html 
 git add -A && git commit -m "DICE exer" && git push && echo "push succeeded"
-ls ~/Downloads/
-rm ~/Downloads/*zip*
-ls ~/Downloads/
 man curl
 curl -h
-ls
-cd js_exer_basic/
-ls
-rm Dicee_DOM.zip 
 curl -sSL https://drive.google.com/uc?export=download&id=15mCNTdl76jPIG-T239u1XBEY81wrYy7Y 
-ls
-mv ~/Downloads/*zip .
-ls
-unzip 'Drum Kit Starting Files.zip' 
-ls
-rm -rf __MACOSX/
-mv "Drum Kit Starting Files" "Drum_kit_DOM_exer"
-ls
 xdg-open  Dicee_DOM_exer/dicee.html 
-cd ..
 git add -A && git commit -m "use let instead of var" && git push && echo "push succeeded"
 git rebase HEAD~1 && git commit -m "revert last commit"
 git reset HEAD~1 && git commit -m "revert last commit"
@@ -1018,11 +646,7 @@ git pull origin master
 git merge origin master
 git stash
 git merge origin master
-git rm -rf js_exer_basic/Drum_kit_DOM_exer/
-ls js_exer_basic/
-rm -rf js_exer_basic/Drum_kit_DOM_exer/
 git pull origin master
-du -sh js_exer_basic/Drum_kit_DOM_exer/
 git log --oneline
 git revert 
 git revert c30937c
@@ -1031,15 +655,4 @@ git log --oneline
 git reset HEAD~1 --hard
 git push
 git pull origin master
-git rm -rf js_exer_basic/Drum_kit_DOM_exer/ && git commit -m "rm DrumKit" && git push 
-ls js_exer_basic/
-unzip js_exer_basic/*zip*
-rm -rf js_exer_basic/*MACOSX
-ls js_exer_basic/
-cd js_exer_basic/
-ls
-unzip 'Drum Kit Starting Files.zip' 
-ls
-rm -rf *MACOSX
-mv "Drum Kit Starting Files" "DrumKit_DOM_exer"
-ls
+wc -l ./log/bash_history_jw
