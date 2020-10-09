@@ -671,3 +671,44 @@ grep -E "j[Qq]uery" 3Dmol_min.js
 grep -c -E "j[Qq]uery" 3Dmol_min.js 
 man grep
 grep --color -E "j[Qq]uery" 3Dmol_min.js 
+find -name "jquery"
+find -name "jquery"|grep 'node'
+find -name "jquery"|grep -e '.+yarn.+node'
+find -name "jquery"|grep -eE '.+yarn.+node'
+find -name "jquery"|grep -eE ".+yarn.+node"
+find -name "j[Qq]uery"|grep -eE ".+yarn.+node"
+find -name "j[Qq]uery"|grep -eE "yarn"
+find -name "j[Qq]uery"|grep -e "yarn"
+find -name "j[Qq]uery"|grep -E ".+yarn"
+find -name "j[Qq]uery"|grep -E ".+integrity.+yarn"
+find -name "j[Qq]uery"|grep -E ".yarn"
+find -name "j[Qq]uery"|grep -E ".yarn.integrity"
+find -name "j[Qq]uery"|grep -E ".yarn.+integrity"
+jq_itg=$(find -name "j[Qq]uery"|grep -E ".yarn.+integrity");echo $jq
+jq_itg=$(find -name "j[Qq]uery"|grep -E ".yarn.+integrity");echo $jq_itg
+jq_itg=$(find -name "j[Qq]uery"|grep -Ee ".yarn.+integrity");
+unset $jq_itg
+unset jq_itg
+jq_itg=$(find -name "jquery"|grep -eE ".yarn.+integrity");echo $jq_itg
+jq_itg=$(find -name "jquery"|grep -E ".yarn.+integrity");echo $jq_itg
+jq_itg=$(find -name "jquery"|grep -E ".yarn.+integrity");echo $jq_itg >> ~/.[bash|zsh]rc
+tail -n 5 ~/.bashrc
+jq_itg=$(find -name "jquery"|grep -E ".yarn.+integrity");echo "PATH+=\":${jq_itg}\"" >> ~/.bashrc
+tail -n 5 ~/.bashrc
+nano ~/.bashrc
+echo $jq_itg
+realpath $jq_itg
+jq_itg=$(realpath $jq_itg);echo jq_itg
+jq_itg=$(realpath $jq_itg);echo $jq_itg
+unset jq_itg
+echo $jq_itg
+tail -n 5 .bashrc
+nano ~/.bashrc
+tail -n 1 ~/.bashrc
+tail -n 2 ~/.bashrc
+unset $iq_itg;echo $iq_itg
+unset $iq_itg;echo $jq_itg
+unset $jq_itg;echo $jq_itg
+unset jq_itg;echo $jq_itg
+unset jq_itg; echo $jq_itg; tail -n 3 ~/.bashrc;
+echo $PATH
