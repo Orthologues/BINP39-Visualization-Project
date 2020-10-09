@@ -632,3 +632,5 @@ chmod +x js_config.sh
 bash ./js_config.sh 
 echo $js_itg
 bash ./js_config.sh 
+node index.js
+node index.js
