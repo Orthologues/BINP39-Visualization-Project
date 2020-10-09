@@ -489,7 +489,6 @@ l
 git merge origin master
 grep "npm" ~/.bash_history 
 yarn global bin
-npm uninstall -g vue 
 grep "npm" ~/.bash_history 
 sudo npm uninstall -g vue -g react -g react-dom -g typescript
 yarnBin=$(yarn global bin)
@@ -498,19 +497,11 @@ yarn global ad @vue/cli
 yarn global remove react react-dom
 yarn global remove react
 yarn -v
-npm -v
-node -v
-node global bin
-node 
-npm install react
 yarn remove react
 yarn uninstall react
 yarn uninstall react
 find -name "react"
 create-react-app -h
-npm init
-npm install react react-dom
-npm bin
 where .yarnclean
 find -name ".yarnclean"
 find -name "*.yarnclean"
@@ -519,11 +510,8 @@ man pgrep
 ./pon-sc.sh 
 touch test.js
 gedit test.js 
-node test.js 
 gedit test.js 
-node test.js 
 gedit test.js 
-node test.js 
 xdg-open index.html &
 touch js_exer_basic/Dicee_DOM_exer/index.js
 xdg-open js_exer_basic/Dicee_DOM_exer/dicee.html 
@@ -601,9 +589,7 @@ yarn list |grep jquery
 yarn global uninstall jquery
 yarn global remove jquery
 sudo npm install -g jquery
-npm uninstall -g jquery
 sudo npm uninstall -g jquery
-npm i -g npm 
 sudopnpm cache clean
 yarn clean
 yarn autoclean -F
@@ -625,6 +611,4 @@ yarn global list
 realpath .
 xdg-open index.html 
 chmod +x update_sh_history.sh 
-ndoe index.js
-node index.js
 chmod +x update_sh_history.sh 
