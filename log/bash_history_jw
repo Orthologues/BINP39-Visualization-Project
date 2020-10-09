@@ -658,3 +658,16 @@ git pull origin master
 wc -l ./log/bash_history_jw
 shutdown -h
 man shutdown
+git pull origin master
+git stash
+git pull origin master
+conda install py3Dmol
+conda install py3Dmol -y
+conda install -c conda-forge/label/cf202003 py3dmol
+conda install -c conda-forge/label/cf202003 py3dmol -y
+conda list
+conda list|grep mol
+grep -E "j[Qq]uery" 3Dmol_min.js 
+grep -c -E "j[Qq]uery" 3Dmol_min.js 
+man grep
+grep --color -E "j[Qq]uery" 3Dmol_min.js 
