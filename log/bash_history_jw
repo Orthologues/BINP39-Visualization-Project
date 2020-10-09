@@ -622,3 +622,13 @@ node index.js
 chmod +x update_sh_history.sh 
 jq_itg=$(realpath $jq_itg); echo $jq_itg;
 node index.js
+node index.js
+chmod +x jq_config.sh
+bash ./jq_config.sh 
+bash ./jq_config.sh 
+jq_itg = $(realpath $jq_itg); echo $jq_itg;
+echo $jq_itg
+chmod +x js_config.sh 
+bash ./js_config.sh 
+echo $js_itg
+bash ./js_config.sh 
