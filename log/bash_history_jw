@@ -467,7 +467,6 @@ git remote -v
 git remote set-url git@github.com:Orthologues/WebProgrammingExer.git 
 git remote set-url origin git@github.com:Orthologues/WebProgrammingExer.git 
 git remote -v
-git status
 git branch 
 git fetch origin master
 git log --oneline FETCH_HEAD
@@ -488,8 +487,6 @@ grep npm ~/.bash_history
 grep -A 3 npm ~/.bash_history
 xdg-open index.html &
 apm install sublime-style-column-selection
-grep status .bash_history2
-grep "status" .bash_history2
 wc -l .bash_history1
 grep -Ev "^top|^echo|^\n|^\s" .bash_history > .bash_history1
 wc -l .bash_history1
@@ -499,8 +496,6 @@ git remote -v
 xdg-open index.html &
 git remote -v
 mkdir vue_exer
-git status
-git status
 xdg-open index.html 
 l
 git merge origin master
@@ -529,8 +524,6 @@ create-react-app -h
 npm init
 npm install react react-dom
 npm bin
-git status
-git status
 where .yarnclean
 find -name ".yarnclean"
 find -name "*.yarnclean"
@@ -545,7 +538,6 @@ node test.js
 gedit test.js 
 node test.js 
 xdg-open index.html &
-git status
 touch js_exer_basic/Dicee_DOM_exer/index.js
 xdg-open js_exer_basic/Dicee_DOM_exer/dicee.html 
 man curl
@@ -649,3 +641,4 @@ yarn global list
 realpath .
 xdg-open index.html 
 echo $PATH
+chmod +x update_sh_history.sh 
