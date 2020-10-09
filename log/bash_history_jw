@@ -634,3 +634,37 @@ echo $js_itg
 bash ./js_config.sh 
 node index.js
 node index.js
+node index.js
+npm link jquery
+yarn link jquery
+yarn list
+npm link
+yarn global list
+yarn link jquery
+yarn list|grep jquery
+la
+yarn global link vue
+yarn link vue
+yarn link
+yarn link jquery
+node index.js
+echo $jq_itg
+node index.js
+echo $jq_itg
+node index.js
+lx
+yarn init
+node index.js
+node index.js
+xdg-open index.html
+yarn global remove jquery
+yarn link jquery
+yarn init
+git stash
+xdg-open index.html
+echo $mol
+echo $mol
+yarn init
+yarn link
+yarn link list
+yarn link 3dmol
