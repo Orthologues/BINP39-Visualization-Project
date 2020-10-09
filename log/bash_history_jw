@@ -712,3 +712,38 @@ unset $jq_itg;echo $jq_itg
 unset jq_itg;echo $jq_itg
 unset jq_itg; echo $jq_itg; tail -n 3 ~/.bashrc;
 echo $PATH
+yarn global add jquery
+yarn global bin
+echo $PATH
+find -name "j[Qq]uery"
+yarn global list
+yarn list
+yarn list |grep jquery
+yarn global uninstall jquery
+yarn global remove jquery
+sudo npm install -g jquery
+npm uninstall -g jquery
+sudo npm uninstall -g jquery
+npm i -g npm 
+sudopnpm cache clean
+yarn clean
+yarn autoclean -F
+yarn cache clean
+sudo npm cache clean
+yarn clean cache -g --all
+yarn global add jquery
+find -name "*jquery"
+find -name "*node*jquery"
+find -name "*node*jquery*"
+find -name "jquery*"
+find -name "jquery*" -v "^\.atom"
+find -name "jquery*"|grep -vE "^\.atom"
+find -name "jquery*"|grep -vE ".atom."
+find -name "jquery*"|grep -vE ".+atom.+" -vE ".+anaconda.+"
+find -name "jquery*"|grep -vE ".+atom.+" 
+find -name "jquery*"|grep -vE "atom" 
+realpath .
+yarn global list
+realpath .
+xdg-open index.html 
+echo $PATH
