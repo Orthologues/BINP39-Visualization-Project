@@ -22,10 +22,8 @@ sudo apt-get install fcitx-anthy
 reboot
 git reset HEAD~2
 git remote
-git pull origin master
 git merge origin master
 git stash
-git pull origin master
 sudo apt-get install wps-office
 sudo snap install wps-office
 sudo snap remove wps-office
@@ -141,11 +139,9 @@ sudo apt-get upgrade && sudo apt autoremove --purge
 sudo apt-get -y upgrade && sudo apt autoremove --purge
 sudo apt autoremove --purge
 git rebase -h
-git push -h
 git rebase -h
 git reset -h
 git reset --soft HEAD~2
-git pull origin master
 git stash -h
 snap remove wps-office
 snap purge wps-office
@@ -192,19 +188,13 @@ firstcount=$(wc -l /home/jiawei/.bash_history|cut -d " " -f 1)
 PATH=$(echo $PATH|sed -e 's/:\/home\/jiawei\/Desktop\/github-repo\/Thesis-Data-Collection//')
 clear
 git reset HEAD~1
-git push
 mkdir script
-git add -A
 git commit-m "change repo structure"
 git commit -m "change repo structure"
-git push
 man mkdir
 mkdir log
 git commit -m "change repo structure"
-git push
-git add -A
 git commit -m "update"
-git push
 wget https://github.com/mozilla/geckodriver/releases/download/v0.23.0/geckodriver-v0.23.0-linux64.tar.gz
 sudo sh -c 'tar -x geckodriver -zf geckodriver-v0.23.0-linux64.tar.gz -O > /usr/bin/geckodriver'
 tar -h|O
@@ -213,12 +203,9 @@ tar --help|grep -e "O"
 tar --help|grep -e "-O"
 sudo chmod +x /usr/bin/geckodriver
 mkdir ~/Desktop/github-repo/Thesis-Data-Collection/preliminary
-git add -A
 git commit -m "update .gitignore"
-git push
 conda list|grep python
 git remote -v
-git pull 
 fdisk -l
 sudo fdisk -l
 sudo apt-get install --force-reinstall -y libreoffice
@@ -236,11 +223,7 @@ sqlite3 concepts.sqlite
 sqlite3 new.sqlite
 sqlite3 new.sqlite
 sqlite3 new.sqlite
-git add -A
 git commit -m "use pandas"
-git push
-git pull origin master
-git push
 git remote -v
 ./script/test.py 
 grep -e "[0-9]{3}\-\[0-9]{3}\-[0-9]{4}" file.txt;grep -e "\([0-9]{3}\)\s{1}[0-9]{3}\-[0-9]{4}" file.txt
@@ -250,9 +233,7 @@ grep "[0-9]{3}-[0-9]{3}-[0-9]{4}" file.txt
 grep [0-9]{3}-[0-9]{3}-[0-9]{4} file.txt
 man grep
 man grep
-git add -A
 git commit -m "Update at office 20-09-02"
-git push
 ./script/test.py 
 ./script/test.py|sed -r 's/\t+/ /g'
 ./script/test.py|sed -r 's/\s{2,}/ /g'
@@ -284,7 +265,6 @@ git log FETCH_HEAD --decorate=full
 git log FETCH_HEAD --oneline --decorate=full
 git rebase 9a433a3
 git commit -A
-git add -A
 git commit -m "more notes"
 git rebase 9a433a3
 git log --oneline FETCH_HEAD
@@ -296,15 +276,12 @@ git fetch
 git log FETCH_HEAD 
 git log FETCH_HEAD
 git fetch
-git add -A
 git commit -m "2020-9-3"
 git log --oneline FETCH_HEAD
 git log --oneline FETCH_HEAD HEAD
 git reset --mixed HEAD~1
 git merge origin master
-git add -A
 git commit -m "2020-09-03"
-git push
 git log FETCH_HEAD
 git log FETCH_HEAD HEAD
 git fetch origin master
@@ -312,7 +289,6 @@ git log FETCH_HEAD
 git log FETCH_HEAD HEAD
 git log --oneline FETCH_HEAD HEAD
 git rebase 59fd7b1
-git add -A
 git rebase 59fd7b1
 git commit -m "2020-09-04"
 git log --oneline FETCH_HEAD HEAD
@@ -322,21 +298,16 @@ git merge origin master
 git log --oneline FETCH_HEAD HEAD
 git branch
 R --version
-git add -A
 git commit -m "2020-09-04"
-git push origin master
 git remote -v
 git remote set-url origin git@github.com:Orthologues/BINP39-Data-Collection
 git remote -v
-git add -A 
 git restore --staged -A *
 git restore --staged *
 git restore --staged log/*
-git add -A
 git checkout
 git branch
 git commit -m "change to BINP39"
-git push
 man ssh-keygen
 git config
 git config --get-all
@@ -348,7 +319,6 @@ vi .bashrc
 ld
 wc -l .bash_history 
 wc -l .bash_history 
-git pull
 git fetch
 git remote -v
 git remote set-url git@github.com:Orthologues/BINP39-Visualization-Project
@@ -356,14 +326,11 @@ git remote set-url origin git@github.com:Orthologues/BINP39-Visualization-Projec
 git fetch
 git log --oneline FETCH_HEAD
 git remote -v
-git add -A
 git commit -m "2020-09-08"
-git push
 git fetch
 git log FETCH_HEAD
 git merge origin master
 git log FETCH_HEAD
-git pull
 fdisk -l
 sudo fdisk -l
 sudo apt-get install -y npm &
@@ -373,24 +340,16 @@ sudo apt install -y npm
 
 conda install -c anaconda django -y
 conda list|grep django
-git add -A
 git commit -m "2020-09-09"
-git push
-git pull origin master
 git merge origin master
-git pull origin master
 man curl
 curl -h
 curl -h|grep -e "-s" -e "-S" -e "-L"
 curl -h|grep -e "\-S" -e "\-L"
 git fetch;git merge origin master
-git pull origin master
 chmod +x DownloadPaper.sh 
 ./DownloadPaper.sh 
 ./DownloadPaper.sh 
-git add -A
-git commit -m "add a bash script"
-git push
 curl -SL //code.jquery.com/jquery-1.9.1.js"
 curl -SL //code.jquery.com/jquery-1.9.1.js
 curl -SL https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/getimg.pl?id=P19544&dir_id=_rep1115943/&file=hydroplot.gif -o AA_hydrophobicity.gif
@@ -419,13 +378,9 @@ apm list
 curl -SL http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js -o ajax_jquery.js
 mkdir scripts
 conda list|grep json
-git add -A
 git commit -m "2020-09-11"
-git push
-sudo umount /dev/sdh[23]
 fdisk -l
 sudo fdisk -l
-sudo umount /dev/sdh[23]
 head -n 1185 .bash_history >> .bash_his
 tail -n 5 .bash_his
 xdg-open index.html &
@@ -438,23 +393,17 @@ chmod +x pon-sc.sh
 ./pon-sc.sh 
 ssh -X jiawei@structure.bmc.lu.se
 git statua
-git add -A
 git commit -m "pon-sc path"
-git push
 jupyter notebook
 jupyter notebook &
 
 pkill jupyter
-git add -A
-git commit -m "test .ipynb";git push
 ssh -X jiawei@structure.bmc.lu.se
 jupyter notebook
 jupyter notebook
 jupyter notebook
-git pull origin master
 git fetch
 git merge origin master
-git add -A
 git commit -m "more ipynb"
 git fetch
 git reset --hard HEAD~1
@@ -468,32 +417,22 @@ conda activate my-r-env
 jupyter notebook
 conda deactivate
 jupyter notebook
-git pull origin master
-git pull origin master
 git stash
-git pull origin master
 git reset HEAD~2 --hard
 git fetch
 git merge origin master
-git push
 conda list
 conda-env list
-git pull origin master
 atm list
 apm list
 google-chrome index.html 
-git add -A && igt commit -m "exer in js 2020-09-25" && git push
-git add -A && git commit -m "exer in js 2020-09-25" && git push
 xdg-open index.html 
-git pull origin master
-git pull origin master
 apm install atom-typescript
 apm list
 google-chrome index.html 
 google-chrome index.html 
 google-chrome index.html 
 firefox index.html 
-git pull origin master
 git fetch origin master
 git stash
 google-chrome index.html 
@@ -509,15 +448,11 @@ tsc test_class_Student.ts
 tsc test_class_Student.ts 
 tsc test_class_Student.ts 
 find -name "*package.json"
-git add -A 
-git commit -m "DOM exer 2020-09-29" && git push && echo "push success"
 git merge origin master
 grep -A 10 -eE "\^git\sclone" ~/.bash_history
 grep -A 10 -e "^git\sclone" ~/.bash_history
 =git clone git@github.com:Orthologues/FrontendExercise.git
 git clone git@github.com:Orthologues/FrontendExercise.git
-git push man
-man git push
 man ssh
 whoami
 uname
@@ -555,27 +490,20 @@ xdg-open index.html &
 apm install sublime-style-column-selection
 grep status .bash_history2
 grep "status" .bash_history2
-nano .bash_history 
 wc -l .bash_history1
 grep -Ev "^top|^echo|^\n|^\s" .bash_history > .bash_history1
 wc -l .bash_history1
 apm list|tail -n 30
 apm list|tail -n 35
-git add -A
-git commit -m "test node-fs and bootstrap-carousel" && git push
 git remote -v
 xdg-open index.html &
 git remote -v
-git add -A && git commit -m "2020-10-01" && git push
 mkdir vue_exer
 git status
 git status
 xdg-open index.html 
-git add -A
-git commit -m "tried basic vue" && git push
 l
 git merge origin master
-git pull origin master
 grep "npm" ~/.bash_history 
 yarn global bin
 npm uninstall -g vue 
@@ -583,43 +511,32 @@ grep "npm" ~/.bash_history
 sudo npm uninstall -g vue -g react -g react-dom -g typescript
 echo $PATH
 yarnBin=$(yarn global bin)
-yarnBin=$(yarn global bin);addrc=$(echo "PATH+=\":${yarnBin}\"");echo $addrc >> ~/.bashrc && unset addrc
 tail -n 5 ~/.bashrc
-yarn global add typescript
 yarn global ad @vue/cli
-yarn global add @vue/cli
-yarn global add react react-dom
 yarn global remove react react-dom
-yarn global add https://yarn.pm/react
-yarn global add @jsx/react
-yarn global add react
 yarn global remove react
 yarn -v
 npm -v
 node -v
 node global bin
 node 
-yarn global add @react/jsx
 npm install react
 yarn remove react
 yarn uninstall react
 yarn uninstall react
 find -name "react"
-yarn global add create-react-app
 create-react-app -h
 npm init
 npm install react react-dom
 npm bin
 git status
 git status
-yarn global add react-cli
 where .yarnclean
 find -name ".yarnclean"
 find -name "*.yarnclean"
 find -name "*yarnclean*"
 man pgrep
 ./pon-sc.sh 
-git pull origin master
 touch test.js
 gedit test.js 
 node test.js 
@@ -629,38 +546,27 @@ gedit test.js
 node test.js 
 xdg-open index.html &
 git status
-git add -A && git commit -m "add selector combination" && git push && echo "push succeeded"
 touch js_exer_basic/Dicee_DOM_exer/index.js
 xdg-open js_exer_basic/Dicee_DOM_exer/dicee.html 
-git add -A && git commit -m "DICE exer" && git push && echo "push succeeded"
 man curl
 curl -h
 curl -sSL https://drive.google.com/uc?export=download&id=15mCNTdl76jPIG-T239u1XBEY81wrYy7Y 
 xdg-open  Dicee_DOM_exer/dicee.html 
-git add -A && git commit -m "use let instead of var" && git push && echo "push succeeded"
 git rebase HEAD~1 && git commit -m "revert last commit"
 git reset HEAD~1 && git commit -m "revert last commit"
-git push
 git stash
-git pull origin master
 git merge origin master
 git stash
 git merge origin master
-git pull origin master
 git log --oneline
 git revert 
 git revert c30937c
-git push
 git log --oneline
 git reset HEAD~1 --hard
-git push
-git pull origin master
 wc -l ./log/bash_history_jw
 shutdown -h
 man shutdown
-git pull origin master
 git stash
-git pull origin master
 conda install py3Dmol
 conda install py3Dmol -y
 conda install -c conda-forge/label/cf202003 py3dmol
@@ -695,7 +601,6 @@ jq_itg=$(find -name "jquery"|grep -E ".yarn.+integrity");echo $jq_itg >> ~/.[bas
 tail -n 5 ~/.bashrc
 jq_itg=$(find -name "jquery"|grep -E ".yarn.+integrity");echo "PATH+=\":${jq_itg}\"" >> ~/.bashrc
 tail -n 5 ~/.bashrc
-nano ~/.bashrc
 echo $jq_itg
 realpath $jq_itg
 jq_itg=$(realpath $jq_itg);echo jq_itg
@@ -703,7 +608,6 @@ jq_itg=$(realpath $jq_itg);echo $jq_itg
 unset jq_itg
 echo $jq_itg
 tail -n 5 .bashrc
-nano ~/.bashrc
 tail -n 1 ~/.bashrc
 tail -n 2 ~/.bashrc
 unset $iq_itg;echo $iq_itg
@@ -712,7 +616,6 @@ unset $jq_itg;echo $jq_itg
 unset jq_itg;echo $jq_itg
 unset jq_itg; echo $jq_itg; tail -n 3 ~/.bashrc;
 echo $PATH
-yarn global add jquery
 yarn global bin
 echo $PATH
 find -name "j[Qq]uery"
@@ -731,7 +634,6 @@ yarn autoclean -F
 yarn cache clean
 sudo npm cache clean
 yarn clean cache -g --all
-yarn global add jquery
 find -name "*jquery"
 find -name "*node*jquery"
 find -name "*node*jquery*"
