@@ -656,3 +656,5 @@ git reset HEAD~1 --hard
 git push
 git pull origin master
 wc -l ./log/bash_history_jw
+shutdown -h
+man shutdown
