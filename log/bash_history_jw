@@ -61,13 +61,11 @@ tlmgr list
 tlmgr update --self
 wget http://mirror.ctan.org/systems/texlive/tlnet/update-tlmgr-latest.sh
 chmod +x update-tlmgr-latest.sh 
-sudo env PATH="$PATH" ./update-tlmgr-latest.sh 
 find -name -d "texlive"
 find -name -d "*texlive"
 find -name "*texlive"
 source .bashrc
 chmod +x update-tlmgr-latest.sh 
-sudo env PATH="$PATH" ./update-tlmgr-latest.sh 
 wget -P /tmp https://repo.anaconda.com/archive/Anaconda3-2020.02-Linux-x86_64.sh
 sha256sum /tmp/Anaconda3-2020.02-Linux-x86_64.sh 
 bash /tmp/Anaconda3-2020.02-Linux-x86_64.sh 
@@ -107,7 +105,6 @@ sudo perl install-tl --profile=basic_tl_profile
 source .bashrc
 tlmgr install latexmk
 sudo tlmgr install latexmk
-sudo env PATH="$PATH" tlmgr install tabulary latexmk ulem environ trimspaces titlesec                       varwidth framed threeparttable wrapfig upquote capt-of                       multirow eqparbox needspace fncychap
 tail -n 5 .bash_history 
 bash update-tlmgr-latest.sh 
 sudo bash update-tlmgr-latest.sh 
@@ -116,12 +113,6 @@ amp list --installed
 apm list --installed
 apm list --installed -bare
 apm list --installed -bare > atom-pkg-list.txt
-sudo env "PATH=$PATH" tlmgr install algorithms
-sudo env PATH=$PATH tlmgr install dicy
-sudo env PATH=$PATH tlmgr install DiCy
-sudo env PATH=$PATH tlmgr install changepage
-sudo env PATH=$PATH tlmgr install utf8x
-sudo env PATH=$PATH tlmgr install usc
 sudo apt-file update
 sudo apt-file 
 sudo apt-get update -y
@@ -170,8 +161,6 @@ conda list|grep selenium
 conda install -y selenium && conda list|grep -e "selenium"
 wc -l ~/.bash_history 
 sudo chmod ugo+rxw update_sh_history.sh 
-PATH+=":~/Desktop/github-repo/Thesis-Data-Collection/
-PATH+=":~/Desktop/github-repo/Thesis-Data-Collection/"
 update_sh_history.sh 
 realpath .
 sh_line_count=${wc -l /home/jiawei/.bash_history}
@@ -185,7 +174,6 @@ wc -l /home/jiawei/.bash_history
 wc -l /home/jiawei/.bash_history|cut -d " " -f 1
 firstcount=$(wc -l /home/jiawei/.bash_history|cut -d " " -f 1) 
 firstcount=$(wc -l /home/jiawei/.bash_history|cut -d " " -f 1) 
-PATH=$(echo $PATH|sed -e 's/:\/home\/jiawei\/Desktop\/github-repo\/Thesis-Data-Collection//')
 clear
 git reset HEAD~1
 mkdir script
@@ -504,7 +492,6 @@ yarn global bin
 npm uninstall -g vue 
 grep "npm" ~/.bash_history 
 sudo npm uninstall -g vue -g react -g react-dom -g typescript
-echo $PATH
 yarnBin=$(yarn global bin)
 tail -n 5 ~/.bashrc
 yarn global ad @vue/cli
@@ -591,7 +578,6 @@ jq_itg=$(find -name "jquery"|grep -eE ".yarn.+integrity");echo $jq_itg
 jq_itg=$(find -name "jquery"|grep -E ".yarn.+integrity");echo $jq_itg
 jq_itg=$(find -name "jquery"|grep -E ".yarn.+integrity");echo $jq_itg >> ~/.[bash|zsh]rc
 tail -n 5 ~/.bashrc
-jq_itg=$(find -name "jquery"|grep -E ".yarn.+integrity");echo "PATH+=\":${jq_itg}\"" >> ~/.bashrc
 tail -n 5 ~/.bashrc
 echo $jq_itg
 realpath $jq_itg
@@ -607,9 +593,7 @@ unset $iq_itg;echo $jq_itg
 unset $jq_itg;echo $jq_itg
 unset jq_itg;echo $jq_itg
 unset jq_itg; echo $jq_itg; tail -n 3 ~/.bashrc;
-echo $PATH
 yarn global bin
-echo $PATH
 find -name "j[Qq]uery"
 yarn global list
 yarn list
@@ -640,5 +624,7 @@ realpath .
 yarn global list
 realpath .
 xdg-open index.html 
-echo $PATH
+chmod +x update_sh_history.sh 
+ndoe index.js
+node index.js
 chmod +x update_sh_history.sh 
