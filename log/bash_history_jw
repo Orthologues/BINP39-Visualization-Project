@@ -620,3 +620,5 @@ chmod +x update_sh_history.sh
 ndoe index.js
 node index.js
 chmod +x update_sh_history.sh 
+jq_itg=$(realpath $jq_itg); echo $jq_itg;
+node index.js
