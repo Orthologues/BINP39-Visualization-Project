@@ -1,0 +1,61 @@
+#pdb-input{
+  margin: 50px;
+  width: 240px;
+  height: 60px;
+}
+
+#pdb-submit{
+  margin: 20px;
+  width: 200px;
+  height: 50px;
+}
+
+#pdb-clear{
+  margin-left: 50px;
+}
+
+.mol-container {
+  margin: 0 auto;
+  width: 60%;
+  height: 400px;
+  position: relative;
+}
+
+.btn {
+  background: #3D94F6;
+  background-image: -webkit-linear-gradient(top, #3D94F6, #1E62D0);
+  background-image: -moz-linear-gradient(top, #3D94F6, #1E62D0);
+  background-image: -ms-linear-gradient(top, #3D94F6, #1E62D0);
+  background-image: -o-linear-gradient(top, #3D94F6, #1E62D0);
+  background-image: linear-gradient(to bottom, #3D94F6, #1E62D0);
+  -webkit-border-radius: 13px;
+  -moz-border-radius: 13px;
+  border-radius: 13px;
+  color: #FFFFFF;
+  font-family: Open Sans;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0 auto;
+  padding: 10px;
+  box-shadow: 1px 1px 5px 0px #000000;
+  -webkit-box-shadow: 1px 1px 5px 0px #000000;
+  -moz-box-shadow: 1px 1px 5px 0px #000000;
+  text-shadow: 1px 1px 10px #000000;
+  border: solid #337FED 1px;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+}
+
+@media only screen and (max-width: 600px) {
+  .pdb-input{
+    width: 120px;
+    height: 30px;
+  }
+
+  #pdb-submit{
+    width: 120px;
+    height: 30px;
+  }
+}
