@@ -1,5 +1,5 @@
 // this .js file uses jquery and DOM
-$("#pdb-submit").click(function() {
+$("#pdb-clear").click(function() {
   let pdb_code = $("#pdb-input").value;
   let element = $('#container-01');
   let config = { backgroundColor: 'orange' };

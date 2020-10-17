@@ -4,3 +4,5 @@ log/test.txt
 preliminary
 *.csv#
 *.ipynb_checkpoints/
+3Dmol-min.js
+node_modules

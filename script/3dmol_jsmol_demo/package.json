@@ -1,0 +1,34 @@
+{
+  "type": "module",
+  "name": "3dmol_jsmol_demo",
+  "version": "1.0.0",
+  "description": "This web app is a demo of showing the 3D structure of the 4-digit PDB code query using 3dmol and jsmol",
+  "main": "express_srv.js",
+  "scripts": {
+    "test": "node express_srv.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Orthologues/BINP39-Visualization-Project.git"
+  },
+  "keywords": [
+    "express.js",
+    "molecular biology",
+    "3d structure",
+    "3Dmol",
+    "jsmol"
+  ],
+  "author": "Jiawei Zhao",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Orthologues/BINP39-Visualization-Project/issues"
+  },
+  "homepage": "https://github.com/Orthologues/BINP39-Visualization-Project#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jquery": "^3.5.1",
+    "jsdom": "^16.4.0",
+    "curl": "^0.1.4"
+  }
+}
