@@ -8,10 +8,10 @@
 </head>
 
 <body>
-  <form class="pdb-form" action="./index.html" method="post">
-    <input type="text" id="pdb-input" name="height" placeholder="pdb code. For example: 3cmp">
-    <button class="btn" type="submit" id="pdb-submit" name="pdb-submit">See results!</button>
-  </form>
+  <div class="pdb-form">
+    <button class="btn" id="pdb-submit">See results!</button>
+    <input type="text" id="pdb-input" name="pdb-code" placeholder="pdb code. For example: 3cmp">
+  </div>
   <div id="container-01" class="mol-container"></div>
   <button type="button" id="pdb-clear" class="btn">Clear</button>
   <script src="/assets/jquery/jquery.min.js"></script>
