@@ -69,7 +69,7 @@
 }
 
 @media only screen and (max-width: 600px) {
-  .pdb-input {
+  #pdb-input {
     width: 120px;
     height: 30px;
   }

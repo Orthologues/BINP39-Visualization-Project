@@ -4,6 +4,7 @@ import express from 'express';
 const app = express();
 import bodyParser from 'body-parser';
 import fs from 'fs';
+// __dirname isn't predefined in ES6 syntax
 import path from 'path';
 console.log(JSON.stringify(import.meta));
 const moduleURL = new URL(import.meta.url);
@@ -32,5 +33,5 @@ app.get("/", function(req, res) {
 
 app.listen(3600, function() {
   console.log("local host 3600");
-  // check localhost:3500 at your browser
+  // check localhost:3600 at your browser
 });
