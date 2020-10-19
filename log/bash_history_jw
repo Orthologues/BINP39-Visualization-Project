@@ -668,3 +668,40 @@ yarn init
 yarn link
 yarn link list
 yarn link 3dmol
+gedit package.json 
+gedit package.json  &
+yarn install body-parser
+yarn global list
+find -name ".*yar"
+find -name "*yarn*body*"
+find -name "*yarn*"
+apm install tabnine
+apm list
+yarn link
+yarn link
+yarn link
+yarn link
+yarn link
+yarn link
+nodemon express_srv.js 
+yarn link body-parser express jquery jsdom curl axios
+nodemon express_srv.js 
+gedit package.json &
+yarn link body-parser express jquery jsdom curl
+node express_srv.js 
+nodemon express_srv.js 
+touch testAsync.js
+nodemon testAsync.js 
+top
+top -h
+top 
+sudo apt-get update && sudo apt-get install nginx
+sudo apt-get update && sudo apt-get install nginx -y
+nginx --version
+sudo nginx -v
+nodemon index.html 
+nodemon express_srv.js 
+top
+pkill TabNine
+apm uninstall tabNine
+nodemon express_srv.js 
