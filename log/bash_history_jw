@@ -705,3 +705,24 @@ top
 pkill TabNine
 apm uninstall tabNine
 nodemon express_srv.js 
+find -name '*yarn*readline*'
+find -name '*yarn*readline'
+find -name '*readline'
+find -name 'readline'
+yarn link
+yarn unlink readline
+yarn global remove readline
+nodemon express_srv.js 
+ssh -X jiawei@structure.bmc.lu.se
+nodemon express_srv.js 
+mkdir db
+nodemon express_srv.js 
+yarn remove readline
+yarn remove readline
+gedit package.json 
+gedit package.json &
+nodemon express_srv.js 
+yarn link axios body-parser curl express jquery jsdom
+nodemon express_srv.js 
+nodemon express_srv.js 
+nodemon express_srv.js 
