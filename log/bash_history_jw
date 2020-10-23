@@ -726,3 +726,4 @@ yarn link axios body-parser curl express jquery jsdom
 nodemon express_srv.js 
 nodemon express_srv.js 
 nodemon express_srv.js 
+ssh -X jiawei@structure.bmc.lu.se
