@@ -64,7 +64,7 @@ else #stdout and stderr into the specified log file
     echo "Download time: ${dlTime}s" >> ./$parL
     du -h $parO >> ./$parL
     sleep $parI && dlTime=$((dlTime+parI))
-    done
+  done
   unset dlTime curlID
   echo "Download finished! Log file is at ${parL}"
   unset parO parU parL parI
