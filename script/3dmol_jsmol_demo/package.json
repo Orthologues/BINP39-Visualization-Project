@@ -30,6 +30,7 @@
     "jquery": "^3.5.1",
     "jsdom": "^16.4.0",
     "curl": "^0.1.4",
-    "mongodb": "^3.6.2"
+    "mongoose": "^5.10.11",
+    "mongoose-encryption": "^2.0.2"
   }
 }
