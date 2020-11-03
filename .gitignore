@@ -6,3 +6,4 @@ preliminary
 *.ipynb_checkpoints/
 3Dmol-min.js
 node_modules
+JSmol-min.js
