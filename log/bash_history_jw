@@ -728,3 +728,6 @@ nodemon express_srv.js
 nodemon express_srv.js 
 ssh -X jiawei@structure.bmc.lu.se
 ssh -X structure@structure.bmc.lu.se
+mkdir -p /media/jiawei/ExFat/OfficeUbuntu
+curl -Ssl /media/jiawei/ExFat
+top
