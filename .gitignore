@@ -7,3 +7,6 @@ preliminary
 3Dmol-min.js
 node_modules
 JSmol-min.js
+JSmol
+.DS_Store
+webpack_ts_react_dev
