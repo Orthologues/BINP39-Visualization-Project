@@ -1,5 +1,3 @@
-sudo snap install atom --classic && sudo snap install telegram-desktop
-sudo snap install qbittorrent-arnatious
 sudo apt-get install -y ffmpeg && sudo apt-get install -y gparted && sudo apt-get install git
 mkdir github-repo
 git init
@@ -731,3 +729,105 @@ ssh -X structure@structure.bmc.lu.se
 mkdir -p /media/jiawei/ExFat/OfficeUbuntu
 curl -Ssl /media/jiawei/ExFat
 top
+groups
+groups jelena
+chmod 777 *
+chmod 777 .
+chmod 777 ..
+chmod 777 ../*
+chmod 777 stride/
+chmod 777 stride/*
+chmod 777 ./*
+ssh -X structure@structure.bmc.lu.se
+ssh -X jiawei@structure.bmc.lu.se
+sudo apt-get update
+echo "mongodb-org hold" | sudo dpkg --set-selections
+sudo apt-get install -y mongodb-org
+echo "mongodb-org hold" | sudo dpkg --set-selections
+echo "mongodb-org-server hold" | sudo dpkg --set-selections
+echo "mongodb-org-shell hold" | sudo dpkg --set-selections
+echo "mongodb-org-mongos hold" | sudo dpkg --set-selections
+sudo systemctl start mongod
+mongo
+find -name "*yarn*mongoose"
+find -name "*mongoose"
+find -name "*yarn*mongoose"
+find -name "mongoose"
+yarn link
+yarn link mongoose
+yarn link
+open package.json 
+xdg-open package.json 
+yarn link mongoose mongoose-encryption
+git log --oneline
+git checkout -b ubuntu-20.04
+git branch
+systemctl stop mongod
+nodemon express_srv.js 
+sudo nodemon express_srv.js 
+sudo node express_srv.js 
+mongo
+sudo node express_srv.js 
+mongo
+sudo systemctl start mongod
+mongo
+sudo systemctl stop mongod
+sudo node express_srv.js 
+mongo
+sudo systemctl start mongod
+mongo
+systemctl stop mongod
+sudo node express_srv.js 
+mongo
+sudo systemctl start mongod
+mongo
+systemctl stop mongod
+sudo systemctl stop mongod
+sudo node express_srv.js 
+mongo
+sudo systemctl start mongod
+mongo
+sudo node express_srv.js 
+mongo
+sudo node express_srv.js 
+mongo
+git remote -v
+git branch -r
+git branch
+git fetch
+git branch -r
+git diff
+git branch
+git fetch origin
+git merge origin ubuntu20.04
+git merge origin/ubuntu20.04
+git log --oneline
+git reset HEAD~1 --mixed
+git remote -v
+git branch -r
+git fetch
+git branch -r
+git log --oneline
+git branch -r
+git checkout master
+git branch -a
+git checkout ubuntu-20.04
+git checkout -m 'ubuntu20.04'
+git branch -a
+git checkout ubuntu-20.04
+git branch -d ubuntu20.04
+git checkout -b ubuntu-20.04 ubuntu20.04
+git checkout -b  ubuntu20.04 ubuntu-20.04
+git branch -a
+git branch -d ubuntu-20.04
+git log --oneline
+git branch
+git branch -a
+git log --oneline
+git checkout 921a07aa .
+git checkout 92a07aa .
+git log --oneline
+git checkout 17696f8 .
+mongo
+nvm --version
+ssh -X jiawei@structure.bmc.lu.se
