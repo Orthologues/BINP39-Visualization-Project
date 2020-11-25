@@ -5,9 +5,10 @@ $(".mol-container").hide();
 $("#pdb-submit").click(() => {
   $(".mol-container").show();
   let pdb_code = $("#pdb-input").val();
-
+  pdb_code = pdb_code.replace(/^\s+|\s+$/g, '');
+  console.log(pdb_code);
   // 3dmol
-  let element = $('#container-01');
+  let element = $('#3dMol-container');
   let config = {
     backgroundColor: 0xfffffff
   };
@@ -41,7 +42,7 @@ $("#pdb-submit").click(() => {
     script: `set zoomlarge false; set antialiasDisplay; load =${pdb_code}`,
     use: 'html5'
   }
-  $('#container-02').html(Jmol.getAppletHtml(myJmol, JmolInfo));
+  $('#jsMol-container').html(Jmol.getAppletHtml(myJmol, JmolInfo));
 
 });
 
