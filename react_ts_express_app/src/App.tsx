@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-// import logo from './logo.svg';
-// import JsMol from './jsMol';
-import JsMol from './JsMol';
-import Mol3D from './Mol3D'
-import './App.css';
+import logo from './svg/logo.svg';
+import JsMol from './components/JsMol';
+import Mol3D from './components/Mol3D'
+import './css/App.css';
 
 function App() {
 
@@ -20,7 +19,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
+        <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>

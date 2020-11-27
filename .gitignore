@@ -3,7 +3,6 @@
 build
 .DS_Store
 *.tgz
-public/assets/
 template/src/__tests__/__snapshots__/
 lerna-debug.log
 npm-debug.log*
@@ -15,7 +14,10 @@ yarn-error.log*
 yarn.lock
 
 #middlewares
-*/public/assets/
+assets/
+
+#compiled ecmascript files from ts
+dist/
 
 #dependencies
 node_modules/
@@ -30,3 +32,4 @@ preliminary/
 # 3Dmol and JSmol scripts
 *3Dmol-min.js
 *JSmol
+

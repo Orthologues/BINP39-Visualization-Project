@@ -4,16 +4,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@types/jest": "^26.0.15",
-    "@types/jquery": "^3.5.4",
-    "@types/node": "^12.0.0",
-    "@types/react": "^16.9.53",
-    "@types/react-dom": "^16.9.8",
-    "@types/react-router-dom": "^5.1.6",
+    "axios": "^0.21.0",
+    "body-parser": "^1.19.0",
     "bootstrap": "^4.5.3",
+    "express": "^4.17.1",
     "jquery": "^3.5.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -26,8 +20,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "srv-dev": "cd api_srv && npx concurrently -k -n COMPILER,NODEMON -c green,yellow \"tsc -w\" \"nodemon -w dist -q dist/express_srv.js\"",
+    "srv-build": "cd api_srv && tsc"
   },
+  "proxy": "http://localhost:3010/",
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -47,7 +44,17 @@
     ]
   },
   "devDependencies": {
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1"
+    "nodemon": "2.0.6",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/body-parser": "^1.19.0",
+    "@types/express": "^4.17.9",
+    "@types/jest": "^26.0.15",
+    "@types/jquery": "^3.5.4",
+    "@types/node": "^12.0.0",
+    "@types/react": "^16.9.53",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-router-dom": "^5.1.6"
   }
 }
