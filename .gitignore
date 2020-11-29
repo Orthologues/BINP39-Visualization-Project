@@ -17,7 +17,8 @@ yarn.lock
 assets/
 
 #compiled ecmascript files from ts
-dist/
+*/*/dist/*
+!*/*/dist/src
 
 #dependencies
 node_modules/
