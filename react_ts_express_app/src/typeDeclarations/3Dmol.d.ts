@@ -1,19 +1,19 @@
 declare module $3Dmol {
-  
-    module Gradient {
-      class ROYGB {
-        constructor(range);
-      }
-      class RWB {
-        constructor(range);
-      }
-      class Sinebow {
-        constructor(range);
-      }
+
+  module Gradient {
+    class ROYGB {
+      constructor(range);
     }
+    class RWB {
+      constructor(range);
+    }
+    class Sinebow {
+      constructor(range);
+    }
+  }
 
   type ColorSpec = number | string;
-  
+
   interface LabelSpec {
     font?: string;
     fontSize?: number;
@@ -24,7 +24,7 @@ declare module $3Dmol {
     borderOpacity?: string;
     backgroundColor?: ColorSpec;
     backgroundOpacity?: number;
-    position: {x: number; y: number; z: number};
+    position: { x: number; y: number; z: number };
     inFront?: boolean;
     showBackground?: boolean;
     fixed?: boolean;
@@ -40,15 +40,15 @@ declare module $3Dmol {
      */
     constructor(tag: string, parameters: LabelSpec);
   }
-  
+
   class Vector3 {
     constructor(x?: number, y?: number, z?: number);
   }
-  
+
   class VolumeData {
     constructor(str: string, format: string, options?: {});
   }
-  
+
 
   interface ShapeSpec {
     color?: ColorSpec;
@@ -66,11 +66,11 @@ declare module $3Dmol {
     radiusRatio?: number
     mid?: number;
   }
-  
+
   interface AtomSelectionSpec {
-    
+
   }
-  
+
   interface AtomSpec {
     /**
      * Parent residue name.
@@ -79,42 +79,42 @@ declare module $3Dmol {
     /**
      * 
      */
-     x: number;
-     y: number;
-     z: number;
-     color?: ColorSpec;
-     surfaceColor?: ColorSpec;
-     elem: string;
-     hetflag?: boolean;
-     chain?: string;
-     resi?: number;
-     icode?: number;
-     rescode?: number;
-     serial?: number;
-     atom?: string;
-     bonds: number[];
-     ss?: string;
-     singleBonds?: boolean;
-     bondOrder?: number[];
-     properties?: any;
-     b?: number;
-     pdbline?: string;
-     clickable?: boolean;
-     callback?: () => any;
-     invert?: boolean;
+    x: number;
+    y: number;
+    z: number;
+    color?: ColorSpec;
+    surfaceColor?: ColorSpec;
+    elem: string;
+    hetflag?: boolean;
+    chain?: string;
+    resi?: number;
+    icode?: number;
+    rescode?: number;
+    serial?: number;
+    atom?: string;
+    bonds: number[];
+    ss?: string;
+    singleBonds?: boolean;
+    bondOrder?: number[];
+    properties?: any;
+    b?: number;
+    pdbline?: string;
+    clickable?: boolean;
+    callback?: () => any;
+    invert?: boolean;
   }
-  
+
   interface AtomStyleSpec {
-    
+
   }
-  
+
   interface CustomShapeSpec {
     vertexArr: Vector3[];
     normalArr: Vector3[];
     faceArr: number[];
-    color: {r: number; g: number; b: number}[];
+    color: { r: number; g: number; b: number }[];
   }
-  
+
   interface CylinderSpec extends ShapeSpec {
     start?: Vector3;
     end?: Vector3;
@@ -139,7 +139,7 @@ declare module $3Dmol {
     clickable?: boolean;
     callback?: () => any;
   }
-  
+
   interface LineSpec extends ShapeSpec {
     /**
      * The starting position (vector) of the line. Defaults to the origin.
@@ -150,12 +150,12 @@ declare module $3Dmol {
      */
     end?: Vector3;
   }
-  
+
   interface SphereSpec extends ShapeSpec {
     center: Vector3;
     radius: number;
   }
-  
+
   /**
    * A group of related atoms.
    */
@@ -169,6 +169,8 @@ declare module $3Dmol {
      * atom: atoms to 
      */
     addFrame(atom: AtomSpec);
+    // Remove specified atoms from model
+    removeAtoms(badatoms: AtomSpec[]);
     /**
      * Returns a list of atoms selected by sel.
      */
@@ -192,7 +194,7 @@ declare module $3Dmol {
   }
 
   class GLShape {
-    constructor(stylespec);    
+    constructor(stylespec);
   }
 
   class GLViewer {
@@ -239,23 +241,29 @@ declare module $3Dmol {
      * loop: 'backward', 'forward', or 'backAndForth'.
      * reps: number of repetitions, 0 indicates infinite loop.
      */
-    animate(options: {interval?: number; loop?: string, reps?: number});
+    animate(options: { interval?: number; loop?: string, reps?: number });
     /**
      * Returns the specified model.
      * id: The identifier of the model. Defaults to the last model id.
      */
     getModel(id?: number): GLModel;
-    /**
-     * 
-     */
+    /* Delete all existing models */
+    removeAllModels();
+    // Remove all shape objects from viewer
+    removeAllShapes()
+    // Remove all surfaces.
+    removeAllSurfaces()
+    // Remove label from viewer
+    removeLabel(label: Label)
+    // Delete specified model from viewer
+    removeModel(model: GLModel)
+    /* render models */
     render();
-    /**
-     * Rotate scene by angle degress around axis.
-     */
+
+    //  Rotate scene by angle degress around axis.    
     rotate(angle: number, axis: string, animationFuration: number): void;
-    /**
-     * Returns a list of atoms selected by sel.
-     */
+    
+    //  Returns a list of atoms selected by sel.    
     selectedAtoms(sel?: AtomSelectionSpec): any[];
     /**
      * Sets the background color. Default is white.
@@ -290,7 +298,7 @@ declare module $3Dmol {
     /**
      * Set global view styles.
      */
-    setViewStyle(options: {style?: string; color?: ColorSpec; width?: number});
+    setViewStyle(options: { style?: string; color?: ColorSpec; width?: number });
     stopAnimate(): void;
     /**
      * Translate the current view by x,y screen coordinates. This pans the camera rather than translating the model.
@@ -299,7 +307,7 @@ declare module $3Dmol {
      * animationDuration: The duration of the animation in milliseconds.
      */
     translate(x: number, y: number, animationDuration?: number): void;
-    
+
     /**
      * Zoom current view by a constant factor.
      * factor: Magnification factor. Values greater than 1 will zoom in, less than one will zoom out. Default 2.
@@ -310,6 +318,7 @@ declare module $3Dmol {
   }
 
   function createViewer(element, config): GLViewer;
+
   /**
    * Load a PDB/PubChem structure into existing viewer.
    * Automatically calls 'zoomTo' and 'render' on viewer after loading model.
@@ -319,6 +328,6 @@ declare module $3Dmol {
    * callback: Function to call with model as argument after data is loaded.
    */
   function download(query: string, viewer: GLViewer, options: {}, callback: (model: GLModel) => any): GLModel;
-  
+
   function getPropertyRange(atoms, s: string): any;
 }

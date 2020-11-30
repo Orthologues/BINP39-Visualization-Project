@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-// import { render } from 'react-dom';
 import $ from 'jquery';
-import { molProps, molDisplayState } from '../sharedTypesInterfaces/sharedTypes'
+import { molProps, molDisplayState } from '../shared_types_interfaces/sharedTypes'
+
 
 class JsMol extends Component<molProps, molDisplayState> {
 
@@ -10,7 +10,7 @@ class JsMol extends Component<molProps, molDisplayState> {
     this.state = {
       divHeight: 0,
       divHidden: true,
-    } as molDisplayState;
+    };
     this.divToggle = this.divToggle.bind(this);
   }
 
@@ -41,6 +41,11 @@ class JsMol extends Component<molProps, molDisplayState> {
       }
       $('#jsmol-container').html(Jmol.getAppletHtml(testJmol, JmolInfo));
     }
+  }
+
+  //remove all innerHTML elements of "jsmol" HTMLdiv when this component unmounts
+  componentWillUnmount() {
+    $('#jsmol-container').empty();
   }
 
   render() {

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-// import { render } from 'react-dom';
 import $ from 'jquery';
-import { molProps, molDisplayState } from '../sharedTypesInterfaces/sharedTypes'
+import { molProps, molDisplayState } from '../shared_types_interfaces/sharedTypes'
 
-function Mol3D(props: molProps) {
 
-  const [molState, setMolState] = useState<molDisplayState>({ divHeight: 0, divHidden: true });
+function Mol3D(props: molProps): JSX.Element {
+
+  const [molState, setMolState] = useState<molDisplayState>({ divHidden: true });
+  const [GLviewer, setGLviewer] = useState($3Dmol.createViewer($("#mol3D-container"), {}));
 
   function divToggle(): void {
     setMolState(prevState => {
@@ -20,23 +21,41 @@ function Mol3D(props: molProps) {
     return pdbQuery.replace(/^\s+|\s+$/g, '').toUpperCase();
   }
 
-  useEffect((): void => {
-    if (molState.divHidden === false) {
-      let element = $("#mol3D-container");
-      let config: Object = {
-        backgroundColor: 0xD3D3D3
-      };
-      let viewer: $3Dmol.GLViewer = $3Dmol.createViewer(element, config);
-      $3Dmol.download(`pdb:${processedPdbQuery(props.pdbQuery)}`, viewer, {
-        onemol: true,
-        multimodel: true
-      }, (m) => {
-        m.setStyle({}, { stick: {} });
-        viewer.zoomTo();
-        viewer.render();
-      });
-      viewer.zoom(1, 2000);
+  // Initiate a $3Dmol.GLViewer when this React.FC mounts
+  // remove any models from $3Dmol.GLViewer when this React.FC unmounts
+  useEffect(() => {
+    return () => {
+      GLviewer.removeAllModels();
     }
+  }, []);
+
+  useEffect((): void => {
+
+    if (molState.divHidden === false) {
+
+      setGLviewer($3Dmol.createViewer($("#mol3D-container"), {
+        backgroundColor: 0xD9D9D9
+      }));
+
+      // let element = $("#mol3D-container");
+      // let config: Object = {
+      //   backgroundColor: 0xD3D3D3
+      // };
+      // let viewer: $3Dmol.GLViewer = $3Dmol.createViewer(element, config);
+      $3Dmol.download(`pdb:${processedPdbQuery(props.pdbQuery)}`,
+        GLviewer,
+        {
+          onemol: true,
+          multimodel: true
+        },
+        (model) => {
+          model.setStyle({}, { stick: {} });
+          GLviewer.zoomTo();
+          GLviewer.render();
+          GLviewer.zoom(1, 2000);
+        });
+    }
+
   }, [props.pdbQuery, molState]);
 
   return (

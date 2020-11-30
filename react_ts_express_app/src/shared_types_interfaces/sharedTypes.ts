@@ -1,9 +1,9 @@
 export type molProps = {
-    id: string;
+    aaPos?: string[]; //list of amino acid positions from client's query
     pdbQuery: string;
 }
 
 export type molDisplayState = {
-    divHeight: number;
+    divHeight?: number; 
     divHidden: boolean;
 }
