@@ -11,6 +11,7 @@ class JsMol extends Component<molProps, molDisplayState> {
       divHidden: true,
     };
     this.divToggle = this.divToggle.bind(this);
+    this.renderJSmolHTML = this.renderJSmolHTML.bind(this);
   }
 
   divToggle() {
@@ -24,21 +25,25 @@ class JsMol extends Component<molProps, molDisplayState> {
     return this.props.pdbQuery.replace(/^\s+|\s+$/g, '').toUpperCase();
   }
 
-  componentDidUpdate() {
-
-    if (this.state.divHidden === false) {
-      let testJmol: string = 'myJmol';
-      let pdb_code = this.processedPdbQuery();
+  renderJSmolHTML(pdbCode: string): void {
+    let testJmol: string = 'myJmol';
       let JmolInfo: object = {
         width: '100%',
         height: '100%',
         color: '#E2F4F4',
         j2sPath: '/assets/JSmol/j2s',
         serverURL: '/assets/JSmol/php/jsmol.php',
-        script: `set zoomlarge false; set antialiasDisplay; load =${pdb_code}`,
+        script: `set zoomlarge false; set antialiasDisplay; load =${pdbCode}`,
         use: 'html5'
       }
       $('#jsmol-container').html(Jmol.getAppletHtml(testJmol, JmolInfo));
+  }
+
+  componentDidUpdate() {
+
+    if (this.state.divHidden === false) {
+      let pdb_code: string = this.processedPdbQuery();
+      this.renderJSmolHTML(pdb_code);
     }
   }
 
