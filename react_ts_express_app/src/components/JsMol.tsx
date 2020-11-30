@@ -8,7 +8,6 @@ class JsMol extends Component<molProps, molDisplayState> {
   constructor(props: molProps) {
     super(props);
     this.state = {
-      divHeight: 0,
       divHidden: true,
     };
     this.divToggle = this.divToggle.bind(this);

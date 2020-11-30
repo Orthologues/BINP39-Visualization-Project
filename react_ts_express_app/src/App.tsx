@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import logo from './svg/logo.svg';
 import JsMol from './components/JsMol';
 import Mol3D from './components/Mol3D'
 import './css/App.css';
+// import logo from './svg/logo.svg';
 
-function App() {
+function App(): JSX.Element {
 
   // const [pdbInput, setPdbInput] = useState<string>('');
   const [pdbQuery, setPdbQuery] = useState<string>('');
@@ -19,7 +19,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        {/* <img src={logo} className="App-logo" alt="logo" /> */}
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
