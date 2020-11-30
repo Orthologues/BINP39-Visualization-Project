@@ -29,8 +29,8 @@ function App(): JSX.Element {
           <button className="btn btn-light" id="pdb-submit" onClick={submitPdbQuery}>See results!</button>
         </div>
         <div className='mol-div'>
-          <JsMol key="100" pdbQuery={pdbQuery} />
-          <Mol3D key="200" pdbQuery={pdbQuery} />
+          <Mol3D key="100" pdbQuery={pdbQuery} />
+          <JsMol key="200" pdbQuery={pdbQuery} />
         </div>
         <a
           className="App-link"

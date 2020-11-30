@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import $ from 'jquery';
 import { molProps, molDisplayState } from '../shared_types_interfaces/sharedTypes'
 
-function Mol3D(props: molProps) {
+function Mol3D(props: molProps): JSX.Element {
 
   const [molState, setMolState] = useState<molDisplayState>({ divHidden: true });
 
@@ -20,22 +20,28 @@ function Mol3D(props: molProps) {
   }
 
   useEffect((): void => {
+
+    const GLViewerElement: JQuery<HTMLElement> = $("#mol3D-container");
+    let GLViewerConfig: Object = {
+      backgroundColor: 0xE0E0E0
+    };
+
     if (molState.divHidden === false) {
-      let element = $("#mol3D-container");
-      let config: Object = {
-        backgroundColor: 0xD3D3D3
-      };
-      let viewer: $3Dmol.GLViewer = $3Dmol.createViewer(element, config);
+      let viewer: $3Dmol.GLViewer = $3Dmol.createViewer(GLViewerElement, GLViewerConfig);
       $3Dmol.download(`pdb:${processedPdbQuery(props.pdbQuery)}`, viewer, {
         onemol: true,
         multimodel: true
-      }, (m) => {
-        m.setStyle({}, { stick: {} });
+      }, (model) => {
+        model.setStyle({}, { stick: {} });
         viewer.zoomTo();
         viewer.render();
       });
       viewer.zoom(1, 2000);
+      setTimeout(() => {
+        viewer.removeAllModels();
+      }, 5000);
     }
+
   }, [props.pdbQuery, molState]);
 
   return (
