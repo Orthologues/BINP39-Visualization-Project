@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from 'react';
 // import { render } from 'react-dom';
 import $ from 'jquery';
-
-type molProps = {
-  id: string;
-  pdbQuery: string;
-}
-
-type molDisplayState = {
-  divHeight: number;
-  divHidden: boolean;
-}
+import { molProps, molDisplayState } from '../sharedTypesInterfaces/sharedTypes'
 
 function Mol3D(props: molProps) {
 
