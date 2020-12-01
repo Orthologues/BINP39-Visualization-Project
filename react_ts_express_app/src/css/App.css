@@ -47,25 +47,22 @@
 }
 
 .mol-container {
+  position: relative;
   margin: 0rem auto;
   height: 500px;
 }
 
 #jsmol-div {
-  /* position: relative; */
   margin-top: 0;
   width: 500px;
   display: inline-block;
-  position: relative;
   background-color: #E2F4F4;
 }
 
 #Mol3D-div {
-  /* position: relative; */
   margin-top: 0;
   width: 500px;
   display: inline-block;
-  position: relative;
   background-color: #E0E0E0;
 }
 

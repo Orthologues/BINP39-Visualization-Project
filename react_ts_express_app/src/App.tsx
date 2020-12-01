@@ -23,14 +23,14 @@ function App(): JSX.Element {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <div className="pdb-form">
+        <div>
           {/* onChange={changePdbInput} */}
           <input type="text" id="pdb-input" placeholder="pdb code. For example: 3cmp" />
           <button className="btn btn-light" id="pdb-submit" onClick={submitPdbQuery}>See results!</button>
         </div>
         <div className='mol-div'>
-          <Mol3D key="100" pdbQuery={pdbQuery} />
-          <JsMol key="200" pdbQuery={pdbQuery} />
+          <JsMol key="100" pdbQuery={pdbQuery} />
+          <Mol3D key="200" pdbQuery={pdbQuery} />
         </div>
         <a
           className="App-link"

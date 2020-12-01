@@ -55,15 +55,15 @@ class JsMol extends Component<molProps, molDisplayState> {
   render() {
     return (
       <div id="jsmol-div">
-        <div className="mol-container"
-          id="jsmol-container"
-          style={this.state.divHidden ? { display: 'none' } : {}}
-        ></div>
         <button
           className="btn btn-success btn-sm molBtn"
           onClick={this.divToggle}>
           {this.state.divHidden ? `Show JSmol of pdbID ${this.processedPdbQuery()}` : `Hide JSmol of pdbID ${this.processedPdbQuery()} above`}
         </button>
+        <div className="mol-container"
+          id="jsmol-container"
+          style={this.state.divHidden ? { display: 'none' } : {}}
+        ></div>
       </div>
     );
   }

@@ -29,10 +29,10 @@ function Mol3D(props: molProps): JSX.Element {
       viewer.zoomTo();
       viewer.render();
     });
-    viewer.zoom(1, 2000);
-    setTimeout(() => {
-      viewer.removeAllModels();
-    }, 5000);
+    viewer.zoom(0.9, 1000);
+    // setTimeout(() => {
+    //   viewer.removeAllModels();
+    // }, 5000);
   }
 
   useEffect((): void => {
@@ -50,15 +50,14 @@ function Mol3D(props: molProps): JSX.Element {
 
   return (
     <div id="Mol3D-div">
-      <div className="mol-container"
-        id="mol3D-container"
-        style={molState.divHidden ? { display: 'none' } : {}}
-      ></div>
       <button
         className="btn btn-warning btn-sm molBtn"
         onClick={divToggle}>
         {molState.divHidden ? `Show 3Dmol of pdbID ${processedPdbQuery(props.pdbQuery)}` : `Hide 3Dmol of pdbID ${processedPdbQuery(props.pdbQuery)} above`}
       </button>
+      <div className="mol-container"
+        id="mol3D-container"
+        style={molState.divHidden ? { display: 'none' } : {}}></div>
     </div>
   );
 }
