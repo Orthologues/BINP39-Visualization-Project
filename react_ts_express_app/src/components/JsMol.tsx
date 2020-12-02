@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
-import { molProps, molDisplayState } from '../shared_types_interfaces/sharedTypes'
-
+import { Navbar, NavbarBrand } from 'reactstrap'
+import { molProps, molDisplayState } from '../shared/sharedTypes'
+import { appendAsyncScript, removeAsyncScriptBySrc } from '../shared/sharedUtils'
 
 class JsMol extends Component<molProps, molDisplayState> {
 
@@ -27,16 +28,21 @@ class JsMol extends Component<molProps, molDisplayState> {
 
   renderJSmolHTML(pdbCode: string): void {
     let testJmol: string = 'myJmol';
-      let JmolInfo: object = {
-        width: '100%',
-        height: '100%',
-        color: '#E2F4F4',
-        j2sPath: '/assets/JSmol/j2s',
-        serverURL: '/assets/JSmol/php/jsmol.php',
-        script: `set zoomlarge false; set antialiasDisplay; load =${pdbCode}`,
-        use: 'html5'
-      }
-      $('#jsmol-container').html(Jmol.getAppletHtml(testJmol, JmolInfo));
+    let JmolInfo: object = {
+      width: '100%',
+      height: '100%',
+      color: '#E2F4F4',
+      j2sPath: '/assets/JSmol/j2s',
+      serverURL: '/assets/JSmol/php/jsmol.php',
+      script: `set zoomlarge false; set antialiasDisplay; load =${pdbCode}`,
+      use: 'html5'
+    }
+    $('#jsmol-container').html(Jmol.getAppletHtml(testJmol, JmolInfo));
+  }
+
+
+  componentDidMount() {
+    appendAsyncScript("http://localhost:3000/assets/JSmol/JSmol-min.js");
   }
 
   componentDidUpdate() {
@@ -50,11 +56,19 @@ class JsMol extends Component<molProps, molDisplayState> {
   //remove all innerHTML elements of "jsmol" HTMLdiv when this component unmounts
   componentWillUnmount() {
     $('#jsmol-container').empty();
+    removeAsyncScriptBySrc("http://localhost:3000/assets/JSmol/JSmol-min.js");
   }
 
   render() {
     return (
       <div id="jsmol-div">
+        <Navbar dark color="primary">
+          <div style={{ margin: '0 auto' }}>
+            <NavbarBrand
+              href="http://jmol.sourceforge.net/" style={{ textAlign: "center" }}>
+              See official doc of Jmol</NavbarBrand>
+          </div>
+        </Navbar>
         <button
           className="btn btn-success btn-sm molBtn"
           onClick={this.divToggle}>
@@ -69,4 +83,4 @@ class JsMol extends Component<molProps, molDisplayState> {
   }
 }
 
-export default JsMol;
+export default JsMol; 
