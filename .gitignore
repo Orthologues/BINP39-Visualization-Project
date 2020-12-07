@@ -29,6 +29,7 @@ preliminary/
 *.doc 
 *.pdf
 *.txt
+extra_assets
 
 # 3Dmol and JSmol scripts
 *3Dmol-min.js
