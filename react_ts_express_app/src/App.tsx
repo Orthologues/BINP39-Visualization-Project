@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import JsMol from './components/JsMol';
-import Mol3D from './components/Mol3D'
+import Mol3D from './components/Mol3D';
 import './css/App.css';
 // import logo from './svg/logo.svg';
 
 function App(): JSX.Element {
-
   // const [pdbInput, setPdbInput] = useState<string>('');
   const [pdbQuery, setPdbQuery] = useState<string>('');
   // const changePdbInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -13,8 +12,10 @@ function App(): JSX.Element {
   // }
 
   const submitPdbQuery = (evt: React.MouseEvent<HTMLButtonElement>) => {
-    setPdbQuery((document.getElementById("pdb-input") as HTMLInputElement).value);
-  }
+    setPdbQuery(
+      (document.getElementById('pdb-input') as HTMLInputElement).value
+    );
+  };
 
   return (
     <div className="App">
@@ -25,10 +26,20 @@ function App(): JSX.Element {
         </p>
         <div>
           {/* onChange={changePdbInput} */}
-          <input type="text" id="pdb-input" placeholder="pdb code. For example: 3cmp" />
-          <button className="btn btn-light" id="pdb-submit" onClick={submitPdbQuery}>See results!</button>
+          <input
+            type="text"
+            id="pdb-input"
+            placeholder="pdb code. For example: 3cmp"
+          />
+          <button
+            className="btn btn-light"
+            id="pdb-submit"
+            onClick={submitPdbQuery}
+          >
+            See results!
+          </button>
         </div>
-        <div className='mol-div'>
+        <div className="mol-div">
           <JsMol key="100" pdbQuery={pdbQuery} />
           <Mol3D key="200" pdbQuery={pdbQuery} />
         </div>
@@ -45,4 +56,4 @@ function App(): JSX.Element {
   );
 }
 
-export default App; 
+export default App;

@@ -57,14 +57,14 @@
   margin-top: 0;
   width: 500px;
   display: inline-block;
-  background-color: #E2F4F4;
+  background-color: #e2f4f4;
 }
 
 #Mol3D-div {
   margin-top: 0;
   width: 500px;
   display: inline-block;
-  background-color: #E0E0E0;
+  background-color: #e0e0e0;
 }
 
 #pdb-input {
@@ -74,16 +74,20 @@
   font-size: 1rem;
 }
 
-::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
   font-size: 0.9rem;
 }
-::-moz-placeholder { /* Firefox 19+ */
+::-moz-placeholder {
+  /* Firefox 19+ */
   font-size: 0.9rem;
 }
-:-ms-input-placeholder { /* IE 10+ */
+:-ms-input-placeholder {
+  /* IE 10+ */
   font-size: 0.9rem;
 }
-:-moz-placeholder { /* Firefox 18- */
+:-moz-placeholder {
+  /* Firefox 18- */
 
   font-size: 0.9rem;
 }
