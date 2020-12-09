@@ -5,7 +5,9 @@ import { molProps, molDisplayState } from '../shared/sharedTypes';
 import {
   appendAsyncScript,
   removeAsyncScriptBySrc,
+  processedPdbQuery,
 } from '../shared/sharedUtils';
+import '../css/JsMol.css';
 
 class JsMol extends Component<molProps, molDisplayState> {
   constructor(props: molProps) {
@@ -22,10 +24,6 @@ class JsMol extends Component<molProps, molDisplayState> {
       ...prevState,
       divHidden: !prevState.divHidden,
     }));
-  }
-
-  processedPdbQuery(): string {
-    return this.props.pdbQuery.replace(/^\s+|\s+$/g, '').toUpperCase();
   }
 
   renderJSmolHTML(pdbCode: string): void {
@@ -48,7 +46,7 @@ class JsMol extends Component<molProps, molDisplayState> {
 
   componentDidUpdate() {
     if (this.state.divHidden === false) {
-      let pdb_code: string = this.processedPdbQuery();
+      let pdb_code: string = processedPdbQuery(this.props.pdbQuery);
       this.renderJSmolHTML(pdb_code);
     }
   }
@@ -66,7 +64,8 @@ class JsMol extends Component<molProps, molDisplayState> {
           <div style={{ margin: '0 auto' }}>
             <NavbarBrand
               href="http://jmol.sourceforge.net/"
-              style={{ textAlign: 'center' }}
+              target="_blank"
+              className="jsmolNav"
             >
               See official doc of Jmol
             </NavbarBrand>
@@ -77,8 +76,10 @@ class JsMol extends Component<molProps, molDisplayState> {
           onClick={this.divToggle}
         >
           {this.state.divHidden
-            ? `Show JSmol of pdbID ${this.processedPdbQuery()}`
-            : `Hide JSmol of pdbID ${this.processedPdbQuery()} above`}
+            ? `Show JSmol of pdbID ${processedPdbQuery(this.props.pdbQuery)}`
+            : `Hide JSmol of pdbID ${processedPdbQuery(
+                this.props.pdbQuery
+              )} above`}
         </button>
         <div
           className="mol-container"

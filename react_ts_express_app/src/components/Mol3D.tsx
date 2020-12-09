@@ -5,7 +5,9 @@ import { molProps, molDisplayState } from '../shared/sharedTypes';
 import {
   appendAsyncScript,
   removeAsyncScriptBySrc,
+  processedPdbQuery,
 } from '../shared/sharedUtils';
+import '../css/Mol3D.css';
 
 function Mol3D(props: molProps): JSX.Element {
   const [molState, setMolState] = useState<molDisplayState>({
@@ -19,10 +21,6 @@ function Mol3D(props: molProps): JSX.Element {
         divHidden: !prevState.divHidden,
       };
     });
-  }
-
-  function processedPdbQuery(pdbQuery: string): string {
-    return pdbQuery.replace(/^\s+|\s+$/g, '').toUpperCase();
   }
 
   function default3DmolView(
@@ -81,7 +79,11 @@ function Mol3D(props: molProps): JSX.Element {
     <div id="Mol3D-div">
       <Navbar dark color="dark">
         <div style={{ margin: '0 auto' }}>
-          <NavbarBrand href="https://3dmol.csb.pitt.edu">
+          <NavbarBrand
+            href="https://3dmol.csb.pitt.edu"
+            target="_blank"
+            className="mol3dNav"
+          >
             See official doc of 3Dmol
           </NavbarBrand>
         </div>

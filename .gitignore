@@ -12,6 +12,7 @@ yarn-error.log*
 .npm/
 .ipynb_checkpoints/
 yarn.lock
+react-app-env.d.ts
 
 #middlewares
 assets/

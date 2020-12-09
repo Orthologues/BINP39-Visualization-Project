@@ -5,7 +5,7 @@ import json
 
 def regexJsonOutput(oldStr: str, newStr: str, regex: str) -> dict:
     # JSON doesn't accept single quotes
-    return {"oldString": oldStr, "newString": newStr, "regex": regex}
+    return {"oldString": oldStr, "newString": newStr, "regex": regex, "replacedBy": "RE"}
 
 
 # # "?" at the end renders non-greedy matching

@@ -53,20 +53,6 @@
   height: 500px;
 }
 
-#jsmol-div {
-  margin-top: 0;
-  width: 500px;
-  display: inline-block;
-  background-color: #e2f4f4;
-}
-
-#Mol3D-div {
-  margin-top: 0;
-  width: 500px;
-  display: inline-block;
-  background-color: #e0e0e0;
-}
-
 #pdb-input {
   margin: 50px 20px 20px 0px;
   width: 220px;

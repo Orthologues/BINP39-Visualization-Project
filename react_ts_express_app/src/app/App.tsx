@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import JsMol from './components/JsMol';
-import Mol3D from './components/Mol3D';
-import './css/App.css';
-// import logo from './svg/logo.svg';
+import JsMol from '../components/JsMol';
+import Mol3D from '../components/Mol3D';
+import '../css/App.css';
 
 function App(): JSX.Element {
   // const [pdbInput, setPdbInput] = useState<string>('');
@@ -20,10 +19,6 @@ function App(): JSX.Element {
   return (
     <div className="App">
       <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
         <div>
           {/* onChange={changePdbInput} */}
           <input

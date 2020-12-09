@@ -1,0 +1,10 @@
+#jsmol-div {
+  margin-top: 0;
+  width: 500px;
+  display: inline-block;
+  background-color: #e2f4f4;
+}
+
+.jsmolNav:hover {
+  background-color: #957ad6;
+}

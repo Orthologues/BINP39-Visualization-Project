@@ -101,3 +101,7 @@ export const removeAllAsyncScripts = (): void => {
     }
   }
 };
+
+export function processedPdbQuery(pdbQuery: string): string {
+  return pdbQuery.replace(/^\s+|\s+$/g, '').toUpperCase();
+}

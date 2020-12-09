@@ -1,0 +1,10 @@
+#Mol3D-div {
+  margin-top: 0;
+  width: 500px;
+  display: inline-block;
+  background-color: #e0e0e0;
+}
+
+.mol3dNav:hover {
+  background-color: #198396;
+}
