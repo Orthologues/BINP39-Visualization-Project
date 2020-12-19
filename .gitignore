@@ -36,3 +36,8 @@ extra_assets
 *3Dmol-min.js
 *JSmol
 
+# python scripts of PON-SC
+*/*/*/*/aaclash/*
+!*/*/*/*/aaclash/structure_aaclash.py
+!*/*/*/*/aaclash/program_paths.py
+!*/*/*/*/aaclash/prediction_rotamers.py
