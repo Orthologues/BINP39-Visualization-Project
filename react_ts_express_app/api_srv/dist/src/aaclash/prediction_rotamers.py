@@ -1,5 +1,6 @@
 import Bio.PDB
 import re
+import json
 import sys
 import numpy as np
 import subprocess # to run stride

@@ -1,6 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { portNum } from './srvUrl.js'
+import { portNum } from './constants.js'
 import ponSC_result, { tryPyStdout } from "./routes/pon-sc.js";
 import mapUniProtID from "./routes/pdbE.js";
 

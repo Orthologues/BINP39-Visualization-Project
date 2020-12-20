@@ -1,5 +1,5 @@
 import express from 'express';
-import srvUrlPrefix, { pyPath } from '../srvUrl.js'
+import srvUrlPrefix, { pyPath } from '../constants.js'
 import axios from 'axios';
 import { Options, PythonShell, PythonShellError } from 'python-shell'
 import path from 'path';
@@ -7,7 +7,8 @@ const moduleURL = new URL(import.meta.url);
 const dirName = path.dirname(moduleURL.pathname);
 
 type pdbIDquery = {
-    pdbID: string
+    pdbID: string,
+    positions?: Array<number>
 }
 
 type regexPythonOutput = {

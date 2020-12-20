@@ -1,5 +1,8 @@
+#! /usr/local/Caskroom/miniconda/base/bin/python
+
 import sys
 import re
+import json
 import importlib
 import Bio
 from Bio.PDB.PDBParser import PDBParser
@@ -184,7 +187,7 @@ def make_coord(coord): # to use in print_output function
 
 w = 1
 c = 1
-outfilename = f'{SCRIPT_PATH}/templates/acids' + sys.argv[1]
+outfilename = f'{SCRIPT_PATH}/templates/jobId-' + sys.argv[1]
 outfile = open(outfilename, 'w')
 acid = subst_aa
 subst = amino_acids2[pos_acid] + str(position) + amino_acids2[subst_aa]
