@@ -1,5 +1,3 @@
-#! /usr/local/Caskroom/miniconda/base/bin/python
-
 import sys
 import re
 import importlib

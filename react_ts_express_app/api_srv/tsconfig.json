@@ -25,5 +25,5 @@
         "noUnusedLocals": false,
         "resolveJsonModule": true
     },
-    "include": ["express_srv.ts", "routes/*/*.ts", "routes/*.ts"]
+    "include": ["express_srv.ts", "srvUrl.ts", "routes/*/*.ts", "routes/*.ts"]
 }

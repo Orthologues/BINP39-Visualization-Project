@@ -1,10 +1,11 @@
 import express from "express";
 import bodyParser from "body-parser";
+import { portNum } from './srvUrl.js'
 import ponSC_result, { tryPyStdout } from "./routes/pon-sc.js";
 import mapUniProtID from "./routes/pdbE.js";
 
 const app = express();
-const port = process.env.PORT || 3010;
+const port = process.env.PORT || portNum;
 
 // middle-wares 
 app.use(bodyParser.json());

@@ -1,5 +1,3 @@
-#! /usr/local/Caskroom/miniconda/base/bin/python
-
 import Bio.PDB
 import re
 import sys

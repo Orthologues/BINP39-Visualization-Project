@@ -1,4 +1,5 @@
 import express from 'express';
+import srvUrlPrefix, { pyPath } from '../srvUrl.js'
 import axios from 'axios';
 import { Options, PythonShell, PythonShellError } from 'python-shell'
 import path from 'path';
@@ -34,7 +35,7 @@ export const tryPyStdout = (req: express.Request, res: express.Response) => {
     //define python-shell
     const pyShellOptions: Options = {
         mode: 'json',
-        pythonPath: '/usr/local/Caskroom/miniconda/base/bin/python',
+        pythonPath: pyPath,
         pythonOptions: ['-u'], // get print results in real-time
         scriptPath: `${dirName}/../src`
     };
@@ -71,7 +72,7 @@ export const tryPyStdout = (req: express.Request, res: express.Response) => {
 export default async function ponscResult(req: express.Request, res: express.Response) {
     const pdb_id: string = req.params.pdb_id;
     await res.send({ answer: `Your query is '${pdb_id}'` });
-    axios.post(`http://localhost:3010/pon-sc/${pdb_id}/results`, {
+    axios.post(`${srvUrlPrefix}/pon-sc/${pdb_id}/results`, {
         results: `PON-SC prediction for ${pdb_id} is:`
     }).then(
         res_axios => { console.log({ statusText: res_axios.statusText, data: res_axios.data }) },

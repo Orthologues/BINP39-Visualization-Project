@@ -31,7 +31,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "srv-dev": "cd api_srv && npx concurrently -k -n COMPILER,NODEMON -c green,yellow \"tsc -w\" \"nodemon -w dist -q dist/express_srv.js\"",
-    "srv-build": "cd api_srv && tsc"
+    "srv-build": "cd api_srv && tsc",
+    "full-dev": "react-scripts start & cd api_srv && npx concurrently -k -n COMPILER,NODEMON -c green,yellow \"tsc -w\" \"nodemon -w dist -q dist/express_srv.js\""
   },
   "proxy": "http://localhost:3010",
   "eslintConfig": {
