@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import $ from 'jquery';
 import { Navbar, NavbarBrand } from 'reactstrap';
-import { molProps, molDisplayState } from '../shared/sharedTypes';
 import {
   appendAsyncScript,
   removeAsyncScriptBySrc,
