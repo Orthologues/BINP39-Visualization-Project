@@ -32,7 +32,8 @@
     "eject": "react-scripts eject",
     "srv-dev": "cd api_srv && npx concurrently -k -n COMPILER,NODEMON -c green,yellow \"tsc -w\" \"nodemon -w dist -q dist/express_srv.js\"",
     "srv-build": "cd api_srv && tsc",
-    "full-dev": "react-scripts start & cd api_srv && npx concurrently -k -n COMPILER,NODEMON -c green,yellow \"tsc -w\" \"nodemon -w dist -q dist/express_srv.js\""
+    "full-dev": "react-scripts start & cd api_srv && npx concurrently -k -n COMPILER,NODEMON -c green,yellow \"tsc -w\" \"nodemon -w dist -q dist/express_srv.js\"",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "proxy": "http://localhost:3010",
   "eslintConfig": {
@@ -54,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "1.19.4",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -68,6 +70,9 @@
     "@types/react-router-dom": "^5.1.6",
     "@types/redux-logger": "^3.0.8",
     "nodemon": "2.0.6",
-    "typescript": "4.0.5"
+    "typescript": "4.0.5",
+    "@graphql-codegen/typescript-react-apollo": "2.2.1",
+    "@graphql-codegen/typescript": "1.19.0",
+    "@graphql-codegen/typescript-operations": "1.17.12"
   }
 }
