@@ -4,8 +4,8 @@ import { Navbar, NavbarBrand } from 'reactstrap';
 import {
   appendAsyncScript,
   removeAsyncScriptBySrc,
-  processedPdbQuery,
-} from '../shared/sharedUtils';
+  processedPdbId,
+} from '../shared/Funcs';
 import '../css/JsMol.css';
 
 class JsMol extends Component<MolProps, MolDisplayState> {
@@ -45,7 +45,7 @@ class JsMol extends Component<MolProps, MolDisplayState> {
 
   componentDidUpdate() {
     if (this.state.divHidden === false) {
-      let pdb_code = processedPdbQuery(this.props.pdbQuery);
+      let pdb_code = processedPdbId(this.props.pdbQuery);
       this.renderJSmolHTML(pdb_code);
     }
   }
@@ -75,8 +75,8 @@ class JsMol extends Component<MolProps, MolDisplayState> {
           onClick={this.divToggle}
         >
           {this.state.divHidden
-            ? `Show JSmol of pdbID ${processedPdbQuery(this.props.pdbQuery)}`
-            : `Hide JSmol of pdbID ${processedPdbQuery(
+            ? `Show JSmol of pdbID ${processedPdbId(this.props.pdbQuery)}`
+            : `Hide JSmol of pdbID ${processedPdbId(
                 this.props.pdbQuery
               )} above`}
         </button>

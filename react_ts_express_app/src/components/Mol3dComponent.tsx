@@ -4,8 +4,8 @@ import { Navbar, NavbarBrand } from 'reactstrap';
 import {
   appendAsyncScript,
   removeAsyncScriptBySrc,
-  processedPdbQuery,
-} from '../shared/sharedUtils';
+  processedPdbId,
+} from '../shared/Funcs';
 import '../css/Mol3D.css';
 
 function Mol3D(props: MolProps): JSX.Element {
@@ -28,7 +28,7 @@ function Mol3D(props: MolProps): JSX.Element {
   ): void {
     let viewer: $3Dmol.GLViewer = $3Dmol.createViewer(element, config);
     $3Dmol.download(
-      `pdb:${processedPdbQuery(props.pdbQuery)}`,
+      `pdb:${processedPdbId(props.pdbQuery)}`,
       viewer,
       {
         onemol: true,
@@ -89,8 +89,8 @@ function Mol3D(props: MolProps): JSX.Element {
       </Navbar>
       <button className="btn btn-warning btn-sm molBtn" onClick={divToggle}>
         {molState.divHidden
-          ? `Show 3Dmol of pdbID ${processedPdbQuery(props.pdbQuery)}`
-          : `Hide 3Dmol of pdbID ${processedPdbQuery(props.pdbQuery)} above`}
+          ? `Show 3Dmol of pdbID ${processedPdbId(props.pdbQuery)}`
+          : `Hide 3Dmol of pdbID ${processedPdbId(props.pdbQuery)} above`}
       </button>
       <div
         className="mol-container"

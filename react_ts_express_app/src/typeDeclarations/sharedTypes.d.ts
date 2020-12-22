@@ -24,10 +24,17 @@ type PdbIdAaQuery = {
   aaSubs: AaSub[];
 };
 
+// Redux type declaration
+
+type AaClashQueryState = {
+  queries: PdbIdAaQuery[],
+  isLoading: boolean,
+  errMsg: string | null,
+}
+
 type ReduxAction = (args: T) => {
   type: string;
   payload?: T;
 };
 
 type DispatchReduxAction = (action: ReduxAction) => action;
-

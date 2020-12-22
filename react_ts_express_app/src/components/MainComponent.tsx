@@ -35,8 +35,8 @@ function MainComponent() {
           </button>
         </div>
         <div className="mol-div">
-          <JsMol key="100" pdbQuery={pdbQuery} />
-          <Mol3D key="200" pdbQuery={pdbQuery} />
+          <JsMol key={`mol_js_${pdbQuery}`} pdbQuery={pdbQuery} />
+          <Mol3D key={`mol_3d_${pdbQuery}`} pdbQuery={pdbQuery} />
         </div>
       </header>
       <Footer />

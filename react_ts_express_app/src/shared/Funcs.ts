@@ -102,12 +102,15 @@ export const removeAllAsyncScripts = (): void => {
   }
 };
 
-export const processedPdbQuery = (pdbQuery: string): string => pdbQuery.replace(/^\s+|\s+$/g, '').toUpperCase();
+export const processedPdbId = (pdbQuery: string): string => pdbQuery.replace(/^\s+|\s+$/g, '').toUpperCase();
 
 export const AXIOS_GET_OPTION = (url: string): object => ({
-
+  url: url,
+  method: 'get',
 });
 
-export const AXIOS_POST_OPTION = (url: string): object => ({
-
-})
+export const AXIOS_POST_OPTION = (url: string, data: object): object => ({
+  url: url,
+  method: 'post',
+  data: data
+});

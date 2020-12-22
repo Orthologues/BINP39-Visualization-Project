@@ -2,7 +2,7 @@ overwrite: true
 schema: "https://data.rcsb.org/graphql/"
 documents: "./src/components/**/*.{ts,tsx}"
 generates:
-  src/generated/graphql.tsx:
+  src/Graphql.tsx:
     plugins:
       - "typescript"
       - "typescript-operations"

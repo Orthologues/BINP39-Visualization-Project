@@ -1,6 +1,7 @@
 import * as ActionTypes from './ActionTypes';
 import axios from 'axios';
-import { srvUrlPrefix } from '../shared/sharedConsts';
+import { SRV_URL_PREFIX } from '../shared/Consts';
+import { AXIOS_POST_OPTION } from '../shared/Funcs';
 
 
 // actions that return to objects (don't require redux-thunk)
@@ -18,7 +19,10 @@ export const pdbQueryFailed: ReduxAction = (errMsg: string) => ({
     payload: errMsg
 });
 
-export const fetchAaClashPred = () => async (dispatch: DispatchReduxAction) => {
+export const postPdbAaQuery = (queries: PdbIdAaQuery[]) => async (dispatch: DispatchReduxAction) => {
     dispatch(loadingPdbQuery);
+    await axios(AXIOS_POST_OPTION(`${SRV_URL_PREFIX}/pon-sc`, queries)).then(
+
+    )
 }
 
