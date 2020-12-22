@@ -8,8 +8,8 @@ import {
 } from '../shared/sharedUtils';
 import '../css/JsMol.css';
 
-class JsMol extends Component<molProps, molDisplayState> {
-  constructor(props: molProps) {
+class JsMol extends Component<MolProps, MolDisplayState> {
+  constructor(props: MolProps) {
     super(props);
     this.state = {
       divHidden: true,
@@ -26,8 +26,8 @@ class JsMol extends Component<molProps, molDisplayState> {
   }
 
   renderJSmolHTML(pdbCode: string): void {
-    let testJmol: string = 'myJmol';
-    let JmolInfo: object = {
+    let testJmol = 'myJmol';
+    let JmolInfo = {
       width: '100%',
       height: '100%',
       color: '#E2F4F4',
@@ -45,7 +45,7 @@ class JsMol extends Component<molProps, molDisplayState> {
 
   componentDidUpdate() {
     if (this.state.divHidden === false) {
-      let pdb_code: string = processedPdbQuery(this.props.pdbQuery);
+      let pdb_code = processedPdbQuery(this.props.pdbQuery);
       this.renderJSmolHTML(pdb_code);
     }
   }

@@ -8,8 +8,8 @@ import {
 } from '../shared/sharedUtils';
 import '../css/Mol3D.css';
 
-function Mol3D(props: molProps): JSX.Element {
-  const [molState, setMolState] = useState<molDisplayState>({
+function Mol3D(props: MolProps): JSX.Element {
+  const [molState, setMolState] = useState<MolDisplayState>({
     divHidden: true,
   });
 
@@ -64,7 +64,7 @@ function Mol3D(props: molProps): JSX.Element {
 
   useEffect((): void => {
     const GLViewerElement = $('#mol3D-container');
-    let GLViewerConfig: Object = {
+    let GLViewerConfig = {
       backgroundColor: 0xe0e0e0,
     };
 

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import JsMol from './JmolComponent';
 import Mol3D from './Mol3dComponent';
+import Footer from './FooterComponent';
 
-
-function MainComponent(): JSX.Element {
+function MainComponent() {
   // const [pdbInput, setPdbInput] = useState<string>('');
   const [pdbQuery, setPdbQuery] = useState<string>('');
   // const changePdbInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,6 +39,7 @@ function MainComponent(): JSX.Element {
           <Mol3D key="200" pdbQuery={pdbQuery} />
         </div>
       </header>
+      <Footer />
     </div>
   );
 }
