@@ -1,3 +1,5 @@
+// a shared library of self-defined functions
+
 export const appendSyncScript = (scriptToAppend: string): void => {
   const script: HTMLScriptElement = document.createElement('script');
   script.className = 'embeddedSyncJS';
@@ -104,13 +106,15 @@ export const removeAllAsyncScripts = (): void => {
 
 export const processedPdbId = (pdbQuery: string): string => pdbQuery.replace(/^\s+|\s+$/g, '').toUpperCase();
 
-export const AXIOS_GET_OPTION = (url: string): object => ({
+export const AXIOS_GET_OPTION = (url: string, auth: object): object => ({
   url: url,
   method: 'get',
+  auth: auth
 });
 
-export const AXIOS_POST_OPTION = (url: string, data: object): object => ({
+export const AXIOS_POST_OPTION = (url: string, data: object, auth: object): object => ({
   url: url,
   method: 'post',
-  data: data
+  data: data,
+  auth: auth
 });

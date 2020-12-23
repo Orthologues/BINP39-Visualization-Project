@@ -7,7 +7,7 @@ const initialAaClashState: AaClashQueryState = {
 };
 
 export const AaClashQueryReducer = (state = initialAaClashState, 
-    action: ReturnType<ReduxAction>): AaClashQueryState => {
+    action: ReturnType<PayloadAction>): AaClashQueryState => {
   switch (action.type) {
     case ActionTypes.ADD_PDB_QUERY:
         return { ...state, queries: action.payload, isLoading: false };

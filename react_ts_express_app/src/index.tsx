@@ -1,3 +1,5 @@
+// Only external .css libraries shall be added to index.tsx
+
 import React from 'react';
 import { render } from 'react-dom';
 import App from './app/App';

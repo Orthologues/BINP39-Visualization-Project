@@ -32,9 +32,7 @@ type AaClashQueryState = {
   errMsg: string | null,
 }
 
-type ReduxAction = (args: T) => {
+type PayloadAction = (args: T) => {
   type: string;
   payload?: T;
 };
-
-type DispatchReduxAction = (action: ReduxAction) => action;
