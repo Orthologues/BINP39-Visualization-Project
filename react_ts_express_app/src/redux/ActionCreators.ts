@@ -30,7 +30,7 @@ export const postPdbAaQuery = (
   undefined,
   ReturnType<PayloadAction>
 > => async (dispatch) => {
-  dispatch(loadingPdbQuery);
+  dispatch(loadingPdbQuery());
   await axios(
     AXIOS_POST_OPTION(
       `${SRV_URL_PREFIX}/pon-sc`,
@@ -52,3 +52,7 @@ export const postPdbAaQuery = (
     .then((response) => dispatch(addPdbQuery(response.data.aaclash)))
     .catch((error: Error) => dispatch(pdbQueryFailed(error.message)));
 };
+
+export const switchPdbInfoSrc: PayloadAction = () => ({
+  type: ActionTypes.SWITCH_PDB_INFO_SRC
+});

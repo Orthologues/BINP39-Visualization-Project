@@ -2,7 +2,7 @@
 
 type MolProps = {
   aaPos?: number[]; //list of amino acid positions from client's query
-  pdbQuery: string;
+  pdbQueries: PdbIdAaQuery[];
 };
 
 type MolDisplayState = {
@@ -27,12 +27,16 @@ type PdbIdAaQuery = {
 // Redux type declaration
 
 type AaClashQueryState = {
-  queries: PdbIdAaQuery[],
-  isLoading: boolean,
-  errMsg: string | null,
-}
+  queries: PdbIdAaQuery[];
+  isLoading: boolean;
+  errMsg: string | null;
+};
 
-type PayloadAction = (args: T) => {
+type PayloadAction = ( args?: T ) => {
   type: string;
   payload?: T;
 };
+
+type PdbInfoSrcState = { pdbDataSrc: 'pdbe' | 'rcsb' };
+
+type AppReduxState = { aaClashQuery: AaClashQueryState } & PdbInfoSrcState;
