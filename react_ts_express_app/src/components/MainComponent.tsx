@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { ThunkDispatch, ThunkAction } from 'redux-thunk';
 import { connect } from 'react-redux';
 import * as ReduxActions from '../redux/ActionCreators';
-import { Button, Form, FormGroup, Label, Input, Col, Row, FormFeedback } from 'reactstrap';
+import { Button, ButtonGroup, Form, Label, Input, Col, Row, FormFeedback } from 'reactstrap';
 // import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import JsMol from './JmolComponent';
 import Mol3D from './Mol3dComponent';
@@ -16,19 +16,21 @@ type MainProps = AppReduxState & { postPdbAaQuery: any, switchPdbInfoSrc: any }
 type MainState = { //define this instead of 'any' in order to do error handling for {Form} from 'reactstrap'
   queryFormTouched: boolean,
   queryFormValue: string | string[],
-  queryErrMsg: string
+  queryErrMsg: string,
+  pdbInfoSrc: 'rcsb' | 'pdbe';
 }
 
 const mapAppStateToProps = (state: AppReduxState) => ({
-  aaClashQuery: state.aaClashQuery
+  aaClashQuery: state.aaClashQuery,
+  pdbInfoSrc: state.pdbInfoSrc
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<
   AaClashQueryState,
   undefined,
-  ReturnType<PayloadAction | ThunkAction<any, any, undefined, any>>>) => ({
+  PayloadAction | ReturnType<ThunkAction<any, any, undefined, any>>>) => ({
   postPdbAaQuery: (aaClashQuery: PdbIdAaQuery[]) => dispatch(ReduxActions.postPdbAaQuery(aaClashQuery)),
-  switchPdbInfoSrc: () => dispatch(ReduxActions.switchPdbInfoSrc())
+  switchPdbInfoSrc: (newSrc: 'pdb' | 'rcsb') => dispatch(ReduxActions.switchPdbInfoSrc(newSrc))
 });
 
 
@@ -39,7 +41,8 @@ class Main extends Component<MainProps, MainState> {
     this.state = {
       queryFormTouched: false,
       queryFormValue: 'Initial',
-      queryErrMsg: ''
+      queryErrMsg: '',
+      pdbInfoSrc: 'rcsb'
     }
     this.submitAaClashQuery = this.submitAaClashQuery.bind(this);
   }
@@ -50,38 +53,51 @@ class Main extends Component<MainProps, MainState> {
     // );
   };
 
+  switchPdbInfoSrcState = (newSrc: 'rcsb' | 'pdbe') => {
+    this.setState((prevState: MainState) => (
+      { ...prevState, pdbInfoSrc: newSrc } ));
+  }
+
   componentDidMount() {
 
   }
 
   render() {
     return (
-      <div>
-        <Router>
-          <header className="App-header">
-            <div>
-              {/* onChange={changePdbInput} */}
-              <input
-                type="text"
-                id="pdb-input"
-                placeholder="pdb code. For example: 3cmp"
-              />
-              <button
-                className="btn btn-light"
-                id="pdb-submit"
-                onClick={this.submitAaClashQuery}
-              >
-                See results!
-              </button>
-            </div>
-            <div className="mol-div">
-              <JsMol key={`mol_js_`} pdbQueries={this.props.aaClashQuery.queries} />
-              <Mol3D key={`mol_3d_`} pdbQueries={this.props.aaClashQuery.queries} />
-            </div>
-          </header>
-          <Footer />
-        </Router>
-      </div>
+      <Router>
+
+        <div className='App-body'>
+          <ButtonGroup>
+            <Button color="info" onClick={ () => this.props.switchPdbInfoSrc('rcsb') && 
+            this.switchPdbInfoSrcState('rcsb') }
+            active={this.state.pdbInfoSrc === 'rcsb'}>RCSB</Button>
+            <Button color="info" onClick={ () => this.props.switchPdbInfoSrc('pdbe') && 
+            this.switchPdbInfoSrcState('pdbe') }
+            active={this.state.pdbInfoSrc === 'pdbe'}>pdbE</Button>
+          </ButtonGroup>
+
+          <input
+            type="text"
+            id="pdb-input"
+            placeholder="pdb code. For example: 3cmp"
+          />
+          <button
+            className="btn btn-light"
+            id="pdb-submit"
+            onClick={this.submitAaClashQuery}
+          >
+            See results!
+          </button>
+
+          <div className="mol-div">
+            <JsMol key={`mol_js_`} pdbQueries={this.props.aaClashQuery.queries} />
+            <Mol3D key={`mol_3d_`} pdbQueries={this.props.aaClashQuery.queries} />
+          </div>
+        </div>
+
+        <Footer />
+
+      </Router>
     );
   }
 }

@@ -32,11 +32,11 @@ type AaClashQueryState = {
   errMsg: string | null;
 };
 
-type PayloadAction = ( args?: T ) => {
+type PayloadAction = {
   type: string;
   payload?: T;
 };
 
-type PdbInfoSrcState = { pdbDataSrc: 'pdbe' | 'rcsb' };
+type PdbInfoSrcState = { pdbInfoSrc: 'pdbe' | 'rcsb' };
 
 type AppReduxState = { aaClashQuery: AaClashQueryState } & PdbInfoSrcState;

@@ -45,7 +45,7 @@ class JsMol extends Component<MolProps, MolDisplayState> {
 
   componentDidUpdate() {
     if (this.state.divHidden === false) {
-      let pdb_code = processedPdbId(this.props.pdbQuery);
+      let pdb_code = processedPdbId(this.props.pdbQueries[0].pdbId);
       this.renderJSmolHTML(pdb_code);
     }
   }
@@ -75,9 +75,9 @@ class JsMol extends Component<MolProps, MolDisplayState> {
           onClick={this.divToggle}
         >
           {this.state.divHidden
-            ? `Show JSmol of pdbID ${processedPdbId(this.props.pdbQuery)}`
+            ? `Show JSmol of pdbID ${processedPdbId(this.props.pdbQueries[0].pdbId)}`
             : `Hide JSmol of pdbID ${processedPdbId(
-                this.props.pdbQuery
+                this.props.pdbQueries[0].pdbId
               )} above`}
         </button>
         <div

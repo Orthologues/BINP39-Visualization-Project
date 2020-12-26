@@ -6,8 +6,8 @@ import logger from 'redux-logger';
 export const createThunkLoggerStore = () => {
   const store = createStore(
     combineReducers({
-      aaClashQueryReducer: AaClashQueryReducer,
-      pdbInfoSrcReducer: PdbInfoSrcReducer
+      aaClashQuery: AaClashQueryReducer,
+      pdbInfoSrc: PdbInfoSrcReducer
     }),
     applyMiddleware(thunk, logger)
   );

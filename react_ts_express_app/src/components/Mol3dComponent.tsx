@@ -28,7 +28,7 @@ function Mol3D(props: MolProps): JSX.Element {
   ): void {
     let viewer: $3Dmol.GLViewer = $3Dmol.createViewer(element, config);
     $3Dmol.download(
-      `pdb:${processedPdbId(props.pdbQuery)}`,
+      `pdb:${processedPdbId(props.pdbQueries[0].pdbId)}`,
       viewer,
       {
         onemol: true,
@@ -72,7 +72,7 @@ function Mol3D(props: MolProps): JSX.Element {
       default3DmolView(GLViewerElement, GLViewerConfig);
     }
     // eslint-disable-next-line
-  }, [props.pdbQuery, molState]);
+  }, [props.pdbQueries[0].pdbId, molState]);
 
   return (
     <div id="Mol3D-div">
@@ -89,8 +89,8 @@ function Mol3D(props: MolProps): JSX.Element {
       </Navbar>
       <button className="btn btn-warning btn-sm molBtn" onClick={divToggle}>
         {molState.divHidden
-          ? `Show 3Dmol of pdbID ${processedPdbId(props.pdbQuery)}`
-          : `Hide 3Dmol of pdbID ${processedPdbId(props.pdbQuery)} above`}
+          ? `Show 3Dmol of pdbID ${processedPdbId(props.pdbQueries[0].pdbId)}`
+          : `Hide 3Dmol of pdbID ${processedPdbId(props.pdbQueries[0].pdbId)} above`}
       </button>
       <div
         className="mol-container"

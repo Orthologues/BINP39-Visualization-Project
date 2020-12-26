@@ -8,16 +8,16 @@ import { AXIOS_POST_OPTION } from '../shared/Funcs';
 import { ThunkAction } from 'redux-thunk';
 
 // actions that return to objects (don't require redux-thunk)
-export const addPdbQuery: PayloadAction = (queries: PdbIdAaQuery[]) => ({
+export const addPdbQuery = (queries: PdbIdAaQuery[]): PayloadAction => ({
   type: ActionTypes.ADD_PDB_QUERY,
   payload: queries,
 });
 
-export const loadingPdbQuery: PayloadAction = () => ({
+export const loadingPdbQuery = (): PayloadAction => ({
   type: ActionTypes.LOADING_PDB_QUERY,
 });
 
-export const pdbQueryFailed: PayloadAction = (errMsg: string) => ({
+export const pdbQueryFailed = (errMsg: string): PayloadAction => ({
   type: ActionTypes.PDB_QUERY_FAILED,
   payload: errMsg,
 });
@@ -28,7 +28,7 @@ export const postPdbAaQuery = (
   Promise<void>,
   AaClashQueryState,
   undefined,
-  ReturnType<PayloadAction>
+  PayloadAction
 > => async (dispatch) => {
   dispatch(loadingPdbQuery());
   await axios(
@@ -53,6 +53,7 @@ export const postPdbAaQuery = (
     .catch((error: Error) => dispatch(pdbQueryFailed(error.message)));
 };
 
-export const switchPdbInfoSrc: PayloadAction = () => ({
-  type: ActionTypes.SWITCH_PDB_INFO_SRC
+export const switchPdbInfoSrc = (newSrc: 'pdb' | 'rcsb'): PayloadAction => ({
+  type: ActionTypes.SWITCH_PDB_INFO_SRC,
+  payload: newSrc
 });
