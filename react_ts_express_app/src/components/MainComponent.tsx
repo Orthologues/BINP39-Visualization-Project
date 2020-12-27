@@ -4,9 +4,9 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ThunkDispatch, ThunkAction } from 'redux-thunk';
 import { connect } from 'react-redux';
-import * as ReduxActions from '../redux/ActionCreators';
 import { Button, ButtonGroup, Form, Label, Input, Col, Row, FormFeedback } from 'reactstrap';
-// import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import * as ReduxActions from '../redux/ActionCreators';
+import { PDB_CODE_ENTRY_REGEX, AA_SUB_ENTRY_REGEX } from '../shared/Consts';
 import JsMol from './JmolComponent';
 import Mol3D from './Mol3dComponent';
 import Footer from './FooterComponent';
@@ -45,6 +45,7 @@ class Main extends Component<MainProps, MainState> {
       pdbInfoSrc: 'rcsb'
     }
     this.submitAaClashQuery = this.submitAaClashQuery.bind(this);
+    this.switchPdbInfoSrcState = this.switchPdbInfoSrcState.bind(this);
   }
 
   submitAaClashQuery = (evt: React.MouseEvent<HTMLButtonElement>) => {

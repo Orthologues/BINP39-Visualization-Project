@@ -13,3 +13,7 @@ export const AACLASH_API_AXIOS_AUTH = {
     user: 'jiawei_zhao',
     pwd: '7NEJEz69adpVqG3k'
 };
+
+// regex of a PDB code entry
+export const PDB_CODE_ENTRY_REGEX = /(?<=^\s*>)[1-9]\w{3}/;
+export const AA_SUB_ENTRY_REGEX = /(?<=^\s*>[1-9]\w{3}\s*\n)(\s*[a-zA-Z]{0,1}\d+[a-zA-Z])+/;
