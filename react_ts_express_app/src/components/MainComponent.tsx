@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ThunkDispatch, ThunkAction } from 'redux-thunk';
 import { connect } from 'react-redux';
-import { Button, ButtonGroup, Form, Label, Input, Col, Row, FormFeedback } from 'reactstrap';
+import { Button, ButtonGroup, CardTitle, Form, Label, Input, Col, Row, FormFeedback } from 'reactstrap';
 import * as ReduxActions from '../redux/ActionCreators';
 import { PDB_CODE_ENTRY_REGEX, AA_SUB_ENTRY_REGEX } from '../shared/Consts';
 import JsMol from './JmolComponent';
@@ -66,38 +66,43 @@ class Main extends Component<MainProps, MainState> {
   render() {
     return (
       <Router>
+        <div className='container-fluid'>
+          <div className='row'>
+            <div className='col-12 col-md-4 App-header-col'>
+             <CardTitle tag="h6">Choose source of PDB database: </CardTitle>
+              <ButtonGroup style={{ marginTop: '0.5rem' }}>
+                <Button color="info" onClick={ () => this.props.switchPdbInfoSrc('rcsb') &&
+                this.switchPdbInfoSrcState('rcsb') }
+                active={this.state.pdbInfoSrc === 'rcsb'}>RCSB PDB (default)</Button>
+                <Button color="info" onClick={ () => this.props.switchPdbInfoSrc('pdbe') &&
+                this.switchPdbInfoSrcState('pdbe') }
+                active={this.state.pdbInfoSrc === 'pdbe'}>pdbE</Button>
+              </ButtonGroup>
+            </div>
+            
+            <div className='col-12 col-md-8 App-header-col'>
+              <input
+                type="text"
+                id="pdb-input"
+                placeholder="pdb code. For example: 3cmp"
+              />
+              <button
+                className="btn btn-light"
+                id="pdb-submit"
+                onClick={this.submitAaClashQuery}
+              >See results!
+              </button>
+            </div>
+          </div>
 
-        <div className='App-body'>
-          <ButtonGroup>
-            <Button color="info" onClick={ () => this.props.switchPdbInfoSrc('rcsb') && 
-            this.switchPdbInfoSrcState('rcsb') }
-            active={this.state.pdbInfoSrc === 'rcsb'}>RCSB</Button>
-            <Button color="info" onClick={ () => this.props.switchPdbInfoSrc('pdbe') && 
-            this.switchPdbInfoSrcState('pdbe') }
-            active={this.state.pdbInfoSrc === 'pdbe'}>pdbE</Button>
-          </ButtonGroup>
-
-          <input
-            type="text"
-            id="pdb-input"
-            placeholder="pdb code. For example: 3cmp"
-          />
-          <button
-            className="btn btn-light"
-            id="pdb-submit"
-            onClick={this.submitAaClashQuery}
-          >
-            See results!
-          </button>
-
-          <div className="mol-div">
-            <JsMol key={`mol_js_`} pdbQueries={this.props.aaClashQuery.queries} />
-            <Mol3D key={`mol_3d_`} pdbQueries={this.props.aaClashQuery.queries} />
+          <div className='row'>
+            <div className="mol-div">
+              <JsMol key={`mol_js_`} pdbQueries={this.props.aaClashQuery.queries} />
+              <Mol3D key={`mol_3d_`} pdbQueries={this.props.aaClashQuery.queries} />
+            </div>
           </div>
         </div>
-
         <Footer />
-
       </Router>
     );
   }

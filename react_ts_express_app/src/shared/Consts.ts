@@ -15,5 +15,5 @@ export const AACLASH_API_AXIOS_AUTH = {
 };
 
 // regex of a PDB code entry
-export const PDB_CODE_ENTRY_REGEX = /(?<=^\s*>)[1-9]\w{3}/;
-export const AA_SUB_ENTRY_REGEX = /(?<=^\s*>[1-9]\w{3}\s*\n)(\s*[a-zA-Z]{0,1}\d+[a-zA-Z])+/;
+export const PDB_CODE_ENTRY_REGEX = /(?<=^\s*>)[1-9]\w{3}/gm;
+export const AA_SUB_ENTRY_REGEX = /(?<=^\s*>[1-9]\w{3}\s+)([arndcqeghilkmfpstwyv]{0,1}\d+[arndcqeghilkmfpstwyv]\s+|\d+\s+)+/gim;
