@@ -53,7 +53,7 @@ export const postPdbAaQuery = (
     .catch((error: Error) => dispatch(pdbQueryFailed(error.message)));
 };
 
-export const switchPdbInfoSrc = (newSrc: 'pdb' | 'rcsb'): PayloadAction => ({
+export const switchPdbInfoSrc = (newSrc: 'pdbe' | 'rcsb'): PayloadAction => ({
   type: ActionTypes.SWITCH_PDB_INFO_SRC,
   payload: newSrc
 });
