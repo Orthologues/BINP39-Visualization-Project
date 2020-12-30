@@ -21,7 +21,7 @@ type AaSub = {
 
 type PdbIdAaQuery = {
   pdbId: string;
-  aaSubs: AaSub[];
+  aaSubs: AaSub[] | Array<string>;
 };
 
 // Redux type declaration

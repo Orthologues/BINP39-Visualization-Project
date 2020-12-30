@@ -106,6 +106,15 @@ export const removeAllAsyncScripts = (): void => {
 
 export const processedPdbId = (pdbQuery: string): string => pdbQuery.replace(/^\s+|\s+$/g, '').toUpperCase();
 
+export const processedPdbIdAaQueries = (pdbIds: Array<string>, aaSubs: Array<string>) => {
+  const results: Array<PdbIdAaQuery> = [];
+  aaSubs.map((aaSub, index) => {
+    let splitStrings = aaSub.split(/\s+/).filter(str => str.length > 0);
+    results.push({ pdbId: pdbIds[index], aaSubs: splitStrings });
+  });
+  return results;
+}
+
 export const AXIOS_GET_OPTION = (url: string, auth: object): object => ({
   url: url,
   method: 'get',

@@ -4,10 +4,10 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ThunkDispatch, ThunkAction } from 'redux-thunk';
 import { connect } from 'react-redux';
-import { Button, ButtonGroup, CardTitle, Form, FormGroup, Label, Input, Col, 
-  Row, FormFeedback, CardText } from 'reactstrap';
+import { Button, ButtonGroup, CardTitle, Form, FormGroup, Label, Input, Col, CardText } from 'reactstrap';
 import * as ReduxActions from '../redux/ActionCreators';
 import { PDB_CODE_ENTRY_REGEX, AA_SUB_ENTRY_REGEX } from '../shared/Consts';
+import { processedPdbIdAaQueries } from '../shared/Funcs';
 import JsMol from './JmolComponent';
 import Mol3D from './Mol3dComponent';
 import Footer from './FooterComponent';
@@ -105,18 +105,20 @@ class Main extends Component<MainProps, MainState> {
       }));
     }
     setTimeout(() => { 
-      console.log(this.state.queryFormValue.match(PDB_CODE_ENTRY_REGEX));
-      console.log(this.state.queryFormValue.match(AA_SUB_ENTRY_REGEX));
-      console.log(JSON.stringify(this.state));
+      // console.log(this.state.queryFormValue.match(PDB_CODE_ENTRY_REGEX));
+      // console.log(this.state.queryFormValue.match(AA_SUB_ENTRY_REGEX));
+      // console.log(JSON.stringify(this.state));
       this.state.queryFormTouched && this.validateAAClashQuery(this.state.queryFormValue);
      }, 100);
   }
 
   submitAaClashQuery = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    (this.state.queryErrMsg === '' && this.state.queryFormTouched) && 
-    alert(`${JSON.stringify(this.state.queryFormValue.match(PDB_CODE_ENTRY_REGEX))} 
-    ${JSON.stringify(this.state.queryFormValue.match(AA_SUB_ENTRY_REGEX))}`);
+    if (this.state.queryErrMsg === '' && this.state.queryFormTouched) {
+      const pdbIds = this.state.queryFormValue.match(PDB_CODE_ENTRY_REGEX);
+      const aaSubsRaw = this.state.queryFormValue.match(AA_SUB_ENTRY_REGEX); 
+      (pdbIds && aaSubsRaw) && alert(JSON.stringify(processedPdbIdAaQueries(pdbIds, aaSubsRaw)));
+    } 
   }
 
 
