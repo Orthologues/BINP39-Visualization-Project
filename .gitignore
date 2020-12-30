@@ -42,3 +42,6 @@ extra_assets
 !*/*/*/*/aaclash/structure_aaclash.py
 !*/*/*/*/aaclash/program_paths.py
 !*/*/*/*/aaclash/prediction_rotamers.py
+
+# authentication
+*Secrets.ts

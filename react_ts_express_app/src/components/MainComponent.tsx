@@ -12,7 +12,7 @@ import JsMol from './JmolComponent';
 import Mol3D from './Mol3dComponent';
 import Footer from './FooterComponent';
 
-const AaClashQueryInputInstruction = `Example:
+const AaClashQueryExample = `Example:
 >1asd  50Y A101S
 115P 120
 >3cmp 
@@ -26,7 +26,7 @@ type MainProps = AppReduxState & {
 }
 type MainState = { //define this instead of 'any' in order to do error handling for {Form} from 'reactstrap'
   queryFormTouched: boolean,
-  queryFormValue: string | string[],
+  queryFormValue: string,
   queryErrMsg: string,
   pdbInfoSrc: 'pdbe' | 'rcsb'
 }
@@ -56,30 +56,71 @@ class Main extends Component<MainProps, MainState> {
       pdbInfoSrc: 'rcsb'
     }
     this.submitAaClashQuery = this.submitAaClashQuery.bind(this);
-    this.checkAaClashQueryInput = this.checkAaClashQueryInput.bind(this);
-    this.switchPdbInfoSrcState = this.switchPdbInfoSrcState.bind(this);
-  }
-
-  submitAaClashQuery = (evt: React.FormEvent<HTMLFormElement>) => {
-    alert(this.state.queryFormValue);
-  }
-
-  checkAaClashQueryInput = (evt: React.FormEvent<HTMLInputElement>) => {
-    const inputField = document.getElementById('aaClashInput');
-    if (inputField) {
-      this.setState((prevState: MainState) => ({
-        ...prevState, queryFormValue: (inputField as HTMLInputElement).value
-      }));
-    }
+    this.handleAaClashQueryBlur = this.handleAaClashQueryBlur.bind(this);
+    this.handleAaClashQueryInput = this.handleAaClashQueryInput.bind(this);
   }
 
   switchPdbInfoSrcState = (newSrc: 'rcsb' | 'pdbe') => {
     this.setState((prevState: MainState) => ({ ...prevState, pdbInfoSrc: newSrc }));
   }
 
-  componentDidMount() {
-
+  validateAAClashQuery = (aaClashQuery: string) => {
+    const pdbCodeMatch = aaClashQuery.match(PDB_CODE_ENTRY_REGEX);
+    const aaSubMatch = aaClashQuery.match(AA_SUB_ENTRY_REGEX); 
+    if (pdbCodeMatch && !aaSubMatch) { 
+      this.setState((prevState: MainState) => ({
+        ...prevState, queryErrMsg: `No sets of valid AA-substitution queries were found!`
+      }));
+    } else if ( !pdbCodeMatch ) {
+      this.setState((prevState: MainState) => ({
+        ...prevState, queryErrMsg: `No valid PDB-ID queries were found!`
+      }));
+    } else if (pdbCodeMatch?.length !== aaSubMatch?.length) { 
+      this.setState((prevState: MainState) => ({
+        ...prevState, queryErrMsg: `Valid PDB-ID queries didn't match valid sets of AA-substitution queries numerically!`
+      }));
+    } else {
+      this.setState((prevState: MainState) => ({
+        ...prevState, queryErrMsg: ''
+      }));
+    }
   }
+
+  handleAaClashQueryBlur = (evt: React.FormEvent<HTMLInputElement>) => {
+    evt.preventDefault();
+    this.setState((prevState: MainState) => ({
+      ...prevState, queryFormTouched: true
+    }));
+    this.validateAAClashQuery(this.state.queryFormValue);
+  }
+
+  handleAaClashQueryInput = (evt: React.FormEvent<HTMLInputElement>) => {
+    // Using DOM: 
+    // const inputValue = (document.getElementById('aaClashInput') as HTMLInputElement).value; //
+    evt.preventDefault();
+    const inputValue = (evt.target as HTMLInputElement).value
+    if (inputValue) {
+      this.setState((prevState: MainState) => ({
+        ...prevState, queryFormValue: inputValue
+      }));
+    }
+    setTimeout(() => { 
+      console.log(this.state.queryFormValue.match(PDB_CODE_ENTRY_REGEX));
+      console.log(this.state.queryFormValue.match(AA_SUB_ENTRY_REGEX));
+      console.log(JSON.stringify(this.state));
+      this.state.queryFormTouched && this.validateAAClashQuery(this.state.queryFormValue);
+     }, 100);
+  }
+
+  submitAaClashQuery = (evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    (this.state.queryErrMsg === '' && this.state.queryFormTouched) && 
+    alert(`${JSON.stringify(this.state.queryFormValue.match(PDB_CODE_ENTRY_REGEX))} 
+    ${JSON.stringify(this.state.queryFormValue.match(AA_SUB_ENTRY_REGEX))}`);
+  }
+
+
+  componentDidMount() {}
 
   render() {
 
@@ -90,7 +131,7 @@ class Main extends Component<MainProps, MainState> {
           {textStr.split('\n').map((line, index) => 
           (
             <CardText 
-            style={{ textAlign: 'left', margin: '5px', marginLeft: '2rem' }}
+            style={{ textAlign: 'left', margin: '0px' }}
             key={`exmpl_line_${index}`}>{line}</CardText>
           ))}
         </React.Fragment>) 
@@ -122,19 +163,24 @@ class Main extends Component<MainProps, MainState> {
               <Form onSubmit={this.submitAaClashQuery}>
                 <FormGroup row>
                   <Col lg={3}>
-                    {displayAaClashQueryExample(AaClashQueryInputInstruction)}
+                    {displayAaClashQueryExample(AaClashQueryExample)}
+                    <CardText style={{ color: '#fd9a24', marginTop: '1rem' }}>
+                    {this.state.queryErrMsg}</CardText>
                   </Col>
                   <Col lg={8}>
-                    <Label htmlFor="aaClashInput">AA-Clash query:</Label>
+                    <Label style={{ marginTop: '0.5rem' }} 
+                    htmlFor="aaClashInput">AA-Clash query:</Label>
                     <Input type="textarea" id="aaClashInput" name="aaClashInput"
-                    onChange={this.checkAaClashQueryInput}
-                    rows="10" placeholder={AaClashQueryInputInstruction}
-                    value={this.state.queryFormValue}>
+                    onChange={this.handleAaClashQueryInput}
+                    onBlur={this.handleAaClashQueryBlur}
+                    valid={this.state.queryFormValue.match(PDB_CODE_ENTRY_REGEX) !== null}
+                    invalid={!PDB_CODE_ENTRY_REGEX.test(this.state.queryFormValue)}
+                    rows="11" placeholder={AaClashQueryExample}>
                     </Input>
                   </Col>
                 </FormGroup>
                 <FormGroup row>
-                  <Col lg={{size: 10, offset: 2}}>
+                  <Col lg={{ size: 10, offset: 2 }}>
                     <Button type="submit" color="warning">See results!</Button>
                   </Col>
                 </FormGroup>

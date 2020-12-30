@@ -3,7 +3,8 @@
 
 import * as ActionTypes from './ActionTypes';
 import axios from 'axios';
-import { SRV_URL_PREFIX, AACLASH_API_AXIOS_AUTH } from '../shared/Consts';
+import { SRV_URL_PREFIX } from '../shared/Consts';
+import { AACLASH_API_AXIOS_AUTH } from '../shared/Secrets';
 import { AXIOS_POST_OPTION } from '../shared/Funcs';
 import { ThunkAction } from 'redux-thunk';
 
@@ -24,21 +25,11 @@ export const pdbQueryFailed = (errMsg: string): PayloadAction => ({
 
 export const postPdbAaQuery = (
   queries: PdbIdAaQuery[]
-): ThunkAction<
-  Promise<void>,
-  AaClashQueryState,
-  undefined,
-  PayloadAction
-> => async (dispatch) => {
+): ThunkAction<Promise<void>, AaClashQueryState, undefined, PayloadAction> => async (dispatch) => {
   dispatch(loadingPdbQuery());
   await axios(
-    AXIOS_POST_OPTION(
-      `${SRV_URL_PREFIX}/pon-sc`,
-      { queries: queries },
-      AACLASH_API_AXIOS_AUTH
-    )
-  )
-    .then((response) => {
+    AXIOS_POST_OPTION(`${SRV_URL_PREFIX}/pon-sc`, { queries: queries }, AACLASH_API_AXIOS_AUTH)
+  ).then((response) => {
       if (response.statusText === 'OK' || response.status === 200) {
         return response;
       } else {
@@ -48,8 +39,7 @@ export const postPdbAaQuery = (
         );
         throw nonOkError;
       }
-    })
-    .then((response) => dispatch(addPdbQuery(response.data.aaclash)))
+    }).then((response) => dispatch(addPdbQuery(response.data.aaclash)))
     .catch((error: Error) => dispatch(pdbQueryFailed(error.message)));
 };
 
