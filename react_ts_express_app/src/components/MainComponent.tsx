@@ -21,6 +21,7 @@ const AaClashQueryExample = `Example:
 L310R 487`
 
 type MainProps = AppReduxState & { 
+  // addPdbQuery: (aaClashQuery: PdbIdAaQuery[]) => PayloadAction
   postPdbAaQuery: (aaClashQuery: PdbIdAaQuery[]) => ThunkAction<Promise<void>, any, undefined, any>,
   switchPdbInfoSrc: (newSrc: 'pdbe' | 'rcsb') => PayloadAction
 }
@@ -40,6 +41,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<
   AaClashQueryState,
   undefined,
   PayloadAction | ReturnType<ThunkAction<any, any, undefined, any>>>) => ({
+  // addPdbQuery: (aaClashQuery: PdbIdAaQuery[]) => dispatch(ReduxActions.addPdbQuery(aaClashQuery)),
   postPdbAaQuery: (aaClashQuery: PdbIdAaQuery[]) => dispatch(ReduxActions.postPdbAaQuery(aaClashQuery)),
   switchPdbInfoSrc: (newSrc: 'rcsb' | 'pdbe') => dispatch(ReduxActions.switchPdbInfoSrc(newSrc))
 });
@@ -105,9 +107,6 @@ class Main extends Component<MainProps, MainState> {
       }));
     }
     setTimeout(() => { 
-      // console.log(this.state.queryFormValue.match(PDB_CODE_ENTRY_REGEX));
-      // console.log(this.state.queryFormValue.match(AA_SUB_ENTRY_REGEX));
-      // console.log(JSON.stringify(this.state));
       this.state.queryFormTouched && this.validateAAClashQuery(this.state.queryFormValue);
      }, 100);
   }
@@ -117,7 +116,8 @@ class Main extends Component<MainProps, MainState> {
     if (this.state.queryErrMsg === '' && this.state.queryFormTouched) {
       const pdbIds = this.state.queryFormValue.match(PDB_CODE_ENTRY_REGEX);
       const aaSubsRaw = this.state.queryFormValue.match(AA_SUB_ENTRY_REGEX); 
-      (pdbIds && aaSubsRaw) && alert(JSON.stringify(processedPdbIdAaQueries(pdbIds, aaSubsRaw)));
+      (pdbIds && aaSubsRaw) && 
+      this.props.postPdbAaQuery(processedPdbIdAaQueries(pdbIds, aaSubsRaw));
     } 
   }
 

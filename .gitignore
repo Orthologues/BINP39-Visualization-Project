@@ -20,6 +20,10 @@ assets/
 #compiled ecmascript files from ts
 */*/dist/*
 !*/*/dist/src
+# don't ignore a const .py file under 'aaclash' folder
+!*/*/dist/aaclash
+*/*/dist/aaclash/*
+!*/*/dist/aaclash/program_paths.py
 
 #dependencies
 node_modules/
@@ -36,12 +40,6 @@ extra_assets
 # 3Dmol and JSmol scripts
 *3Dmol-min.js
 *JSmol
-
-# python scripts of PON-SC
-*/*/*/*/aaclash/*
-!*/*/*/*/aaclash/structure_aaclash.py
-!*/*/*/*/aaclash/program_paths.py
-!*/*/*/*/aaclash/prediction_rotamers.py
 
 # authentication
 *Secrets.ts

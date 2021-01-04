@@ -104,7 +104,8 @@ export const removeAllAsyncScripts = (): void => {
   }
 };
 
-export const processedPdbId = (pdbQuery: string): string => pdbQuery.replace(/^\s+|\s+$/g, '').toUpperCase();
+export const processedPdbId = (pdbQuery: string): string => 
+pdbQuery && pdbQuery.replace(/^\s+|\s+$/g, '').toUpperCase();
 
 export const processedPdbIdAaQueries = (pdbIds: Array<string>, aaSubs: Array<string>) => {
   const results: Array<PdbIdAaQuery> = [];
@@ -115,15 +116,3 @@ export const processedPdbIdAaQueries = (pdbIds: Array<string>, aaSubs: Array<str
   return results;
 }
 
-export const AXIOS_GET_OPTION = (url: string, auth: object): object => ({
-  url: url,
-  method: 'get',
-  auth: auth
-});
-
-export const AXIOS_POST_OPTION = (url: string, data: object, auth: object): object => ({
-  url: url,
-  method: 'post',
-  data: data,
-  auth: auth
-});

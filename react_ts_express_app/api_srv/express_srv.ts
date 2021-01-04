@@ -1,24 +1,23 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { portNum } from './constants.js'
-import ponSC_result, { tryPyStdout } from "./routes/pon-sc.js";
-import mapUniProtID from "./routes/pdbE.js";
+import cors from 'cors';
+import { PORT_NUM } from './constants.js';
+import handlePdbCodeQuery, { handlePdbFileQuery } from './routes/aaClashPred.js'; 
+import dlJobIdPdbFile from './routes/jodId-pdbFile.js';
 
 const app = express();
-const port = process.env.PORT || portNum;
+const PORT = process.env.PORT || PORT_NUM;
 
 // middle-wares 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// pdbE
-app.get("/pdb-e/:pdb_id", mapUniProtID);
+app.use(cors());
 
 // run python scripts of PON-SC
-app.get("/pon-sc/:pdb_id", tryPyStdout);
-app.get("/pon-sc/:pdb_id/results", ponSC_result);
-app.post("/pon-sc/:pdb_id/results", async (req: express.Request, res: express.Response) => {
-    res.send(`${await req.body.results} received!`);
-});
+app.post("/pon-scp/pred/code", handlePdbCodeQuery);
+app.post("/pon-scp/pred/file", handlePdbFileQuery);
 
-app.listen(port, () => console.log(`ExpressJs server is listening on port ${port}`));
+// download pdb-file of finished aa-clash queries according to job_id & pdb_id & chain & AA-sub
+app.post("/pon-scp/pdb/:job_id", dlJobIdPdbFile);
+
+app.listen(PORT, () => console.log(`ExpressJs server is listening on port ${PORT}`));
