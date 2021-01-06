@@ -38,7 +38,15 @@ export const postPdbAaQuery = (
         );
         throw nonOkError;
       }
-    }).then((response) => dispatch(addPdbQuery(queries)))
+    }).then((response) => {
+      const aaClashData: AaClashDataToClient = response.data;
+      const aaClashPredResult: AaClashPredData = aaClashData.aaClash; 
+      const pyRunInfo: PyScriptResponse = aaClashData.pyRunInfo;
+      if (! (aaClashPredResult.goodAcids && aaClashPredResult.badAcids)) {
+        console.log(JSON.stringify(pyRunInfo));
+      }
+      dispatch(addPdbQuery(queries))
+    })
     .catch((error: Error) => dispatch(pdbQueryFailed(error.message)));
 };
 

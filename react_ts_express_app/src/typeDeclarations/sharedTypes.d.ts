@@ -40,3 +40,23 @@ type PayloadAction = {
 type PdbInfoSrcState = { pdbInfoSrc: 'pdbe' | 'rcsb' };
 
 type AppReduxState = { aaClashQuery: AaClashQueryState } & PdbInfoSrcState;
+
+// types about result of aa-clash prediction by Jelena's python codes
+type AaClashPredData = {
+  jobName?: string,
+  angles?: object,
+  goodAcids?: object,
+  badAcids?: object,
+  matrices?: object
+}
+
+type PyScriptResponse = {
+  code?: number,
+  signal?: string,
+  finalText?: string
+}
+
+type AaClashDataToClient = {
+  aaClash: AaClashPredData,
+  pyRunInfo: PyScriptResponse
+}

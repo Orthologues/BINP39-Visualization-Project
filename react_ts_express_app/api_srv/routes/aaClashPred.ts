@@ -12,6 +12,25 @@ type PdbIdAaQuery = {
     aaSubs: Array<string>
 };
 
+type AaClashPredData = {
+    jobName?: string,
+    angles?: object,
+    goodAcids?: object,
+    badAcids?: object,
+    matrices?: object
+}
+
+type PyScriptResponse = {
+    code?: number,
+    signal?: string,
+    finalText?: string
+}
+
+type AaClashDataToClient = {
+    aaClash: AaClashPredData,
+    pyRunInfo: PyScriptResponse
+}
+
 // define the route of pdb-file mode
 export const handlePdbFileQuery = async (req: Request, res: Response) => {}
 
@@ -21,7 +40,8 @@ const handlePdbCodeQuery = (req: Request, res: Response) => {
     // when authentication is correct, use python-shell and respond back to front-end
     if (aaClashQueries.length > 0) {
         //use time of ISO-format as job_id(part of file_name) of aaclash-query
-        const FILE_NAME = `${AA_CLASH_PREFIX}/extra_files/pos${new Date().toISOString()}.txt`;
+        const JOB_ID = new Date().toISOString();
+        const FILE_NAME = `${AA_CLASH_PREFIX}/extra_files/pos${JOB_ID}.txt`;
         console.log(`New query text file created: ${FILE_NAME}`);
         // write .txt query file first under 'aaclash/' subfolder as a prerequisite to run the .py script
         fs.writeFileSync(FILE_NAME, '');
@@ -31,8 +51,35 @@ const handlePdbCodeQuery = (req: Request, res: Response) => {
                 fs.appendFileSync(FILE_NAME, `${aaSub}\n`)
             })
         })
+        // run the .py script for aa-clash prediction 
+        const pyShellOptions: Options = {
+            mode: 'json',
+            pythonPath: PY_PATH,
+            pythonOptions: ['-u'], // get print results in real-time
+            scriptPath: AA_CLASH_PREFIX,
+            args: ['text', JOB_ID]
+        };
+        let pyScriptRes: PyScriptResponse = {};
+        let dataToClient: AaClashDataToClient = { aaClash: {}, pyRunInfo: {} };
+        const pdbCodePredPyShell = new PythonShell('prediction_aaclash.py', pyShellOptions);
+        pdbCodePredPyShell.on('message', pyStdouts => {
+            // catch stdout of the Python script (a simple "print" statement)
+        });
+
+        // end the input stream and allow the process to exit
+        pdbCodePredPyShell.end((err: PythonShellError, code: number, signal: string) => {
+            if (err) {
+                pyScriptRes.finalText = err.message
+            } else {
+                pyScriptRes.finalText = 'Python Script finished!'
+            }
+            pyScriptRes.code = code;
+            pyScriptRes.signal = signal;
+            dataToClient.pyRunInfo = pyScriptRes;
+            res.write(dataToClient);
+            res.end();
+        });
     }
-    res.send( {aaClash: 'yes'} );
 }
 
 export default handlePdbCodeQuery;

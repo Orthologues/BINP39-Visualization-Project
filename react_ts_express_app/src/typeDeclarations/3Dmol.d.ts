@@ -67,8 +67,13 @@ declare module $3Dmol {
     mid?: number;
   }
 
-  interface AtomSelectionSpec {
-
+  interface AtomSelectionSpec extends AtomSpec {
+    bonds: number,
+    expand: number,
+    invert: boolean,
+    and: Array<AtomSelectionSpec>,
+    or: Array<AtomSelectionSpec>,
+    not: AtomSelectionSpec
   }
 
   interface AtomSpec {
@@ -79,27 +84,27 @@ declare module $3Dmol {
     /**
      * 
      */
-    x: number;
-    y: number;
-    z: number;
+    x?: number;
+    y?: number;
+    z?: number;
     color?: ColorSpec;
     surfaceColor?: ColorSpec;
-    elem: string;
+    elem?: string;
     hetflag?: boolean;
-    chain?: string;
-    resi?: number;
+    chain: string;
+    resi: number;
     icode?: number;
     rescode?: number;
     serial?: number;
     atom?: string;
-    bonds: number[];
+    bonds?: number[];
     ss?: string;
     singleBonds?: boolean;
     bondOrder?: number[];
     properties?: any;
     b?: number;
     pdbline?: string;
-    clickable?: boolean;
+    clickable: boolean;
     callback?: () => any;
     invert?: boolean;
   }
