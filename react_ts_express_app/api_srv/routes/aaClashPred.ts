@@ -27,7 +27,7 @@ type PyScriptResponse = {
 }
 
 type AaClashDataToClient = {
-    aaClash: AaClashPredData,
+    aaClash: Array<AaClashPredData>,
     pyRunInfo: PyScriptResponse
 }
 
@@ -60,10 +60,13 @@ const handlePdbCodeQuery = (req: Request, res: Response) => {
             args: ['text', JOB_ID]
         };
         let pyScriptRes: PyScriptResponse = {};
-        let dataToClient: AaClashDataToClient = { aaClash: {}, pyRunInfo: {} };
+        let dataToClient: AaClashDataToClient = { aaClash: [], pyRunInfo: {} };
         const pdbCodePredPyShell = new PythonShell('prediction_aaclash.py', pyShellOptions);
-        pdbCodePredPyShell.on('message', pyStdouts => {
+        pdbCodePredPyShell.on('message', (aaClashResults: Array<AaClashPredData>) => {
             // catch stdout of the Python script (a simple "print" statement)
+            aaClashResults.map(aaClashResult => {
+                dataToClient.aaClash.push(JSON.parse(JSON.stringify(aaClashResult)));
+            });
         });
 
         // end the input stream and allow the process to exit
@@ -76,8 +79,8 @@ const handlePdbCodeQuery = (req: Request, res: Response) => {
             pyScriptRes.code = code;
             pyScriptRes.signal = signal;
             dataToClient.pyRunInfo = pyScriptRes;
-            res.write(dataToClient);
-            res.end();
+            console.log(JSON.stringify(dataToClient));
+            res.send(dataToClient);
         });
     }
 }

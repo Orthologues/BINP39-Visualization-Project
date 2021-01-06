@@ -15,7 +15,6 @@ import Footer from './FooterComponent';
 const AaClashQueryExample = `Example:
 >1asd  50Y A101S
 115P 120
->3cmp 
 >2zxc
  34F 
 L310R 487`

@@ -42,9 +42,11 @@ export const postPdbAaQuery = (
       const aaClashData: AaClashDataToClient = response.data;
       const aaClashPredResult: AaClashPredData = aaClashData.aaClash; 
       const pyRunInfo: PyScriptResponse = aaClashData.pyRunInfo;
-      if (! (aaClashPredResult.goodAcids && aaClashPredResult.badAcids)) {
-        console.log(JSON.stringify(pyRunInfo));
-      }
+      console.log(JSON.stringify(aaClashPredResult));
+      console.log(JSON.stringify(pyRunInfo));
+      // if (! (aaClashPredResult.goodAcids && aaClashPredResult.badAcids)) {
+      //   console.log(JSON.stringify(pyRunInfo));
+      // }
       dispatch(addPdbQuery(queries))
     })
     .catch((error: Error) => dispatch(pdbQueryFailed(error.message)));

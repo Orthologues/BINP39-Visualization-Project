@@ -31,13 +31,13 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "PORT=3005 react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "srv-dev": "cd api_srv && npx concurrently -k -n COMPILER,NODEMON -c green,yellow \"tsc -w\" \"nodemon -w dist -q dist/express_srv.js\"",
     "srv-build": "cd api_srv && tsc",
-    "full-dev": "npx concurrently -k -n COMPILER,NODEMON,REACT -c green,yellow,blue \"cd api_srv && tsc -w\" \"nodemon -w dist -q api_srv/dist/express_srv.js\" \"PORT=3005 react-scripts start\"",
+    "full-dev": "concurrently -k -n COMPILER,NODEMON,REACT -c green,yellow,blue \"cd api_srv && tsc -w\" \"nodemon -w dist -q api_srv/dist/express_srv.js\" \"react-scripts start\"",
     "codegen": "graphql-codegen --config codegen.yml"
   },
   "proxy": "http://localhost:3010",
@@ -79,6 +79,7 @@
     "@types/react-router-dom": "^5.1.6",
     "@types/react-transition-group": "^4.4.0",
     "@types/redux-logger": "^3.0.8",
+    "concurrently": "^5.3.0",
     "nodemon": "2.0.6",
     "typescript": "4.0.5"
   }
