@@ -15,7 +15,7 @@
 
 .App-header-col1 {
   background-color: #2f3f4f;
-  min-height: 100px;
+  min-height: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,7 +26,7 @@
 
 .App-header-col2 {
   background-color: #2f3f4f;
-  min-height: 100px;
+  min-height: 150px;
   padding-top: 1.5rem;
   flex-direction: column;
   align-items: center;

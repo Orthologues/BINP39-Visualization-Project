@@ -10,7 +10,9 @@ import { PDB_CODE_ENTRY_REGEX, AA_SUB_ENTRY_REGEX } from '../shared/Consts';
 import { processedPdbIdAaQueries } from '../shared/Funcs';
 import JsMol from './JmolComponent';
 import Mol3D from './Mol3dComponent';
+import Loading from './LoadingComponent';
 import Footer from './FooterComponent';
+
 
 const AaClashQueryExample = `Example:
 >1asd  50Y A101S
@@ -143,7 +145,18 @@ class Main extends Component<MainProps, MainState> {
         </React.Fragment>) 
     }
     
-
+    if (this.props.aaClashQuery.isLoading) {
+      return (
+        <Router>
+          <div className='container-fluid'>
+            <div className='row' style={{ height: '360px' }}>
+              <Loading />
+            </div>
+          </div>
+          <Footer />
+        </Router> 
+      );
+    }
     return (
       <Router>
         <div className='container-fluid'>
