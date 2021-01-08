@@ -8,6 +8,7 @@ import { Button, ButtonGroup, CardTitle, Form, FormGroup, Label, Input, Col, Car
 import * as ReduxActions from '../redux/ActionCreators';
 import { PDB_CODE_ENTRY_REGEX, AA_SUB_ENTRY_REGEX } from '../shared/Consts';
 import { processedPdbIdAaQueries } from '../shared/Funcs';
+import AaClashResult from './AaClashResultComponent';
 import JsMol from './JmolComponent';
 import Mol3D from './Mol3dComponent';
 import Loading from './LoadingComponent';
@@ -37,9 +38,8 @@ const mapAppStateToProps = (state: AppReduxState) => ({
   aaClashQuery: state.aaClashQuery,
   pdbInfoSrc: state.pdbInfoSrc
 });
-
 const mapDispatchToProps = (dispatch: ThunkDispatch<
-  AaClashQueryState,
+  AppReduxState,
   undefined,
   PayloadAction | ReturnType<ThunkAction<any, any, undefined, any>>>) => ({
   // addPdbQuery: (aaClashQuery: PdbIdAaQuery[]) => dispatch(ReduxActions.addPdbQuery(aaClashQuery)),
@@ -203,6 +203,7 @@ class Main extends Component<MainProps, MainState> {
           </div>
 
           <div className='row'>
+            <AaClashResult />
             <div className="mol-div">
               <JsMol key={`mol_js_`} pdbQueries={this.props.aaClashQuery.queries} />
               <Mol3D key={`mol_3d_`} pdbQueries={this.props.aaClashQuery.queries} />

@@ -42,7 +42,7 @@ const handlePdbCodeQuery = (req: Request, res: Response) => {
         //use time of ISO-format as job_id(part of file_name) of aaclash-query
         const JOB_ID = new Date().toISOString();
         const FILE_NAME = `${AA_CLASH_PREFIX}/extra_files/pos${JOB_ID}.txt`;
-        console.log(`New query text file created: ${FILE_NAME}`);
+        // console.log(`New query text file created: ${FILE_NAME}`);
         // write .txt query file first under 'aaclash/' subfolder as a prerequisite to run the .py script
         fs.writeFileSync(FILE_NAME, '');
         aaClashQueries.map(aaClashQuery => {
@@ -79,7 +79,7 @@ const handlePdbCodeQuery = (req: Request, res: Response) => {
             pyScriptRes.code = code;
             pyScriptRes.signal = signal;
             dataToClient.pyRunInfo = pyScriptRes;
-            console.log(JSON.stringify(dataToClient));
+            // console.log(JSON.stringify(dataToClient));
             res.send(dataToClient);
         });
     }

@@ -4,6 +4,9 @@ import * as ActionTypes from './ActionTypes';
 export const AaClashQueryReducer = (
   state: AaClashQueryState = {
     queries: [{ pdbId: '', aaSubs: [] }],
+    queryHistory: [],
+    predResults: [],
+    predResultsHistory: [],
     isLoading: false,
     errMsg: null,
   },
@@ -11,7 +14,15 @@ export const AaClashQueryReducer = (
 ): AaClashQueryState => {
   switch (action.type) {
     case ActionTypes.ADD_PDB_CODE_QUERY:
-      return { ...state, queries: action.payload, isLoading: false };
+      return { ...state, 
+        queries: (action.payload as AaClashPayload).queries, 
+        predResults: (action.payload as AaClashPayload).predResults,
+        isLoading: false };
+    case ActionTypes.APPEND_PDB_CODE_QUERY_HISTORY:
+      return { ...state, 
+        queryHistory: state.queryHistory.concat((action.payload as AaClashPayload).queries), 
+        predResultsHistory: state.predResultsHistory.concat((action.payload as AaClashPayload).predResults),
+        isLoading: false }
     case ActionTypes.LOADING_PDB_QUERY:
       return { ...state, isLoading: true, errMsg: null };
     case ActionTypes.PDB_QUERY_FAILED:

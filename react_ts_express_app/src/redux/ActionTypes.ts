@@ -1,7 +1,12 @@
 export const LOADING_PDB_QUERY = 'PDB_QUERY_LOADING';
 export const ADD_PDB_CODE_QUERY = 'ADD_PDB_CODE_QUERY';
+export const ADD_PDB_FILE_QUERY = 'ADD_PDB_FILE_QUERY';
+export const APPEND_PDB_CODE_QUERY_HISTORY = 'APPEND_PDB_CODE_QUERY_HISTORY';
+export const APPEND_PDB_FILE_QUERY_HISTORY = 'APPEND_PDB_FILE_QUERY_HISTORY';
 export const PDB_QUERY_FAILED = 'PDB_QUERY_FAILED';
+
 export const SWITCH_PDB_INFO_SRC = 'SWITCH_PDB_SRC';
 
-// mol visualization
+// JSmol visualization
 export const SET_MOL_AA_SUB = 'SET_MOL_AA_SUB';
+

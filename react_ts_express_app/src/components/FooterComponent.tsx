@@ -1,10 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 const Footer = withRouter(() => {
   return (
-  
       <div
         className="footer"
         style={{
@@ -19,7 +17,7 @@ const Footer = withRouter(() => {
               <h5>Links</h5>
               <ul className="list-unstyled">
                 <li>
-                  <Link to='/home'>Home</Link>
+                  <Link to='/'>Home</Link>
                 </li>
                 <li>
                   <a className='nav-link' href="http://structure.bmc.lu.se/" target="_blank">
@@ -80,7 +78,6 @@ const Footer = withRouter(() => {
           </div>
         </div>
       </div>
-    
   );
 });
 

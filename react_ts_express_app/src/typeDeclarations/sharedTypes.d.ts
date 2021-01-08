@@ -1,8 +1,8 @@
 // types declared here can be used universally without import
 
 type MolProps = {
-  aaPos?: number[]; //list of amino acid positions from client's query
-  pdbQueries: PdbIdAaQuery[];
+  aaPos?: Array<number>; //list of amino acid positions from client's query
+  pdbQueries: Array<PdbIdAaQuery>;
 };
 
 type MolDisplayState = {
@@ -21,16 +21,21 @@ type AaSub = {
 
 type PdbIdAaQuery = {
   pdbId: string;
-  aaSubs: AaSub[] | Array<string>;
+  aaSubs: Array<AaSub | string>;
 };
 
 // Redux type declaration
 
 type AaClashQueryState = {
-  queries: PdbIdAaQuery[];
+  queries: Array<PdbIdAaQuery>;
+  queryHistory: Array<Array<PdbIdAaQuery>>;
+  predResults: Array<AaClashPredData>;
+  predResultsHistory: Array<Array<AaClashPredData>>; 
   isLoading: boolean;
-  errMsg: string | null;
+  errMsg: string | Array<string> | null;
 };
+
+type AaClashPayload = { queries: Array<PdbIdAaQuery>, predResults: Array<AaClashPredData> };
 
 type PayloadAction = {
   type: string;
@@ -51,9 +56,9 @@ type AaClashPredData = {
 }
 
 type PyScriptResponse = {
-  code?: number,
+  code: number,
   signal?: string,
-  finalText?: string
+  finalText: string
 }
 
 type AaClashDataToClient = {

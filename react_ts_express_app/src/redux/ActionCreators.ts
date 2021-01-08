@@ -7,16 +7,21 @@ import { SRV_URL_PREFIX } from '../shared/Consts';
 import { ThunkAction } from 'redux-thunk';
 
 // actions that return to objects (don't require redux-thunk)
-export const addPdbQuery = (queries: PdbIdAaQuery[]): PayloadAction => ({
+export const addPdbQuery = (queries: PdbIdAaQuery[], predResults: AaClashPredData): PayloadAction => ({
   type: ActionTypes.ADD_PDB_CODE_QUERY,
-  payload: queries,
+  payload: { queries: queries, predResults: predResults }
+});
+
+export const appendPdbQuery = (queries: PdbIdAaQuery[], predResults: AaClashPredData): PayloadAction => ({
+  type: ActionTypes.APPEND_PDB_CODE_QUERY_HISTORY,
+  payload: { queries: queries, predResults: predResults }
 });
 
 export const loadingPdbQuery = (): PayloadAction => ({
   type: ActionTypes.LOADING_PDB_QUERY,
 });
 
-export const pdbQueryFailed = (errMsg: string): PayloadAction => ({
+export const pdbQueryFailed = (errMsg: string | Array<string>): PayloadAction => ({
   type: ActionTypes.PDB_QUERY_FAILED,
   payload: errMsg,
 });
@@ -42,12 +47,12 @@ export const postPdbAaQuery = (
       const aaClashData: AaClashDataToClient = response.data;
       const aaClashPredResult: AaClashPredData = aaClashData.aaClash; 
       const pyRunInfo: PyScriptResponse = aaClashData.pyRunInfo;
-      console.log(JSON.stringify(aaClashPredResult));
-      console.log(JSON.stringify(pyRunInfo));
-      // if (! (aaClashPredResult.goodAcids && aaClashPredResult.badAcids)) {
-      //   console.log(JSON.stringify(pyRunInfo));
-      // }
-      dispatch(addPdbQuery(queries))
+      pyRunInfo.code === 0 ?
+      dispatch(addPdbQuery(queries, aaClashPredResult)) && 
+      dispatch(appendPdbQuery(queries, aaClashPredResult)) :
+      dispatch(pdbQueryFailed([`Error while running the python scripts for AA steric-clash on our server!`,
+      `Exit code: ${pyRunInfo.code}`,
+      `Stderr: ${pyRunInfo.finalText}`]));
     })
     .catch((error: Error) => dispatch(pdbQueryFailed(error.message)));
 };
