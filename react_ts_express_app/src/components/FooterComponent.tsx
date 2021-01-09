@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-const Footer = withRouter(() => {
+const Footer = () => {
   return (
       <div
         className="footer"
@@ -79,6 +79,6 @@ const Footer = withRouter(() => {
         </div>
       </div>
   );
-});
+};
 
 export default Footer;

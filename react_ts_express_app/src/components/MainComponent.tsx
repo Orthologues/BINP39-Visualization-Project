@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { ThunkDispatch, ThunkAction } from 'redux-thunk';
 import { connect } from 'react-redux';
 import { Button, ButtonGroup, CardTitle, Form, FormGroup, Label, Input, Col, CardText } from 'reactstrap';
@@ -187,8 +188,8 @@ class Main extends Component<MainProps, MainState> {
                     <Input type="textarea" id="aaClashInput" name="aaClashInput"
                     onChange={this.handleAaClashQueryInput}
                     onBlur={this.handleAaClashQueryBlur}
-                    valid={this.state.queryFormValue.match(PDB_CODE_ENTRY_REGEX) !== null}
-                    invalid={!PDB_CODE_ENTRY_REGEX.test(this.state.queryFormValue)}
+                    valid={this.state.queryFormValue.match(AA_SUB_ENTRY_REGEX) !== null}
+                    invalid={!AA_SUB_ENTRY_REGEX.test(this.state.queryFormValue)}
                     rows="11" placeholder={AaClashQueryExample}>
                     </Input>
                   </Col>
