@@ -51,7 +51,7 @@ class AaClashResult extends Component<AaClashProps, AaClashState> {
       }
       else if (this.props.aaClashQuery.predResultsHistory.length > 0) {
           return (
-            <div className="col-12 App-header-col1"
+            <div className="col-12 App-body-col1"
             style={{ padding: '16px 5%', fontSize: '18px' }}>
               <CardText>{JSON.stringify(this.props.aaClashQuery.predResults)}</CardText>
             </div> );

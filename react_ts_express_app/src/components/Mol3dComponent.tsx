@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import $ from 'jquery';
 import { Navbar, NavbarBrand } from 'reactstrap';
-import {
-  appendAsyncScript,
-  removeAsyncScriptBySrc,
-  processedPdbId,
-} from '../shared/Funcs';
+import { appendAsyncScript, removeAsyncScriptBySrc, processedPdbId } from '../shared/Funcs';
+import { FRONTEND_PREFIX } from '../shared/Consts';
 import '../css/Mol3D.css';
 
 function Mol3D(props: MolProps): JSX.Element {
@@ -53,12 +50,12 @@ function Mol3D(props: MolProps): JSX.Element {
 
   useLayoutEffect((): void => {
     //this function loads synchronously right after any DOM mutation
-    appendAsyncScript('http://localhost:3000/assets/3Dmol-min.js');
+    appendAsyncScript(`${FRONTEND_PREFIX}/assets/3Dmol-min.js`);
   }, []);
 
   useEffect(() => {
     return () => {
-      removeAsyncScriptBySrc('http://localhost:3000/assets/3Dmol-min.js');
+      removeAsyncScriptBySrc(`${FRONTEND_PREFIX}/assets/3Dmol-min.js`);
     };
   }, []);
 

@@ -7,6 +7,7 @@ import {
   processedPdbId,
 } from '../shared/Funcs';
 import '../css/JsMol.css';
+import { FRONTEND_PREFIX } from '../shared/Consts';
 
 class JsMol extends Component<MolProps, MolDisplayState> {
   constructor(props: MolProps) {
@@ -31,8 +32,8 @@ class JsMol extends Component<MolProps, MolDisplayState> {
       width: '100%',
       height: '100%',
       color: '#E2F4F4',
-      j2sPath: '/assets/JSmol/j2s',
-      serverURL: '/assets/JSmol/php/jsmol.php',
+      j2sPath: `${FRONTEND_PREFIX}/assets/JSmol/j2s`,
+      serverURL: `${FRONTEND_PREFIX}/assets/JSmol/php/jsmol.php`,
       script: `set zoomlarge false; set antialiasDisplay; load =${pdbCode}`,
       use: 'html5',
     };
@@ -40,7 +41,7 @@ class JsMol extends Component<MolProps, MolDisplayState> {
   }
 
   componentDidMount() {
-    appendAsyncScript('http://localhost:3000/assets/JSmol/JSmol-min.js');
+    appendAsyncScript(`${FRONTEND_PREFIX}/assets/JSmol/JSmol-min.js`);
   }
 
   componentDidUpdate() {
@@ -53,7 +54,7 @@ class JsMol extends Component<MolProps, MolDisplayState> {
   //remove all innerHTML elements of "jsmol" HTMLdiv when this component unmounts
   componentWillUnmount() {
     $('#jsmol-container').empty();
-    removeAsyncScriptBySrc('http://localhost:3000/assets/JSmol/JSmol-min.js');
+    removeAsyncScriptBySrc(`${FRONTEND_PREFIX}/assets/JSmol/JSmol-min.js`);
   }
 
   render() {

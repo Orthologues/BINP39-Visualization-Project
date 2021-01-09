@@ -2,6 +2,9 @@
 export const SRV_PORT = 3010;
 export const SRV_URL_PREFIX = `http://localhost:${SRV_PORT.toString()}`;
 
+// prefix of the front-end server
+export const FRONTEND_PREFIX = 'http://localhost:3000';
+
 //pdbE 
 export const PDBE_WEB_PREFIX = 'https://www.ebi.ac.uk/pdbe/entry/pdb';
 export const PDBE_API_PREFIX = 'https://www.ebi.ac.uk/pdbe/api/pdb/entry/summary';

@@ -13,6 +13,7 @@ import AaClashResult from './AaClashResultComponent';
 import JsMol from './JmolComponent';
 import Mol3D from './Mol3dComponent';
 import Loading from './LoadingComponent';
+import Header from './HeaderComponent';
 import Footer from './FooterComponent';
 
 
@@ -160,9 +161,10 @@ class Main extends Component<MainProps, MainState> {
     }
     return (
       <Router>
+        <Header />
         <div className='container-fluid'>
           <div className='row'>
-            <div className='col-12 col-lg-3 App-header-col1'>
+            <div className='col-12 col-lg-3 App-body-col1'>
               <CardTitle tag="h5">Choose source of PDB database: </CardTitle>
               <ButtonGroup style={{ marginTop: '0.5rem' }}>
                 <Button color="info" onClick={ () => this.props.switchPdbInfoSrc('rcsb') &&
@@ -174,7 +176,7 @@ class Main extends Component<MainProps, MainState> {
               </ButtonGroup>
             </div>
             
-            <div className='col-12 col-lg-9 App-header-col2'>
+            <div className='col-12 col-lg-9 App-body-col2'>
               <Form onSubmit={this.submitAaClashQuery}>
                 <FormGroup row>
                   <Col lg={3}>

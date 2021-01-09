@@ -13,7 +13,11 @@
   }
 }
 
-.App-header-col1 {
+.App-header-nav-icon {
+  margin-right: 5px;
+}
+
+.App-body-col1 {
   background-color: #2f3f4f;
   min-height: 150px;
   display: flex;
@@ -24,7 +28,7 @@
   color: white;
 }
 
-.App-header-col2 {
+.App-body-col2 {
   background-color: #2f3f4f;
   min-height: 150px;
   padding-top: 1.5rem;
@@ -76,54 +80,3 @@
   height: 500px;
 }
 
-#pdb-input {
-  margin: 2rem;
-  width: 220px;
-  height: 50px;
-  font-size: 1rem;
-}
-
-::-webkit-input-placeholder {
-  /* Chrome/Opera/Safari */
-  font-size: 0.9rem;
-}
-::-moz-placeholder {
-  /* Firefox 19+ */
-  font-size: 0.9rem;
-}
-:-ms-input-placeholder {
-  /* IE 10+ */
-  font-size: 0.9rem;
-}
-:-moz-placeholder {
-  /* Firefox 18- */
-
-  font-size: 0.9rem;
-}
-
-#pdb-input::-webkit-input-placeholder {
-  color: pink;
-}
-
-#pdb-submit {
-  margin-bottom: 1rem;
-  width: 135px;
-  height: 45px;
-}
-
-#pdb-clear {
-  margin-top: 1rem;
-  margin-left: 1.5rem;
-}
-
-@media only screen and (max-width: 600px) {
-  #pdb-input {
-    width: 120px;
-    height: 30px;
-  }
-
-  #pdb-submit {
-    width: 120px;
-    height: 40px;
-  }
-}
