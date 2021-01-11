@@ -3,6 +3,18 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
+  "description": [
+    "this json file consists of dependencies for react.js(with ts at dev stage) frontend and express.js(with ts at dev stage) backend codes",
+    {
+      "dependecies for running nodejs backend": [
+        "axios",
+        "body-parser",
+        "cors",
+        "express",
+        "python-shell"
+      ]
+    }
+  ],
   "dependencies": {
     "apollo-boost": "^0.4.9",
     "axios": "^0.21.0",
@@ -15,7 +27,6 @@
     "graphql": "^15.4.0",
     "graphql-tag": "^2.11.0",
     "jquery": "^3.5.1",
-    "json-server": "^0.16.3",
     "python-shell": "^2.0.3",
     "react": "^17.0.1",
     "react-apollo": "^3.1.5",
