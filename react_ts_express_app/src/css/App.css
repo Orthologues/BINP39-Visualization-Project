@@ -17,7 +17,7 @@
   margin-right: 5px;
 }
 
-.App-body-col1 {
+.App-body-col1, .App-body-col2  {
   background-color: #2f3f4f;
   min-height: 150px;
   display: flex;
@@ -28,15 +28,10 @@
   color: white;
 }
 
-.App-body-col2 {
-  background-color: #2f3f4f;
-  min-height: 150px;
+.App-body-col2 {  
+  display: inline-block;
   padding-top: 1.5rem;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   font-size: calc(8px + 1.5vmin);
-  color: white;
 }
 
 .App-link {

@@ -12,6 +12,7 @@ import { processedPdbIdAaQueries } from '../shared/Funcs';
 import AaClashResult from './AaClashResultComponent';
 import JsMol from './JmolComponent';
 import Mol3D from './Mol3dComponent';
+import RcsbGraphQl from '../components/RcsbPdbGql';
 import Loading from './LoadingComponent';
 import Header from './HeaderComponent';
 import Footer from './FooterComponent';

@@ -42,16 +42,16 @@ class Header extends Component<any, HeaderState> {
                   <span className="fa fa-home fa-lg App-header-nav-icon"></span>Home</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className="nav-link" to='/aboutus'>
+                <NavLink className="nav-link" to='/query-history'>
                   <span className="fa fa-info fa-lg App-header-nav-icon"></span>Query history</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className="nav-link"  to='/menu'>
-                  <span className="fa fa-list fa-lg App-header-nav-icon"></span>RCSB data</NavLink>
+                <NavLink className="nav-link"  to='/about'>
+                  <span className="fa fa-list fa-lg App-header-nav-icon"></span>About</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className="nav-link" to='/contactus'>
-                  <span className="fa fa-address-card fa-lg App-header-nav-icon"></span>Contact Us</NavLink>
+                <NavLink className="nav-link" to='/disclaimer'>
+                  <span className="fa fa-address-card fa-lg App-header-nav-icon"></span>Disclaimer</NavLink>
               </NavItem>
               </Nav>
             </Collapse>

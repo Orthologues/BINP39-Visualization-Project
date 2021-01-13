@@ -2,15 +2,15 @@
 
 import React, { Component } from 'react';
 import Main from '../components/MainComponent';
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
-import { ApolloProvider as ApolloHooksProvider } from 'react-apollo-hooks';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { ApolloProvider as ApolloHooksProvider } from '@apollo/react-hooks';
 import { Provider as ReduxProvider } from 'react-redux';
 import { createThunkLoggerStore } from '../redux/Store';
 import '../css/App.css';
 
 const rcsbClient = new ApolloClient({
-  uri: 'https://data.rcsb.org/graphql/',
+    cache: new InMemoryCache(),
+    uri: 'https://data.rcsb.org/graphql',
 });
 
 const Store = createThunkLoggerStore();

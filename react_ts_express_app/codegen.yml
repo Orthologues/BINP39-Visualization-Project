@@ -1,5 +1,5 @@
 overwrite: true
-schema: "https://data.rcsb.org/graphql/"
+schema: "https://data.rcsb.org/graphql"
 documents: "./src/components/**/*.{ts,tsx}"
 generates:
   src/graphql.tsx:
