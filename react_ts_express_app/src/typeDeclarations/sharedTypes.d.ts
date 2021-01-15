@@ -35,14 +35,19 @@ type PayloadAction = {
 type AaClashQueryState = {
   queryMode: string;
   queries: Array<PdbIdAaQuery>;
-  queryHistory: Array<Array<PdbIdAaQuery>>;
+  queryHistory: Array<PdbIdAaQuery>;
   predResults: Array<AaClashPredData>;
-  predResultsHistory: Array<Array<AaClashPredData>>; 
+  predResultsHistory: Array<AaClashPredData>; 
   isLoading: boolean;
   errMsg: string | Array<string> | null;
 };
 
-type AppReduxState = { aaClashQuery: AaClashQueryState } 
+type RcsbGraphQlState = {
+  displayMode: string,
+  selectedQuery?: PdbIdAaQuery
+}
+
+type AppReduxState = { aaClashQuery: AaClashQueryState, rcsbGraphQl: RcsbGraphQlState } 
 
 // types about result of aa-clash prediction by Jelena's python codes
 type AaClashPredData = {

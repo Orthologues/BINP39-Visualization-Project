@@ -26,8 +26,7 @@ const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
 
     if ( !rootQuery.entry || !rootQuery.entry.rcsb_entry_container_identifiers.rcsb_id ) {
         return (
-            <div key={`${ROOT_CLASS_NAME}_no_entry`} 
-            className={`${ROOT_CLASS_NAME}-no-entry`}>
+            <div className={`${ROOT_CLASS_NAME}-no-entry`}>
                 <Card>
                     <CardHeader>
                         <CardTitle>RCSB API</CardTitle>
@@ -42,8 +41,7 @@ const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
 
     if (! rootQuery.entry.rcsb_entry_container_identifiers.entity_ids) {
         return (
-            <div key={`${ROOT_CLASS_NAME}_no_entry`} 
-            className={`${ROOT_CLASS_NAME}-no-entry`}>
+            <div className={`${ROOT_CLASS_NAME}-no-entry`}>
             <Card>
                 <CardHeader>
                     <CardTitle>RCSB API</CardTitle>
@@ -58,8 +56,7 @@ const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
 
     const RCSB_PDB_ID = rootQuery.entry.rcsb_entry_container_identifiers.rcsb_id;
     return (
-        <div key={`${ROOT_CLASS_NAME}_entry_${RCSB_PDB_ID}`}
-        className={`${ROOT_CLASS_NAME}-entry`}>
+        <div className={`${ROOT_CLASS_NAME}-entry`}>
           <Card>
             <CardHeader>
                 <CardTitle>RCSB API</CardTitle>
@@ -110,11 +107,11 @@ export const PdbIdSeqAndToUniprot: FC<SecondaryProps> = ({entryId, entityId}) =>
         const uniprotIds = data.polymer_entity?.rcsb_polymer_entity_container_identifiers.uniprot_ids;
 
         return (
-        <div key={`${SECONDARY_CLASS_NAME}_${entryId}_${entityId}`} 
-        className={`${SECONDARY_CLASS_NAME}-entry`}>
+        <div className={`${SECONDARY_CLASS_NAME}-entry`}>
             {
-              uniprotIds.map(uniprotId => (
-                <RcsbUniprotInfo uniprotId={String(uniprotId)} />
+              uniprotIds.map((uniprotId, ind) => (
+                <RcsbUniprotInfo uniprotId={String(uniprotId)} 
+                key={`${String(uniprotId)}_${ind}`}/>
               ))
             }
         </div>
@@ -122,16 +119,14 @@ export const PdbIdSeqAndToUniprot: FC<SecondaryProps> = ({entryId, entityId}) =>
     }
 
     return (
-      <div key={`${SECONDARY_CLASS_NAME}_${entryId}_${entityId}`} 
-      className={`${SECONDARY_CLASS_NAME}-entry`}>
+      <div className={`${SECONDARY_CLASS_NAME}-entry`}>
       </div>)
 }
 
 const RcsbUniprotInfo: FC<TertiaryProps> = ({uniprotId}) => {
     
     return (
-        <div key={`${TERTIARY_CLASS_NAME}_${uniprotId}`}
-        className={`${TERTIARY_CLASS_NAME}-entry`}>
+        <div className={`${TERTIARY_CLASS_NAME}-entry`}>
             
         </div>)
 }

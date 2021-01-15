@@ -61,3 +61,14 @@ export const switchAaClashQueryMode = (newMode: 'PDB-CODE' | 'FILE'): PayloadAct
   type: ActionTypes.SWITCH_AACLASH_QUERY_MODE,
   payload: newMode
 });
+
+// actions for RCSB_PDB GraphQL API
+export const switchGqlListMode = (newMode: 'latest' | 'history'): PayloadAction => ({
+  type: ActionTypes.SWITCH_LIST_DISPLAY_MODE,
+  payload: newMode
+})
+
+export const selectGqlPdbId = (clickedQuery: PdbIdAaQuery): PayloadAction => ({
+  type: ActionTypes.SELECT_RCSB_PDB_ID,
+  payload: clickedQuery
+})

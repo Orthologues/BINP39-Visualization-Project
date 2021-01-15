@@ -1,6 +1,6 @@
 import * as ActionTypes from './ActionTypes';
 
-const initialAAClashState = {
+const initialAAClashState: AaClashQueryState = {
     queryMode: 'PDB-CODE',
     queries: [{ pdbId: '', aaSubs: [] }],
     queryHistory: [],
@@ -42,3 +42,25 @@ export const AaClashQueryReducer = (
   }
 };
 
+const initialRcsbGqlState: RcsbGraphQlState = {
+  displayMode: 'latest',
+  selectedQuery: undefined
+}
+
+export const RcsbGqlReducer = (state: RcsbGraphQlState = initialRcsbGqlState, 
+  action: PayloadAction): RcsbGraphQlState => {
+    switch (action.type) {
+      case ActionTypes.SELECT_RCSB_PDB_ID:
+        return { ...state, selectedQuery: action.payload }
+      case ActionTypes.SWITCH_LIST_DISPLAY_MODE:
+        if (action.payload === 'latest') {
+          return { ...state, displayMode: action.payload }
+        } else if (action.payload === 'history') {
+          return { ...state, displayMode: action.payload }
+        } else {
+          return state;
+        }
+        default:
+          return state;
+    }
+}

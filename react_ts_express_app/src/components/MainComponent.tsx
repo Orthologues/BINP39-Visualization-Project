@@ -39,6 +39,7 @@ type MainState = { //define this instead of 'any' in order to do error handling 
 
 const mapAppStateToProps = (state: AppReduxState) => ({
   aaClashQuery: state.aaClashQuery,
+  rcsbGraphQl: state.rcsbGraphQl
 });
 const mapDispatchToProps = (dispatch: ThunkDispatch<
   AppReduxState,
@@ -150,6 +151,7 @@ class Main extends Component<MainProps, MainState> {
     if (this.props.aaClashQuery.isLoading) {
       return (
         <Router>
+          <Header />
           <div className='container-fluid'>
             <div className='row' style={{ height: '360px' }}>
               <Loading />
@@ -172,7 +174,7 @@ class Main extends Component<MainProps, MainState> {
                 active={this.state.aaClashQueryMode === 'PDB-CODE'}>PDB-CODE (default)</Button>
                 <Button color="info" onClick={ () => this.props.switchAaClashQueryMode('FILE') &&
                 this.switchAaClashQueryMode('FILE') }
-                active={this.state.aaClashQueryMode === 'FILE'}>FILE</Button>
+                active={this.state.aaClashQueryMode === 'FILE'}>PDB FILE</Button>
               </ButtonGroup>
             </div>
             
@@ -209,6 +211,8 @@ class Main extends Component<MainProps, MainState> {
 
           <div className='row'>
             <AaClashResult />
+            <RcsbGraphQl queries={this.props.aaClashQuery.queries}
+            queryHistory={this.props.aaClashQuery.queryHistory} />
             <div className="mol-div">
               <JsMol key={`mol_js_`} pdbQueries={this.props.aaClashQuery.queries} />
               <Mol3D key={`mol_3d_`} pdbQueries={this.props.aaClashQuery.queries} />

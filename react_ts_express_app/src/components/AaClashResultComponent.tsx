@@ -3,16 +3,16 @@ import { connect } from 'react-redux';
 import { ThunkDispatch, ThunkAction } from 'redux-thunk';
 // import { Link, Route, Redirect, Switch, withRouter } from 'react-router-dom';
 import { CardText } from 'reactstrap';
-import * as ReduxActions from '../redux/ActionCreators';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-type AaClashProps = AppReduxState & {};
+type AaClashProps = AppReduxState;
 type AaClashState = {
     selectedPdbAaSubRoute?: string
 }
 
 const mapAppStateToProps = (state: AppReduxState) => ({
     aaClashQuery: state.aaClashQuery,
+    rcsbGraphQl: state.rcsbGraphQl
 });
 const mapDispatchToProps = (dispatch: ThunkDispatch<
   AppReduxState,
