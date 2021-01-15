@@ -1,15 +1,17 @@
 import * as ActionTypes from './ActionTypes';
 
-
-export const AaClashQueryReducer = (
-  state: AaClashQueryState = {
+const initialAAClashState = {
+    queryMode: 'PDB-CODE',
     queries: [{ pdbId: '', aaSubs: [] }],
     queryHistory: [],
     predResults: [],
     predResultsHistory: [],
     isLoading: false,
     errMsg: null,
-  },
+}
+
+export const AaClashQueryReducer = (
+  state: AaClashQueryState = initialAAClashState,
   action: PayloadAction
 ): AaClashQueryState => {
   switch (action.type) {
@@ -27,25 +29,16 @@ export const AaClashQueryReducer = (
       return { ...state, isLoading: true, errMsg: null };
     case ActionTypes.PDB_QUERY_FAILED:
       return { ...state, isLoading: false, errMsg: action.payload };
+    case ActionTypes.SWITCH_AACLASH_QUERY_MODE:
+      if (action.payload === 'PDB-CODE') {
+        return { ...state, queryMode: 'PDB-CODE' }
+      } else if (action.payload === 'FILE') {
+        return { ...state, queryMode: 'FILE' }
+      } else {
+        return state;
+      } 
     default:
       return state;
   }
 };
 
-export const PdbInfoSrcReducer = (
-  state: PdbInfoSrcState = { pdbInfoSrc: 'rcsb' },
-  action: PayloadAction
-): PdbInfoSrcState => {
-  switch (action.type) {
-    case ActionTypes.SWITCH_PDB_INFO_SRC:
-      if (action.payload === 'pdbe') {
-        return { pdbInfoSrc: 'pdbe' }
-      } else if (action.payload === 'rcsb') {
-        return { pdbInfoSrc: 'rcsb' }
-      } else {
-        return state 
-      }
-    default:
-      return state;
-  }
-};

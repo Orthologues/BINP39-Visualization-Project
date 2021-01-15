@@ -13,7 +13,6 @@ type AaClashState = {
 
 const mapAppStateToProps = (state: AppReduxState) => ({
     aaClashQuery: state.aaClashQuery,
-    pdbInfoSrc: state.pdbInfoSrc
 });
 const mapDispatchToProps = (dispatch: ThunkDispatch<
   AppReduxState,

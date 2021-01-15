@@ -1,5 +1,5 @@
-.root-query-no-entry, .root-query-entry {
-    height: 20vh;
+.pdb-query-list {
+    height: 100vh;
     overflow: hidden auto;
     background-color: #ececec;
     width: 300px;
@@ -7,6 +7,15 @@
     padding-right: 20px;
 }
 
-.root-query-entry {
-    height: 50vh;
-}
+.pdb-query-ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+.pdb-query-item {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid #919191;
+    cursor: pointer;
+  }

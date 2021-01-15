@@ -1,32 +1,24 @@
 import React, { FC, useEffect } from 'react'; 
-import { QueryResult } from '@apollo/client';
 import { useGetPdbBasicQuery } from '../../graphql';
 import RcsbPdbGql, { PdbIdSeqAndToUniprot } from './RcsbGraphQl';
 import { Card, CardHeader, CardTitle, CardBody, CardText } from 'reactstrap';
 import '../../css/RcsbPdbGql.css';
 
 type EntryProps = {
-    pdbCodeEntry: string
+    pdbCode: string
 }
 
-const RcsbGqlIndex: FC<EntryProps> = (props) => {
+const RcsbGqlIndex: FC<EntryProps> = ({pdbCode}) => {
 
-    let { data, error, loading, refetch } = useGetPdbBasicQuery({
-        variables: { entry_id: String(props.pdbCodeEntry) },
+    const { data, error, loading, refetch } = useGetPdbBasicQuery({
+        variables: { entry_id: String(pdbCode) },
     });
-
-    const pdbBasicResult: Partial<ReturnType<typeof useGetPdbBasicQuery>> = {
-        data: data, 
-        error: error,
-        loading: loading,
-        refetch: refetch
-    }
 
     useEffect(() => {
         refetch();
-    }, [props.pdbCodeEntry]);
+    }, [pdbCode]);
 
-    if (pdbBasicResult.loading) {
+    if (loading) {
         return (
             <Card>
               <CardBody>
@@ -36,7 +28,7 @@ const RcsbGqlIndex: FC<EntryProps> = (props) => {
         )
     }
 
-    if (pdbBasicResult.error) {
+    if (error) {
         return (
             <Card>
               <CardHeader>
@@ -44,32 +36,45 @@ const RcsbGqlIndex: FC<EntryProps> = (props) => {
               </CardHeader>
               <CardBody>  
                 <CardText>
-                  {`Error message: ${pdbBasicResult.error.message}`}
+                  {`Error message: ${error.message}`}
                 </CardText>
               </CardBody>
             </Card> 
         )
     }
 
-    if ( pdbBasicResult.data?.entry?.rcsb_entry_container_identifiers.rcsb_id && 
-        pdbBasicResult.data.entry.rcsb_entry_container_identifiers.entity_ids ) {
-        
-        const entryId = pdbBasicResult.data?.entry?.rcsb_entry_container_identifiers.rcsb_id;
-        const entityIds = pdbBasicResult.data.entry.rcsb_entry_container_identifiers.entity_ids;
-
-        entityIds.map(entityId => {
-      
-        });
-        
+    if (!data) {
+        return (
+            <Card>
+              <CardBody>
+                <CardTitle>Failed to fetch data from RCSB-PDB</CardTitle>
+              </CardBody>
+            </Card> 
+        )
     }
 
-    return (
-        <Card>
-          <CardBody>
-            <CardTitle>RCSB-PDB API</CardTitle>
-          </CardBody>
-        </Card> 
-    )
+    if ( data?.entry?.rcsb_entry_container_identifiers.rcsb_id && 
+        data.entry.rcsb_entry_container_identifiers.entity_ids ) {
+        
+        const entryId = data?.entry?.rcsb_entry_container_identifiers.rcsb_id;
+        const entityIds = data.entry.rcsb_entry_container_identifiers.entity_ids;
+
+        return (
+            <Card>
+              <CardHeader>
+                <CardTitle>Data from RCSB-PDB's GraphQl API</CardTitle>
+              </CardHeader>
+              <CardBody>  
+                <RcsbPdbGql pdbCode={pdbCode} rootQuery={data}/>
+                {entityIds.map(entityId => 
+                    (<PdbIdSeqAndToUniprot entryId={entryId} entityId={String(entityId)}/>)
+                )}
+              </CardBody>
+            </Card> 
+        )
+    }
+
+    return (<div></div>);
 }
 
 export default RcsbGqlIndex;

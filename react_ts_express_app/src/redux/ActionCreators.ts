@@ -57,7 +57,7 @@ export const postPdbAaQuery = (
     .catch((error: Error) => dispatch(pdbQueryFailed(error.message)));
 };
 
-export const switchPdbInfoSrc = (newSrc: 'pdbe' | 'rcsb'): PayloadAction => ({
-  type: ActionTypes.SWITCH_PDB_INFO_SRC,
-  payload: newSrc
+export const switchAaClashQueryMode = (newMode: 'PDB-CODE' | 'FILE'): PayloadAction => ({
+  type: ActionTypes.SWITCH_AACLASH_QUERY_MODE,
+  payload: newMode
 });

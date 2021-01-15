@@ -28,18 +28,17 @@ L310R 487`
 type MainProps = AppReduxState & { 
   // addPdbQuery: (aaClashQuery: PdbIdAaQuery[]) => PayloadAction
   postPdbAaQuery: (aaClashQuery: PdbIdAaQuery[]) => ThunkAction<Promise<void>, any, undefined, any>,
-  switchPdbInfoSrc: (newSrc: 'pdbe' | 'rcsb') => PayloadAction
+  switchAaClashQueryMode: (newMode: 'PDB-CODE' | 'FILE') => PayloadAction
 }
 type MainState = { //define this instead of 'any' in order to do error handling for {Form} from 'reactstrap'
   queryFormTouched: boolean,
   queryFormValue: string,
   queryErrMsg: string,
-  pdbInfoSrc: 'pdbe' | 'rcsb'
+  aaClashQueryMode: 'PDB-CODE' | 'FILE'
 }
 
 const mapAppStateToProps = (state: AppReduxState) => ({
   aaClashQuery: state.aaClashQuery,
-  pdbInfoSrc: state.pdbInfoSrc
 });
 const mapDispatchToProps = (dispatch: ThunkDispatch<
   AppReduxState,
@@ -47,7 +46,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<
   PayloadAction | ReturnType<ThunkAction<any, any, undefined, any>>>) => ({
   // addPdbQuery: (aaClashQuery: PdbIdAaQuery[]) => dispatch(ReduxActions.addPdbQuery(aaClashQuery)),
   postPdbAaQuery: (aaClashQuery: PdbIdAaQuery[]) => dispatch(ReduxActions.postPdbAaQuery(aaClashQuery)),
-  switchPdbInfoSrc: (newSrc: 'rcsb' | 'pdbe') => dispatch(ReduxActions.switchPdbInfoSrc(newSrc))
+  switchAaClashQueryMode: (newMode: 'PDB-CODE'|'FILE') => dispatch(ReduxActions.switchAaClashQueryMode(newMode))
 });
 
 
@@ -59,15 +58,15 @@ class Main extends Component<MainProps, MainState> {
       queryFormTouched: false,
       queryFormValue: '',
       queryErrMsg: '',
-      pdbInfoSrc: 'rcsb'
+      aaClashQueryMode: 'PDB-CODE'
     }
     this.submitAaClashQuery = this.submitAaClashQuery.bind(this);
     this.handleAaClashQueryBlur = this.handleAaClashQueryBlur.bind(this);
     this.handleAaClashQueryInput = this.handleAaClashQueryInput.bind(this);
   }
 
-  switchPdbInfoSrcState = (newSrc: 'rcsb' | 'pdbe') => {
-    this.setState((prevState: MainState) => ({ ...prevState, pdbInfoSrc: newSrc }));
+  switchAaClashQueryMode = (newMode: 'PDB-CODE' | 'FILE') => {
+    this.setState((prevState: MainState) => ({ ...prevState, aaClashQueryMode: newMode }));
   }
 
   validateAAClashQuery = (aaClashQuery: string) => {
@@ -166,19 +165,20 @@ class Main extends Component<MainProps, MainState> {
         <div className='container-fluid'>
           <div className='row'>
             <div className='col-12 col-lg-3 App-body-col1'>
-              <CardTitle tag="h5">Choose source of PDB database: </CardTitle>
+              <CardTitle tag="h5">Choose mode of AA-Clash query: </CardTitle>
               <ButtonGroup style={{ marginTop: '0.5rem' }}>
-                <Button color="info" onClick={ () => this.props.switchPdbInfoSrc('rcsb') &&
-                this.switchPdbInfoSrcState('rcsb') }
-                active={this.state.pdbInfoSrc === 'rcsb'}>RCSB PDB (default)</Button>
-                <Button color="info" onClick={ () => this.props.switchPdbInfoSrc('pdbe') &&
-                this.switchPdbInfoSrcState('pdbe') }
-                active={this.state.pdbInfoSrc === 'pdbe'}>pdbE</Button>
+                <Button color="info" onClick={ () => this.props.switchAaClashQueryMode('PDB-CODE') &&
+                this.switchAaClashQueryMode('PDB-CODE') }
+                active={this.state.aaClashQueryMode === 'PDB-CODE'}>PDB-CODE (default)</Button>
+                <Button color="info" onClick={ () => this.props.switchAaClashQueryMode('FILE') &&
+                this.switchAaClashQueryMode('FILE') }
+                active={this.state.aaClashQueryMode === 'FILE'}>FILE</Button>
               </ButtonGroup>
             </div>
             
             <div className='col-12 col-lg-9 App-body-col2'>
-              <Form onSubmit={this.submitAaClashQuery}>
+              { this.props.aaClashQuery.queryMode === 'PDB-CODE' && (
+                <Form onSubmit={this.submitAaClashQuery}>
                 <FormGroup row>
                   <Col lg={3}>
                     {displayAaClashQueryExample(AaClashQueryExample)}
@@ -202,7 +202,8 @@ class Main extends Component<MainProps, MainState> {
                     <Button type="submit" color="warning">See results!</Button>
                   </Col>
                 </FormGroup>
-              </Form>
+              </Form> ) 
+              }
             </div>
           </div>
 

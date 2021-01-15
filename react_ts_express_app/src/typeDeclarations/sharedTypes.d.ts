@@ -25,8 +25,15 @@ type PdbIdAaQuery = {
 };
 
 // Redux type declaration
+type AaClashPayload = { queries: Array<PdbIdAaQuery>, predResults: Array<AaClashPredData> };
+
+type PayloadAction = {
+  type: string;
+  payload?: T;
+};
 
 type AaClashQueryState = {
+  queryMode: string;
   queries: Array<PdbIdAaQuery>;
   queryHistory: Array<Array<PdbIdAaQuery>>;
   predResults: Array<AaClashPredData>;
@@ -35,16 +42,7 @@ type AaClashQueryState = {
   errMsg: string | Array<string> | null;
 };
 
-type AaClashPayload = { queries: Array<PdbIdAaQuery>, predResults: Array<AaClashPredData> };
-
-type PayloadAction = {
-  type: string;
-  payload?: T;
-};
-
-type PdbInfoSrcState = { pdbInfoSrc: 'pdbe' | 'rcsb' };
-
-type AppReduxState = { aaClashQuery: AaClashQueryState } & PdbInfoSrcState;
+type AppReduxState = { aaClashQuery: AaClashQueryState } 
 
 // types about result of aa-clash prediction by Jelena's python codes
 type AaClashPredData = {
