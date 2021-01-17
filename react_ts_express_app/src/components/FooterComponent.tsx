@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-const Footer = () => {
+const Footer: FC<any> = () => {
   return (
       <div
         className="footer"
@@ -17,7 +17,7 @@ const Footer = () => {
               <h5>Links</h5>
               <ul className="list-unstyled">
                 <li>
-                  <Link to='/'>Home</Link>
+                  <Link to='/home'>Home</Link>
                 </li>
                 <li>
                   <a className='nav-link' href="http://structure.bmc.lu.se/" target="_blank">

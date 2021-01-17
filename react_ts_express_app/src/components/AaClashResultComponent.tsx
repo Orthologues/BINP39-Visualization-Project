@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ThunkDispatch, ThunkAction } from 'redux-thunk';
-// import { Link, Route, Redirect, Switch, withRouter } from 'react-router-dom';
 import { CardText } from 'reactstrap';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 type AaClashProps = AppReduxState;
 type AaClashState = {

@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 import { Navbar, NavbarBrand } from 'reactstrap';
-import {
-  appendAsyncScript,
-  removeAsyncScriptBySrc,
-  processedPdbId,
-} from '../shared/Funcs';
-import '../css/JsMol.css';
-import { FRONTEND_PREFIX } from '../shared/Consts';
+import { appendAsyncScript, removeAsyncScriptBySrc, processedPdbId } from '../../shared/Funcs';
+import '../../css/JsMol.css';
+import { FRONTEND_PREFIX } from '../../shared/Consts';
 
 class JsMol extends Component<MolProps, MolDisplayState> {
   constructor(props: MolProps) {

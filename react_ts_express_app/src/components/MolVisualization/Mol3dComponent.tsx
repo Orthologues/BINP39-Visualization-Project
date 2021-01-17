@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { FC, useState, useEffect, useLayoutEffect } from 'react';
 import $ from 'jquery';
 import { Navbar, NavbarBrand } from 'reactstrap';
-import { appendAsyncScript, removeAsyncScriptBySrc, processedPdbId } from '../shared/Funcs';
-import { FRONTEND_PREFIX } from '../shared/Consts';
-import '../css/Mol3D.css';
+import { appendAsyncScript, removeAsyncScriptBySrc, processedPdbId } from '../../shared/Funcs';
+import { FRONTEND_PREFIX } from '../../shared/Consts';
+import '../../css/Mol3D.css';
 
-function Mol3D(props: MolProps): JSX.Element {
+const Mol3D: FC<MolProps> = (props) => {
   const [molState, setMolState] = useState<MolDisplayState>({
     divHidden: true,
   });

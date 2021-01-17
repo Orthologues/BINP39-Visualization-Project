@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const Loading = (): JSX.Element => {
+const Loading: FC<any> = () => {
     return(
         <div className="col-12 App-body-col1">
             <span className="fa fa-spinner fa-pulse fa-3x fa-fw text-primary"></span>

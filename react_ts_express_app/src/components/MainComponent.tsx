@@ -1,21 +1,14 @@
 // Apply react-router and react-transition-group here
 
 import React, { Component } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { ThunkDispatch, ThunkAction } from 'redux-thunk';
 import { connect } from 'react-redux';
 import { Button, ButtonGroup, CardTitle, Form, FormGroup, Label, Input, Col, CardText } from 'reactstrap';
 import * as ReduxActions from '../redux/ActionCreators';
 import { PDB_CODE_ENTRY_REGEX, AA_SUB_ENTRY_REGEX } from '../shared/Consts';
-import { processedPdbIdAaQueries, uniquePdbIds } from '../shared/Funcs';
+import { processedPdbIdAaQueries } from '../shared/Funcs';
 import AaClashResult from './AaClashResultComponent';
-import JsMol from './JmolComponent';
-import Mol3D from './Mol3dComponent';
-import RcsbGraphQl from '../components/RcsbPdbGql';
 import Loading from './LoadingComponent';
-import Header from './HeaderComponent';
-import Footer from './FooterComponent';
 
 
 const AaClashQueryExample = `Example:
@@ -149,82 +142,70 @@ class Main extends Component<MainProps, MainState> {
     
     if (this.props.aaClashQuery.isLoading) {
       return (
-        <Router>
-          <Header />
-          <div className='container-fluid'>
-            <div className='row' style={{ height: '360px' }}>
-              <Loading />
-            </div>
+        <div className='container-fluid'>
+          <div className='row' style={{ height: '360px' }}>
+            <Loading />
           </div>
-          <Footer />
-        </Router> 
+        </div>
       );
     }
 
     return (
-      <Router>
-        <Header />
-        <div className='container-fluid'>
-          <div className='row'>
-            <div className='col-12 col-lg-3 App-body-col1'>
-              <CardTitle tag="h5">Choose mode of AA-Clash query: </CardTitle>
-              <ButtonGroup style={{ marginTop: '0.5rem' }}>
-                <Button color="info" onClick={ () => this.props.switchAaClashQueryMode('PDB-CODE') &&
-                this.switchAaClashQueryMode('PDB-CODE') }
-                active={this.state.aaClashQueryMode === 'PDB-CODE'}>PDB-CODE (default)</Button>
-                <Button color="info" onClick={ () => this.props.switchAaClashQueryMode('FILE') &&
-                this.switchAaClashQueryMode('FILE') }
-                active={this.state.aaClashQueryMode === 'FILE'}>PDB FILE</Button>
-              </ButtonGroup>
-            </div>
-            
-            <div className='col-12 col-lg-9 App-body-col2'>
-              {this.props.aaClashQuery.queryMode === 'PDB-CODE' ? (
-                <Form onSubmit={this.submitAaClashQuery}>
-                <FormGroup row>
-                  <Col lg={3}>
-                    {displayAaClashQueryExample(AaClashQueryExample)}
-                    <CardText style={{ color: '#fd9a24', marginTop: '1rem' }}>
-                    {this.state.queryErrMsg}</CardText>
-                  </Col>
-                  <Col lg={8}>
-                    <Label style={{ marginTop: '0.5rem' }} 
-                    htmlFor="aaClashInput">AA-Clash query:</Label>
-                    <Input type="textarea" id="aaClashInput" name="aaClashInput"
-                    onChange={this.handleAaClashQueryInput}
-                    onBlur={this.handleAaClashQueryBlur}
-                    valid={this.state.queryFormValue.match(AA_SUB_ENTRY_REGEX) !== null}
-                    invalid={!AA_SUB_ENTRY_REGEX.test(this.state.queryFormValue)}
-                    rows="11" placeholder={AaClashQueryExample}>
-                    </Input>
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Col lg={{ size: 10, offset: 2 }}>
-                    <Button type="submit" color="primary">See results!</Button>
-                  </Col>
-                </FormGroup>
-              </Form>
-              ) : (
-                <Form>
-                  <CardText>File query mode (To be continued)</CardText>
-                </Form>
-              )}
-            </div>
-          </div>
+      <div className='container-fluid'>
 
-          <div className='row'>
-            <AaClashResult />
-            <RcsbGraphQl queries={uniquePdbIds(this.props.aaClashQuery.queries)}
-            queryHistory={uniquePdbIds(this.props.aaClashQuery.queryHistory)} />
-            <div className="mol-div">
-              <JsMol key={`mol_js_`} pdbQueries={this.props.aaClashQuery.queries} />
-              <Mol3D key={`mol_3d_`} pdbQueries={this.props.aaClashQuery.queries} />
-            </div>
+        <div className='row'>
+          <div className='col-12 col-lg-3 App-body-col1'>
+            <CardTitle tag="h5">Choose mode of AA-Clash query: </CardTitle>
+            <ButtonGroup style={{ marginTop: '0.5rem' }}>
+              <Button color="info" onClick={ () => this.props.switchAaClashQueryMode('PDB-CODE') &&
+              this.switchAaClashQueryMode('PDB-CODE') }
+              active={this.state.aaClashQueryMode === 'PDB-CODE'}>PDB-CODE (default)</Button>
+              <Button color="info" onClick={ () => this.props.switchAaClashQueryMode('FILE') &&
+              this.switchAaClashQueryMode('FILE') }
+              active={this.state.aaClashQueryMode === 'FILE'}>PDB FILE</Button>
+            </ButtonGroup>
+          </div>
+          
+          <div className='col-12 col-lg-9 App-body-col2'>
+            {this.props.aaClashQuery.queryMode === 'PDB-CODE' ? (
+              <Form onSubmit={this.submitAaClashQuery}>
+              <FormGroup row>
+                <Col lg={3}>
+                  {displayAaClashQueryExample(AaClashQueryExample)}
+                  <CardText style={{ color: '#fd9a24', marginTop: '1rem' }}>
+                  {this.state.queryErrMsg}</CardText>
+                </Col>
+                <Col lg={8}>
+                  <Label style={{ marginTop: '0.5rem' }} 
+                  htmlFor="aaClashInput">AA-Clash query:</Label>
+                  <Input type="textarea" id="aaClashInput" name="aaClashInput"
+                  onChange={this.handleAaClashQueryInput}
+                  onBlur={this.handleAaClashQueryBlur}
+                  valid={this.state.queryFormValue.match(AA_SUB_ENTRY_REGEX) !== null}
+                  invalid={!AA_SUB_ENTRY_REGEX.test(this.state.queryFormValue)}
+                  rows="11" placeholder={AaClashQueryExample}>
+                  </Input>
+                </Col>
+              </FormGroup>
+              <FormGroup row>
+                <Col lg={{ size: 10, offset: 2 }}>
+                  <Button type="submit" color="primary">See results!</Button>
+                </Col>
+              </FormGroup>
+            </Form>
+            ) : (
+              <Form>
+                <CardText>File query mode (To be continued)</CardText>
+              </Form>
+            )}
           </div>
         </div>
-        <Footer />
-      </Router>
+
+        <div className='row'>
+          <AaClashResult />
+        </div>
+
+      </div>
     );
   }
 }
