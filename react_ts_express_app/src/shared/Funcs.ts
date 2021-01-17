@@ -1,5 +1,4 @@
 // a shared library of self-defined functions
-
 export const appendSyncScript = (scriptToAppend: string): void => {
   const script: HTMLScriptElement = document.createElement('script');
   script.className = 'embeddedSyncJS';
@@ -116,3 +115,13 @@ export const processedPdbIdAaQueries = (pdbIds: Array<string>, aaSubs: Array<str
   return results;
 }
 
+export const uniquePdbIds = (queries: Array<PdbIdAaQuery>): Array<string> => {
+  if (queries.length > 1) {
+    const pdbIds: Array<string> = [];
+    queries.map(query => pdbIds.push(query.pdbId));
+    return pdbIds.filter((value, index, self) => self.indexOf(value) === index);
+  } else if (queries.length === 1) {
+    return [queries[0].pdbId]
+  }
+  return [];
+}

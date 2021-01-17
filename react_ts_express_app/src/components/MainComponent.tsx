@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { Button, ButtonGroup, CardTitle, Form, FormGroup, Label, Input, Col, CardText } from 'reactstrap';
 import * as ReduxActions from '../redux/ActionCreators';
 import { PDB_CODE_ENTRY_REGEX, AA_SUB_ENTRY_REGEX } from '../shared/Consts';
-import { processedPdbIdAaQueries } from '../shared/Funcs';
+import { processedPdbIdAaQueries, uniquePdbIds } from '../shared/Funcs';
 import AaClashResult from './AaClashResultComponent';
 import JsMol from './JmolComponent';
 import Mol3D from './Mol3dComponent';
@@ -129,7 +129,6 @@ class Main extends Component<MainProps, MainState> {
   componentDidMount() {}
 
   render() {
-
     const displayAaClashQueryExample = (textStr: string) => {
       if (textStr) {
         return (
@@ -161,6 +160,7 @@ class Main extends Component<MainProps, MainState> {
         </Router> 
       );
     }
+
     return (
       <Router>
         <Header />
@@ -179,7 +179,7 @@ class Main extends Component<MainProps, MainState> {
             </div>
             
             <div className='col-12 col-lg-9 App-body-col2'>
-              { this.props.aaClashQuery.queryMode === 'PDB-CODE' && (
+              {this.props.aaClashQuery.queryMode === 'PDB-CODE' ? (
                 <Form onSubmit={this.submitAaClashQuery}>
                 <FormGroup row>
                   <Col lg={3}>
@@ -201,18 +201,22 @@ class Main extends Component<MainProps, MainState> {
                 </FormGroup>
                 <FormGroup row>
                   <Col lg={{ size: 10, offset: 2 }}>
-                    <Button type="submit" color="warning">See results!</Button>
+                    <Button type="submit" color="primary">See results!</Button>
                   </Col>
                 </FormGroup>
-              </Form> ) 
-              }
+              </Form>
+              ) : (
+                <Form>
+                  <CardText>File query mode (To be continued)</CardText>
+                </Form>
+              )}
             </div>
           </div>
 
           <div className='row'>
             <AaClashResult />
-            <RcsbGraphQl queries={this.props.aaClashQuery.queries}
-            queryHistory={this.props.aaClashQuery.queryHistory} />
+            <RcsbGraphQl queries={uniquePdbIds(this.props.aaClashQuery.queries)}
+            queryHistory={uniquePdbIds(this.props.aaClashQuery.queryHistory)} />
             <div className="mol-div">
               <JsMol key={`mol_js_`} pdbQueries={this.props.aaClashQuery.queries} />
               <Mol3D key={`mol_3d_`} pdbQueries={this.props.aaClashQuery.queries} />

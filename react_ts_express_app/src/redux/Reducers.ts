@@ -44,14 +44,14 @@ export const AaClashQueryReducer = (
 
 const initialRcsbGqlState: RcsbGraphQlState = {
   displayMode: 'latest',
-  selectedQuery: undefined
+  selectedPdbId: undefined
 }
 
 export const RcsbGqlReducer = (state: RcsbGraphQlState = initialRcsbGqlState, 
   action: PayloadAction): RcsbGraphQlState => {
     switch (action.type) {
       case ActionTypes.SELECT_RCSB_PDB_ID:
-        return { ...state, selectedQuery: action.payload }
+        return { ...state, selectedPdbId: action.payload }
       case ActionTypes.SWITCH_LIST_DISPLAY_MODE:
         if (action.payload === 'latest') {
           return { ...state, displayMode: action.payload }

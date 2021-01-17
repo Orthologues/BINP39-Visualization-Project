@@ -31,7 +31,7 @@ class AaClashResult extends Component<AaClashProps, AaClashState> {
   render() {
       if (Array.isArray(this.props.aaClashQuery.errMsg)) {
           return (
-            <div className="col-10 offset-1 AaClash-err" >
+            <div className="col-12 AaClash-err" >
               { this.props.aaClashQuery.errMsg.map(((errmsg, index) => {
                   return (
                     <CardText key={`pyErrMsg${index}`} style={{ margin: '5px'}}

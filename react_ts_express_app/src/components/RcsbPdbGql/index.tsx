@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'; 
+import React, { FC, useEffect } from 'react'; 
 import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { useGetPdbBasicQuery } from '../../graphql';
@@ -9,8 +9,8 @@ import '../../css/RcsbPdbGql.css';
 
 
 type EntryProps = {
-    queries: Array<PdbIdAaQuery>; // AA-Clash queries in redux-store
-    queryHistory: Array<PdbIdAaQuery>; // AA-Clash query history in redux-store
+    queries: Array<string>; // The unique set of PDB-IDs of AA-Clash queries in redux-store
+    queryHistory: Array<string>; // The unique set of PDB-IDs AA-Clash query history in redux-store
 }
 
 type EntryState = {
@@ -19,12 +19,11 @@ type EntryState = {
 
 const RcsbGqlIndex: FC<EntryProps> = ({queries, queryHistory}) => {
 
-    const [state, setState] = useState<EntryState>({listDisplayMode: 'latest'});
-    const selectedQuery = useSelector<AppReduxState, PdbIdAaQuery|undefined>(state => state.rcsbGraphQl.selectedQuery);
+    const selectedQuery = useSelector<AppReduxState, string|undefined>(state => state.rcsbGraphQl.selectedPdbId);
     const listDisplayMode = useSelector<AppReduxState, string>(state => state.rcsbGraphQl.displayMode);
     const dispatch = useDispatch<Dispatch<PayloadAction>>();
     const { data, error, loading, refetch } = useGetPdbBasicQuery({
-        variables: { entry_id: selectedQuery ? selectedQuery.pdbId : '' },
+        variables: { entry_id: selectedQuery ? selectedQuery : '' },
     });
 
     useEffect(() => { refetch() }, [selectedQuery]);
@@ -32,36 +31,40 @@ const RcsbGqlIndex: FC<EntryProps> = ({queries, queryHistory}) => {
     const QueryList = (): JSX.Element => (
         <div className='pdb-query-list'>
           
-          <CardTitle tag="h5">Choose which queries to list</CardTitle>
-          <ButtonGroup style={{ marginTop: '0.5rem' }}>
-            <Button color="info" onClick={ () => dispatch(switchGqlListMode('latest')) }
+          <CardTitle tag="h5" style={{ marginTop: '1rem' }}
+          >Choose which queries to list</CardTitle>
+          <ButtonGroup>
+            <Button className='btn-sm'
+            color="primary" onClick={ () => dispatch(switchGqlListMode('latest')) }
             active={listDisplayMode === 'latest'}>Your latest query</Button>
-            <Button color="info" onClick={ () => dispatch(switchGqlListMode('history')) }
+            <Button className='btn-sm'
+            color="primary" onClick={ () => dispatch(switchGqlListMode('history')) }
             active={listDisplayMode === 'history'}>History of your queries</Button>
           </ButtonGroup>
-          <CardTitle tag="h3">Your PDB-ID queries</CardTitle>
+          <CardTitle tag="h4"
+          style={{ marginTop: '1rem' }}>Your PDB-ID queries</CardTitle>
           <ol className='pdb-query-ol'>
             { listDisplayMode === 'latest' ?
             queries.map((query, ind) => ( selectedQuery === query ? 
-            ( <li key={`${query.pdbId}_${ind}`} onClick={() => dispatch(selectGqlPdbId(query))}
+            ( <li key={`${query}_${ind}`} onClick={() => dispatch(selectGqlPdbId(query))}
               className='pdb-query-item-selected'>
-                {query.pdbId}
+                {query}
               </li> ):
-            ( <li key={`${query.pdbId}_${ind}`} onClick={() => dispatch(selectGqlPdbId(query))}
+            ( <li key={`${query}_${ind}`} onClick={() => dispatch(selectGqlPdbId(query))}
               className='pdb-query-item'>
-                {query.pdbId}
+                {query}
               </li> )
-            )): 
+            )) : 
             queryHistory.map((query, ind) => ( selectedQuery === query ? 
-            ( <li key={`${query.pdbId}_${ind}`} onClick={() => dispatch(selectGqlPdbId(query))}
+            ( <li key={`${query}_${ind}`} onClick={() => dispatch(selectGqlPdbId(query))}
               className='pdb-query-item-selected'>
-                {query.pdbId}
+                {query}
               </li> ):
-            ( <li key={`${query.pdbId}_${ind}`} onClick={() => dispatch(selectGqlPdbId(query))}
+            ( <li key={`${query}_${ind}`} onClick={() => dispatch(selectGqlPdbId(query))}
               className='pdb-query-item'>
-                {query.pdbId}
+                {query}
               </li> )
-            ))}
+            )) }
           </ol>
         </div> )
 
@@ -69,29 +72,21 @@ const RcsbGqlIndex: FC<EntryProps> = ({queries, queryHistory}) => {
         return (
           <div className='rcsb-gql-div'>
             <QueryList />
-            <Card>
-              <CardBody>
-                <CardTitle>Loading data from RCSB-PDB …</CardTitle>
-              </CardBody>
-            </Card>
+            <div className='rcsb-loading-or-error'>
+              <CardTitle tag='h3'>Loading data from RCSB-PDB …</CardTitle>
+            </div>
           </div> 
         )
     }
 
-    if (error) {
+    if (error || !data) {
         return (
           <div className='rcsb-gql-div'>
             <QueryList />
-            <Card>
-              <CardHeader>
-                <CardTitle>Failed to fetch data from RCSB-PDB</CardTitle>
-              </CardHeader>
-              <CardBody>  
-                <CardText>
-                  {`Error message: ${error.message}`}
-                </CardText>
-              </CardBody>
-            </Card>
+            <div className='rcsb-loading-or-error'>
+              <CardTitle tag='h3'>Failed to fetch data from RCSB-PDB</CardTitle>
+              { error && (<CardText>{`Error message: ${error.message}`}</CardText>) }
+            </div>
           </div> 
         )
     }
@@ -102,11 +97,10 @@ const RcsbGqlIndex: FC<EntryProps> = ({queries, queryHistory}) => {
             <QueryList />
             <Card>
               <CardBody>
-                <CardTitle>Failed to fetch data from RCSB-PDB</CardTitle>
+                <CardTitle tag='h3'>Failed to fetch data from RCSB-PDB</CardTitle>
               </CardBody>
             </Card>
           </div>
-             
         )
     }
 
@@ -119,18 +113,24 @@ const RcsbGqlIndex: FC<EntryProps> = ({queries, queryHistory}) => {
         return (
           <div className='rcsb-gql-div'>
             <QueryList />
-            <Card>
-              <CardHeader>
-                <CardTitle>Data from RCSB-PDB's GraphQl API</CardTitle>
-              </CardHeader>
-              <CardBody>  
-                { selectedQuery && (<RcsbPdbGql pdbCode={selectedQuery.pdbId} rootQuery={data}/>) }
+            <div className='container-fluid'>
+              <div className='row rcsb-info-header'>
+                <div className='col-12'>
+                  <CardTitle tag='h3'>Data from RCSB-PDB's GraphQL API</CardTitle>
+                </div>
+              </div>
+              <div className='row'>
+                <div className='col-12 col-lg-6'>
+                { selectedQuery && (<RcsbPdbGql pdbCode={selectedQuery} rootQuery={data}/>) }
+                </div>
+                <div className='col-12 col-lg-6'>
                 { entityIds.map((entityId, ind) => 
-                   (<PdbIdSeqAndToUniprot key={`mapping_seq_${entryId}_${String(entityId)}_${ind}`}
-                    entryId={entryId} entityId={String(entityId)}/>)
-                )}
-              </CardBody>
-            </Card>
+                  (<PdbIdSeqAndToUniprot key={`mapping_seq_${entryId}_${String(entityId)}_${ind}`}
+                   entryId={entryId} entityId={String(entityId)}/>)
+                ) }
+                </div>
+              </div>
+            </div>
           </div> 
         )
     }

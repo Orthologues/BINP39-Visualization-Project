@@ -44,7 +44,7 @@ type AaClashQueryState = {
 
 type RcsbGraphQlState = {
   displayMode: string,
-  selectedQuery?: PdbIdAaQuery
+  selectedPdbId?: string
 }
 
 type AppReduxState = { aaClashQuery: AaClashQueryState, rcsbGraphQl: RcsbGraphQlState } 

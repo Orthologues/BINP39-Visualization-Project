@@ -68,7 +68,7 @@ export const switchGqlListMode = (newMode: 'latest' | 'history'): PayloadAction 
   payload: newMode
 })
 
-export const selectGqlPdbId = (clickedQuery: PdbIdAaQuery): PayloadAction => ({
+export const selectGqlPdbId = (clickedPdbId: string): PayloadAction => ({
   type: ActionTypes.SELECT_RCSB_PDB_ID,
-  payload: clickedQuery
+  payload: clickedPdbId
 })
