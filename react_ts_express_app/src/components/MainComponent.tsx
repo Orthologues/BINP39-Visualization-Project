@@ -19,7 +19,6 @@ const AaClashQueryExample = `Example:
 L310R 487`
 
 type MainProps = AppReduxState & { 
-  // addPdbQuery: (aaClashQuery: PdbIdAaQuery[]) => PayloadAction
   postPdbAaQuery: (aaClashQuery: PdbIdAaQuery[]) => ThunkAction<Promise<void>, any, undefined, any>,
   switchAaClashQueryMode: (newMode: 'PDB-CODE' | 'FILE') => PayloadAction
 }
@@ -27,7 +26,6 @@ type MainState = { //define this instead of 'any' in order to do error handling 
   queryFormTouched: boolean,
   queryFormValue: string,
   queryErrMsg: string,
-  aaClashQueryMode: 'PDB-CODE' | 'FILE'
 }
 
 const mapAppStateToProps = (state: AppReduxState) => ({
@@ -38,7 +36,6 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<
   AppReduxState,
   undefined,
   PayloadAction | ReturnType<ThunkAction<any, any, undefined, any>>>) => ({
-  // addPdbQuery: (aaClashQuery: PdbIdAaQuery[]) => dispatch(ReduxActions.addPdbQuery(aaClashQuery)),
   postPdbAaQuery: (aaClashQuery: PdbIdAaQuery[]) => dispatch(ReduxActions.postPdbAaQuery(aaClashQuery)),
   switchAaClashQueryMode: (newMode: 'PDB-CODE'|'FILE') => dispatch(ReduxActions.switchAaClashQueryMode(newMode))
 });
@@ -52,15 +49,10 @@ class Main extends Component<MainProps, MainState> {
       queryFormTouched: false,
       queryFormValue: '',
       queryErrMsg: '',
-      aaClashQueryMode: 'PDB-CODE'
     }
     this.submitAaClashQuery = this.submitAaClashQuery.bind(this);
     this.handleAaClashQueryBlur = this.handleAaClashQueryBlur.bind(this);
     this.handleAaClashQueryInput = this.handleAaClashQueryInput.bind(this);
-  }
-
-  switchAaClashQueryMode = (newMode: 'PDB-CODE' | 'FILE') => {
-    this.setState((prevState: MainState) => ({ ...prevState, aaClashQueryMode: newMode }));
   }
 
   validateAAClashQuery = (aaClashQuery: string) => {
@@ -144,7 +136,7 @@ class Main extends Component<MainProps, MainState> {
       return (
         <div className='container-fluid'>
           <div className='row' style={{ height: '360px' }}>
-            <Loading />
+            <Loading text='Loading . . .'/>
           </div>
         </div>
       );
@@ -157,12 +149,10 @@ class Main extends Component<MainProps, MainState> {
           <div className='col-12 col-lg-3 App-body-col1'>
             <CardTitle tag="h5">Choose mode of AA-Clash query: </CardTitle>
             <ButtonGroup style={{ marginTop: '0.5rem' }}>
-              <Button color="info" onClick={ () => this.props.switchAaClashQueryMode('PDB-CODE') &&
-              this.switchAaClashQueryMode('PDB-CODE') }
-              active={this.state.aaClashQueryMode === 'PDB-CODE'}>PDB-CODE (default)</Button>
-              <Button color="info" onClick={ () => this.props.switchAaClashQueryMode('FILE') &&
-              this.switchAaClashQueryMode('FILE') }
-              active={this.state.aaClashQueryMode === 'FILE'}>PDB FILE</Button>
+              <Button color="info" onClick={ () => this.props.switchAaClashQueryMode('PDB-CODE') }
+              active={this.props.aaClashQuery.queryMode === 'PDB-CODE'}>PDB-CODE (default)</Button>
+              <Button color="info" onClick={ () => this.props.switchAaClashQueryMode('FILE') }
+              active={this.props.aaClashQuery.queryMode === 'FILE'}>PDB FILE</Button>
             </ButtonGroup>
           </div>
           
