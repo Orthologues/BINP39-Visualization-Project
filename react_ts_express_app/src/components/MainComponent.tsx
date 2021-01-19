@@ -5,27 +5,35 @@ import { ThunkDispatch, ThunkAction } from 'redux-thunk';
 import { connect } from 'react-redux';
 import { Button, ButtonGroup, CardTitle, Form, FormGroup, Label, Input, Col, CardText } from 'reactstrap';
 import * as ReduxActions from '../redux/ActionCreators';
-import { PDB_CODE_ENTRY_REGEX, AA_SUB_ENTRY_REGEX } from '../shared/Consts';
-import { processedPdbIdAaQueries } from '../shared/Funcs';
+import { PDB_CODE_ENTRY_REGEX, AA_SUB_ENTRY_REGEX, FILE_AA_SUB_REGEX } from '../shared/Consts';
+import { processedCodeQueries, processedFileQuery } from '../shared/Funcs';
 import AaClashResult from './AaClashResultComponent';
 import Loading from './LoadingComponent';
 
 
-const AaClashQueryExample = `Example:
+const CodeQueryExample = `Example of PDB-Code Query:
 >1asd  50Y A101S
 115P 120
 >2zxc
  34F 
 L310R 487`
 
+const FileQueryExample = `Example of PDB-File Query:
+91 96I  99R 
+ A101S
+115P`
+
 type MainProps = AppReduxState & { 
-  postPdbAaQuery: (aaClashQuery: PdbIdAaQuery[]) => ThunkAction<Promise<void>, any, undefined, any>,
+  handleCodeInput: (input: string) => PayloadAction,
+  handleFileInput: (input: string) => PayloadAction,
+  postCodeQuery: (aaClashQuery: PdbIdAaQuery[]) => ThunkAction<Promise<void>, any, undefined, any>,
   switchAaClashQueryMode: (newMode: 'PDB-CODE' | 'FILE') => PayloadAction
 }
 type MainState = { //define this instead of 'any' in order to do error handling for {Form} from 'reactstrap'
-  queryFormTouched: boolean,
-  queryFormValue: string,
-  queryErrMsg: string,
+  codeFormTouched: boolean,
+  codeQueryErrMsg: string,
+  fileFormTouched: boolean,
+  fileQueryErrMsg: string
 }
 
 const mapAppStateToProps = (state: AppReduxState) => ({
@@ -36,7 +44,9 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<
   AppReduxState,
   undefined,
   PayloadAction | ReturnType<ThunkAction<any, any, undefined, any>>>) => ({
-  postPdbAaQuery: (aaClashQuery: PdbIdAaQuery[]) => dispatch(ReduxActions.postPdbAaQuery(aaClashQuery)),
+  handleCodeInput: (input: string) => dispatch(ReduxActions.handleCodeQueryInput(input)),
+  handleFileInput: (input: string) => dispatch(ReduxActions.handleFileQueryInput(input)),
+  postCodeQuery: (aaClashQuery: PdbIdAaQuery[]) => dispatch(ReduxActions.postCodeQuery(aaClashQuery)),
   switchAaClashQueryMode: (newMode: 'PDB-CODE'|'FILE') => dispatch(ReduxActions.switchAaClashQueryMode(newMode))
 });
 
@@ -46,67 +56,102 @@ class Main extends Component<MainProps, MainState> {
   constructor(props: MainProps) {
     super(props);
     this.state = {
-      queryFormTouched: false,
-      queryFormValue: '',
-      queryErrMsg: '',
+      codeFormTouched: false,
+      codeQueryErrMsg: '',
+      fileFormTouched: false,
+      fileQueryErrMsg: ''
     }
-    this.submitAaClashQuery = this.submitAaClashQuery.bind(this);
     this.handleAaClashQueryBlur = this.handleAaClashQueryBlur.bind(this);
     this.handleAaClashQueryInput = this.handleAaClashQueryInput.bind(this);
+    this.clearAaClashQueryInput = this.clearAaClashQueryInput.bind(this);
+    this.submitCodeQuery = this.submitCodeQuery.bind(this);
+    this.submitFileQuery = this.submitFileQuery.bind(this);
   }
 
-  validateAAClashQuery = (aaClashQuery: string) => {
+  validateCodeQuery = (aaClashQuery: string) => {
     const pdbCodeMatch = aaClashQuery.match(PDB_CODE_ENTRY_REGEX);
     const aaSubMatch = aaClashQuery.match(AA_SUB_ENTRY_REGEX); 
     if (pdbCodeMatch && !aaSubMatch) { 
       this.setState((prevState: MainState) => ({
-        ...prevState, queryErrMsg: `No sets of valid AA-substitution queries were found!`
+        ...prevState, codeQueryErrMsg: `No sets of valid AA-substitution queries were found!`
       }));
     } else if ( !pdbCodeMatch ) {
       this.setState((prevState: MainState) => ({
-        ...prevState, queryErrMsg: `No valid PDB-ID queries were found!`
+        ...prevState, codeQueryErrMsg: `No valid PDB-ID queries were found!`
       }));
     } else if (pdbCodeMatch?.length !== aaSubMatch?.length) { 
       this.setState((prevState: MainState) => ({
-        ...prevState, queryErrMsg: `Valid PDB-ID queries didn't match valid sets of AA-substitution queries numerically!`
+        ...prevState, codeQueryErrMsg: `Valid PDB-ID queries didn't match valid sets of AA-substitution queries numerically!`
       }));
     } else {
       this.setState((prevState: MainState) => ({
-        ...prevState, queryErrMsg: ''
+        ...prevState, codeQueryErrMsg: ''
+      }));
+    }
+  }
+
+  validateFileQuery = (aaClashQuery: string) => {
+    const aaSubMatch = aaClashQuery.match(FILE_AA_SUB_REGEX); 
+    if (!aaSubMatch) { 
+      this.setState((prevState: MainState) => ({
+        ...prevState, fileQueryErrMsg: `No sets of valid AA-substitution queries were found!`
+      }));
+    } else {
+      this.setState((prevState: MainState) => ({
+        ...prevState, fileQueryErrMsg: ''
       }));
     }
   }
 
   handleAaClashQueryBlur = (evt: React.FormEvent<HTMLInputElement>) => {
     evt.preventDefault();
-    this.setState((prevState: MainState) => ({
-      ...prevState, queryFormTouched: true
-    }));
-    this.validateAAClashQuery(this.state.queryFormValue);
+    if (this.props.aaClashQuery.queryMode === 'PDB-CODE') {
+      this.setState((prevState: MainState) => ({
+        ...prevState, codeFormTouched: true
+      }));
+      this.validateCodeQuery(this.props.aaClashQuery.codeQueryFormValue);
+    } else {
+      this.setState((prevState: MainState) => ({
+        ...prevState, fileFormTouched: true
+      }));
+      this.validateFileQuery(this.props.aaClashQuery.fileQueryFormValue);
+    }
   }
 
   handleAaClashQueryInput = (evt: React.FormEvent<HTMLInputElement>) => {
-    // Using DOM: 
-    // const inputValue = (document.getElementById('aaClashInput') as HTMLInputElement).value; //
     evt.preventDefault();
     const inputValue = (evt.target as HTMLInputElement).value
-    if (inputValue) {
-      this.setState((prevState: MainState) => ({
-        ...prevState, queryFormValue: inputValue
-      }));
-    }
+    this.props.aaClashQuery.queryMode === 'PDB-CODE' ? 
+    this.props.handleCodeInput(inputValue) :
+    this.props.handleFileInput(inputValue);
     setTimeout(() => { 
-      this.state.queryFormTouched && this.validateAAClashQuery(this.state.queryFormValue);
-     }, 100);
+      this.props.aaClashQuery.queryMode === 'PDB-CODE' ? 
+      this.state.codeFormTouched && this.validateCodeQuery(this.props.aaClashQuery.codeQueryFormValue) :
+      this.state.fileFormTouched && this.validateFileQuery(this.props.aaClashQuery.fileQueryFormValue) 
+     }, 100); 
   }
 
-  submitAaClashQuery = (evt: React.FormEvent<HTMLFormElement>) => {
+  clearAaClashQueryInput = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (this.state.queryErrMsg === '' && this.state.queryFormTouched) {
-      const pdbIds = this.state.queryFormValue.match(PDB_CODE_ENTRY_REGEX);
-      const aaSubsRaw = this.state.queryFormValue.match(AA_SUB_ENTRY_REGEX); 
+    this.props.aaClashQuery.queryMode === 'PDB-CODE' ?
+    this.props.handleCodeInput('') : this.props.handleFileInput(''); 
+  }
+
+  submitCodeQuery = (evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    if (this.state.codeQueryErrMsg === '' && this.state.codeFormTouched) {
+      const pdbIds = this.props.aaClashQuery.codeQueryFormValue.match(PDB_CODE_ENTRY_REGEX);
+      const aaSubsRaw = this.props.aaClashQuery.codeQueryFormValue.match(AA_SUB_ENTRY_REGEX); 
       (pdbIds && aaSubsRaw) && 
-      this.props.postPdbAaQuery(processedPdbIdAaQueries(pdbIds, aaSubsRaw));
+      this.props.postCodeQuery(processedCodeQueries(pdbIds, aaSubsRaw));
+    } 
+  }
+
+  submitFileQuery = (evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    if (this.state.fileQueryErrMsg === '' && this.state.fileFormTouched) {
+      const aaSubsRaw = this.props.aaClashQuery.fileQueryFormValue.match(FILE_AA_SUB_REGEX); 
+      // aaSubsRaw && this.props.postFileQuery(processedFileQuery(aaSubsRaw));
     } 
   }
 
@@ -158,27 +203,31 @@ class Main extends Component<MainProps, MainState> {
           
           <div className='col-12 col-lg-9 App-body-col2'>
             {this.props.aaClashQuery.queryMode === 'PDB-CODE' ? (
-              <Form onSubmit={this.submitAaClashQuery}>
+              <Form onSubmit={this.submitCodeQuery} onReset={this.clearAaClashQueryInput}>
               <FormGroup row>
                 <Col lg={3}>
-                  {displayAaClashQueryExample(AaClashQueryExample)}
+                  {displayAaClashQueryExample(CodeQueryExample)}
                   <CardText style={{ color: '#fd9a24', marginTop: '1rem' }}>
-                  {this.state.queryErrMsg}</CardText>
+                  {this.state.codeQueryErrMsg}</CardText>
                 </Col>
                 <Col lg={8}>
                   <Label style={{ marginTop: '0.5rem' }} 
                   htmlFor="aaClashInput">AA-Clash query:</Label>
                   <Input type="textarea" id="aaClashInput" name="aaClashInput"
+                  value={this.props.aaClashQuery.codeQueryFormValue}
                   onChange={this.handleAaClashQueryInput}
                   onBlur={this.handleAaClashQueryBlur}
-                  valid={this.state.queryFormValue.match(AA_SUB_ENTRY_REGEX) !== null}
-                  invalid={!AA_SUB_ENTRY_REGEX.test(this.state.queryFormValue)}
-                  rows="11" placeholder={AaClashQueryExample}>
+                  valid={this.props.aaClashQuery.codeQueryFormValue.match(AA_SUB_ENTRY_REGEX) !== null}
+                  invalid={!AA_SUB_ENTRY_REGEX.test(this.props.aaClashQuery.codeQueryFormValue)}
+                  rows="11" placeholder={CodeQueryExample}>
                   </Input>
                 </Col>
               </FormGroup>
               <FormGroup row>
-                <Col lg={{ size: 10, offset: 2 }}>
+                <Col lg={{ size: 1, offset: 3 }}>
+                  <Button type="reset" color="warning">Clear</Button>
+                </Col>
+                <Col lg={{ size: 6 }}>
                   <Button type="submit" color="primary">See results!</Button>
                 </Col>
               </FormGroup>

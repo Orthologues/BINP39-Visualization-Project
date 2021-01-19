@@ -7,14 +7,23 @@ import { SRV_URL_PREFIX } from '../shared/Consts';
 import { ThunkAction } from 'redux-thunk';
 
 // actions that return to objects (don't require redux-thunk)
-export const addPdbQuery = (queries: PdbIdAaQuery[], predResults: AaClashPredData): PayloadAction => ({
+export const handleCodeQueryInput = (inputValue: string): PayloadAction => ({
+  type: ActionTypes.HANDLE_CODE_QUERY_INPUT, payload: inputValue });
+export const handleFileQueryInput = (inputValue: string): PayloadAction => ({
+  type: ActionTypes.HANDLE_FILE_QUERY_INPUT, payload: inputValue }); 
+
+export const addCodeQuery = (queries: PdbIdAaQuery[], predResults: AaClashPredData): PayloadAction => ({
   type: ActionTypes.ADD_PDB_CODE_QUERY,
   payload: { queries: queries, predResults: predResults }
 });
 
-export const appendPdbQuery = (queries: PdbIdAaQuery[], predResults: AaClashPredData): PayloadAction => ({
+export const appendCodeQuery = (queries: PdbIdAaQuery[], predResults: AaClashPredData): PayloadAction => ({
   type: ActionTypes.APPEND_PDB_CODE_QUERY_HISTORY,
   payload: { queries: queries, predResults: predResults }
+});
+
+export const eraseCodeQueryHistory = (): PayloadAction => ({
+  type: ActionTypes.ERASE_PDB_CODE_QUERY_HISTORY
 });
 
 export const loadingPdbQuery = (): PayloadAction => ({
@@ -26,7 +35,7 @@ export const pdbQueryFailed = (errMsg: string | Array<string>): PayloadAction =>
   payload: errMsg,
 });
 
-export const postPdbAaQuery = (
+export const postCodeQuery = (
   queries: PdbIdAaQuery[]
 ): ThunkAction<Promise<void>, AaClashQueryState, undefined, PayloadAction> => async (dispatch) => {
   dispatch(loadingPdbQuery());
@@ -48,8 +57,8 @@ export const postPdbAaQuery = (
       const aaClashPredResult: AaClashPredData = aaClashData.aaClash; 
       const pyRunInfo: PyScriptResponse = aaClashData.pyRunInfo;
       pyRunInfo.code === 0 ?
-      dispatch(addPdbQuery(queries, aaClashPredResult)) && 
-      dispatch(appendPdbQuery(queries, aaClashPredResult)) :
+      dispatch(addCodeQuery(queries, aaClashPredResult)) && 
+      dispatch(appendCodeQuery(queries, aaClashPredResult)) :
       dispatch(pdbQueryFailed([`Error while running the python scripts for AA steric-clash on our server!`,
       `Exit code: ${pyRunInfo.code}`,
       `Stderr: ${pyRunInfo.finalText}`]));

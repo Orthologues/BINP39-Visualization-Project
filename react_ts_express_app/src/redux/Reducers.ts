@@ -8,6 +8,8 @@ const initialAAClashState: AaClashQueryState = {
     predResultsHistory: [],
     isLoading: false,
     errMsg: null,
+    codeQueryFormValue: '',
+    fileQueryFormValue: ''
 }
 
 export const AaClashQueryReducer = (
@@ -15,6 +17,10 @@ export const AaClashQueryReducer = (
   action: PayloadAction
 ): AaClashQueryState => {
   switch (action.type) {
+    case ActionTypes.HANDLE_CODE_QUERY_INPUT:
+      return { ...state, codeQueryFormValue: action.payload };
+    case ActionTypes.HANDLE_FILE_QUERY_INPUT:
+      return { ...state, fileQueryFormValue: action.payload };
     case ActionTypes.ADD_PDB_CODE_QUERY:
       return { ...state, 
         queries: (action.payload as AaClashPayload).queries, 
@@ -24,7 +30,9 @@ export const AaClashQueryReducer = (
       return { ...state, 
         queryHistory: state.queryHistory.concat((action.payload as AaClashPayload).queries), 
         predResultsHistory: state.predResultsHistory.concat((action.payload as AaClashPayload).predResults),
-        isLoading: false }
+        isLoading: false };
+    case ActionTypes.ERASE_PDB_CODE_QUERY_HISTORY: 
+      return { ...state, queries: [], queryHistory: [] };
     case ActionTypes.LOADING_PDB_QUERY:
       return { ...state, isLoading: true, errMsg: null };
     case ActionTypes.PDB_QUERY_FAILED:

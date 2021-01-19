@@ -33,13 +33,15 @@ type PayloadAction = {
 };
 
 type AaClashQueryState = {
-  queryMode: string;
+  queryMode: 'PDB-CODE' | 'FILE';
   queries: Array<PdbIdAaQuery>;
   queryHistory: Array<PdbIdAaQuery>;
   predResults: Array<AaClashPredData>;
   predResultsHistory: Array<AaClashPredData>; 
   isLoading: boolean;
   errMsg: string | Array<string> | null;
+  codeQueryFormValue: string;
+  fileQueryFormValue: string;
 };
 
 type RcsbGraphQlState = {

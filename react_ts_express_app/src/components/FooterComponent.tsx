@@ -17,11 +17,12 @@ const Footer: FC<any> = () => {
               <h5>Links</h5>
               <ul className="list-unstyled">
                 <li>
-                  <Link to='/home'>Home</Link>
-                </li>
-                <li>
                   <a className='nav-link' href="http://structure.bmc.lu.se/" target="_blank">
                   Protein Bioinformatics Group, Faculty of Medicine, LU</a>
+                </li>
+                <li>
+                  <a className='nav-link' href="http://structure.bmc.lu.se/idbase/BTKbase/index.php?content=base_table_1/IDbases" target="_blank">
+                  Aminoacid substitutions - BTKbase</a>
                 </li>
                 <li>
                   <a className='nav-link' href="https://www.ebi.ac.uk/pdbe/" target="_blank">PDB Europe</a>
@@ -45,10 +46,10 @@ const Footer: FC<any> = () => {
                 <br />
                 SWEDEN
                 <br />
-                <i className="fa fa-phone fa-lg"></i>: +46 1234 56789
+                <i className="fa fa-phone fa-lg"></i>: +46 46 222 72 14
                 <br />
                 <i className="fa fa-envelope fa-lg"></i>:{' '}
-                <a href="mailto:structure@med.lu.se">structure@med.lu.se</a>
+                <a href="mailto:mauno.vihinen@med.lu.se">mauno.vihinen@med.lu.se</a>
               </address>
             </div>
             <div className="col-12 col-sm-2 align-self-center">

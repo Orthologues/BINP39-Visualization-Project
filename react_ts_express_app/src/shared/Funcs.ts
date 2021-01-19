@@ -106,13 +106,17 @@ export const removeAllAsyncScripts = (): void => {
 export const processedPdbId = (pdbQuery: string): string => 
 pdbQuery && pdbQuery.replace(/^\s+|\s+$/g, '').toUpperCase();
 
-export const processedPdbIdAaQueries = (pdbIds: Array<string>, aaSubs: Array<string>) => {
+export const processedCodeQueries = (pdbIds: Array<string>, aaSubs: Array<string>) => {
   const results: Array<PdbIdAaQuery> = [];
   aaSubs.map((aaSub, index) => {
     let splitStrings = aaSub.toUpperCase().split(/\s+/).filter(str => str.length > 0);
     results.push({ pdbId: pdbIds[index], aaSubs: splitStrings });
   });
   return results;
+}
+
+export const processedFileQuery = (aaSubs: Array<string>) => {
+  
 }
 
 export const uniquePdbIds = (queries: Array<PdbIdAaQuery>): Array<string> => {
