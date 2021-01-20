@@ -181,7 +181,7 @@ class Main extends Component<MainProps, MainState> {
       return (
         <div className='container-fluid'>
           <div className='row' style={{ height: '360px' }}>
-            <Loading text='Loading . . .'/>
+            <Loading text='Running scripts at backend . . .'/>
           </div>
         </div>
       );

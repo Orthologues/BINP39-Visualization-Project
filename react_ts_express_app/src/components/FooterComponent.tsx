@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
 
 const Footer: FC<any> = () => {
   return (
@@ -54,16 +53,12 @@ const Footer: FC<any> = () => {
             </div>
             <div className="col-12 col-sm-2 align-self-center">
               <div className="text-center">
-                <a
-                  className="btn btn-social-icon btn-linkedin"
-                  href="http://www.linkedin.com/in/"
-                >
+                <a target="_blank" className="btn btn-social-icon btn-linkedin"
+                href="https://www.linkedin.com/in/jiawei-zhao-5268681b0/">
                   <i className="fa fa-linkedin"></i>
                 </a>
-                <a
-                  className="btn btn-social-icon btn-twitter"
-                  href="http://twitter.com/"
-                >
+                <a target="_blank" className="btn btn-social-icon btn-twitter"
+                href="https://twitter.com/medfak_lu?lang=en">
                   <i className="fa fa-twitter"></i>
                 </a>
                 <a className="btn btn-social-icon" href="mailto:ji8842zh-s@student.lu.se">
