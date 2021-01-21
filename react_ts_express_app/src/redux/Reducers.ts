@@ -2,7 +2,7 @@ import * as ActionTypes from './ActionTypes';
 
 const initialAAClashState: AaClashQueryState = {
     queryMode: 'PDB-CODE',
-    queries: [{ pdbId: '', aaSubs: [] }],
+    queries: [{ pdbId: '', aaSubs: [], queryId: '' }],
     queryHistory: [],
     predResults: [],
     predResultsHistory: [],
@@ -23,13 +23,13 @@ export const AaClashQueryReducer = (
       return { ...state, fileQueryFormValue: action.payload };
     case ActionTypes.ADD_PDB_CODE_QUERY:
       return { ...state, 
-        queries: (action.payload as AaClashPayload).queries, 
-        predResults: (action.payload as AaClashPayload).predResults,
+        queries: (action.payload as AaClashCodePayload).queries, 
+        predResults: (action.payload as AaClashCodePayload).predResults,
         isLoading: false };
     case ActionTypes.APPEND_PDB_CODE_QUERY_HISTORY:
       return { ...state, 
-        queryHistory: state.queryHistory.concat((action.payload as AaClashPayload).queries), 
-        predResultsHistory: state.predResultsHistory.concat((action.payload as AaClashPayload).predResults),
+        queryHistory: state.queryHistory.concat((action.payload as AaClashCodePayload).queries), 
+        predResultsHistory: state.predResultsHistory.concat((action.payload as AaClashCodePayload).predResults),
         isLoading: false };
     case ActionTypes.ERASE_PDB_CODE_QUERY_HISTORY: 
       return { ...state, queries: [], queryHistory: [] };

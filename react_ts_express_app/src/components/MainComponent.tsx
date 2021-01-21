@@ -2,8 +2,8 @@
 
 import React, { Component } from 'react';
 import { ThunkDispatch, ThunkAction } from 'redux-thunk';
-import { connect } from 'react-redux';
-import { Button, ButtonGroup, CardTitle, Form, FormGroup, Label, Input, Col, CardText } from 'reactstrap';
+import { connect, ConnectedProps } from 'react-redux';
+import { Button, ButtonGroup, CardTitle, Form, FormGroup, Label, Input, Col, CardText, FormText } from 'reactstrap';
 import * as ReduxActions from '../redux/ActionCreators';
 import { PDB_CODE_ENTRY_REGEX, AA_SUB_ENTRY_REGEX, FILE_AA_SUB_REGEX } from '../shared/Consts';
 import { processedCodeQueries, processedFileQuery } from '../shared/Funcs';
@@ -17,24 +17,11 @@ const CodeQueryExample = `Example of PDB-Code Query:
 >2zxc
  34F 
 L310R 487`
-
 const FileQueryExample = `Example of PDB-File Query:
 91 96I  99R 
  A101S
 115P`
 
-type MainProps = AppReduxState & { 
-  handleCodeInput: (input: string) => PayloadAction,
-  handleFileInput: (input: string) => PayloadAction,
-  postCodeQuery: (aaClashQuery: PdbIdAaQuery[]) => ThunkAction<Promise<void>, any, undefined, any>,
-  switchAaClashQueryMode: (newMode: 'PDB-CODE' | 'FILE') => PayloadAction
-}
-type MainState = { //define this instead of 'any' in order to do error handling for {Form} from 'reactstrap'
-  codeFormTouched: boolean,
-  codeQueryErrMsg: string,
-  fileFormTouched: boolean,
-  fileQueryErrMsg: string
-}
 
 const mapAppStateToProps = (state: AppReduxState) => ({
   aaClashQuery: state.aaClashQuery,
@@ -47,8 +34,18 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<
   handleCodeInput: (input: string) => dispatch(ReduxActions.handleCodeQueryInput(input)),
   handleFileInput: (input: string) => dispatch(ReduxActions.handleFileQueryInput(input)),
   postCodeQuery: (aaClashQuery: PdbIdAaQuery[]) => dispatch(ReduxActions.postCodeQuery(aaClashQuery)),
+  postFileQuery: (aaClashQuery: PdbQueryFormData, queryStore: PdbFileQueryStore) => dispatch(ReduxActions.postFileQuery(aaClashQuery, queryStore)),
   switchAaClashQueryMode: (newMode: 'PDB-CODE'|'FILE') => dispatch(ReduxActions.switchAaClashQueryMode(newMode))
 });
+const mainConnector = connect(mapAppStateToProps, mapDispatchToProps);
+type MainProps = ConnectedProps<typeof mainConnector>; //MainProps is mapped from Redux-Store
+type MainState = { //define this instead of 'any' in order to do error handling for {Form} from 'reactstrap'
+  codeFormTouched: boolean,
+  codeQueryErrMsg: string,
+  fileFormTouched: boolean,
+  fileQueryErrMsg: string,
+  selectedPdbFile: File | null
+}
 
 
 class Main extends Component<MainProps, MainState> {
@@ -59,11 +56,13 @@ class Main extends Component<MainProps, MainState> {
       codeFormTouched: false,
       codeQueryErrMsg: '',
       fileFormTouched: false,
-      fileQueryErrMsg: ''
+      fileQueryErrMsg: '',
+      selectedPdbFile: null,
     }
     this.handleAaClashQueryBlur = this.handleAaClashQueryBlur.bind(this);
     this.handleAaClashQueryInput = this.handleAaClashQueryInput.bind(this);
     this.clearAaClashQueryInput = this.clearAaClashQueryInput.bind(this);
+    this.handlePdbChange = this.handlePdbChange.bind(this);
     this.submitCodeQuery = this.submitCodeQuery.bind(this);
     this.submitFileQuery = this.submitFileQuery.bind(this);
   }
@@ -89,7 +88,6 @@ class Main extends Component<MainProps, MainState> {
       }));
     }
   }
-
   validateFileQuery = (aaClashQuery: string) => {
     const aaSubMatch = aaClashQuery.match(FILE_AA_SUB_REGEX); 
     if (!aaSubMatch) { 
@@ -102,7 +100,6 @@ class Main extends Component<MainProps, MainState> {
       }));
     }
   }
-
   handleAaClashQueryBlur = (evt: React.FormEvent<HTMLInputElement>) => {
     evt.preventDefault();
     if (this.props.aaClashQuery.queryMode === 'PDB-CODE') {
@@ -117,7 +114,6 @@ class Main extends Component<MainProps, MainState> {
       this.validateFileQuery(this.props.aaClashQuery.fileQueryFormValue);
     }
   }
-
   handleAaClashQueryInput = (evt: React.FormEvent<HTMLInputElement>) => {
     evt.preventDefault();
     const inputValue = (evt.target as HTMLInputElement).value
@@ -130,34 +126,44 @@ class Main extends Component<MainProps, MainState> {
       this.state.fileFormTouched && this.validateFileQuery(this.props.aaClashQuery.fileQueryFormValue) 
      }, 100); 
   }
-
   clearAaClashQueryInput = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     this.props.aaClashQuery.queryMode === 'PDB-CODE' ?
     this.props.handleCodeInput('') : this.props.handleFileInput(''); 
   }
-
   submitCodeQuery = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     if (this.state.codeQueryErrMsg === '' && this.state.codeFormTouched) {
       const pdbIds = this.props.aaClashQuery.codeQueryFormValue.match(PDB_CODE_ENTRY_REGEX);
       const aaSubsRaw = this.props.aaClashQuery.codeQueryFormValue.match(AA_SUB_ENTRY_REGEX); 
-      (pdbIds && aaSubsRaw) && 
+      (pdbIds && aaSubsRaw && aaSubsRaw.length > 0) && 
       this.props.postCodeQuery(processedCodeQueries(pdbIds, aaSubsRaw));
     } 
   }
-
+  handlePdbChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = evt.target.files;
+    if (!fileList) return;
+    this.setState(prevState => {
+      return { ...prevState, selectedPdbFile: fileList[0] }
+    });
+  };
   submitFileQuery = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (this.state.fileQueryErrMsg === '' && this.state.fileFormTouched) {
-      const aaSubsRaw = this.props.aaClashQuery.fileQueryFormValue.match(FILE_AA_SUB_REGEX); 
-      // aaSubsRaw && this.props.postFileQuery(processedFileQuery(aaSubsRaw));
+    const aaSubsRaw = this.props.aaClashQuery.fileQueryFormValue.match(FILE_AA_SUB_REGEX); 
+    if (aaSubsRaw && aaSubsRaw.length > 0 && this.state.fileQueryErrMsg === '' && 
+    this.state.fileFormTouched && this.state.selectedPdbFile) {
+      const queryStore = processedFileQuery(this.state.selectedPdbFile.name, aaSubsRaw);
+      if (queryStore) {
+        const queryData = new FormData();
+        queryData.append('pdbFile', this.state.selectedPdbFile, this.state.selectedPdbFile.name);
+        queryData.append('aaSubs', JSON.stringify(queryStore.aaSubs), queryStore.queryId);
+        this.props.postFileQuery(queryData, queryStore);
+      }
     } 
   }
 
 
   componentDidMount() {}
-
   render() {
     const displayAaClashQueryExample = (textStr: string) => {
       if (textStr) {
@@ -212,7 +218,7 @@ class Main extends Component<MainProps, MainState> {
                 </Col>
                 <Col lg={8}>
                   <Label style={{ marginTop: '0.5rem' }} 
-                  htmlFor="aaClashInput">AA-Clash query:</Label>
+                  htmlFor="aaClashInput">AA-Clash Code Query:</Label>
                   <Input type="textarea" id="aaClashInput" name="aaClashInput"
                   value={this.props.aaClashQuery.codeQueryFormValue}
                   onChange={this.handleAaClashQueryInput}
@@ -233,9 +239,42 @@ class Main extends Component<MainProps, MainState> {
               </FormGroup>
             </Form>
             ) : (
-              <Form>
-                <CardText>File query mode (To be continued)</CardText>
-              </Form>
+            <Form onSubmit={this.submitFileQuery} onReset={this.clearAaClashQueryInput}>
+              <FormGroup row>
+                <Col lg={3}>
+                  {displayAaClashQueryExample(FileQueryExample)}
+                  <CardText style={{ color: '#fd9a24', marginTop: '1rem' }}>
+                  {this.state.fileQueryErrMsg}</CardText>
+                </Col>
+                <Col lg={8}>
+                  <Label style={{ marginTop: '0.5rem' }} 
+                  htmlFor="aaClashFileInput">AA-Clash File Query:</Label>
+                  <Input type="textarea" id="aaClashFileInput" name="aaClashFileInput"
+                  value={this.props.aaClashQuery.fileQueryFormValue}
+                  onChange={this.handleAaClashQueryInput}
+                  onBlur={this.handleAaClashQueryBlur}
+                  valid={this.props.aaClashQuery.fileQueryFormValue.match(FILE_AA_SUB_REGEX) !== null}
+                  invalid={!FILE_AA_SUB_REGEX.test(this.props.aaClashQuery.fileQueryFormValue)}
+                  rows="11" placeholder={FileQueryExample}>
+                  </Input>
+                </Col>
+              </FormGroup>
+              <FormGroup row>
+                <Col lg={{ size: 1, offset: 3 }}>
+                  <Button type="reset" color="warning">Clear</Button>
+                </Col>
+                <Col lg={{ size: 3, offset: 2 }}>
+                  <Input style={{ fontSize: '1rem' }}
+                  type="file" name="pdbFile" id="pdbFile" accept='.pdb' onChange={this.handlePdbChange}/>
+                  <FormText color="muted">
+                    Please upload a .pdb file
+                  </FormText>
+                </Col>
+                <Col lg={{ size: 2 }}>
+                  <Button type="submit" color="primary">See results!</Button>
+                </Col>
+              </FormGroup>
+            </Form>
             )}
           </div>
         </div>
@@ -249,4 +288,4 @@ class Main extends Component<MainProps, MainState> {
   }
 }
 
-export default connect(mapAppStateToProps, mapDispatchToProps)(Main);
+export default mainConnector(Main);

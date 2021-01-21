@@ -2,7 +2,6 @@
 
 import { Request, Response } from 'express';
 import { PY_PATH, AA_CLASH_PREFIX } from '../constants.js'
-import axios from 'axios';
 import { Options, PythonShell, PythonShellError } from 'python-shell'
 import fs from 'fs';
 

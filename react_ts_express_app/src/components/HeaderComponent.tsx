@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Jumbotron } from 'reactstrap';
+import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem, Card, CardHeader, CardTitle, CardText } from 'reactstrap';
 import { FRONTEND_PREFIX } from '../shared/Consts';
 
 type HeaderState= { isNavOpen: boolean };
+
 
 class Header extends Component<any, HeaderState> {
 
@@ -24,7 +25,7 @@ class Header extends Component<any, HeaderState> {
     render() {
       return (
         <div>
-          <Navbar expand="md" className="navbar navbar-light bg-light">
+          <Navbar expand="md" className="navbar navbar-dark" style={{ backgroundColor: '#2f3f4f' }}>
             <NavbarToggler 
             onClick={this.toggleNav}  style={{ marginRight: "1rem" }}/>
             <NavbarBrand className="mr-auto" href="/" >
@@ -60,6 +61,12 @@ class Header extends Component<any, HeaderState> {
               </Nav>
             </Collapse>
           </Navbar>
+          <Card>
+            <CardHeader>
+              <CardTitle tag='h5'>PON-SC+ for Amino Acid clash detection, Molecular visualization, UI access to RCSB-PDB's API, Mapping to UniprotID etc</CardTitle>
+              <CardText style={{ textAlign: 'left' }}>This tool identifies if an amino acid substitution would cause clashes in protein structure or not. Taking PDB format file or PDB accession codes as input, for each position of interest substitutions are modeled using backbone-dependent rotamer library (<a target="_blank" href="https://pubmed.ncbi.nlm.nih.gov/21645855/">Shapovalov and Dunbrack, 2011</a>). Sterical clashes are calculated based on the distance between atoms.</CardText>
+            </CardHeader>
+          </Card>
         </div>
       )  
     }

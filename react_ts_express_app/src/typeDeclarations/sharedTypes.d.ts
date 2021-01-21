@@ -20,12 +20,24 @@ type AaSub = {
 };
 
 type PdbIdAaQuery = {
+  queryId: string;
   pdbId: string;
   aaSubs: Array<AaSub | string>;
 };
 
+type PdbFileQueryStore = {
+  fileName: string;
+  queryId: string; 
+  aaSubs: Array<string | AaSub>; 
+}
+
+interface PdbQueryFormData extends FormData {
+  append(name: string, value: File, fileName?: string): void;
+  set(name: string, value: File, fileName?: string): void;
+}
+
 // Redux type declaration
-type AaClashPayload = { queries: Array<PdbIdAaQuery>, predResults: Array<AaClashPredData> };
+type AaClashCodePayload = { queries: Array<PdbIdAaQuery>, predResults: Array<AaClashPredData> };
 
 type PayloadAction = {
   type: string;

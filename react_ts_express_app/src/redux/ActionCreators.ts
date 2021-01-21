@@ -17,9 +17,18 @@ export const addCodeQuery = (queries: PdbIdAaQuery[], predResults: AaClashPredDa
   payload: { queries: queries, predResults: predResults }
 });
 
+export const addFileQuery= (query: PdbFileQueryStore, predResults: AaClashPredData): PayloadAction => ({
+  type: ActionTypes.ADD_PDB_FILE_QUERY, payload: { query: query, predResults: predResults }
+});
+
 export const appendCodeQuery = (queries: PdbIdAaQuery[], predResults: AaClashPredData): PayloadAction => ({
   type: ActionTypes.APPEND_PDB_CODE_QUERY_HISTORY,
   payload: { queries: queries, predResults: predResults }
+});
+
+export const appendFileQuery = (query: PdbFileQueryStore, predResults: AaClashPredData): PayloadAction => ({
+  type: ActionTypes.APPEND_PDB_FILE_QUERY_HISTORY,
+  payload: { query: query, predResults: predResults }
 });
 
 export const eraseCodeQueryHistory = (): PayloadAction => ({
@@ -65,6 +74,34 @@ export const postCodeQuery = (
     })
     .catch((error: Error) => dispatch(pdbQueryFailed(error.message)));
 };
+
+export const postFileQuery = (formData: PdbQueryFormData, query: PdbFileQueryStore): 
+ThunkAction<Promise<void>, AaClashQueryState, undefined, PayloadAction> => async(dispatch) => {
+  await axios.post(`${SRV_URL_PREFIX}/pon-scp/pred/file`, formData, 
+  { headers: { 'Content-Type': 'multipart/form-data' } } 
+  ).then((response) => {
+      if (response.statusText === 'OK' || response.status === 200) {
+        return response;
+      } else {
+        let nonOkError = new Error(
+          `Could not fetch aa-clash prediction from API server! 
+          Error${response.status}: ${response.statusText}`
+        );
+        throw nonOkError;
+      }
+    }).then((response) => {
+      const aaClashData: AaClashDataToClient = response.data;
+      const aaClashPredResult: AaClashPredData = aaClashData.aaClash; 
+      const pyRunInfo: PyScriptResponse = aaClashData.pyRunInfo;
+      pyRunInfo.code === 0 ?
+      dispatch(addFileQuery(query, aaClashPredResult)) && 
+      dispatch(appendFileQuery(query, aaClashPredResult)) :
+      dispatch(pdbQueryFailed([`Error while running the python scripts for AA steric-clash on our server!`,
+      `Exit code: ${pyRunInfo.code}`,
+      `Stderr: ${pyRunInfo.finalText}`]));
+    })
+    .catch((error: Error) => dispatch(pdbQueryFailed(error.message)));
+}
 
 export const switchAaClashQueryMode = (newMode: 'PDB-CODE' | 'FILE'): PayloadAction => ({
   type: ActionTypes.SWITCH_AACLASH_QUERY_MODE,
