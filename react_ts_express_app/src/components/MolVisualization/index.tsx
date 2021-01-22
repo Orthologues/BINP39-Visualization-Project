@@ -12,8 +12,8 @@ const MolComponent: FC<any> = () => {
     
     return (
         <div className="mol-div">
-          <JsMol key={`mol_js_`} pdbQueries={queries} />
-          <Mol3D key={`mol_3d_`} pdbQueries={queries} />
+          <JsMol key={`mol_js_`} pdbQueries={queries.length > 0 ? queries : [{queryId: '', pdbId: '', aaSubs: []}]} />
+          <Mol3D key={`mol_3d_`} pdbQueries={queries.length > 0 ? queries : [{queryId: '', pdbId: '', aaSubs: []}]} />
         </div>
     )
 }

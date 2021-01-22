@@ -1,60 +1,56 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { ThunkDispatch, ThunkAction } from 'redux-thunk';
+import React, { FC } from 'react';
+import { Dispatch } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { CardText } from 'reactstrap';
 
-type AaClashProps = AppReduxState;
-type AaClashState = {
-    selectedPdbAaSubRoute?: string
-}
 
-const mapAppStateToProps = (state: AppReduxState) => ({
-    aaClashQuery: state.aaClashQuery,
-    rcsbGraphQl: state.rcsbGraphQl
-});
-const mapDispatchToProps = (dispatch: ThunkDispatch<
-  AppReduxState,
-  undefined,
-  PayloadAction | ReturnType<ThunkAction<any, any, undefined, any>>>) => ({
-    
-});
+const AaClashResult: FC<any> = () => {
+  
+  const appState = useSelector<AppReduxState, AppReduxState>(state => state); 
+  const queryMode = useSelector<AppReduxState, 'PDB-CODE'|'FILE'>(state => state.aaClashQuery.queryMode);
+  const dispatch = useDispatch<Dispatch<PayloadAction>>();
 
-
-class AaClashResult extends Component<AaClashProps, AaClashState> {
-  constructor(props: AaClashProps) {
-      super(props);  
-      this.state = {}
-  }  
-
-  render() {
-      if (Array.isArray(this.props.aaClashQuery.errMsg)) {
-          return (
-            <div className="col-12 AaClash-err" >
-              { this.props.aaClashQuery.errMsg.map(((errmsg, index) => {
-                  return (
-                    <CardText key={`pyErrMsg${index}`} style={{ margin: '5px'}}
-                    >{errmsg}</CardText>
-                  )
-                }))}
-            </div>
-          )
-      } 
-      else if (this.props.aaClashQuery.errMsg) {
+    if (Array.isArray(appState.aaClashQuery.errMsg)) {
+      return (
+        <div className="col-12" >
+          { appState.aaClashQuery.errMsg.map(((errmsg, index) => {
+            return (
+              <CardText key={`pyErrMsg${index}`} style={{color: 'red', margin: '5px auto', fontSize: '18px'}}
+              >{errmsg}</CardText>
+            )
+          }))}
+        </div>
+      )
+    } 
+    else if (appState.aaClashQuery.errMsg) {
+      return (
+        <div className="col-10 offset-1" 
+        style={{ color: 'red', margin: '0.5rem auto', fontSize: '18px'}}>
+          <CardText>{appState.aaClashQuery.errMsg}</CardText>
+        </div>
+      )
+    }
+    else if (queryMode === 'PDB-CODE' && appState.aaClashQuery.codePredResults.length >0) {
         return (
-          <div className="col-10 offset-1 Aaclash-err" >
-            <CardText>{this.props.aaClashQuery.errMsg}</CardText>
-          </div>
-        )
-      }
-      else if (this.props.aaClashQuery.predResultsHistory.length > 0) {
-          return (
-            <div className="col-12 App-body-col1"
-            style={{ padding: '16px 5%', fontSize: '18px' }}>
-              <CardText>{JSON.stringify(this.props.aaClashQuery.predResults)}</CardText>
-            </div> );
-      }
-      return (<div></div>);
-  }
+          <div className="col-12 App-body-col1"
+          style={{ padding: '16px', fontSize: '18px', textAlign: 'left' }}>
+          { appState.aaClashQuery.queries.map((query, ind) => 
+          ( <CardText key={`${query.queryId}_${ind}`}>
+              {JSON.stringify(appState.aaClashQuery.codePredResults[ind])}
+            </CardText> )
+          ) }
+          </div> );
+    }
+    else if (queryMode === 'FILE' && appState.aaClashQuery.filePredResult) {
+      return (
+        <div className="col-12 App-body-col1"
+        style={{ padding: '16px 5%', fontSize: '18px', textAlign: 'center' }}>
+          <CardText>
+            {JSON.stringify(appState.aaClashQuery.filePredResult)}
+          </CardText> 
+        </div> );
+    }
+    return (<div></div>);
 }
 
-export default connect(mapAppStateToProps, mapDispatchToProps)(AaClashResult);
+export default AaClashResult;

@@ -31,6 +31,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<
   AppReduxState,
   undefined,
   PayloadAction | ReturnType<ThunkAction<any, any, undefined, any>>>) => ({
+  resetAppReduxState: () => dispatch(ReduxActions.resetAppReduxState()),
   handleCodeInput: (input: string) => dispatch(ReduxActions.handleCodeQueryInput(input)),
   handleFileInput: (input: string) => dispatch(ReduxActions.handleFileQueryInput(input)),
   postCodeQuery: (aaClashQuery: PdbIdAaQuery[]) => dispatch(ReduxActions.postCodeQuery(aaClashQuery)),
@@ -155,8 +156,9 @@ class Main extends Component<MainProps, MainState> {
       const queryStore = processedFileQuery(this.state.selectedPdbFile.name, aaSubsRaw);
       if (queryStore) {
         const queryData = new FormData();
-        queryData.append('pdbFile', this.state.selectedPdbFile, this.state.selectedPdbFile.name);
-        queryData.append('aaSubs', JSON.stringify(queryStore.aaSubs), queryStore.queryId);
+        queryData.append('pdbFile', this.state.selectedPdbFile);
+        queryData.append('aaSubs', JSON.stringify(queryStore.aaSubs));
+        queryData.append('queryId', queryStore.queryId);
         this.props.postFileQuery(queryData, queryStore);
       }
     } 
@@ -199,12 +201,15 @@ class Main extends Component<MainProps, MainState> {
         <div className='row'>
           <div className='col-12 col-lg-3 App-body-col1'>
             <CardTitle tag="h5">Choose mode of AA-Clash query: </CardTitle>
-            <ButtonGroup style={{ marginTop: '0.5rem' }}>
+            <ButtonGroup>
               <Button color="info" onClick={ () => this.props.switchAaClashQueryMode('PDB-CODE') }
               active={this.props.aaClashQuery.queryMode === 'PDB-CODE'}>PDB-CODE (default)</Button>
               <Button color="info" onClick={ () => this.props.switchAaClashQueryMode('FILE') }
               active={this.props.aaClashQuery.queryMode === 'FILE'}>PDB FILE</Button>
             </ButtonGroup>
+            <Button className='btn btn-secondary btn-sm' type='button'
+            style={{ marginTop: '2rem' }} onClick={this.props.resetAppReduxState}
+            >Reset App-state</Button>
           </div>
           
           <div className='col-12 col-lg-9 App-body-col2'>
@@ -231,7 +236,7 @@ class Main extends Component<MainProps, MainState> {
               </FormGroup>
               <FormGroup row>
                 <Col lg={{ size: 1, offset: 3 }}>
-                  <Button type="reset" color="warning">Clear</Button>
+                  <Button type="reset" color="warning" style={{ marginBottom: '0.5rem' }}>Clear</Button>
                 </Col>
                 <Col lg={{ size: 6 }}>
                   <Button type="submit" color="primary">See results!</Button>
@@ -261,9 +266,9 @@ class Main extends Component<MainProps, MainState> {
               </FormGroup>
               <FormGroup row>
                 <Col lg={{ size: 1, offset: 3 }}>
-                  <Button type="reset" color="warning">Clear</Button>
+                  <Button type="reset" color="warning" style={{ marginBottom: '0.5rem' }}>Clear</Button>
                 </Col>
-                <Col lg={{ size: 3, offset: 2 }}>
+                <Col lg={{ size: 4, offset: 1 }}>
                   <Input style={{ fontSize: '1rem' }}
                   type="file" name="pdbFile" id="pdbFile" accept='.pdb' onChange={this.handlePdbChange}/>
                   <FormText color="muted">

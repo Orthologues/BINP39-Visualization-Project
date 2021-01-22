@@ -111,7 +111,8 @@ export const processedCodeQueries = (pdbIds: Array<string>, aaSubs: Array<string
   aaSubs.map((aaSub, index) => {
     const splitStrings = aaSub.toUpperCase().split(/\s+/).filter(str => str.length > 0);
     const JOB_TIME = new Date().toISOString();
-    const QUERY_ID = `${pdbIds[index]}_${JOB_TIME}`;
+    const RANDOM_SUFFIX = Math.round(Math.random() * 1E8);
+    const QUERY_ID = `${pdbIds[index]}_${JOB_TIME}_${RANDOM_SUFFIX}`;
     codeQueries.push({ pdbId: pdbIds[index], aaSubs: splitStrings, queryId: QUERY_ID });
   });
   return codeQueries;
@@ -125,7 +126,8 @@ PdbFileQueryStore | null => {
   });
   if(fileName) {
     const JOB_TIME = new Date().toISOString();
-    const QUERY_ID = `${fileName}_${JOB_TIME}`;
+    const RANDOM_SUFFIX = Math.round(Math.random() * 1E8);
+    const QUERY_ID = `${JOB_TIME}_${RANDOM_SUFFIX}_${fileName}`;
     return { fileName: fileName, aaSubs: aaSubArray, queryId: QUERY_ID };
   }
   return null;

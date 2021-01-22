@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { useGetPdbBasicQuery } from '../../graphql';
 import RcsbPdbGql, { PdbIdSeqAndToUniprot } from './RcsbGraphQl';
-import { switchGqlListMode, selectGqlPdbId } from '../../redux/ActionCreators';
+import { switchGqlListMode, selectGqlPdbId, deleteCodeQuery, eraseCodeQueryHistory } from '../../redux/ActionCreators';
 import { uniquePdbIds } from '../../shared/Funcs';
 import { CardTitle, CardText, Button, ButtonGroup } from 'reactstrap';
 import '../../css/RcsbPdbGql.css';
@@ -23,6 +23,20 @@ const RcsbGqlIndex: FC<any> = () => {
     });
 
     useEffect(() => { refetch() }, [selectedQuery]);
+
+    const deleteQueriesOfPdbId = (evt: React.MouseEvent<HTMLElement, MouseEvent>, ind: number) => {
+      evt.stopPropagation(); 
+      if (queryHistory.length > 1) {
+        const pdbIdToDelete = document.getElementsByClassName('pdb-id-span')[ind].textContent;
+        pdbIdToDelete && queryHistory.map(query => {
+          const processedPdbIdToDel = pdbIdToDelete.replace(/^\s+|\s+$/g, '').toUpperCase();
+          processedPdbIdToDel === query.pdbId.toUpperCase() && dispatch(deleteCodeQuery(query));
+          selectedQuery?.toUpperCase() === processedPdbIdToDel && dispatch(selectGqlPdbId(''));
+        })
+      } else {
+        dispatch(eraseCodeQueryHistory()) && dispatch(selectGqlPdbId(''))
+      }
+    }
 
     const QueryList = (): JSX.Element => (
         <div className='pdb-query-list'>
@@ -44,21 +58,29 @@ const RcsbGqlIndex: FC<any> = () => {
             uniquePdbIds(queries).map((query, ind) => ( selectedQuery === query ? 
             ( <li key={`${query}_${ind}`} onClick={() => dispatch(selectGqlPdbId(query))}
               className='pdb-query-item-selected'>
-                {query}
+                <span className='pdb-id-span'>{query}</span>
+                <i className="fa fa-trash fa-lg deletion-fa-icon"
+                onClick={ e => deleteQueriesOfPdbId(e, ind) }></i>
               </li> ):
             ( <li key={`${query}_${ind}`} onClick={() => dispatch(selectGqlPdbId(query))}
               className='pdb-query-item'>
-                {query}
+                <span className='pdb-id-span'>{query}</span>
+                <i className="fa fa-trash fa-lg deletion-fa-icon"
+                onClick={ e => deleteQueriesOfPdbId(e, ind) }></i>
               </li> )
             )) : 
             uniquePdbIds(queryHistory).map((query, ind) => ( selectedQuery === query ? 
             ( <li key={`${query}_${ind}`} onClick={() => dispatch(selectGqlPdbId(query))}
               className='pdb-query-item-selected'>
-                {query}
+                <span className='pdb-id-span'>{query}</span>
+                <i className="fa fa-trash fa-lg deletion-fa-icon"
+                onClick={ e => deleteQueriesOfPdbId(e, ind) }></i>
               </li> ):
             ( <li key={`${query}_${ind}`} onClick={() => dispatch(selectGqlPdbId(query))}
               className='pdb-query-item'>
-                {query}
+                <span className='pdb-id-span'>{query}</span>
+                <i className="fa fa-trash fa-lg deletion-fa-icon"
+                onClick={ e => deleteQueriesOfPdbId(e, ind) }></i>
               </li> )
             )) }
           </ol>

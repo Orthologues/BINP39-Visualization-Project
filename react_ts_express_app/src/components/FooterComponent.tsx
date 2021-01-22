@@ -6,8 +6,7 @@ const Footer: FC<any> = () => {
         className="footer"
         style={{
           backgroundColor: '#fed8b1',
-          paddingTop: '2rem',
-          marginTop: '2rem',
+          paddingTop: '1.5rem',
         }}
       >
         <div className="container">

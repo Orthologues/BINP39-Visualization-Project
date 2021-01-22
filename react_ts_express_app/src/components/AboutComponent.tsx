@@ -46,7 +46,7 @@ const textWithNewLines = (textStr: string) => {
 
 const AboutComponent: FC<any> = () => {
     return (
-      <div className='container-fluid' style={{textAlign: 'left', marginTop: 10}}>
+      <div className='container-fluid' style={{textAlign: 'left', marginTop: 10, marginBottom: 10}}>
         <div className='row'>
             <div className='col-12 col-lg-4'>
               <Card>
@@ -70,7 +70,7 @@ const AboutComponent: FC<any> = () => {
                   {textWithNewLines(FILE_QUERY_TEXT)}
                   <a className='nav-link' href="http://www.wwpdb.org/documentation/file-format" 
                   target="_blank">
-                  see instructions for PDB format here</a>
+                  See instructions for PDB format here</a>
                 </CardBody>
               </Card>
             </div>

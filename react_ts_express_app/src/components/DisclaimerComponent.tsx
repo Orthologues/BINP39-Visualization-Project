@@ -7,7 +7,7 @@ const LIABILITY_TEXT = `In preparation of this site and service, every effort ha
 `;
 
 const DisclaimerComponent: FC<any> = () => {
-    return (<div className='container-fluid' style={{textAlign: 'left', marginTop: 10}}>
+    return (<div className='container-fluid' style={{textAlign: 'left', marginTop: 10, marginBottom: 10}}>
     <div className='row'>
         <div className='col-12 col-lg-6'>
           <Card>
