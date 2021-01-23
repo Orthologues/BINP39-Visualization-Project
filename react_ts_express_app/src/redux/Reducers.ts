@@ -63,8 +63,8 @@ export const AaClashQueryReducer = (
         isLoading: false };
     case ActionTypes.APPEND_PDB_FILE_QUERY_HISTORY:
       return { ...state,
-        fileQueryHistory: state.fileQueryHistory.concat((<AaClashFilePayload>action.payload).query),
-        filePredResultHistory: state.filePredResultHistory.concat((<AaClashFilePayload>action.payload).predResult),
+        fileQueryHistory: state.fileQueryHistory.concat([(<AaClashFilePayload>action.payload).query]),
+        filePredResultHistory: state.filePredResultHistory.concat([(<AaClashFilePayload>action.payload).predResult]),
         isLoading: false }
     case ActionTypes.ERASE_PDB_CODE_QUERY_HISTORY: 
       return { ...state, queries: [], queryHistory: [], isLoading: false, errMsg: null };

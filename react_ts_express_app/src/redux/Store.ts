@@ -15,7 +15,7 @@ const rootConfig = {
 const aaClashQueryConfig = {
   key: 'aaClashQuery',
   storage: storage,
-  blacklist: ['queryMode', 'errMsg']
+  blacklist: ['queryMode', 'errMsg', 'isLoading']
 }
 
 const persistentThunkLoggerStore = () => {

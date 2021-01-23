@@ -11,29 +11,29 @@ type PdbIdAaQuery = {
     aaSubs: Array<string>,
     queryId: string
 };
-
 type PdbFileQueryBody = {
     aaSubs: string,
     queryId: string
 }
-
 type AaClashPredData = {
     queryId: string,
-    jobName: string,
-    angles: object,
-    goodAcids: object,
-    badAcids: object,
-    matrices: object
+    jobName?: string,
+    angles?: object,
+    goodAcids?: object,
+    badAcids?: object,
+    matrices?: object
 }
-
 type PyScriptResponse = {
     code: number,
     signal?: string,
     finalText: string
 }
-
-type AaClashDataToClient = {
+type CodeDataToClient = {
     aaClash: Array<AaClashPredData>,
+    pyRunInfo: PyScriptResponse
+}
+type FileDataToClient = {
+    aaClash: AaClashPredData,
     pyRunInfo: PyScriptResponse
 }
 
@@ -46,8 +46,10 @@ export const handlePdbFileQuery = (req: Request, res: Response) => {
     if (pdbFile && queryId && aaSubs) { 
         aaSubs = JSON.parse(aaSubs);
         const FILE_NAME = `${AA_CLASH_PREFIX}/extra_files/pos${pdbFileName}.txt`;
-        Array.isArray(aaSubs) && fs.writeFileSync(FILE_NAME, '') && 
-        aaSubs.map(aaSub => fs.appendFileSync(FILE_NAME, `${aaSub}\n`));
+        if (Array.isArray(aaSubs)) {
+            fs.writeFileSync(FILE_NAME, ''); 
+            aaSubs.map(aaSub => fs.appendFileSync(FILE_NAME, `${aaSub}\n`));
+        }
         const pyShellOptions: Options = {
             mode: 'json',
             pythonPath: PY_PATH,
@@ -56,12 +58,12 @@ export const handlePdbFileQuery = (req: Request, res: Response) => {
             args: ['file', pdbFileName]
         };
         let pyScriptRes: PyScriptResponse = { code: -1, finalText: 'Python scripts have not yet run' };
-        let dataToClient: AaClashDataToClient = { aaClash: [], pyRunInfo: pyScriptRes };
+        let dataToClient: FileDataToClient = { aaClash: {queryId: queryId}, pyRunInfo: pyScriptRes };
         const pdbCodePredPyShell = new PythonShell('prediction_aaclash.py', pyShellOptions);
-        pdbCodePredPyShell.on('message', (aaClashResult: Omit<AaClashPredData, 'queryId'>) => {
+        pdbCodePredPyShell.on('message', (aaClashResult: { '0': Omit<AaClashPredData, 'queryId'> }) => {
             // catch stdout of the Python script (a simple "print" statement)
-            const aaClashData: AaClashPredData = { queryId: queryId, ...aaClashResult };
-            dataToClient.aaClash.push(JSON.parse(JSON.stringify(aaClashData)));
+            const aaClashData: AaClashPredData = { queryId: queryId, ...aaClashResult['0'] };
+            dataToClient.aaClash = JSON.parse(JSON.stringify(aaClashData));
         });
 
         // end the input stream and allow the process to exit
@@ -106,7 +108,7 @@ const handlePdbCodeQuery = (req: Request, res: Response) => {
             args: ['text', JOB_ID]
         };
         let pyScriptRes: PyScriptResponse = { code: -1, finalText: 'Python scripts have not yet run' };
-        let dataToClient: AaClashDataToClient = { aaClash: [], pyRunInfo: pyScriptRes };
+        let dataToClient: CodeDataToClient = { aaClash: [], pyRunInfo: pyScriptRes };
         const pdbCodePredPyShell = new PythonShell('prediction_aaclash.py', pyShellOptions);
         pdbCodePredPyShell.on('message', (aaClashResults: Omit<AaClashPredData, 'queryId'>[]) => {
             // catch stdout of the Python script (a simple "print" statement)

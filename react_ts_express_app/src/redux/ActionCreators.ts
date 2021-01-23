@@ -33,8 +33,8 @@ export const deleteFileQuery= (query: PdbFileQueryStore): PayloadAction => ({
 export const appendCodeQuery = (queries: PdbIdAaQuery[], predResults: AaClashPredData[]): PayloadAction => ({
   type: ActionTypes.APPEND_PDB_CODE_QUERY_HISTORY, payload: { queries: queries, predResults: predResults }
 });
-export const appendFileQuery = (query: PdbFileQueryStore, predResults: AaClashPredData): PayloadAction => ({
-  type: ActionTypes.APPEND_PDB_FILE_QUERY_HISTORY, payload: { query: query, predResults: predResults }
+export const appendFileQuery = (query: PdbFileQueryStore, predResult: AaClashPredData): PayloadAction => ({
+  type: ActionTypes.APPEND_PDB_FILE_QUERY_HISTORY, payload: { query: query, predResult: predResult }
 });
 
 export const eraseCodeQueryHistory = (): PayloadAction => ({
@@ -110,7 +110,8 @@ ThunkAction<Promise<void>, AaClashQueryState, undefined, PayloadAction> => async
       dispatch(appendFileQuery(query, <AaClashPredData>predResult)) :
       dispatch(pdbQueryFailed([`Error while running the python scripts for AA steric-clash on our server!`,
       `Exit code: ${pyRunInfo.code}`,
-      `The '.pdb' file which you uploaded couldn't be parsed correctly!`]));
+      pyRunInfo.code === 0 ? `The '.pdb' file which you uploaded couldn't be parsed correctly!` :
+      `Stderr: ${pyRunInfo.finalText}`]));
     })
     .catch((error: Error) => dispatch(pdbQueryFailed(error.message)));
 }
