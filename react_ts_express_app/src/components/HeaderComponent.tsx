@@ -11,7 +11,7 @@ const Header: FC<any> = () => {
   return (
     <div className='sticky-wrapper'>
       <div className='sticky'>
-      <Navbar expand="md" className="navbar navbar-dark" color="dark">
+      <Navbar expand="md" className="navbar navbar-dark" style={{backgroundColor: '#301934'}}>
         <NavbarToggler 
         onClick={toggleNav}  style={{ marginRight: "1rem" }}/>
         <NavbarBrand className="mr-auto" href="/" >

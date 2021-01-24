@@ -3,6 +3,7 @@ import { GetPdbBasicQuery } from '../../graphql';
 import { useMapPdbToUniprotQuery, useGetUniprotBasicQuery } from '../../graphql';
 import { Card, CardHeader, CardTitle, CardBody, CardText, Button } from 'reactstrap';
 import '../../css/RcsbPdbGql.css';
+import { APPEND_PDB_CODE_QUERY_HISTORY } from '../../redux/ActionTypes';
 
 type RootProps = {
     pdbCode: string,
@@ -50,7 +51,7 @@ const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
     return (
       <Card>
         <CardHeader>
-            <CardTitle tag='h5'>PDB-ID data of {`'${pdbCode}'`} from RCSB API</CardTitle>
+            <CardTitle tag='h5'>PDB-ID data of {pdbCode} from RCSB API</CardTitle>
         </CardHeader>
         <CardBody style={{ textAlign: 'left' }}>
           <CardText>
@@ -94,6 +95,15 @@ const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
                 </CardText> }
             </React.Fragment>
           ) }
+          <a target="_blank" 
+          href={`https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/pdbsum/GetPage.pl?pdbcode=${pdbCode}`}>
+            Link for this PDB-ID at PDBsum</a> 
+          <br />
+          <a target="_blank" href={`https://www.ebi.ac.uk/pdbe/entry/pdb/${pdbCode}`}>
+            Link for this PDB-ID at PDBe</a> 
+          <br />
+          <a target="_blank" href={`https://www.rcsb.org/structure/${pdbCode}`}>
+            Link for this PDB-ID at RCSB PDB</a>
         </CardBody>
       </Card>
     );
@@ -132,7 +142,7 @@ export const PdbIdSeqAndToUniprot: FC<SecondaryProps> = ({entryId, entityId}) =>
         </React.Fragment> )
     }
     return (
-      <Card>
+      <Card style={{marginBottom: 10}}>
         <CardHeader>
           <CardTitle tag='h5'>Info about Polymer-entity {entityId} of PDB-ID {entryId}</CardTitle>
         </CardHeader>
@@ -187,9 +197,11 @@ const RcsbUniprotInfo: FC<TertiaryProps> = ({uniprotId}) => {
             </div>
             <br/>
             <a target="_blank" href={`https://www.uniprot.org/uniprot/${uniprotId}`}>
-                Link for this Uniprot-accession at Uniprot</a> <br />
+                Link for this Uniprot-accession at Uniprot</a> 
+            <br />
             <a target="_blank" href={`https://www.ebi.ac.uk/pdbe/pdbe-kb/proteins/${uniprotId}`}>
-                Link for this Uniprot-accession at PDBe</a> <br />
+                Link for this Uniprot-accession at PDBe</a> 
+            <br />
             <a target="_blank" href={`https://huma.rubi.ru.ac.za/#proteins/fetch/${uniprotId}`}>
                 Link for this Uniprot-accession at HUMA (only for human-related proteins)</a>
             </React.Fragment>

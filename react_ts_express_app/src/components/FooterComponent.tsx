@@ -2,16 +2,10 @@ import React, { FC } from 'react';
 
 const Footer: FC<any> = () => {
   return (
-      <div
-        className="footer"
-        style={{
-          backgroundColor: '#fed8b1',
-          paddingTop: '1.5rem',
-        }}
-      >
+      <div className="footer" style={{ backgroundColor: '#fed8b1', paddingTop: '1.5rem' }}>
         <div className="container">
           <div className="row justify-content-center">
-            <div className="col-4 col-sm-5">
+            <div className="col-12 col-md-5">
               <h5>Links</h5>
               <ul className="list-unstyled">
                 <li>
@@ -35,7 +29,7 @@ const Footer: FC<any> = () => {
                 </li>
               </ul>
             </div>
-            <div className="col-7 col-sm-5">
+            <div className="col-12 col-md-5">
               <h5>Our Address</h5>
               <address>
                 BMC B13
@@ -50,7 +44,7 @@ const Footer: FC<any> = () => {
                 <a href="mailto:mauno.vihinen@med.lu.se">mauno.vihinen@med.lu.se</a>
               </address>
             </div>
-            <div className="col-12 col-sm-2 align-self-center">
+            <div className="col-12 col-md-2 align-self-center">
               <div className="text-center">
                 <a target="_blank" className="btn btn-social-icon btn-linkedin"
                 href="https://www.linkedin.com/in/jiawei-zhao-5268681b0/">
