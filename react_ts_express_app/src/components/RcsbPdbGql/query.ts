@@ -17,13 +17,13 @@ export const QUERY_GET_PDB_BASIC = gql`
               non_polymer_entity_ids
             }
             cell {
+              Z_PDB
               angle_alpha
               angle_beta
               angle_gamma
               length_a
               length_b
               length_c
-              pdbx_unique_axis
             }
         }
     }

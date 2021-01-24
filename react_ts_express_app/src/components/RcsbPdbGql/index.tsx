@@ -39,8 +39,7 @@ const RcsbGqlIndex: FC<any> = () => {
     }
 
     const QueryList = (): JSX.Element => (
-        <div className='pdb-query-list'>
-          
+        <div className='pdb-query-list'>        
           <CardTitle tag="h5" style={{ marginTop: '1rem' }}
           >Choose which queries to list</CardTitle>
           <ButtonGroup>
@@ -84,7 +83,8 @@ const RcsbGqlIndex: FC<any> = () => {
               </li> )
             )) }
           </ol>
-        </div> )
+        </div> 
+        )
 
     if (loading) {
         return (
@@ -96,7 +96,6 @@ const RcsbGqlIndex: FC<any> = () => {
           </div> 
         )
     }
-
     if (error || !data) {
         return (
           <div className='rcsb-gql-div'>
@@ -108,7 +107,6 @@ const RcsbGqlIndex: FC<any> = () => {
           </div> 
         )
     }
-
     if ( data && data.entry?.rcsb_entry_container_identifiers.rcsb_id && 
         data.entry.rcsb_entry_container_identifiers.entity_ids ) {
         
@@ -118,7 +116,7 @@ const RcsbGqlIndex: FC<any> = () => {
         return (
           <div className='rcsb-gql-div'>
             <QueryList />
-            <div className='container-fluid'>
+            <div className='container-fluid rcsb-gql-info'>
               <div className='row rcsb-info-header'>
                 <div className='col-12'>
                   <CardTitle tag='h3'>Data from RCSB-PDB's GraphQL API</CardTitle>
@@ -139,7 +137,6 @@ const RcsbGqlIndex: FC<any> = () => {
           </div> 
         )
     }
-
     return (
       <div className='rcsb-gql-div'>
         <QueryList />

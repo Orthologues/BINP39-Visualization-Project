@@ -13,6 +13,19 @@
   }
 }
 
+.sticky-wrapper {
+  position: relative;
+  height: auto; /* We need to change this value */
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+}
+
 .App-header-nav-icon {
   margin-right: 5px;
 }

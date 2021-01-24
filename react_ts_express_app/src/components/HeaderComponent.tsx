@@ -9,8 +9,9 @@ const Header: FC<any> = () => {
     setNavOpen(prev => !prev);
   }
   return (
-    <div>
-      <Navbar expand="md" className="navbar navbar-dark" style={{ backgroundColor: '#2f3f4f' }}>
+    <div className='sticky-wrapper'>
+      <div className='sticky'>
+      <Navbar expand="md" className="navbar navbar-dark" color="dark">
         <NavbarToggler 
         onClick={toggleNav}  style={{ marginRight: "1rem" }}/>
         <NavbarBrand className="mr-auto" href="/" >
@@ -46,7 +47,8 @@ const Header: FC<any> = () => {
           </Nav>
         </Collapse>
       </Navbar>
-      <Card>
+      </div>
+      <Card style={{marginTop: '62px'}}>
         <CardHeader>
           <CardTitle tag='h5'>PON-SC+ for Amino Acid clash detection, Molecular visualization, UI access to RCSB-PDB's API, Mapping to UniprotID etc</CardTitle>
           <CardText style={{ textAlign: 'left' }}>This tool identifies if an amino acid substitution would cause clashes in protein structure or not. Taking PDB format file or PDB accession codes as input, for each position of interest substitutions are modeled using backbone-dependent rotamer library (<a target="_blank" href="https://pubmed.ncbi.nlm.nih.gov/21645855/">Shapovalov and Dunbrack, 2011</a>). Sterical clashes are calculated based on the distance between atoms.</CardText>

@@ -9857,6 +9857,8 @@ export type RcsbPrimaryCitation = {
    *  bibliographic entry.
    */
   pdbx_database_id_PubMed?: Maybe<Scalars['Int']>;
+  /** The Open Researcher and Contributor ID (ORCID) identifiers for the citation authors. */
+  rcsb_ORCID_identifiers?: Maybe<Array<Maybe<Scalars['String']>>>;
   /**
    * Names of the authors of the citation; relevant for journal
    *  articles, books and book chapters.  Names are separated by vertical bars.
@@ -12077,7 +12079,7 @@ export type GetPdbBasicQuery = (
       & Pick<RcsbEntryContainerIdentifiers, 'rcsb_id' | 'entity_ids' | 'pubmed_id' | 'branched_entity_ids' | 'polymer_entity_ids' | 'non_polymer_entity_ids'>
     ), cell?: Maybe<(
       { __typename?: 'Cell' }
-      & Pick<Cell, 'angle_alpha' | 'angle_beta' | 'angle_gamma' | 'length_a' | 'length_b' | 'length_c' | 'pdbx_unique_axis'>
+      & Pick<Cell, 'Z_PDB' | 'angle_alpha' | 'angle_beta' | 'angle_gamma' | 'length_a' | 'length_b' | 'length_c'>
     )> }
   )> }
 );
@@ -12137,13 +12139,13 @@ export const GetPdbBasicDocument = gql`
       non_polymer_entity_ids
     }
     cell {
+      Z_PDB
       angle_alpha
       angle_beta
       angle_gamma
       length_a
       length_b
       length_c
-      pdbx_unique_axis
     }
   }
 }
