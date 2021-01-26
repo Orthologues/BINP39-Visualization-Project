@@ -3,7 +3,6 @@ import { GetPdbBasicQuery } from '../../graphql';
 import { useMapPdbToUniprotQuery, useGetUniprotBasicQuery } from '../../graphql';
 import { Card, CardHeader, CardTitle, CardBody, CardText, Button } from 'reactstrap';
 import '../../css/RcsbPdbGql.css';
-import { APPEND_PDB_CODE_QUERY_HISTORY } from '../../redux/ActionTypes';
 
 type RootProps = {
     pdbCode: string,
@@ -204,6 +203,9 @@ const RcsbUniprotInfo: FC<TertiaryProps> = ({uniprotId}) => {
             <br />
             <a target="_blank" href={`https://huma.rubi.ru.ac.za/#proteins/fetch/${uniprotId}`}>
                 Link for this Uniprot-accession at HUMA (only for human-related proteins)</a>
+            <br />
+            <a target="_blank" href={`https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/VarSite/GetPage.pl?uniprot_acc=${uniprotId}&template=protein.html`}>
+                Link for this Uniprot-accession at VarSite (only for human-related proteins)</a>
             </React.Fragment>
         ) }
       </CardBody> 

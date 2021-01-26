@@ -1,4 +1,8 @@
 // a shared library of self-defined functions
+import { AMINO_ACIDS, AA_1_TO_3, AA_3_TO_1 } from './Consts';
+import { Dictionary, isEmpty } from 'lodash';
+
+// functions for lifecycle methods/useLayoutEffect hooks in MolComponents
 export const appendSyncScript = (scriptToAppend: string): void => {
   const script: HTMLScriptElement = document.createElement('script');
   script.className = 'embeddedSyncJS';
@@ -6,7 +10,6 @@ export const appendSyncScript = (scriptToAppend: string): void => {
   script.async = false;
   document.body.appendChild(script);
 };
-
 export const appendAsyncScript = (scriptToAppend: string): void => {
   const script: HTMLScriptElement = document.createElement('script');
   script.className = 'embeddedAsyncJS';
@@ -14,7 +17,6 @@ export const appendAsyncScript = (scriptToAppend: string): void => {
   script.async = true;
   document.body.appendChild(script);
 };
-
 export const removeSyncScriptBySrc = (givenSrc: string): void => {
   const scripts: HTMLCollectionOf<Element> = document.getElementsByClassName(
     'embeddedSyncJS'
@@ -38,7 +40,6 @@ export const removeSyncScriptBySrc = (givenSrc: string): void => {
     }
   }
 };
-
 export const removeAsyncScriptBySrc = (givenSrc: string): void => {
   const scripts: HTMLCollectionOf<Element> = document.getElementsByClassName(
     'embeddedAsyncJS'
@@ -64,7 +65,6 @@ export const removeAsyncScriptBySrc = (givenSrc: string): void => {
     }
   }
 };
-
 export const removeAllSyncScripts = (): void => {
   const scripts: HTMLCollectionOf<Element> = document.getElementsByClassName(
     'embeddedSyncJS'
@@ -83,7 +83,6 @@ export const removeAllSyncScripts = (): void => {
     }
   }
 };
-
 export const removeAllAsyncScripts = (): void => {
   const scripts: HTMLCollectionOf<Element> = document.getElementsByClassName(
     'embeddedAsyncJS'
@@ -103,21 +102,20 @@ export const removeAllAsyncScripts = (): void => {
   }
 };
 
+// functions for processing of aaClash queries in both pdb-code and pdb-file mode
 export const processedPdbId = (pdbQuery: string): string => 
 pdbQuery && pdbQuery.replace(/^\s+|\s+$/g, '').toUpperCase();
-
 export const processedCodeQueries = (pdbIds: Array<string>, aaSubs: Array<string>) => {
   const codeQueries: Array<PdbIdAaQuery> = [];
   aaSubs.map((aaSub, index) => {
     const splitStrings = aaSub.toUpperCase().split(/\s+/).filter(str => str.length > 0);
     const JOB_TIME = new Date().toISOString();
     const RANDOM_SUFFIX = Math.round(Math.random() * 1E8);
-    const QUERY_ID = `${pdbIds[index]}_${JOB_TIME}_${RANDOM_SUFFIX}`;
+    const QUERY_ID = `${pdbIds[index]}_${JOB_TIME}${RANDOM_SUFFIX}`.replace(/[-:\.\/]/gi,'');
     codeQueries.push({ pdbId: pdbIds[index], aaSubs: splitStrings, queryId: QUERY_ID });
   });
   return codeQueries;
 }
-
 export const processedFileQuery = (fileName: string|undefined|null, aaSubs: Array<string>): 
 PdbFileQueryStore | null => {
   const aaSubArray: Array<string> = [];
@@ -127,19 +125,46 @@ PdbFileQueryStore | null => {
   if(fileName) {
     const JOB_TIME = new Date().toISOString();
     const RANDOM_SUFFIX = Math.round(Math.random() * 1E8);
-    const QUERY_ID = `${JOB_TIME}_${RANDOM_SUFFIX}_${fileName}`;
+    const QUERY_ID = `${JOB_TIME}${RANDOM_SUFFIX}_${fileName}`.replace(/[-:\.\/]/gi,'');
     return { fileName: fileName, aaSubs: aaSubArray, queryId: QUERY_ID };
   }
   return null;
 }
-
 export const uniquePdbIds = (queries: Array<PdbIdAaQuery>): Array<string> => {
   if (queries.length > 1) {
     const pdbIds: Array<string> = [];
-    queries.map(query => pdbIds.push(query.pdbId));
+    queries.map(query => pdbIds.push(query.pdbId.toUpperCase()));
     return pdbIds.filter((value, index, self) => self.indexOf(value) === index);
   } else if (queries.length === 1) {
-    return [queries[0].pdbId]
+    return [queries[0].pdbId.toUpperCase()]
   }
   return [];
 }
+
+// function(s) to beautify & format results of AA-Clash prediction
+ export const formattedAaClashPred = (goodAAs: Dictionary<Dictionary<string>>, badAAs: Dictionary<string[]>): 
+ {goodList: Array<string>, badList: Array<string> } => {
+   const output = { goodList: <Array<string>>[] , badList: <Array<string>>[] };
+   Object.keys(goodAAs).map(chain_pos => {
+    let chain=''; 
+    let pos='';
+    const CHAIN_REG_MATCH = chain_pos.match(/([A-Z])(?=_\d+)/i);
+    if (CHAIN_REG_MATCH) { chain = CHAIN_REG_MATCH[0] }
+    const POS_REG_MATCH = chain_pos.match(/(?<=[A-Z]_)(\d+)/i);
+    if (POS_REG_MATCH) { pos = POS_REG_MATCH[0] }
+
+    if ( !isEmpty(goodAAs[chain_pos]) ) {
+      Object.keys(goodAAs[chain_pos]).map(goodAA => {
+        (chain.length > 0 && pos.length > 0) && 
+        output.goodList.push(`CHAIN: ${chain}, POSITION: ${pos}, AMINO ACID: ${goodAA}`)
+      });
+    } 
+    if (badAAs[chain_pos].length > 0){
+      badAAs[chain_pos].map(badAA => {
+        (chain.length > 0 && pos.length > 0) && 
+        output.badList.push(`CHAIN: ${chain}, POSITION: ${pos}, AMINO ACID: ${badAA}`)
+      })
+    }
+   });
+   return output;
+ }

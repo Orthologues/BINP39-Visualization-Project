@@ -88,12 +88,13 @@ const handlePdbCodeQuery = (req: Request, res: Response) => {
         //use time of ISO-format as job_id(part of file_name) of aaclash-query
         const CURRENT_TIME = new Date().toISOString();
         const RANDOM_SUFFIX = Math.round(Math.random() * 1E8);
-        const JOB_ID = `${CURRENT_TIME}_${RANDOM_SUFFIX}`;
+        const JOB_ID = `${CURRENT_TIME}${RANDOM_SUFFIX}`.replace(/[-:\.\/]/gi,'');
         const FILE_NAME = `${AA_CLASH_PREFIX}/extra_files/pos${JOB_ID}.txt`;
         // console.log(`New query text file created: ${FILE_NAME}`);
         // write .txt query file first under 'aaclash/' subfolder as a prerequisite to run the .py script
         fs.writeFileSync(FILE_NAME, '');
         aaClashQueries.map(aaClashQuery => {
+            //':' in ${FILE_NAME} would be automatically converted to '/' in file system
             fs.appendFileSync(FILE_NAME, `>${aaClashQuery.pdbId}\n`);
             aaClashQuery.aaSubs.map(aaSub => {
                 fs.appendFileSync(FILE_NAME, `${aaSub}\n`)

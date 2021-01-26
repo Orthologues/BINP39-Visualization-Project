@@ -42,7 +42,7 @@ class JsMol extends Component<MolProps, MolDisplayState> {
 
   componentDidUpdate() {
     if (this.state.divHidden === false) {
-      let pdb_code = processedPdbId(this.props.pdbQueries[0].pdbId);
+      let pdb_code = this.props.pdbQueries[0].pdbId;
       this.renderJSmolHTML(pdb_code);
     }
   }

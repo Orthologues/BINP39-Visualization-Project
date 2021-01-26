@@ -10,7 +10,7 @@ const Mol3D: FC<MolProps> = (props) => {
     divHidden: true,
   });
 
-  function divToggle(): void {
+  const divToggle = () => {
     setMolState((prevState) => {
       return {
         ...prevState,
@@ -18,11 +18,7 @@ const Mol3D: FC<MolProps> = (props) => {
       };
     });
   }
-
-  function default3DmolView(
-    element: JQuery<HTMLElement>,
-    config: object
-  ): void {
+  const default3DmolView = (element: JQuery<HTMLElement>, config: object) => {
     let viewer: $3Dmol.GLViewer = $3Dmol.createViewer(element, config);
     $3Dmol.download(
       `pdb:${processedPdbId(props.pdbQueries[0].pdbId)}`,
@@ -38,28 +34,16 @@ const Mol3D: FC<MolProps> = (props) => {
       }
     );
     viewer.zoom(0.9, 1000);
-    /* testing $3Dmol.GLViewer.removeAllModels() && removeAsyncScriptBySrc(src: string)
-    setTimeout(() => {
-      viewer.removeAllModels();
-    }, 3000);
-    setTimeout(() => {
-      removeAsyncScriptBySrc("http://localhost:3000/assets/3Dmol-min.js");
-    }, 10000);
-    // **/
   }
 
-  useLayoutEffect((): void => {
+  useLayoutEffect(() => {
     //this function loads synchronously right after any DOM mutation
     appendAsyncScript(`${FRONTEND_PREFIX}/assets/3Dmol-min.js`);
-  }, []);
-
-  useEffect(() => {
     return () => {
       removeAsyncScriptBySrc(`${FRONTEND_PREFIX}/assets/3Dmol-min.js`);
     };
   }, []);
-
-  useEffect((): void => {
+  useEffect(() => {
     const GLViewerElement = $('#mol3D-container');
     let GLViewerConfig = {
       backgroundColor: 0xe0e0e0,

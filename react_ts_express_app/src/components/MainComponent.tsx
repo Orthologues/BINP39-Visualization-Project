@@ -5,7 +5,7 @@ import { ThunkDispatch, ThunkAction } from 'redux-thunk';
 import { connect, ConnectedProps } from 'react-redux';
 import { Button, ButtonGroup, CardTitle, Form, FormGroup, Label, Input, Col, CardText, FormText } from 'reactstrap';
 import * as ReduxActions from '../redux/ActionCreators';
-import { PDB_CODE_ENTRY_REGEX, AA_SUB_ENTRY_REGEX, FILE_AA_SUB_REGEX } from '../shared/Consts';
+import { PDB_CODE_ENTRY_REGEX, AA_SUB_ENTRY_REGEX, FILE_AA_SUB_REGEX, PDB_FILE_NAME_REGEX } from '../shared/Consts';
 import { processedCodeQueries, processedFileQuery } from '../shared/Funcs';
 import AaClashResult from './AaClashResultComponent';
 import Loading from './LoadingComponent';
@@ -134,12 +134,14 @@ class Main extends Component<MainProps, MainState> {
   }
   submitCodeQuery = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (this.state.codeQueryErrMsg === '' && this.state.codeFormTouched) {
-      const pdbIds = this.props.aaClashQuery.codeQueryFormValue.match(PDB_CODE_ENTRY_REGEX);
-      const aaSubsRaw = this.props.aaClashQuery.codeQueryFormValue.match(AA_SUB_ENTRY_REGEX); 
-      (pdbIds && aaSubsRaw && aaSubsRaw.length > 0) && 
-      this.props.postCodeQuery(processedCodeQueries(pdbIds, aaSubsRaw));
+    setTimeout(() => {}, 50);
+    if (this.state.codeQueryErrMsg !== '' || !this.state.codeFormTouched) {
+      alert(`Your code-query is incorrectly formatted!`); return
     } 
+    const pdbIds = this.props.aaClashQuery.codeQueryFormValue.match(PDB_CODE_ENTRY_REGEX);
+    const aaSubsRaw = this.props.aaClashQuery.codeQueryFormValue.match(AA_SUB_ENTRY_REGEX); 
+    (pdbIds && aaSubsRaw && aaSubsRaw.length > 0) && 
+    this.props.postCodeQuery(processedCodeQueries(pdbIds, aaSubsRaw));
   }
   handlePdbChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = evt.target.files;
@@ -150,6 +152,11 @@ class Main extends Component<MainProps, MainState> {
   };
   submitFileQuery = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
+    setTimeout(() => {}, 50);
+    if (! this.state.selectedPdbFile) { alert('No .pdb input file is uploaded!'); return }
+    if (! this.state.selectedPdbFile?.name.match(PDB_FILE_NAME_REGEX)) { 
+      alert(`Prefix of the .pdb file you uploaded doesn't match PDB-id format!`); return 
+    }
     const aaSubsRaw = this.props.aaClashQuery.fileQueryFormValue.match(FILE_AA_SUB_REGEX); 
     if (aaSubsRaw && aaSubsRaw.length > 0 && this.state.fileQueryErrMsg === '' && 
     this.state.fileFormTouched && this.state.selectedPdbFile) {
