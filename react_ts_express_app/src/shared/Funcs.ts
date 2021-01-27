@@ -140,6 +140,14 @@ export const uniquePdbIds = (queries: Array<PdbIdAaQuery>): Array<string> => {
   }
   return [];
 }
+export const uniqueStrings = (query: Array<string>): Array<string> => {
+  if (query.length > 1) {
+    return query.filter((value, index, self) => self.indexOf(value) === index);
+  } else if(query.length === 1) {
+    return query
+  }
+  return [];
+}
 
 // function(s) to beautify & format results of AA-Clash prediction
  export const formattedAaClashPred = (goodAAs: Dictionary<Dictionary<string>>, badAAs: Dictionary<string[]>): 
@@ -156,13 +164,13 @@ export const uniquePdbIds = (queries: Array<PdbIdAaQuery>): Array<string> => {
     if ( !isEmpty(goodAAs[chain_pos]) ) {
       Object.keys(goodAAs[chain_pos]).map(goodAA => {
         (chain.length > 0 && pos.length > 0) && 
-        output.goodList.push(`CHAIN: ${chain}, POSITION: ${pos}, AMINO ACID: ${goodAA}`)
+        output.goodList.push(`CHAIN: ${chain}, POSITION: ${pos}, AMINO ACID: ${goodAA}(${AA_3_TO_1[goodAA]})`)
       });
     } 
     if (badAAs[chain_pos].length > 0){
       badAAs[chain_pos].map(badAA => {
         (chain.length > 0 && pos.length > 0) && 
-        output.badList.push(`CHAIN: ${chain}, POSITION: ${pos}, AMINO ACID: ${badAA}`)
+        output.badList.push(`CHAIN: ${chain}, POSITION: ${pos}, AMINO ACID: ${badAA}(${AA_3_TO_1[badAA]})`)
       })
     }
    });

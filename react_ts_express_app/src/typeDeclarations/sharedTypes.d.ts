@@ -62,7 +62,8 @@ type AaClashQueryState = {
 // type definitions for sub-components after aa-clash query
 type RcsbGraphQlState = {
   displayMode: string,
-  selectedPdbId?: string
+  selectedPdbId?: string,
+  indpPdbIdQueries: Array<string>
 }
 
 type AaSub = {

@@ -1,8 +1,10 @@
 import React, { FC, useState, useEffect } from 'react'; 
 import { GetPdbBasicQuery } from '../../graphql';
 import { useMapPdbToUniprotQuery, useGetUniprotBasicQuery } from '../../graphql';
-import { Card, CardHeader, CardTitle, CardBody, CardText, Button } from 'reactstrap';
+import { Card, CardHeader, CardTitle, CardBody, CardText, Button, Label, Input } from 'reactstrap';
+import { AA_1_TO_3 } from '../../shared/Consts';
 import '../../css/RcsbPdbGql.css';
+import { isInteger } from 'lodash';
 
 type RootProps = {
     pdbCode: string,
@@ -60,7 +62,9 @@ const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
           { Array.isArray(POLYMER_ENTITIES) && 
             POLYMER_ENTITIES.map((entity, ind) => 
             entity?.entity_poly?.rcsb_sample_sequence_length && 
-            <CardText><b>Sample sequence length of Polymer-entity {ind+1}:</b> {entity.entity_poly.rcsb_sample_sequence_length}</CardText>) 
+            <CardText key={`seq_len_text_${ind}`}>
+              <b>Sample sequence length of Polymer-entity {ind+1}:</b> {entity.entity_poly.rcsb_sample_sequence_length}
+            </CardText>) 
           }
           { CELL_INFO && (
             <React.Fragment>
@@ -113,6 +117,7 @@ export default RcsbPdbIdInfo;
 export const PdbIdSeqAndToUniprot: FC<SecondaryProps> = ({entryId, entityId}) => {
     const [displayVarSeq, setDisplayVarSeq] = useState<boolean>(false);
     const [displayCanSeq, setDisplayCanSeq] = useState<boolean>(false);
+    const [pdbIdSeqPos, setPdbIdSeqPos] = useState<number>(-1);
     const { data, error, loading, refetch } = useMapPdbToUniprotQuery(
         { variables: { entry_id: entryId, entity_id: entityId } },
     );
@@ -132,14 +137,14 @@ export const PdbIdSeqAndToUniprot: FC<SecondaryProps> = ({entryId, entityId}) =>
         return (
         <React.Fragment>
           <CardTitle tag='h5'>Mapped Uniprot-ID(s) from this PDB-ID</CardTitle>
-        {
-          uniprotIds?.map((uniprotId, ind) => (
+        { uniprotIds?.map((uniprotId, ind) => (
             <RcsbUniprotInfo uniprotId={String(uniprotId)} 
             key={`${String(uniprotId)}_${ind}`}/>
           ))
         }
         </React.Fragment> )
     }
+    if (!data.polymer_entity?.entity_poly?.pdbx_strand_id) return <div></div>
     return (
       <Card style={{marginBottom: 10}}>
         <CardHeader>
@@ -149,6 +154,31 @@ export const PdbIdSeqAndToUniprot: FC<SecondaryProps> = ({entryId, entityId}) =>
           <CardText>
             <b>Polymer's PDBx Strand ID:</b> {data.polymer_entity?.entity_poly?.pdbx_strand_id}
           </CardText>
+          { data.polymer_entity?.entity_poly?.pdbx_seq_one_letter_code_can && (
+            <div className='row' style={{ marginLeft: '0.5rem', textAlign: 'left' }}>
+              <div className='col-12 col-xl-5'>
+                <Label for={`${entryId}_${entityId}_pdb_aa_pos`}>See AA at pos</Label>
+                <Input id={`${entryId}_${entityId}_pdb_aa_pos`} 
+                onChange={e => setPdbIdSeqPos(parseInt(e.target.value)-1)}
+                style={{width: '75px', height: '30px', marginLeft: 5, display: 'inline-block'}}></Input> 
+              </div>
+              <div className='col-12 col-xl-3' style={{paddingLeft: 0}}>
+                <p style={{marginTop: '3px'}}>
+                  {isInteger(pdbIdSeqPos) && 
+                   pdbIdSeqPos < data.polymer_entity.entity_poly.pdbx_seq_one_letter_code_can.length && pdbIdSeqPos >= 0 ?
+                  (<b>{data.polymer_entity.entity_poly.pdbx_seq_one_letter_code_can.charAt(pdbIdSeqPos)}
+                  ({AA_1_TO_3[data.polymer_entity.entity_poly.pdbx_seq_one_letter_code_can.charAt(pdbIdSeqPos)]})</b>
+                  ) : (<b>Undefined!</b>)
+                  }
+                </p>
+              </div>
+              <div className='col-12 col-xl-4' style={{paddingLeft: 0, paddingTop: 3}}>
+                <p style={{display: 'inline-block'}}>
+                  Seq length: {data.polymer_entity.entity_poly.pdbx_seq_one_letter_code_can.length}
+                </p>
+              </div>
+            </div> )
+          }
           <Button className='btn btn-sm' color='link' style={{ margin: 0, marginBottom: 5, textAlign: 'left' }}
           onClick={() => setDisplayCanSeq(!displayCanSeq)}>
             {displayCanSeq? 'Hide' : 'Show'} canonical one-code PDBx sequence of this polymer-entity
@@ -172,6 +202,7 @@ export const PdbIdSeqAndToUniprot: FC<SecondaryProps> = ({entryId, entityId}) =>
 
 const RcsbUniprotInfo: FC<TertiaryProps> = ({uniprotId}) => {
     const [displaySeq, setDisplaySeq] = useState<boolean>(false);
+    const [uniprotSeqPos, setUniprotSeqPos] = useState<number>(-1);
     const { data, error, loading, refetch } = useGetUniprotBasicQuery(
         { variables: { uniprot_id: uniprotId } },
     );
@@ -183,9 +214,31 @@ const RcsbUniprotInfo: FC<TertiaryProps> = ({uniprotId}) => {
       <CardBody style={{ textAlign: 'left' }}>
         { data?.uniprot && (
             <React.Fragment>
-            <CardTitle tag='h6'>{uniprotId}</CardTitle>
+            <CardTitle tag='h6'>{uniprotId} {data.uniprot.rcsb_uniprot_protein?.sequence && 
+              <p style={{ display: 'inline-block', marginLeft: '1rem' }}>
+              Sequence length: {data.uniprot.rcsb_uniprot_protein?.sequence.length}</p>}
+            </CardTitle>
             <CardText><b>RCSB Uniprot-accession:</b> {data.uniprot.rcsb_uniprot_accession}</CardText>
             <CardText><b>RCSB Uniprot-entry name:</b> {data.uniprot.rcsb_uniprot_entry_name}</CardText>
+            { data.uniprot.rcsb_uniprot_protein?.sequence && (
+            <div className='row' style={{ marginLeft: '0.5rem', textAlign: 'left' }}>
+              <div className='col-12 col-xl-5'>
+                <Label for={`${uniprotId}_uniprot_aa_pos`}>See AA at pos</Label>
+                <Input id={`${uniprotId}_uniprot_aa_pos`} onChange={e => setUniprotSeqPos(parseInt(e.target.value)-1)}
+                style={{width: '75px', height: '30px', marginLeft: 5, display: 'inline-block'}}></Input> 
+              </div>
+              <div className='col-12 col-xl-7' style={{paddingLeft: 0}}>
+                <p style={{marginTop: '3px'}}>
+                  {isInteger(uniprotSeqPos) && 
+                   uniprotSeqPos < data.uniprot.rcsb_uniprot_protein.sequence.length && uniprotSeqPos >= 0 ?
+                  (<b>{data.uniprot.rcsb_uniprot_protein.sequence.charAt(uniprotSeqPos)}
+                  ({AA_1_TO_3[data.uniprot.rcsb_uniprot_protein.sequence.charAt(uniprotSeqPos)]})</b>
+                  ) : (<b>Undefined!</b>)
+                  }
+                </p>
+              </div>
+            </div> )
+          }
             <Button className='btn btn-sm' color='link' 
             style={{ margin: 0, marginBottom: 8, textAlign: 'left' }}
             onClick={() => setDisplaySeq(!displaySeq)}>

@@ -91,7 +91,8 @@ export const AaClashQueryReducer = (
 
 const initialRcsbGqlState: RcsbGraphQlState = {
   displayMode: 'latest',
-  selectedPdbId: undefined
+  selectedPdbId: undefined,
+  indpPdbIdQueries: []
 }
 export const RcsbGqlReducer = (state: RcsbGraphQlState = initialRcsbGqlState, 
   action: PayloadAction): RcsbGraphQlState => {
@@ -108,7 +109,11 @@ export const RcsbGqlReducer = (state: RcsbGraphQlState = initialRcsbGqlState,
         } else {
           return state;
         }
-        default:
-          return state;
+      case ActionTypes.ADD_INDP_RCSB_PDB_ID_QUERY: 
+        return { ...state, indpPdbIdQueries: action.payload as Array<string> }
+      case ActionTypes.DELETE_INDP_RCSB_ID_QUERY:
+        return { ...state, indpPdbIdQueries: state.indpPdbIdQueries.filter(query => query !== <string>action.payload) }
+      default:
+        return state;
     }
 }

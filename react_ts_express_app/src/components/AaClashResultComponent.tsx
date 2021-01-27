@@ -38,14 +38,14 @@ const AaClashResult: FC<any> = () => {
           style={{ padding: '16px', fontSize: '18px', textAlign: 'left' }}>
           { appState.aaClashQuery.queries.map((query, ind) => 
           ( <CardText key={`${query.queryId}_${ind}`}>
-              <CardTitle tag='h5'>Good AA-Substitutions without steric clash:</CardTitle>
+              <CardTitle tag='h5'>{appState.aaClashQuery.codePredResults[ind].jobName.match(/(?<=.+_)\w{4}/)}'s good AA-Substitutions without steric clash:</CardTitle>
               {formattedAaClashPred(appState.aaClashQuery.codePredResults[ind].goodAcids as Dictionary<Dictionary<string>>, 
                 appState.aaClashQuery.codePredResults[ind].badAcids as Dictionary<string[]>).goodList.map(item =>
-                <CardText style={{color: 'green'}}>{item}</CardText>)}
-              <CardTitle tag='h5'>Bad AA-Substitutions with steric clash:</CardTitle>
+                <CardText style={{color: '#90ee90'}}>{item}</CardText>)}
+              <CardTitle tag='h5'>{appState.aaClashQuery.codePredResults[ind].jobName.match(/(?<=.+_)\w{4}/)}'s bad AA-Substitutions with steric clash:</CardTitle>
               {formattedAaClashPred(appState.aaClashQuery.codePredResults[ind].goodAcids as Dictionary<Dictionary<string>>, 
                 appState.aaClashQuery.codePredResults[ind].badAcids as Dictionary<string[]>).badList.map(item =>
-                <CardText style={{color: 'red'}}>{item}</CardText>)}
+                <CardText style={{color: '#ff4500'}}>{item}</CardText>)}
             <br /> 
             </CardText> )
           ) }
@@ -56,14 +56,14 @@ const AaClashResult: FC<any> = () => {
         <div className="col-12 App-body-col1"
         style={{ padding: '16px 5%', fontSize: '18px', textAlign: 'left' }}>
           <CardText>
-            <CardTitle tag='h5'>Good AA-Substitutions without steric clash:</CardTitle>
+            <CardTitle tag='h5'>{appState.aaClashQuery.filePredResult.jobName.match(/(?<=.+_)\w+/)}'s good AA-Substitutions without steric clash:</CardTitle>
             {formattedAaClashPred(appState.aaClashQuery.filePredResult.goodAcids as Dictionary<Dictionary<string>>, 
               appState.aaClashQuery.filePredResult.badAcids as Dictionary<string[]>).goodList.map(item =>
-              <CardText style={{color: 'green'}}>{item}</CardText>)}
-            <CardTitle tag='h5'>Bad AA-Substitutions with steric clash:</CardTitle>
+              <CardText style={{color: '#90ee90'}}>{item}</CardText>)}
+            <CardTitle tag='h5'>{appState.aaClashQuery.filePredResult.jobName.match(/(?<=.+_)\w+/)}'s bad AA-Substitutions with steric clash:</CardTitle>
             {formattedAaClashPred(appState.aaClashQuery.filePredResult.goodAcids as Dictionary<Dictionary<string>>, 
               appState.aaClashQuery.filePredResult.badAcids as Dictionary<string[]>).badList.map(item =>
-              <CardText style={{color: 'red'}}>{item}</CardText>)}
+              <CardText style={{color: '#ff4500'}}>{item}</CardText>)}
           </CardText> 
         </div> );
     }

@@ -125,3 +125,11 @@ export const selectGqlPdbId = (clickedPdbId: string): PayloadAction => ({
   type: ActionTypes.SELECT_RCSB_PDB_ID,
   payload: clickedPdbId
 })
+export const addIndpRcsbPdbIdQuery = (pdbIds: Array<string>): PayloadAction => ({
+  type: ActionTypes.ADD_INDP_RCSB_PDB_ID_QUERY,
+  payload: pdbIds
+})
+export const deleteIndpRcsbPdbIdQuery = (pdbId: string): PayloadAction => ({
+  type: ActionTypes.DELETE_INDP_RCSB_ID_QUERY,
+  payload: pdbId
+})

@@ -154,9 +154,10 @@ class Main extends Component<MainProps, MainState> {
     evt.preventDefault();
     setTimeout(() => {}, 50);
     if (! this.state.selectedPdbFile) { alert('No .pdb input file is uploaded!'); return }
-    if (! this.state.selectedPdbFile?.name.match(PDB_FILE_NAME_REGEX)) { 
-      alert(`Prefix of the .pdb file you uploaded doesn't match PDB-id format!`); return 
-    }
+    // such check would block unpublished .pdb files, don't use it //
+    // if (! this.state.selectedPdbFile?.name.match(PDB_FILE_NAME_REGEX)) { 
+    //   alert(`Prefix of the .pdb file you uploaded doesn't match PDB-id format!`); return 
+    // } 
     const aaSubsRaw = this.props.aaClashQuery.fileQueryFormValue.match(FILE_AA_SUB_REGEX); 
     if (aaSubsRaw && aaSubsRaw.length > 0 && this.state.fileQueryErrMsg === '' && 
     this.state.fileFormTouched && this.state.selectedPdbFile) {
