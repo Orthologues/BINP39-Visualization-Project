@@ -1,4 +1,4 @@
-import { AaClashQueryReducer, RcsbGqlReducer } from './Reducers';
+import { AaClashQueryReducer, RcsbGqlReducer, MolVisReducer } from './Reducers';
 import { createStore, applyMiddleware } from 'redux';
 import { persistStore, persistReducer, persistCombineReducers } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -22,7 +22,8 @@ const persistentThunkLoggerStore = () => {
   const store = createStore(
     persistCombineReducers(rootConfig, {
       aaClashQuery: persistReducer(aaClashQueryConfig, AaClashQueryReducer),
-      rcsbGraphQl: RcsbGqlReducer
+      rcsbGraphQl: RcsbGqlReducer,
+      molVis: MolVisReducer
     }),
     applyMiddleware(thunk, logger)
   );

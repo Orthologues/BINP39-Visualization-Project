@@ -5,7 +5,7 @@ import { ThunkDispatch, ThunkAction } from 'redux-thunk';
 import { connect, ConnectedProps } from 'react-redux';
 import { Button, ButtonGroup, CardTitle, Form, FormGroup, Label, Input, Col, CardText, FormText } from 'reactstrap';
 import * as ReduxActions from '../redux/ActionCreators';
-import { PDB_CODE_ENTRY_REGEX, AA_SUB_ENTRY_REGEX, FILE_AA_SUB_REGEX, PDB_FILE_NAME_REGEX } from '../shared/Consts';
+import { PDB_CODE_ENTRY_REGEX, AA_SUB_ENTRY_REGEX, FILE_AA_SUB_REGEX } from '../shared/Consts';
 import { processedCodeQueries, processedFileQuery } from '../shared/Funcs';
 import AaClashResult from './AaClashResultComponent';
 import Loading from './LoadingComponent';

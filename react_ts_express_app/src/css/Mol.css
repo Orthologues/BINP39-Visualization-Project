@@ -1,0 +1,29 @@
+.mol-comp, .jmol-selections, .mol3d-selections {
+  width: auto;
+  height: 40rem;
+  overflow: visible scroll;
+}
+.mol-comp {
+  display: flex;
+  width: 100vw;
+  border-bottom: 2px solid #919191;
+}
+
+#jsmol-div, #mol3D-div {
+  margin: 0 auto;
+  width: 600px;
+  background-color: #e2f4f4;
+} 
+#mol3D-div {
+  background-color: #e0e0e0;
+}
+.mol3dNav:hover, .jsmolNav:hover {
+  background-color: #198396;
+}
+.mol-container {
+  position: relative;
+  height: 600px;
+  width: 600px;
+}
+
+

@@ -57,10 +57,10 @@ export const pdbQueryFailed = (errMsg: string | Array<string>): PayloadAction =>
 
 export const postCodeQuery = (
   queries: PdbIdAaQuery[]
-): ThunkAction<Promise<void>, AaClashQueryState, undefined, PayloadAction> => async (dispatch) => {
+): ThunkAction<Promise<void>, AaClashQueryState, undefined, PayloadAction> => async dispatch => {
   dispatch(loadingPdbQuery());
   // dispatch(addPdbQuery(queries)); // just for test
-  await axios.post(`${SRV_URL_PREFIX}/pon-scp/pred/code`, JSON.stringify({ queries: queries }), 
+  axios.post(`${SRV_URL_PREFIX}/pon-scp/pred/code`, JSON.stringify({ queries: queries }), 
   { headers: { 'Content-Type': 'application/json' } }
   ).then((response) => {
       if (response.statusText === 'OK' || response.status === 200) {
@@ -87,9 +87,9 @@ export const postCodeQuery = (
 }
 
 export const postFileQuery = (formData: PdbQueryFormData, query: PdbFileQueryStore): 
-ThunkAction<Promise<void>, AaClashQueryState, undefined, PayloadAction> => async(dispatch) => {
+ThunkAction<Promise<void>, AaClashQueryState, undefined, PayloadAction> => async dispatch => {
   dispatch(loadingPdbQuery());
-  await axios.post(`${SRV_URL_PREFIX}/pon-scp/pred/file`, formData, 
+  axios.post(`${SRV_URL_PREFIX}/pon-scp/pred/file`, formData, 
   { headers: { 'Content-Type': 'multipart/form-data' } } 
   ).then((response) => {
       if (response.statusText === 'OK' || response.status === 200) {
@@ -118,7 +118,7 @@ ThunkAction<Promise<void>, AaClashQueryState, undefined, PayloadAction> => async
 
 // actions for RCSB_PDB GraphQL API
 export const switchGqlListMode = (newMode: 'latest' | 'history'): PayloadAction => ({
-  type: ActionTypes.SWITCH_LIST_DISPLAY_MODE,
+  type: ActionTypes.SWITCH_RCSB_LIST_DISPLAY_MODE,
   payload: newMode
 })
 export const selectGqlPdbId = (clickedPdbId: string): PayloadAction => ({
@@ -133,3 +133,52 @@ export const deleteIndpRcsbPdbIdQuery = (pdbId: string): PayloadAction => ({
   type: ActionTypes.DELETE_INDP_RCSB_ID_QUERY,
   payload: pdbId
 })
+
+//MolComponent Actions
+export const switchMolListDisplayMode = (newMode: 'latest' | 'history'): PayloadAction => ({
+  type: ActionTypes.SWITCH_MOL_LIST_DISPLAY_MODE,
+  payload: newMode
+})
+export const switchMolVisChoice = (newChoice: 'Jmol' | '3Dmol'): PayloadAction => ({
+  type: ActionTypes.SWITCH_MOL_VIS_CHOICE,
+  payload: newChoice
+})
+export const addIndpMolPdbIdQuery = (pdbIds: Array<string>): PayloadAction => ({
+  type: ActionTypes.ADD_INDP_MOL_PDB_ID_QUERY,
+  payload: pdbIds
+}) 
+export const delIndpMolPdbIdQuery = (pdbId: string): PayloadAction => ({
+  type: ActionTypes.DEL_INDP_MOL_PDB_ID_QUERY,
+  payload: pdbId
+})
+// Actions for Jmol
+export const setJmolPdbId = (selectedPdbId: string): PayloadAction => ({
+  type: ActionTypes.SET_JMOL_PDB_ID,
+  payload: selectedPdbId
+})
+// type 'PdbIdAaQuery' is for AA-Clash Queries, 'string' is for independent queries
+export const setJmolAaSubList = (pdbIdQuery: PdbIdAaQuery|string, aaSubs: Array<AaSub>): PayloadAction => ({
+  type: ActionTypes.SET_JMOL_AA_SUB_LIST,
+  payload: {pdbToLoad: pdbIdQuery, aaSubs: aaSubs} as JmolPdbAaSubs
+}) 
+export const setJmolZoomedInAa = (aaToZoomIn: string|number): PayloadAction => ({
+  type: ActionTypes.SET_JMOL_ZOOMED_IN_AA,
+  payload: aaToZoomIn
+})
+export const ifJmolWireframeOnly = (newVal: boolean): PayloadAction => ({
+  type: ActionTypes.IF_JMOL_WIREFRAME_ONLY,
+  payload: newVal
+})
+export const ifJmolDelayHover = (newVal: boolean): PayloadAction => ({
+  type: ActionTypes.IF_JMOL_DELAY_HOVER,
+  payload: newVal
+})
+// Actions for 3Dmol
+export const set3DmolPdbId = (selectedPdbId: string): PayloadAction => ({
+  type: ActionTypes.SET_3DMOL_PDB_ID,
+  payload: selectedPdbId
+})
+export const set3DmolZoomedInAa = (aaToZoomIn: string|number): PayloadAction => ({
+  type: ActionTypes.SET_3DMOL_ZOOMED_IN_AA,
+  payload: aaToZoomIn
+}) 

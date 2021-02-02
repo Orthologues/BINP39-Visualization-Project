@@ -107,6 +107,9 @@ const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
           <br />
           <a target="_blank" href={`https://www.rcsb.org/structure/${pdbCode}`}>
             Link for this PDB-ID at RCSB PDB</a>
+          <br />
+          <a target="_blank" href={`https://www.ebi.ac.uk/pdbe/api/mappings/${pdbCode}`}>
+            Link for this PDB-ID at API of SIFTS Mappings</a>
         </CardBody>
       </Card>
     );

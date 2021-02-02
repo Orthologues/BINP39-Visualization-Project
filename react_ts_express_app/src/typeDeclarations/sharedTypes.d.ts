@@ -32,7 +32,7 @@ interface PdbQueryFormData extends FormData {
 type PdbIdAaQuery = {
   queryId: string;
   pdbId: string;
-  aaSubs: Array<string>;
+  aaSubs: Array<string | AaSub>;
 };
 type PdbFileQueryStore = {
   fileName: string;
@@ -61,7 +61,7 @@ type AaClashQueryState = {
 
 // type definitions for sub-components after aa-clash query
 type RcsbGraphQlState = {
-  displayMode: string,
+  displayMode: 'latest' | 'history',
   selectedPdbId?: string,
   indpPdbIdQueries: Array<string>
 }
@@ -71,15 +71,29 @@ type AaSub = {
   // 'target' has to be one of the 20 amino acids
   target: string;
 };
-type MolProps = {
-  aaPos?: Array<number>; //list of amino acid positions from client's query
-  pdbQueries: Array<PdbIdAaQuery>;
-};
+type JmolPdbAaSubs = {
+  pdbToLoad: string,
+  aaSubs: Array<AaSub>
+  zoomedInAa?: AaSub,
+}
+type Mol3DPdbAa = {
+  pdbToLoad: string,
+  zoomedInAa?: string | number,
+}
+type MolComponentState = {
+  displayMode: 'latest' | 'history',
+  molVisChoice: 'Jmol'|'3Dmol',
+  jmolPdbAaSubs: JmolPdbAaSubs,
+  ifJmolWireframeOnly: boolean,
+  ifJmolDelayHover: boolean,
+  mol3DPdbAa: Mol3DPdbAa,
+  indpPdbIdQueries: Array<string>
+}
 type MolDisplayState = {
-  divHeight?: number;
-  divWidth?: number;
   divHidden: boolean;
 };
+type Mol3DProps = { pdbId: string, aaSelectionList: Array<AaSub> }
+type JmolProps = { pdbId: string, aaSelectionList: Array<number> }
 
 // combined store for App
-type AppReduxState = { aaClashQuery: AaClashQueryState, rcsbGraphQl: RcsbGraphQlState } 
+type AppReduxState = { aaClashQuery: AaClashQueryState, rcsbGraphQl: RcsbGraphQlState, molVis: MolComponentState } 

@@ -1,11 +1,13 @@
 import React, { FC, useState, useEffect, useLayoutEffect } from 'react';
 import $ from 'jquery';
+import { Dispatch } from 'redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Navbar, NavbarBrand } from 'reactstrap';
 import { appendAsyncScript, removeAsyncScriptBySrc, processedPdbId } from '../../shared/Funcs';
 import { FRONTEND_PREFIX } from '../../shared/Consts';
-import '../../css/Mol3D.css';
 
-const Mol3D: FC<MolProps> = (props) => {
+const Mol3D: FC<Mol3DProps> = (props) => {
+  const dispatch = useDispatch<Dispatch<PayloadAction>>();
   const [molState, setMolState] = useState<MolDisplayState>({
     divHidden: true,
   });
@@ -17,11 +19,11 @@ const Mol3D: FC<MolProps> = (props) => {
         divHidden: !prevState.divHidden,
       };
     });
-  }
+  };
   const default3DmolView = (element: JQuery<HTMLElement>, config: object) => {
     let viewer: $3Dmol.GLViewer = $3Dmol.createViewer(element, config);
     $3Dmol.download(
-      `pdb:${processedPdbId(props.pdbQueries[0].pdbId)}`,
+      `pdb:${processedPdbId(props.pdbId)}`,
       viewer,
       {
         onemol: true,
@@ -34,7 +36,7 @@ const Mol3D: FC<MolProps> = (props) => {
       }
     );
     viewer.zoom(0.9, 1000);
-  }
+  };
 
   useLayoutEffect(() => {
     //this function loads synchronously right after any DOM mutation
@@ -48,17 +50,16 @@ const Mol3D: FC<MolProps> = (props) => {
     let GLViewerConfig = {
       backgroundColor: 0xe0e0e0,
     };
-
     if (molState.divHidden === false) {
       default3DmolView(GLViewerElement, GLViewerConfig);
     }
     // eslint-disable-next-line
-  }, [props.pdbQueries[0].pdbId, molState]);
+  }, [props.pdbId, molState]);
 
   return (
-    <div id="Mol3D-div">
-      <Navbar dark color="dark">
-        <div style={{ margin: '0 auto' }}>
+    <div id="mol3D-div">
+      <div className="row">
+        <Navbar dark color="dark" style={{margin: 0, marginLeft: '1rem', padding: 0, paddingLeft: '1rem'}}>
           <NavbarBrand
             href="https://3dmol.csb.pitt.edu"
             target="_blank"
@@ -66,20 +67,20 @@ const Mol3D: FC<MolProps> = (props) => {
           >
             See official doc of 3Dmol
           </NavbarBrand>
-        </div>
-      </Navbar>
-      <button className="btn btn-warning btn-sm molBtn" onClick={divToggle}>
-        {molState.divHidden
-          ? `Show 3Dmol of pdbID ${processedPdbId(props.pdbQueries[0].pdbId)}`
-          : `Hide 3Dmol of pdbID ${processedPdbId(props.pdbQueries[0].pdbId)} above`}
-      </button>
+        </Navbar>
+        <button className="btn btn-warning btn-sm" onClick={divToggle}>
+          {molState.divHidden
+            ? `Show 3Dmol of pdbID ${processedPdbId(props.pdbId)}`
+            : `Hide 3Dmol of pdbID ${processedPdbId(props.pdbId)}`
+          }
+        </button>
+      </div>
       <div
-        className="mol-container"
-        id="mol3D-container"
+        className="mol-container" id="mol3D-container"
         style={molState.divHidden ? { display: 'none' } : {}}
       ></div>
     </div>
   );
-}
+};
 
 export default Mol3D;

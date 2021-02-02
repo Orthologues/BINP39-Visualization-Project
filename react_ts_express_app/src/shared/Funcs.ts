@@ -150,8 +150,10 @@ export const uniqueStrings = (query: Array<string>): Array<string> => {
 }
 
 // function(s) to beautify & format results of AA-Clash prediction
- export const formattedAaClashPred = (goodAAs: Dictionary<Dictionary<string>>, badAAs: Dictionary<string[]>): 
+ export const formattedAaClashPred = (aaClashPred: AaClashPredData): 
  {goodList: Array<string>, badList: Array<string> } => {
+   const goodAAs = aaClashPred.goodAcids as Dictionary<Dictionary<string>>;
+   const badAAs = aaClashPred.badAcids as Dictionary<string[]>;
    const output = { goodList: <Array<string>>[] , badList: <Array<string>>[] };
    Object.keys(goodAAs).map(chain_pos => {
     let chain=''; 

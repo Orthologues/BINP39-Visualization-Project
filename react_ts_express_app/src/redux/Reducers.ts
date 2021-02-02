@@ -101,7 +101,7 @@ export const RcsbGqlReducer = (state: RcsbGraphQlState = initialRcsbGqlState,
         return initialRcsbGqlState;
       case ActionTypes.SELECT_RCSB_PDB_ID:
         return { ...state, selectedPdbId: action.payload }
-      case ActionTypes.SWITCH_LIST_DISPLAY_MODE:
+      case ActionTypes.SWITCH_RCSB_LIST_DISPLAY_MODE:
         if (action.payload === 'latest') {
           return { ...state, displayMode: action.payload }
         } else if (action.payload === 'history') {
@@ -116,4 +116,61 @@ export const RcsbGqlReducer = (state: RcsbGraphQlState = initialRcsbGqlState,
       default:
         return state;
     }
+}
+
+const initialMolVisState: MolComponentState = {
+  displayMode: 'latest',
+  molVisChoice: 'Jmol',
+  jmolPdbAaSubs: { pdbToLoad: '', aaSubs: [] },
+  ifJmolWireframeOnly: false,
+  ifJmolDelayHover: false,
+  mol3DPdbAa: { pdbToLoad: '' },
+  indpPdbIdQueries: []
+}
+export const MolVisReducer = (state: MolComponentState = initialMolVisState, 
+  action: PayloadAction): MolComponentState => {
+  switch (action.type) {
+    case ActionTypes.RESET_REDUX_APP_STATE:
+      return initialMolVisState;
+    case ActionTypes.SWITCH_MOL_LIST_DISPLAY_MODE:
+      if (action.payload === 'latest') {
+        return { ...state, displayMode: 'latest' }
+      } else if (action.payload === 'history') {
+        return { ...state, displayMode: 'history' }
+      } else {
+        return state;
+      }
+    case ActionTypes.SWITCH_MOL_VIS_CHOICE:
+      if (action.payload === 'Jmol') {
+        return { ...state, molVisChoice: 'Jmol' }
+      } else if (action.payload === '3Dmol') {
+        return { ...state, molVisChoice: '3Dmol' }
+      } else {
+        return state;
+      }
+    case ActionTypes.SET_JMOL_PDB_ID:
+      return { ...state, jmolPdbAaSubs: { pdbToLoad: action.payload, aaSubs: [] } }
+    case ActionTypes.SET_JMOL_AA_SUB_LIST:
+      return { ...state, jmolPdbAaSubs: { 
+        ...state.jmolPdbAaSubs, 
+        pdbToLoad: (action.payload as JmolPdbAaSubs).pdbToLoad, 
+        aaSubs: (action.payload as JmolPdbAaSubs).aaSubs 
+      } }
+    case ActionTypes.SET_JMOL_ZOOMED_IN_AA:
+      return { ...state, jmolPdbAaSubs: { ...state.jmolPdbAaSubs, zoomedInAa: action.payload } }
+    case ActionTypes.IF_JMOL_DELAY_HOVER:
+      return { ...state, ifJmolDelayHover: action.payload }
+    case ActionTypes.IF_JMOL_WIREFRAME_ONLY:
+      return { ...state, ifJmolWireframeOnly: action.payload }
+    case ActionTypes.ADD_INDP_MOL_PDB_ID_QUERY:
+      return { ...state, indpPdbIdQueries: action.payload as Array<string> }
+    case ActionTypes.DEL_INDP_MOL_PDB_ID_QUERY:
+      return { ...state, indpPdbIdQueries: state.indpPdbIdQueries.filter(query => query !== <string>action.payload) }
+    case ActionTypes.SET_3DMOL_PDB_ID:
+      return { ...state, mol3DPdbAa: { pdbToLoad: action.payload } }
+    case ActionTypes.SET_3DMOL_ZOOMED_IN_AA:
+      return { ...state, mol3DPdbAa: { ...state.mol3DPdbAa, zoomedInAa: action.payload } }
+    default:
+      return state;
+  }
 }
