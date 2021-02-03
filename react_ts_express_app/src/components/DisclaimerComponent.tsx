@@ -7,22 +7,24 @@ const LIABILITY_TEXT = `In preparation of this site and service, every effort ha
 `;
 
 const DisclaimerComponent: FC<any> = () => {
-    return (<div className='container-fluid' style={{textAlign: 'left', marginTop: 10, marginBottom: 10}}>
-    <div className='row'>
-        <div className='col-12 col-lg-6'>
-          <Card>
-            <CardHeader><CardTitle tag='h3'>Disclaimer</CardTitle></CardHeader>
-            <CardBody><CardText>{DISCLAIMER_TEXT}</CardText></CardBody>
-          </Card>
+    return (
+      <div className='container-fluid' style={{textAlign: 'left', marginTop: 72, marginBottom: 10}}>
+        <div className='row'>
+            <div className='col-12 col-lg-6'>
+              <Card>
+                <CardHeader><CardTitle tag='h3'>Disclaimer</CardTitle></CardHeader>
+                <CardBody><CardText>{DISCLAIMER_TEXT}</CardText></CardBody>
+              </Card>
+            </div>
+            <div className='col-12 col-lg-6'>
+              <Card>
+                <CardHeader><CardTitle tag='h3'>Liability</CardTitle></CardHeader>
+                <CardBody><CardText>{LIABILITY_TEXT}</CardText></CardBody>
+              </Card>
+            </div>
         </div>
-        <div className='col-12 col-lg-6'>
-          <Card>
-            <CardHeader><CardTitle tag='h3'>Liability</CardTitle></CardHeader>
-            <CardBody><CardText>{LIABILITY_TEXT}</CardText></CardBody>
-          </Card>
-        </div>
-    </div>
-  </div>)
+      </div>
+    )
 }
 
 export default DisclaimerComponent;

@@ -12068,7 +12068,13 @@ export type GetPdbBasicQuery = (
   { __typename?: 'Query' }
   & { entry?: Maybe<(
     { __typename?: 'CoreEntry' }
-    & { polymer_entities?: Maybe<Array<Maybe<(
+    & { struct_keywords?: Maybe<(
+      { __typename?: 'StructKeywords' }
+      & Pick<StructKeywords, 'pdbx_keywords' | 'text'>
+    )>, struct?: Maybe<(
+      { __typename?: 'Struct' }
+      & Pick<Struct, 'pdbx_CASP_flag' | 'pdbx_descriptor' | 'pdbx_model_details' | 'pdbx_model_type_details' | 'title'>
+    )>, polymer_entities?: Maybe<Array<Maybe<(
       { __typename?: 'CorePolymerEntity' }
       & { entity_poly?: Maybe<(
         { __typename?: 'EntityPoly' }
@@ -12096,11 +12102,14 @@ export type MapPdbToUniprotQuery = (
     { __typename?: 'CorePolymerEntity' }
     & { entity_poly?: Maybe<(
       { __typename?: 'EntityPoly' }
-      & Pick<EntityPoly, 'pdbx_strand_id' | 'pdbx_seq_one_letter_code' | 'pdbx_seq_one_letter_code_can'>
+      & Pick<EntityPoly, 'pdbx_strand_id' | 'pdbx_seq_one_letter_code' | 'pdbx_seq_one_letter_code_can' | 'rcsb_mutation_count' | 'rcsb_conflict_count' | 'rcsb_insertion_count' | 'rcsb_deletion_count'>
     )>, rcsb_polymer_entity_container_identifiers: (
       { __typename?: 'RcsbPolymerEntityContainerIdentifiers' }
       & Pick<RcsbPolymerEntityContainerIdentifiers, 'uniprot_ids'>
-    ) }
+    ), rcsb_polymer_entity?: Maybe<(
+      { __typename?: 'RcsbPolymerEntity' }
+      & Pick<RcsbPolymerEntity, 'pdbx_number_of_molecules' | 'pdbx_description' | 'pdbx_mutation'>
+    )> }
   )> }
 );
 
@@ -12125,6 +12134,17 @@ export type GetUniprotBasicQuery = (
 export const GetPdbBasicDocument = gql`
     query GetPdbBasic($entry_id: String!) {
   entry(entry_id: $entry_id) {
+    struct_keywords {
+      pdbx_keywords
+      text
+    }
+    struct {
+      pdbx_CASP_flag
+      pdbx_descriptor
+      pdbx_model_details
+      pdbx_model_type_details
+      title
+    }
     polymer_entities {
       entity_poly {
         rcsb_sample_sequence_length
@@ -12183,9 +12203,18 @@ export const MapPdbToUniprotDocument = gql`
       pdbx_strand_id
       pdbx_seq_one_letter_code
       pdbx_seq_one_letter_code_can
+      rcsb_mutation_count
+      rcsb_conflict_count
+      rcsb_insertion_count
+      rcsb_deletion_count
     }
     rcsb_polymer_entity_container_identifiers {
       uniprot_ids
+    }
+    rcsb_polymer_entity {
+      pdbx_number_of_molecules
+      pdbx_description
+      pdbx_mutation
     }
   }
 }

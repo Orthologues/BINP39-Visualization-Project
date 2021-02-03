@@ -48,17 +48,18 @@ const JsMol: FC<JmolProps> = (props) => {
   return (
       <div id="jsmol-div">
         <div className='row'>
-        <Navbar dark color="dark" style={{ margin: 0,  marginLeft: '1rem', padding: 0, paddingLeft: '1rem'}}>
-          <NavbarBrand href="http://jmol.sourceforge.net/" target="_blank" className="jsmolNav">
-            See official doc of Jmol
-          </NavbarBrand>
-        </Navbar>
-        <button className="btn btn-sm btn-warning" onClick={divToggle}> 
-          { molState.divHidden
-             ? `Show JSmol of pdbID ${processedPdbId(props.pdbId)}`
-             : `Hide JSmol of pdbID ${processedPdbId(props.pdbId)}`
-          } 
-        </button>
+          <Navbar dark color="dark" 
+          style={{ margin: 0,  marginLeft: '1rem', padding: 0, paddingLeft: '1rem'}}>
+            <NavbarBrand href="http://jmol.sourceforge.net/" target="_blank" className="jsmolNav">
+              See official doc of Jmol
+            </NavbarBrand>
+          </Navbar>
+          <button className="btn btn-sm btn-warning" onClick={divToggle}> 
+            { molState.divHidden
+               ? `Show JSmol of pdbID ${processedPdbId(props.pdbId)}`
+               : `Hide JSmol of pdbID ${processedPdbId(props.pdbId)}`
+            } 
+          </button>
         </div>
         <div className="mol-container" id="jsmol-container" 
           style={molState.divHidden ? { display: 'none' } : {}} >

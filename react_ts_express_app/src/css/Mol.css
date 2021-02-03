@@ -1,7 +1,7 @@
 .mol-comp, .jmol-selections, .mol3d-selections {
   width: auto;
-  height: 40rem;
-  overflow: visible scroll;
+  height: 47.5rem;
+  overflow: scroll;
 }
 .mol-comp {
   display: flex;
@@ -11,7 +11,9 @@
 
 #jsmol-div, #mol3D-div {
   margin: 0 auto;
-  width: 600px;
+  margin-right: 8px;
+  width: 720px;
+  height: 760px;
   background-color: #e2f4f4;
 } 
 #mol3D-div {
@@ -22,8 +24,8 @@
 }
 .mol-container {
   position: relative;
-  height: 600px;
-  width: 600px;
+  height: 720px;
+  width: 720px;
 }
 
 

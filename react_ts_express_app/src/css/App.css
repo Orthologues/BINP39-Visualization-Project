@@ -25,7 +25,8 @@
 /* for HeaderComponent */
 .sticky-wrapper {
   position: relative;
-  height: auto; /* We need to change this value */
+  height: auto; 
+  margin-bottom: 62px /* We need to change this value */
 }
 /* for HeaderNavbar */
 .sticky {
@@ -93,5 +94,5 @@
 }
 
 .pdb-id-span, .extra-pdb-id-span {
-margin-left: 10%;
+  margin-left: 10%;
 }

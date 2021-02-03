@@ -1,17 +1,13 @@
 .rcsb-gql-div, .rcsb-gql-info, .pdb-query-list {
   width: auto;
-  height: 40rem;
-  overflow: visible scroll;
+  height: 45rem;
+  overflow: hidden scroll;
 }
 
 .rcsb-gql-div {
   display: flex;
   width: 100vw;
   border-bottom: 2px solid #919191;
-}
-
-.rcsb-info-header {
-  margin: 0.5rem auto;
 }
 
 .rcsb-loading-or-error {

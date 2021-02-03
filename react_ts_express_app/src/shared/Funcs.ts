@@ -150,31 +150,70 @@ export const uniqueStrings = (query: Array<string>): Array<string> => {
 }
 
 // function(s) to beautify & format results of AA-Clash prediction
- export const formattedAaClashPred = (aaClashPred: AaClashPredData): 
- {goodList: Array<string>, badList: Array<string> } => {
+export const formattedAaClashPred = (aaClashPred: AaClashPredData): 
+{ goodList: Array<string>, badList: Array<string> } => {
    const goodAAs = aaClashPred.goodAcids as Dictionary<Dictionary<string>>;
    const badAAs = aaClashPred.badAcids as Dictionary<string[]>;
    const output = { goodList: <Array<string>>[] , badList: <Array<string>>[] };
    Object.keys(goodAAs).map(chain_pos => {
-    let chain=''; 
-    let pos='';
-    const CHAIN_REG_MATCH = chain_pos.match(/([A-Z])(?=_\d+)/i);
-    if (CHAIN_REG_MATCH) { chain = CHAIN_REG_MATCH[0] }
-    const POS_REG_MATCH = chain_pos.match(/(?<=[A-Z]_)(\d+)/i);
-    if (POS_REG_MATCH) { pos = POS_REG_MATCH[0] }
-
-    if ( !isEmpty(goodAAs[chain_pos]) ) {
-      Object.keys(goodAAs[chain_pos]).map(goodAA => {
-        (chain.length > 0 && pos.length > 0) && 
-        output.goodList.push(`CHAIN: ${chain}, POSITION: ${pos}, AMINO ACID: ${goodAA}(${AA_3_TO_1[goodAA]})`)
-      });
-    } 
-    if (badAAs[chain_pos].length > 0){
-      badAAs[chain_pos].map(badAA => {
-        (chain.length > 0 && pos.length > 0) && 
-        output.badList.push(`CHAIN: ${chain}, POSITION: ${pos}, AMINO ACID: ${badAA}(${AA_3_TO_1[badAA]})`)
-      })
+     let chain=''; 
+     let pos='';
+     let old_aa='';
+     const CHAIN_REG_MATCH = chain_pos.match(/([A-Z])(?=_\w\d+)/i);
+     if (CHAIN_REG_MATCH) { chain = CHAIN_REG_MATCH[0] }
+     const POS_REG_MATCH = chain_pos.match(/(?<=[A-Z]_)(\w\d+)/i);
+     if (POS_REG_MATCH) { 
+       pos = POS_REG_MATCH[0]; 
+       const OLD_AA_MATCH = pos.match(/\w(?=\d+)/i);
+       if (OLD_AA_MATCH) { old_aa = OLD_AA_MATCH[0] }
+     }
+ 
+     if ( !isEmpty(goodAAs[chain_pos]) ) {
+       Object.keys(goodAAs[chain_pos]).map(goodAA => {
+         (chain.length > 0 && pos.length > 0) && 
+         output.goodList.push(`chain: ${chain}, original(substituted) amino acid: ${AA_1_TO_3[old_aa]}(${old_aa}), position: ${pos.substring(1, pos.length)}, new amino acid: ${goodAA}(${AA_3_TO_1[goodAA]})`)
+       });
+     } 
+     if (badAAs[chain_pos].length > 0){
+       badAAs[chain_pos].map(badAA => {
+         (chain.length > 0 && pos.length > 0) && 
+         output.badList.push(`chain: ${chain}, original(substituted) amino acid: ${AA_1_TO_3[old_aa]}(${old_aa}), position: ${pos.substring(1, pos.length)}, new amino acid: ${badAA}(${AA_3_TO_1[badAA]})`)
+       })
+     }
+   });
+   return output;
+}
+export const aaClashPredGoodBad = (aaClashPred: AaClashPredData): 
+{ goodList: Array<string>, badList: Array<string> } => {
+   const goodAAs = aaClashPred.goodAcids as Dictionary<Dictionary<string>>;
+   const badAAs = aaClashPred.badAcids as Dictionary<string[]>;
+   const output = { goodList: <Array<string>>[] , badList: <Array<string>>[] };
+   Object.keys(goodAAs).map(chain_pos => {
+     let chain=''; 
+     let pos='';
+     let old_aa='';
+     const CHAIN_REG_MATCH = chain_pos.match(/([A-Z])(?=_\w\d+)/i);
+     if (CHAIN_REG_MATCH) { chain = CHAIN_REG_MATCH[0] }
+     const POS_REG_MATCH = chain_pos.match(/(?<=[A-Z]_)(\w\d+)/i);
+     if (POS_REG_MATCH) { 
+       pos = POS_REG_MATCH[0]; 
+       const OLD_AA_MATCH = pos.match(/\w(?=\d+)/i);
+       if (OLD_AA_MATCH) { old_aa = OLD_AA_MATCH[0] }
+     }
+ 
+     if ( !isEmpty(goodAAs[chain_pos]) ) {
+       Object.keys(goodAAs[chain_pos]).map(goodAA => {
+         (chain.length > 0 && pos.length > 0) && 
+         output.goodList.push(`chain${chain}_${old_aa}${pos.substring(1, pos.length)}${AA_3_TO_1[goodAA]}`)
+       });
+     } 
+     if (badAAs[chain_pos].length > 0){
+       badAAs[chain_pos].map(badAA => {
+         (chain.length > 0 && pos.length > 0) && 
+         output.badList.push(`chain${chain}_${old_aa}${pos.substring(1, pos.length)}${AA_3_TO_1[badAA]}`)
+       })
     }
    });
    return output;
- }
+}
+ 

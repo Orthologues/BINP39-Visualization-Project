@@ -46,7 +46,7 @@ const textWithNewLines = (textStr: string) => {
 
 const AboutComponent: FC<any> = () => {
     return (
-      <div className='container-fluid' style={{textAlign: 'left', marginTop: 10, marginBottom: 10}}>
+      <div className='container-fluid' style={{textAlign: 'left', marginTop: 72, marginBottom: 10}}>
         <div className='row'>
             <div className='col-12 col-lg-4'>
               <Card>

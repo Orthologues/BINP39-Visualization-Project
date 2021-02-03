@@ -58,7 +58,7 @@ const RcsbGqlIndex: FC<any> = () => {
       axios.get(`https://data.rcsb.org/rest/v1/core/pubmed/${processedQuery}`).then(resp => {
         if (resp.status === 200 || resp.statusText === 'OK') {
           !uniquePdbIds(queryHistory).includes(processedQuery) && 
-          dispatch(addIndpRcsbPdbIdQuery(uniqueStrings(indpPdbIdQueries.concat(processedQuery)))) && 
+          dispatch(addIndpRcsbPdbIdQuery(uniqueStrings(indpPdbIdQueries.concat(processedQuery))));
           dispatch(selectGqlPdbId(processedQuery)) 
         }
       }).catch((err: Error) => alert(`${err.message}. The query you type isn't a published PDB-ID at RCSB-PDB!`))
@@ -66,15 +66,15 @@ const RcsbGqlIndex: FC<any> = () => {
 
     const QueryList = (): JSX.Element => (
         <div className='pdb-query-list'>        
-          <CardTitle tag="h5" style={{ marginTop: '1rem' }}
-          >Choose which queries to list</CardTitle>
+          <CardTitle tag="h5" style={{ marginTop: 12 }}
+          >Which AA-clash code-queries to list</CardTitle>
           <ButtonGroup>
             <Button className='btn-sm'
             color="info" onClick={ () => dispatch(switchGqlListMode('latest')) }
-            active={listDisplayMode === 'latest'}>Latest AA-Clash query</Button>
+            active={listDisplayMode === 'latest'}>Latest</Button>
             <Button className='btn-sm'
             color="info" onClick={ () => dispatch(switchGqlListMode('history')) }
-            active={listDisplayMode === 'history'}>History of AA-Clash queries</Button>
+            active={listDisplayMode === 'history'}>History</Button>
           </ButtonGroup>
           <CardTitle tag="h6"
           style={{ marginTop: '1rem' }}>AA-Clash PDB-ID queries</CardTitle>
@@ -106,7 +106,7 @@ const RcsbGqlIndex: FC<any> = () => {
                 onClick={ e => deleteQueriesOfPdbId(e, ind) }></i>
               </li> )
             )) }
-          <CardTitle tag="h6" style={{ marginTop: '1rem', color: '#663399' }}>Extra PDB-ID queries</CardTitle>
+          <CardTitle tag="h6" style={{ color: '#663399', marginTop: '1rem' }}>Extra PDB-ID queries</CardTitle>
             <ol className='pdb-query-ol'>
           { indpPdbIdQueries.length > 0 && indpPdbIdQueries.map((query, ind) => selectedQuery === query ? 
             ( <li key={`indpPdbId_`} className='pdb-query-item-selected'>
@@ -153,11 +153,11 @@ const RcsbGqlIndex: FC<any> = () => {
         const entityIds = data.entry.rcsb_entry_container_identifiers.entity_ids;
 
         return (
-          <div className='rcsb-gql-div'>
+          <div className='rcsb-gql-div under-sticky'>
             <QueryList />
             <div className='container-fluid rcsb-gql-info'>
               <div className='row' style={{marginBottom: 8}}>
-                <div className='col-12' style={{marginTop: 10, marginLeft: '1.5rem', textAlign: 'left'}}>
+                <div className='col-12' style={{marginTop: 12, marginLeft: 12, textAlign: 'left'}}>
                   <Label for='extra-pdb-id'>Type in a PDB-ID to directly access RCSB-PDB API</Label>
                   <div className='row' style={{marginLeft: 0}}>
                     <Input id='extra-pdb-id' onChange={handleExtraPdbIdInput} 
@@ -166,11 +166,6 @@ const RcsbGqlIndex: FC<any> = () => {
                     <Button type='button' className='btn-sm' color='primary' style={{marginTop: 5}}
                     onClick={submitExtraPdbIdInput}>Submit</Button>
                   </div>
-                </div>
-              </div>
-              <div className='row rcsb-info-header'>
-                <div className='col-12'>
-                  <CardTitle tag='h3'>Data from RCSB-PDB's GraphQL API</CardTitle>
                 </div>
               </div>
               <div className='row'>

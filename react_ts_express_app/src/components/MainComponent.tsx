@@ -3,7 +3,8 @@
 import React, { Component } from 'react';
 import { ThunkDispatch, ThunkAction } from 'redux-thunk';
 import { connect, ConnectedProps } from 'react-redux';
-import { Button, ButtonGroup, CardTitle, Form, FormGroup, Label, Input, Col, CardText, FormText } from 'reactstrap';
+import { Button, ButtonGroup, CardTitle, Form, FormGroup, Label, Input, Col, Card, CardHeader,
+  CardText, FormText } from 'reactstrap';
 import * as ReduxActions from '../redux/ActionCreators';
 import { PDB_CODE_ENTRY_REGEX, AA_SUB_ENTRY_REGEX, FILE_AA_SUB_REGEX } from '../shared/Consts';
 import { processedCodeQueries, processedFileQuery } from '../shared/Funcs';
@@ -205,7 +206,12 @@ class Main extends Component<MainProps, MainState> {
 
     return (
       <div className='container-fluid'>
-
+        <Card>
+          <CardHeader>
+            <CardTitle tag='h5'>PON-SC+ for Amino Acid clash detection, Molecular visualization, UI access to RCSB-PDB's API, Mapping to UniprotID etc</CardTitle>
+            <CardText style={{ textAlign: 'left' }}>This tool identifies if an amino acid substitution would cause clashes in protein structure or not. Taking PDB format file or PDB accession codes as input, for each position of interest substitutions are modeled using backbone-dependent rotamer library (<a target="_blank" href="https://pubmed.ncbi.nlm.nih.gov/21645855/">Shapovalov and Dunbrack, 2011</a>). Sterical clashes are calculated based on the distance between atoms.</CardText>
+          </CardHeader>
+        </Card>
         <div className='row'>
           <div className='col-12 col-lg-3 App-body-col1'>
             <CardTitle tag="h5">Choose mode of AA-Clash query: </CardTitle>

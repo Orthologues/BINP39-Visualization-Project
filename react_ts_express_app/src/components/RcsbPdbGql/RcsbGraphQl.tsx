@@ -46,6 +46,8 @@ const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
     }
 
     const RCSB_PDB_ID = rootQuery.entry.rcsb_entry_container_identifiers.rcsb_id;
+    const KEYWORDS = rootQuery.entry.struct_keywords;
+    const STRUCT = rootQuery.entry.struct;
     const PUBMED_ID = rootQuery.entry.rcsb_entry_container_identifiers.pubmed_id;
     const CELL_INFO = rootQuery.entry.cell;
     const POLYMER_ENTITIES = rootQuery.entry.polymer_entities;

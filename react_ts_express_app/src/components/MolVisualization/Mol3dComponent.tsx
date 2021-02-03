@@ -59,7 +59,8 @@ const Mol3D: FC<Mol3DProps> = (props) => {
   return (
     <div id="mol3D-div">
       <div className="row">
-        <Navbar dark color="dark" style={{margin: 0, marginLeft: '1rem', padding: 0, paddingLeft: '1rem'}}>
+        <Navbar dark color="dark" 
+        style={{margin: 0, marginLeft: '1rem', padding: 0, paddingLeft: '1rem'}}>
           <NavbarBrand
             href="https://3dmol.csb.pitt.edu"
             target="_blank"
