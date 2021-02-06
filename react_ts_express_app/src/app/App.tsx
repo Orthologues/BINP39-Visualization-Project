@@ -18,7 +18,7 @@ import Disclaimer from '../components/DisclaimerComponent';
 import RcsbGraphQl from '../components/RcsbPdbGql';
 import MolVis from '../components/MolVisualization';
 import Loading from '../components/LoadingComponent';
-import '../css/App.css';
+import './App.css';
 
 const rcsbClient = new ApolloClient({
     cache: new InMemoryCache(),

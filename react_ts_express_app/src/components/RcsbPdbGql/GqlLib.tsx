@@ -1864,7 +1864,7 @@ export type EmImaging = {
    * The name of the model of microscope.
    * 
    * Allowable values:
-   * FEI MORGAGNI, FEI POLARA 300, FEI TALOS ARCTICA, FEI TECNAI 10, FEI TECNAI 12, FEI TECNAI 20, FEI TECNAI ARCTICA, FEI TECNAI F20, FEI TECNAI F30, FEI TECNAI SPHERA, FEI TECNAI SPIRIT, FEI TITAN, FEI TITAN KRIOS, FEI/PHILIPS CM10, FEI/PHILIPS CM12, FEI/PHILIPS CM120T, FEI/PHILIPS CM200FEG, FEI/PHILIPS CM200FEG/SOPHIE, FEI/PHILIPS CM200FEG/ST, FEI/PHILIPS CM200FEG/UT, FEI/PHILIPS CM200T, FEI/PHILIPS CM300FEG/HE, FEI/PHILIPS CM300FEG/ST, FEI/PHILIPS CM300FEG/T, FEI/PHILIPS EM400, FEI/PHILIPS EM420, HITACHI EF2000, HITACHI EF3000, HITACHI H-9500SD, HITACHI H3000 UHVEM, HITACHI H7600, HITACHI HF2000, HITACHI HF3000, JEOL 100B, JEOL 100CX, JEOL 1010, JEOL 1200, JEOL 1200EX, JEOL 1200EXII, JEOL 1230, JEOL 1400, JEOL 2000EX, JEOL 2000EXII, JEOL 2010, JEOL 2010F, JEOL 2010HC, JEOL 2010HT, JEOL 2010UHR, JEOL 2011, JEOL 2100, JEOL 2100F, JEOL 2200FS, JEOL 2200FSC, JEOL 3000SFF, JEOL 3100FEF, JEOL 3100FFC, JEOL 3200FS, JEOL 3200FSC, JEOL 4000, JEOL 4000EX, JEOL CRYO ARM 200, JEOL CRYO ARM 300, JEOL KYOTO-3000SFF, SIEMENS SULEIKA, TFS GLACIOS, TFS KRIOS, TFS TALOS, TFS TALOS F200C, TFS TALOS L120C, ZEISS LEO912, ZEISS LIBRA120PLUS
+   * FEI MORGAGNI, FEI POLARA 300, FEI TALOS ARCTICA, FEI TECNAI 10, FEI TECNAI 12, FEI TECNAI 20, FEI TECNAI ARCTICA, FEI TECNAI F20, FEI TECNAI F30, FEI TECNAI SPHERA, FEI TECNAI SPIRIT, FEI TITAN, FEI TITAN KRIOS, FEI/PHILIPS CM10, FEI/PHILIPS CM12, FEI/PHILIPS CM120T, FEI/PHILIPS CM200FEG, FEI/PHILIPS CM200FEG/SOPHIE, FEI/PHILIPS CM200FEG/ST, FEI/PHILIPS CM200FEG/UT, FEI/PHILIPS CM200T, FEI/PHILIPS CM300FEG/HE, FEI/PHILIPS CM300FEG/ST, FEI/PHILIPS CM300FEG/T, FEI/PHILIPS EM400, FEI/PHILIPS EM420, HITACHI EF2000, HITACHI EF3000, HITACHI H-9500SD, HITACHI H3000 UHVEM, HITACHI H7600, HITACHI HF2000, HITACHI HF3000, JEOL 1000EES, JEOL 100B, JEOL 100CX, JEOL 1010, JEOL 1200, JEOL 1200EX, JEOL 1200EXII, JEOL 1230, JEOL 1400, JEOL 2000EX, JEOL 2000EXII, JEOL 2010, JEOL 2010F, JEOL 2010HC, JEOL 2010HT, JEOL 2010UHR, JEOL 2011, JEOL 2100, JEOL 2100F, JEOL 2200FS, JEOL 2200FSC, JEOL 3000SFF, JEOL 3100FEF, JEOL 3100FFC, JEOL 3200FS, JEOL 3200FSC, JEOL 4000, JEOL 4000EX, JEOL CRYO ARM 200, JEOL CRYO ARM 300, JEOL KYOTO-3000SFF, SIEMENS SULEIKA, TFS GLACIOS, TFS KRIOS, TFS TALOS, TFS TALOS F200C, TFS TALOS L120C, ZEISS LEO912, ZEISS LIBRA120PLUS
    */
   microscope_model?: Maybe<Scalars['String']>;
   /**
@@ -5303,7 +5303,7 @@ export type PdbxSolnScatter = {
   /**
    * The length (or range) of the protein sample under study.
    * If the solution structure is approximated as an elongated elliptical
-   * cyclinder the the length L is determined from,
+   * cyclinder the length L is determined from,
    * 
    *   L = sqrt [12( (R_G)^2  -  (R_XS)^2 ) ]
    * 
@@ -7217,7 +7217,7 @@ export type RcsbBranchedInstanceFeature = {
    * A type or category of the feature.
    * 
    * Allowable values:
-   * BINDING_SITE, CATH, MOGUL_ANGLE_OUTLIER, MOGUL_BOND_OUTLIER, RSRCC_OUTLIER, RSRZ_OUTLIER, SCOP, UNOBSERVED_ATOM_XYZ, UNOBSERVED_RESIDUE_XYZ, ZERO_OCCUPANCY_ATOM_XYZ, ZERO_OCCUPANCY_RESIDUE_XYZ
+   * BINDING_SITE, CATH, MOGUL_ANGLE_OUTLIER, MOGUL_BOND_OUTLIER, RSCC_OUTLIER, RSRZ_OUTLIER, SCOP, UNOBSERVED_ATOM_XYZ, UNOBSERVED_RESIDUE_XYZ, ZERO_OCCUPANCY_ATOM_XYZ, ZERO_OCCUPANCY_RESIDUE_XYZ
    */
   type?: Maybe<Scalars['String']>;
 };
@@ -7323,7 +7323,7 @@ export type RcsbBranchedInstanceFeatureSummary = {
    * Type or category of the feature.
    * 
    * Allowable values:
-   * BINDING_SITE, CATH, MOGUL_ANGLE_OUTLIER, MOGUL_BOND_OUTLIER, RSRCC_OUTLIER, RSRZ_OUTLIER, SCOP, UNOBSERVED_ATOM_XYZ, UNOBSERVED_RESIDUE_XYZ, ZERO_OCCUPANCY_ATOM_XYZ, ZERO_OCCUPANCY_RESIDUE_XYZ
+   * BINDING_SITE, CATH, MOGUL_ANGLE_OUTLIER, MOGUL_BOND_OUTLIER, RSCC_OUTLIER, RSRZ_OUTLIER, SCOP, UNOBSERVED_ATOM_XYZ, UNOBSERVED_RESIDUE_XYZ, ZERO_OCCUPANCY_ATOM_XYZ, ZERO_OCCUPANCY_RESIDUE_XYZ
    */
   type?: Maybe<Scalars['String']>;
 };
@@ -8692,7 +8692,7 @@ export type RcsbNonpolymerInstanceFeature = {
    * A type or category of the feature.
    * 
    * Allowable values:
-   * HAS_COVALENT_LINKAGE, HAS_METAL_COORDINATION_LINKAGE, MOGUL_ANGLE_OUTLIER, MOGUL_BOND_OUTLIER, RSRCC_OUTLIER, RSRZ_OUTLIER
+   * HAS_COVALENT_LINKAGE, HAS_METAL_COORDINATION_LINKAGE, MOGUL_ANGLE_OUTLIER, MOGUL_BOND_OUTLIER, RSCC_OUTLIER, RSRZ_OUTLIER
    */
   type?: Maybe<Scalars['String']>;
 };
@@ -8771,7 +8771,7 @@ export type RcsbNonpolymerInstanceFeatureSummary = {
    * Type or category of the feature.
    * 
    * Allowable values:
-   * HAS_COVALENT_LINKAGE, HAS_METAL_COORDINATION_LINKAGE, MOGUL_ANGLE_OUTLIER, MOGUL_BOND_OUTLIER, RSRCC_OUTLIER, RSRZ_OUTLIER
+   * HAS_COVALENT_LINKAGE, HAS_METAL_COORDINATION_LINKAGE, MOGUL_ANGLE_OUTLIER, MOGUL_BOND_OUTLIER, RSCC_OUTLIER, RSRZ_OUTLIER
    */
   type?: Maybe<Scalars['String']>;
 };
@@ -9486,7 +9486,7 @@ export type RcsbPolymerInstanceFeature = {
    * A type or category of the feature.
    * 
    * Allowable values:
-   * ANGLE_OUTLIER, BINDING_SITE, BOND_OUTLIER, CATH, CIS-PEPTIDE, HELIX_P, MOGUL_ANGLE_OUTLIER, MOGUL_BOND_OUTLIER, RAMACHANDRAN_OUTLIER, ROTAMER_OUTLIER, RSRCC_OUTLIER, RSRZ_OUTLIER, SCOP, SHEET, UNASSIGNED_SEC_STRUCT, UNOBSERVED_ATOM_XYZ, UNOBSERVED_RESIDUE_XYZ, ZERO_OCCUPANCY_ATOM_XYZ, ZERO_OCCUPANCY_RESIDUE_XYZ
+   * ANGLE_OUTLIER, BINDING_SITE, BOND_OUTLIER, CATH, CIS-PEPTIDE, HELIX_P, MOGUL_ANGLE_OUTLIER, MOGUL_BOND_OUTLIER, RAMACHANDRAN_OUTLIER, ROTAMER_OUTLIER, RSCC_OUTLIER, RSRZ_OUTLIER, SCOP, SHEET, UNASSIGNED_SEC_STRUCT, UNOBSERVED_ATOM_XYZ, UNOBSERVED_RESIDUE_XYZ, ZERO_OCCUPANCY_ATOM_XYZ, ZERO_OCCUPANCY_RESIDUE_XYZ
    */
   type?: Maybe<Scalars['String']>;
 };
@@ -9515,7 +9515,7 @@ export type RcsbPolymerInstanceFeatureFeaturePositions = {
 
 export type RcsbPolymerInstanceFeatureSummary = {
   __typename?: 'RcsbPolymerInstanceFeatureSummary';
-  /** The feature count. */
+  /** The feature count per polymer chain. */
   count?: Maybe<Scalars['Int']>;
   /**
    * The fractional feature coverage relative to the full entity sequence.
@@ -9546,7 +9546,7 @@ export type RcsbPolymerInstanceFeatureSummary = {
    * Type or category of the feature.
    * 
    * Allowable values:
-   * ANGLE_OUTLIER, BINDING_SITE, BOND_OUTLIER, CATH, CIS-PEPTIDE, HELIX_P, MOGUL_ANGLE_OUTLIER, MOGUL_BOND_OUTLIER, RAMACHANDRAN_OUTLIER, ROTAMER_OUTLIER, RSRCC_OUTLIER, RSRZ_OUTLIER, SCOP, SHEET, UNASSIGNED_SEC_STRUCT, UNOBSERVED_ATOM_XYZ, UNOBSERVED_RESIDUE_XYZ, ZERO_OCCUPANCY_ATOM_XYZ, ZERO_OCCUPANCY_RESIDUE_XYZ
+   * ANGLE_OUTLIER, BINDING_SITE, BOND_OUTLIER, CATH, CIS-PEPTIDE, HELIX_P, MOGUL_ANGLE_OUTLIER, MOGUL_BOND_OUTLIER, RAMACHANDRAN_OUTLIER, ROTAMER_OUTLIER, RSCC_OUTLIER, RSRZ_OUTLIER, SCOP, SHEET, UNASSIGNED_SEC_STRUCT, UNOBSERVED_ATOM_XYZ, UNOBSERVED_RESIDUE_XYZ, ZERO_OCCUPANCY_ATOM_XYZ, ZERO_OCCUPANCY_RESIDUE_XYZ
    */
   type?: Maybe<Scalars['String']>;
 };
@@ -11354,13 +11354,13 @@ export type Reflns = {
    */
   Rmerge_F_obs?: Maybe<Scalars['Float']>;
   /**
-   * The smallest value for the interplanar spacings for
-   *  the reflection data. This is called the highest resolution.
+   * The smallest value in angstroms for the interplanar spacings
+   *  for the reflection data. This is called the highest resolution.
    */
   d_resolution_high?: Maybe<Scalars['Float']>;
   /**
-   * The largest value for the interplanar spacings for the
-   *  reflection data. This is called the lowest resolution.
+   * The largest value in angstroms for the interplanar spacings
+   *  for the reflection data. This is called the lowest resolution.
    */
   d_resolution_low?: Maybe<Scalars['Float']>;
   /**
@@ -12073,7 +12073,7 @@ export type GetPdbBasicQuery = (
       & Pick<StructKeywords, 'pdbx_keywords' | 'text'>
     )>, struct?: Maybe<(
       { __typename?: 'Struct' }
-      & Pick<Struct, 'pdbx_CASP_flag' | 'pdbx_descriptor' | 'pdbx_model_details' | 'pdbx_model_type_details' | 'title'>
+      & Pick<Struct, 'pdbx_CASP_flag' | 'pdbx_descriptor' | 'title'>
     )>, polymer_entities?: Maybe<Array<Maybe<(
       { __typename?: 'CorePolymerEntity' }
       & { entity_poly?: Maybe<(
@@ -12082,7 +12082,7 @@ export type GetPdbBasicQuery = (
       )> }
     )>>>, rcsb_entry_container_identifiers: (
       { __typename?: 'RcsbEntryContainerIdentifiers' }
-      & Pick<RcsbEntryContainerIdentifiers, 'rcsb_id' | 'entity_ids' | 'pubmed_id' | 'branched_entity_ids' | 'polymer_entity_ids' | 'non_polymer_entity_ids'>
+      & Pick<RcsbEntryContainerIdentifiers, 'rcsb_id' | 'entity_ids' | 'pubmed_id' | 'related_emdb_ids' | 'branched_entity_ids' | 'polymer_entity_ids' | 'non_polymer_entity_ids'>
     ), cell?: Maybe<(
       { __typename?: 'Cell' }
       & Pick<Cell, 'Z_PDB' | 'angle_alpha' | 'angle_beta' | 'angle_gamma' | 'length_a' | 'length_b' | 'length_c'>
@@ -12141,8 +12141,6 @@ export const GetPdbBasicDocument = gql`
     struct {
       pdbx_CASP_flag
       pdbx_descriptor
-      pdbx_model_details
-      pdbx_model_type_details
       title
     }
     polymer_entities {
@@ -12154,6 +12152,7 @@ export const GetPdbBasicDocument = gql`
       rcsb_id
       entity_ids
       pubmed_id
+      related_emdb_ids
       branched_entity_ids
       polymer_entity_ids
       non_polymer_entity_ids

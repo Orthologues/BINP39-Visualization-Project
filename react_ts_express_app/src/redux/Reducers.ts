@@ -124,8 +124,8 @@ const initialMolVisState: MolComponentState = {
   jmolPdbAaSubs: { pdbToLoad: '', aaSubs: [] },
   ifJmolWireframeOnly: false,
   ifJmolDelayHover: false,
-  mol3DPdbAa: { pdbToLoad: '' },
-  indpPdbIdQueries: []
+  mol3DPdbAa: { pdbToLoad: '', aaPoses: [] },
+  indpPdbIdQueries: {mol3d: [], jmol: []}
 }
 export const MolVisReducer = (state: MolComponentState = initialMolVisState, 
   action: PayloadAction): MolComponentState => {
@@ -163,11 +163,27 @@ export const MolVisReducer = (state: MolComponentState = initialMolVisState,
     case ActionTypes.IF_JMOL_WIREFRAME_ONLY:
       return { ...state, ifJmolWireframeOnly: action.payload }
     case ActionTypes.ADD_INDP_MOL_PDB_ID_QUERY:
-      return { ...state, indpPdbIdQueries: action.payload as Array<string> }
+      if ((action.payload as IndpMolQueryPayload).mode === 'Jmol') {
+        return { ...state, indpPdbIdQueries: {
+          ...state.indpPdbIdQueries, 
+          jmol: (<IndpMolQueryPayload>action.payload).query as Array<JmolPdbAaSubs>} }
+      } 
+      else {
+        return { ...state, indpPdbIdQueries: {
+          ...state.indpPdbIdQueries, 
+          mol3d: (<IndpMolQueryPayload>action.payload).query as Array<Mol3DPdbAa>} }
+      }
     case ActionTypes.DEL_INDP_MOL_PDB_ID_QUERY:
-      return { ...state, indpPdbIdQueries: state.indpPdbIdQueries.filter(query => query !== <string>action.payload) }
+      return { ...state, 
+        indpPdbIdQueries: { 
+          jmol: state.indpPdbIdQueries.jmol.filter(query => query.pdbToLoad !== <string>action.payload), 
+          mol3d: state.indpPdbIdQueries.mol3d.filter(query => query.pdbToLoad !== <string>action.payload) 
+        }
+      }
     case ActionTypes.SET_3DMOL_PDB_ID:
-      return { ...state, mol3DPdbAa: { pdbToLoad: action.payload } }
+      return { ...state, mol3DPdbAa: { pdbToLoad: action.payload, aaPoses: [] } }
+    case ActionTypes.SET_3DMOL_AA_POS:
+      return { ...state, mol3DPdbAa: { ...state.mol3DPdbAa, aaPoses: action.payload } }
     case ActionTypes.SET_3DMOL_ZOOMED_IN_AA:
       return { ...state, mol3DPdbAa: { ...state.mol3DPdbAa, zoomedInAa: action.payload } }
     default:

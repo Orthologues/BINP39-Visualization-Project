@@ -35,6 +35,7 @@ export const IF_JMOL_WIREFRAME_ONLY = 'IF_WIREFRAME_ONLY';
 export const IF_JMOL_DELAY_HOVER = 'IF_DELAY_HOVER';
 // 3Dmol visualization
 export const SET_3DMOL_PDB_ID = 'SET_3DMOL_PDB_ID';
+export const SET_3DMOL_AA_POS = 'SET_3DMOL_AA_POS';
 export const SET_3DMOL_ZOOMED_IN_AA = 'SET_3DMOL_ZOOMED_IN_AA';
 
 

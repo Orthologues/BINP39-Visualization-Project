@@ -1,9 +1,9 @@
 import React, { FC, useState, useEffect } from 'react'; 
-import { GetPdbBasicQuery } from '../../graphql';
-import { useMapPdbToUniprotQuery, useGetUniprotBasicQuery } from '../../graphql';
+import { GetPdbBasicQuery } from './GqlLib';
+import { useMapPdbToUniprotQuery, useGetUniprotBasicQuery } from './GqlLib';
 import { Card, CardHeader, CardTitle, CardBody, CardText, Button, Label, Input } from 'reactstrap';
 import { AA_1_TO_3 } from '../../shared/Consts';
-import '../../css/RcsbPdbGql.css';
+import './RcsbPdbGql.css';
 import { isInteger } from 'lodash';
 
 type RootProps = {
@@ -49,6 +49,7 @@ const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
     const KEYWORDS = rootQuery.entry.struct_keywords;
     const STRUCT = rootQuery.entry.struct;
     const PUBMED_ID = rootQuery.entry.rcsb_entry_container_identifiers.pubmed_id;
+    const EMDB_IDS = rootQuery.entry.rcsb_entry_container_identifiers.related_emdb_ids;
     const CELL_INFO = rootQuery.entry.cell;
     const POLYMER_ENTITIES = rootQuery.entry.polymer_entities;
     return (
@@ -60,7 +61,20 @@ const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
           <CardText>
             <b>Found PDB-ID in RCSB:</b> {RCSB_PDB_ID}
           </CardText>
+          { KEYWORDS && <CardText><b>Keywords:</b> {KEYWORDS.pdbx_keywords} ({KEYWORDS.text})</CardText> }
+          { STRUCT && 
+          <React.Fragment>
+          <CardText><b>CASP-flag:</b> {STRUCT.pdbx_CASP_flag}</CardText>
+          <CardText><b>Description:</b> {STRUCT.pdbx_descriptor}</CardText>
+          <CardText><b>Title:</b> {STRUCT.title}</CardText>
+          </React.Fragment>
+          }
           { PUBMED_ID && (<CardText><b>PudMed ID:</b> {PUBMED_ID}</CardText>) }
+          { EMDB_IDS && 
+            EMDB_IDS.map((emdbId, ind) =>
+              <CardText><b>Related EMDB ID({ind}):</b> {emdbId}</CardText>
+            )
+          }
           { Array.isArray(POLYMER_ENTITIES) && 
             POLYMER_ENTITIES.map((entity, ind) => 
             entity?.entity_poly?.rcsb_sample_sequence_length && 
@@ -68,7 +82,7 @@ const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
               <b>Sample sequence length of Polymer-entity {ind+1}:</b> {entity.entity_poly.rcsb_sample_sequence_length}
             </CardText>) 
           }
-          { CELL_INFO && (
+          {/* { CELL_INFO && (  //crystallographic information isn't quite relevant
             <React.Fragment>
               { CELL_INFO.Z_PDB && 
                 <CardText>
@@ -99,7 +113,7 @@ const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
                   <b>Unit-cell length c in å:</b> {CELL_INFO.length_c}
                 </CardText> }
             </React.Fragment>
-          ) }
+          ) } */}
           <a target="_blank" 
           href={`https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/pdbsum/GetPage.pl?pdbcode=${pdbCode}`}>
             Link for this PDB-ID at PDBsum</a> 
@@ -159,6 +173,20 @@ export const PdbIdSeqAndToUniprot: FC<SecondaryProps> = ({entryId, entityId}) =>
           <CardText>
             <b>Polymer's PDBx Strand ID:</b> {data.polymer_entity?.entity_poly?.pdbx_strand_id}
           </CardText>
+          { 
+          data.polymer_entity.rcsb_polymer_entity &&
+          <React.Fragment>
+          <CardText>
+          <b>Polymer's Number of Molecules:</b> {data.polymer_entity.rcsb_polymer_entity.pdbx_number_of_molecules}
+          </CardText>
+          <CardText>
+          <b>Polymer's Description:</b> {data.polymer_entity.rcsb_polymer_entity.pdbx_description}
+          </CardText>  
+          <CardText>
+          <b>Polymer's Mutations:</b> {data.polymer_entity.rcsb_polymer_entity.pdbx_mutation}
+          </CardText> 
+          </React.Fragment>
+          }
           { data.polymer_entity?.entity_poly?.pdbx_seq_one_letter_code_can && (
             <div className='row' style={{ marginLeft: '0.5rem', textAlign: 'left' }}>
               <div className='col-12 col-xl-5'>
@@ -198,6 +226,8 @@ export const PdbIdSeqAndToUniprot: FC<SecondaryProps> = ({entryId, entityId}) =>
           <div style={{ display: displayVarSeq ? 'inherit' : 'none' }}>
             <CardText>{data.polymer_entity?.entity_poly?.pdbx_seq_one_letter_code}</CardText>
           </div>
+          <CardText><b>RCSB's Mutation/Conflict Count for this entity:</b> {data.polymer_entity.entity_poly.rcsb_mutation_count}/{data.polymer_entity.entity_poly.rcsb_conflict_count}</CardText>
+          <CardText><b>RCSB's Insertion/Deletion Count for this entity:</b> {data.polymer_entity.entity_poly.rcsb_insertion_count}/{data.polymer_entity.entity_poly.rcsb_deletion_count}</CardText>
         </CardBody>
         {data.polymer_entity?.rcsb_polymer_entity_container_identifiers.uniprot_ids && displayUniprotInfo()}
       </Card>

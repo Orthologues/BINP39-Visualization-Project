@@ -10,8 +10,6 @@ export const QUERY_GET_PDB_BASIC = gql`
             struct {
               pdbx_CASP_flag
               pdbx_descriptor
-              pdbx_model_details
-              pdbx_model_type_details
               title
             }
             polymer_entities {
@@ -23,6 +21,7 @@ export const QUERY_GET_PDB_BASIC = gql`
               rcsb_id
               entity_ids
               pubmed_id
+              related_emdb_ids
               branched_entity_ids
               polymer_entity_ids
               non_polymer_entity_ids

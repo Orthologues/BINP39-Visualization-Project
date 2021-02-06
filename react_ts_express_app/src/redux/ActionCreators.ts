@@ -143,9 +143,10 @@ export const switchMolVisChoice = (newChoice: 'Jmol' | '3Dmol'): PayloadAction =
   type: ActionTypes.SWITCH_MOL_VIS_CHOICE,
   payload: newChoice
 })
-export const addIndpMolPdbIdQuery = (pdbIds: Array<string>): PayloadAction => ({
+export const addIndpMolPdbIdQuery = 
+(query: Array<JmolPdbAaSubs|Mol3DPdbAa>, mode: 'Jmol'|"3Dmol"): PayloadAction => ({
   type: ActionTypes.ADD_INDP_MOL_PDB_ID_QUERY,
-  payload: pdbIds
+  payload: { query: query, mode: mode } as IndpMolQueryPayload
 }) 
 export const delIndpMolPdbIdQuery = (pdbId: string): PayloadAction => ({
   type: ActionTypes.DEL_INDP_MOL_PDB_ID_QUERY,
@@ -174,9 +175,13 @@ export const ifJmolDelayHover = (newVal: boolean): PayloadAction => ({
   payload: newVal
 })
 // Actions for 3Dmol
-export const set3DmolPdbId = (selectedPdbId: string): PayloadAction => ({
+export const set3DmolPdbId = (pdbId: string): PayloadAction => ({
   type: ActionTypes.SET_3DMOL_PDB_ID,
-  payload: selectedPdbId
+  payload: pdbId
+})
+export const set3DmolAaPos = (aaPoses: Array<string>): PayloadAction => ({
+  type: ActionTypes.SET_3DMOL_AA_POS,
+  payload: aaPoses
 })
 export const set3DmolZoomedInAa = (aaToZoomIn: string|number): PayloadAction => ({
   type: ActionTypes.SET_3DMOL_ZOOMED_IN_AA,

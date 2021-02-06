@@ -2,13 +2,13 @@ import React, { FC, useEffect, useState } from 'react';
 import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import { useGetPdbBasicQuery } from '../../graphql';
+import { useGetPdbBasicQuery } from './GqlLib';
 import RcsbPdbGql, { PdbIdSeqAndToUniprot } from './RcsbGraphQl';
 import { switchGqlListMode, selectGqlPdbId, deleteCodeQuery, deleteIndpRcsbPdbIdQuery,
   eraseCodeQueryHistory, addIndpRcsbPdbIdQuery } from '../../redux/ActionCreators';
 import { uniquePdbIds, uniqueStrings } from '../../shared/Funcs';
 import { CardTitle, CardText, Button, ButtonGroup, Label, Input } from 'reactstrap';
-import '../../css/RcsbPdbGql.css';
+import './RcsbPdbGql.css';
 
 // <RcsbGraphQl queries={uniquePdbIds(this.props.aaClashQuery.queries)}
 // queryHistory={uniquePdbIds(this.props.aaClashQuery.queryHistory)} />

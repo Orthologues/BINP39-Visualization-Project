@@ -67,7 +67,7 @@ type RcsbGraphQlState = {
 }
 
 type AaSub = {
-  pos: number;
+  pos: number | string;
   // 'target' has to be one of the 20 amino acids
   target: string;
 };
@@ -78,8 +78,10 @@ type JmolPdbAaSubs = {
 }
 type Mol3DPdbAa = {
   pdbToLoad: string,
+  aaPoses: Array<number | string>
   zoomedInAa?: string | number,
 }
+type IndpMolQueryPayload = { query: Array<JmolPdbAaSubs|Mol3DPdbAa>, mode: 'Jmol'|"3Dmol" }
 type MolComponentState = {
   displayMode: 'latest' | 'history',
   molVisChoice: 'Jmol'|'3Dmol',
@@ -87,13 +89,13 @@ type MolComponentState = {
   ifJmolWireframeOnly: boolean,
   ifJmolDelayHover: boolean,
   mol3DPdbAa: Mol3DPdbAa,
-  indpPdbIdQueries: Array<string>
+  indpPdbIdQueries: {mol3d: Array<Mol3DPdbAa>, jmol: Array<JmolPdbAaSubs>}
 }
 type MolDisplayState = {
   divHidden: boolean;
 };
-type Mol3DProps = { pdbId: string, aaSelectionList: Array<AaSub> }
-type JmolProps = { pdbId: string, aaSelectionList: Array<number> }
+type JMolProps = { pdbId: string, aaSelectionList: Array<AaSub> }
+type Mol3DProps = { pdbId: string, aaSelectionList: Array<number | string> }
 
 // combined store for App
 type AppReduxState = { aaClashQuery: AaClashQueryState, rcsbGraphQl: RcsbGraphQlState, molVis: MolComponentState } 

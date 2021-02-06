@@ -1,17 +1,21 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, ReactNode } from 'react';
 import JsMol from './JmolComponent';
 import Mol3D from './Mol3dComponent';
 import axios from 'axios';
 import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
-import { CardTitle, Button, ButtonGroup, Label, Input } from 'reactstrap';
+import { CardTitle, Button, ButtonGroup, Label, Input, Modal, ModalBody, Col, Form, FormGroup } from 'reactstrap';
 import { uniquePdbIds, uniqueStrings, aaClashPredGoodBad } from '../../shared/Funcs'
 import { switchMolListDisplayMode, switchMolVisChoice, addIndpMolPdbIdQuery, delIndpMolPdbIdQuery, 
   deleteCodeQuery, eraseCodeQueryHistory, setJmolPdbId, set3DmolPdbId } from '../../redux/ActionCreators';
-import '../../css/Mol.css';
+import './Mol.css';
 
 
 const MolComponent: FC<any> = () => {
+    const ExtraQueryExampleJmol = `Input Example: '>6xs6  50D 60 61G'`;
+    const ExtraQueryExample3Dmol = `Input Example: '>6xs6  50 60 61' (mutation is unavailable in 3Dmol)`;
+    const JMOL_ENTRY_REGEX = /^\s*>[1-9]\w{3}(\s+\d+[arndcqeghilkmfpstwyv]{0,1})+/gim;
+    const MOL_3D_ENTRY_REGEX = /^\s*>[1-9]\w{3}(\s+\d+)+/gim;
     const queries = useSelector<AppReduxState, Array<PdbIdAaQuery>>(state => state.aaClashQuery.queries);
     const queryHistory = useSelector<AppReduxState, Array<PdbIdAaQuery>>(state => state.aaClashQuery.queryHistory);
     const preds = useSelector<AppReduxState, AaClashPredData[]>(state => state.aaClashQuery.codePredResults);
@@ -19,7 +23,7 @@ const MolComponent: FC<any> = () => {
       state.aaClashQuery.codePredResultHistory);
     const molState = useSelector<AppReduxState, MolComponentState>(state => state.molVis);
     const dispatch = useDispatch<Dispatch<PayloadAction>>();
-    const [indpMolPdbId, setIndpMolPdbId] = useState<string>('');
+    const [isExtraModalOpen, setExtraModalOpen] = useState<boolean>(false);
     
     const deleteQueriesOfPdbId = (evt: React.MouseEvent<HTMLElement, MouseEvent>, ind: number) => {
       evt.stopPropagation(); 
@@ -45,23 +49,6 @@ const MolComponent: FC<any> = () => {
       molState.molVisChoice === 'Jmol' ?
       dispatch(setJmolPdbId('')) : dispatch(set3DmolPdbId(''))
     }
-    const handleExtraPdbIdInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
-      evt.preventDefault();
-      setIndpMolPdbId(evt.target.value);
-    }
-    const submitExtraPdbIdInput = (evt: React.MouseEvent<HTMLElement, MouseEvent>) => {
-      evt.preventDefault();
-      const processedQuery= indpMolPdbId.replace(/^\s+|\s+$/g, '').toUpperCase();
-      // use axios.get to RCSB-PDB's RESTful API to check if this pdb-id exists
-      axios.get(`https://data.rcsb.org/rest/v1/core/pubmed/${processedQuery}`).then(resp => {
-        if (resp.status === 200 || resp.statusText === 'OK') {
-          !uniquePdbIds(queryHistory).includes(processedQuery) && 
-          dispatch(addIndpMolPdbIdQuery(uniqueStrings(molState.indpPdbIdQueries.concat(processedQuery)))); 
-          molState.molVisChoice === 'Jmol' ?
-          dispatch(setJmolPdbId(processedQuery)) : dispatch(set3DmolPdbId(processedQuery)) 
-        }
-      }).catch((err: Error) => alert(`${err.message}. The query you type isn't a published PDB-ID at RCSB-PDB!`))
-    }
     const aggregateAaListForPdbId = (pdbId: string): { goodList: string[], badList: string[] } => {
       const processedPdbId = pdbId.replace(/^\s+|\s+$/g, '').toUpperCase();
       let predPdbId = '';
@@ -70,7 +57,7 @@ const MolComponent: FC<any> = () => {
         preds.map(pred => {
           let predPdbIdMatch = pred.queryId.match(/\w{4}(?=_\w+)/i);
           predPdbIdMatch && console.log(predPdbIdMatch[0]);
-          if (predPdbIdMatch && predPdbIdMatch.length === 1) {
+          if (predPdbIdMatch) {
             predPdbId = predPdbIdMatch[0].replace(/^\s+|\s+$/g, '').toUpperCase(); 
           }
           if (processedPdbId === predPdbId) {
@@ -79,7 +66,6 @@ const MolComponent: FC<any> = () => {
             allGoodAas = allGoodAas.concat(goodAas); 
             allBadAas = allBadAas.concat(badAas);
           }
-          
         });
         return { goodList: uniqueStrings(allGoodAas), badList: uniqueStrings(allBadAas) }
       } 
@@ -87,7 +73,7 @@ const MolComponent: FC<any> = () => {
         let allGoodAas: Array<string> = [], allBadAas: Array<string> = [];
         predHistory.map(pred => {
           let predPdbIdMatch = pred.queryId.match(/\w{4}(?=_\w+)/i);
-          if (predPdbIdMatch && predPdbIdMatch.length === 1) {
+          if (predPdbIdMatch) {
             predPdbId = predPdbIdMatch[0].replace(/^\s+|\s+$/g, '').toUpperCase(); 
           }
           if (processedPdbId === predPdbId) {
@@ -96,13 +82,119 @@ const MolComponent: FC<any> = () => {
             allGoodAas = allGoodAas.concat(goodAas); 
             allBadAas = allBadAas.concat(badAas);
           }
-          
         });
         return { goodList: uniqueStrings(allGoodAas), badList: uniqueStrings(allBadAas) }
       }
     }
+    const toggleExtraModal = () => setExtraModalOpen(!isExtraModalOpen);
 
-    const QueryList = (): JSX.Element => (
+
+    const ExtraPdbQueryModal: FC<any> = () => {
+      const [indpMolPdbIdQuery, setIndpMolPdbIdQuery] = useState<string>('');
+      const handleExtraPdbIdInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
+        evt.preventDefault();
+        setIndpMolPdbIdQuery(evt.target.value);
+      }
+      const clearExtraPdbIdInput = (evt: React.FormEvent<HTMLFormElement>) => {
+        evt.preventDefault();
+        setIndpMolPdbIdQuery('');
+      }
+      const submitExtraPdbIdInput = (evt: React.FormEvent<HTMLFormElement>) => {
+        evt.preventDefault();
+        if (indpMolPdbIdQuery.match(/(?<=^\s*>)[1-9]\w{3}/)) {
+          let pdbIdMatch = indpMolPdbIdQuery.match(/(?<=^\s*>)[1-9]\w{3}/);
+          pdbIdMatch && // use axios.get to RCSB-PDB's RESTful API to check if this pdb-id exists
+          axios.get(`https://data.rcsb.org/rest/v1/core/pubmed/${pdbIdMatch[0].toUpperCase()}`)
+          .then(resp => { if (pdbIdMatch) { //verbose but necessary in typescript since it's a promise chain
+            const processedPdbId = pdbIdMatch[0].toUpperCase();
+            if (resp.status === 200 || resp.statusText === 'OK') {
+              if (!uniquePdbIds(queryHistory).includes(processedPdbId)) {
+                if (molState.molVisChoice === 'Jmol') {
+                  let aaPosSubList: Array<AaSub> = [];
+                  let aaPosSubs = indpMolPdbIdQuery.match(/(?<=^\s*>[1-9]\w{3})(\s+\d+[arndcqeghilkmfpstwyv]|\s+\d+)+/gim);
+                  aaPosSubs ? 
+                    aaPosSubs[0].toUpperCase().split(/\s+/).filter(str => str.length > 0).map(aaPosSub => {  
+                      const pos = aaPosSub.match(/\d+(?=[arndcqeghilkmfpstwyv]{0,1})/i);
+                      const subTo = aaPosSub.match(/(?<=\d+)[arndcqeghilkmfpstwyv]/i);
+                      pos && !subTo ? aaPosSubList.push({ pos: pos[0] as string, target: ''}) :
+                      pos && subTo && aaPosSubList.push({ 
+                        pos: pos[0] as string, 
+                        target: subTo[0].toUpperCase()
+                      });
+                    }) && 
+                    dispatch(addIndpMolPdbIdQuery(molState.indpPdbIdQueries.jmol.filter(
+                        query => query.pdbToLoad !== processedPdbId
+                      ).concat({ 
+                        pdbToLoad: processedPdbId, 
+                        aaSubs: aaPosSubList 
+                      }),
+                      molState.molVisChoice)) && dispatch(setJmolPdbId(processedPdbId)) &&
+                      setExtraModalOpen(false) :
+                  alert('Your query isn\'t correctly formatted!')
+                }
+                else {
+                  let aaPoses = indpMolPdbIdQuery.match(/(?<=^\s*>[1-9]\w{3})(\s+\d+)+/gm);
+                  aaPoses ?
+                    dispatch(addIndpMolPdbIdQuery(molState.indpPdbIdQueries.mol3d.filter(
+                        query => query.pdbToLoad !== processedPdbId
+                      ).concat({ 
+                        pdbToLoad: processedPdbId, 
+                        aaPoses: aaPoses[0].split(/\s+/).filter(str => str.length > 0) 
+                      }),
+                      molState.molVisChoice)) && dispatch(set3DmolPdbId(processedPdbId)) &&
+                      setExtraModalOpen(false) : 
+                  alert('Your query isn\'t correctly formatted!')   
+                }
+              }
+            }
+          }})
+          .catch((err: Error) => alert(`${err.message}. The query you type isn't a published PDB-ID at RCSB-PDB!`))
+        } 
+        else { 
+          alert('Your query isn\'t correctly formatted!') 
+        }      
+      }
+
+      return (
+      <Modal isOpen={isExtraModalOpen} toggle={toggleExtraModal}>
+        <ModalBody>
+          <Form onSubmit={submitExtraPdbIdInput} onReset={clearExtraPdbIdInput}>
+            <FormGroup row>
+              <Col lg={10}>
+                <Label style={{ marginTop: '0.5rem' }} htmlFor="extraPdbIdInput">
+                  Add an extra PDB code-query with AA positions for mol-visualization:
+                </Label>
+                <Input type="textarea" id="extraPdbIdInput" name="extraPdbIdInput"
+                value={indpMolPdbIdQuery} onChange={handleExtraPdbIdInput}
+                valid={
+                  molState.molVisChoice === 'Jmol' ?
+                  indpMolPdbIdQuery.match(JMOL_ENTRY_REGEX) !== null :
+                  indpMolPdbIdQuery.match(MOL_3D_ENTRY_REGEX) !== null
+                }
+                invalid={
+                  molState.molVisChoice === 'Jmol' ?
+                  !JMOL_ENTRY_REGEX.test(indpMolPdbIdQuery) :
+                  !MOL_3D_ENTRY_REGEX.test(indpMolPdbIdQuery) 
+                }
+                rows="5" 
+                placeholder={molState.molVisChoice === 'Jmol' ? 
+                ExtraQueryExampleJmol : ExtraQueryExample3Dmol}>
+                </Input>
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Col lg={{ size: 3, offset: 2 }}>
+                <Button type="reset" color="warning" style={{ marginBottom: '0.5rem' }}>Clear</Button>
+              </Col>
+              <Col lg={{ size: 6 }}>
+                <Button type="submit" color="primary">Submit</Button>
+              </Col>
+            </FormGroup>
+          </Form>
+        </ModalBody>
+      </Modal> )
+    }
+    const QueryList: FC<any> = () => (
       <div className='pdb-query-list' style={{ height: 760 }}>        
         <CardTitle tag="h5" style={{ marginTop: 12 }}
         >Choose a tool</CardTitle>
@@ -186,33 +278,37 @@ const MolComponent: FC<any> = () => {
           )
         }
         <CardTitle tag="h6" style={{ color: '#663399', marginTop: '1rem' }}>Extra PDB-ID queries</CardTitle>
+          <Button className='btn btn-sm' color='link' style={{ margin: 0, marginBottom: 5, textAlign: 'left'}}
+            onClick={toggleExtraModal}>
+              Add an query for {molState.molVisChoice}
+          </Button>
           <ol className='pdb-query-ol'>
         { 
         molState.molVisChoice === 'Jmol' ?
-          molState.indpPdbIdQueries.length > 0 && 
-          molState.indpPdbIdQueries.map((query, ind) => molState.jmolPdbAaSubs.pdbToLoad === query ? 
+          molState.indpPdbIdQueries.jmol.length > 0 &&
+          molState.indpPdbIdQueries.jmol.map((query, ind) => molState.jmolPdbAaSubs.pdbToLoad === query.pdbToLoad ? 
             <li key={`indpPdbId_`} className='pdb-query-item-selected'>
-              <span className='extra-pdb-id-span'>{query}</span>
+              <span className='extra-pdb-id-span'>{query.pdbToLoad}</span>
               <i className="fa fa-trash fa-lg deletion-fa-icon"
               onClick={ e => deleteExtraPdbIdQUery(e, ind) }></i>
             </li> : 
             <li key={`indpPdbId_${ind}`} className='pdb-query-item' 
-            onClick={() => dispatch(setJmolPdbId(query))}>
-              <span className='extra-pdb-id-span'>{query}</span>
+            onClick={() => dispatch(setJmolPdbId(query.pdbToLoad))}>
+              <span className='extra-pdb-id-span'>{query.pdbToLoad}</span>
               <i className="fa fa-trash fa-lg deletion-fa-icon"
               onClick={ e => deleteExtraPdbIdQUery(e, ind) }></i>
             </li>
           ) :
-          molState.indpPdbIdQueries.length > 0 && 
-          molState.indpPdbIdQueries.map((query, ind) => molState.mol3DPdbAa.pdbToLoad === query ? 
+          molState.indpPdbIdQueries.mol3d.length > 0 &&
+          molState.indpPdbIdQueries.mol3d.map((query, ind) => molState.mol3DPdbAa.pdbToLoad === query.pdbToLoad ? 
             <li key={`indpPdbId_`} className='pdb-query-item-selected'>
-              <span className='extra-pdb-id-span'>{query}</span>
+              <span className='extra-pdb-id-span'>{query.pdbToLoad}</span>
               <i className="fa fa-trash fa-lg deletion-fa-icon"
               onClick={ e => deleteExtraPdbIdQUery(e, ind) }></i>
             </li> : 
             <li key={`indpPdbId_${ind}`} className='pdb-query-item' 
-            onClick={() => dispatch(set3DmolPdbId(query))}>
-              <span className='extra-pdb-id-span'>{query}</span>
+            onClick={() => dispatch(set3DmolPdbId(query.pdbToLoad))}>
+              <span className='extra-pdb-id-span'>{query.pdbToLoad}</span>
               <i className="fa fa-trash fa-lg deletion-fa-icon"
               onClick={ e => deleteExtraPdbIdQUery(e, ind) }></i>
             </li>
@@ -226,21 +322,10 @@ const MolComponent: FC<any> = () => {
         <div className="mol-comp under-sticky">
           <QueryList />
           <div className='row'>
+            <ExtraPdbQueryModal />
             <div className='col-12 col-lg-3'>
-              <div className='row' style={{marginBottom: 8}}>
-                <div className='col-12' style={{marginTop: 12, marginLeft: 12, textAlign: 'left'}}>
-                  <Label for='extra-pdb-id'>Type in a PDB-ID to access MOL directly</Label>
-                  <div className='row' style={{marginLeft: 0}}>
-                    <Input id='extra-pdb-id' onChange={handleExtraPdbIdInput} 
-                    placeholder={`For example, "4QNP"`} 
-                    style={{width: '12rem', marginRight: '0.5rem' }}></Input>
-                    <Button type='button' className='btn-sm' color='primary' style={{marginTop: 5}}
-                    onClick={submitExtraPdbIdInput}>Submit</Button>
-                  </div>
-                </div>
-              </div>
-              <p>{JSON.stringify(aggregateAaListForPdbId(molState.molVisChoice === 'Jmol' ?
-                molState.jmolPdbAaSubs.pdbToLoad : molState.mol3DPdbAa.pdbToLoad)) }</p>
+              {/* <p>{JSON.stringify(aggregateAaListForPdbId(molState.molVisChoice === 'Jmol' ?
+                molState.jmolPdbAaSubs.pdbToLoad : molState.mol3DPdbAa.pdbToLoad)) }</p> */}
             </div>
             <div className= 'col-12 col-lg-9'>
             {
