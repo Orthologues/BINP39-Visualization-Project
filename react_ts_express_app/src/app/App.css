@@ -43,13 +43,13 @@
 /* for MainComponent */
 .App-body-col1, .App-body-col2  {
   background-color: #2f3f4f;
+  color: white;
   min-height: 150px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 .App-body-col2 {  
   display: inline-block;
@@ -64,6 +64,7 @@
   max-width: 220px;
   padding-left: 8px;
   padding-right: 8px;
+  overflow: hidden scroll;
 }
 
 .pdb-query-ol {

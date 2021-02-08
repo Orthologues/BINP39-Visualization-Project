@@ -9,9 +9,13 @@
   border-bottom: 2px solid #919191;
 }
 
+.mol-wrapper {
+  margin: 0;
+  width: auto;
+  height: 760px;
+}
 #jsmol-div, #mol3D-div {
   margin: 0 auto;
-  margin-right: 8px;
   width: 720px;
   height: 760px;
   background-color: #e2f4f4;
@@ -27,5 +31,27 @@
   height: 720px;
   width: 720px;
 }
+
+.aaPosSubList {
+  overflow: hidden scroll;
+  background-color: #2f3f4f;
+  color: white;
+  min-width: 240px;
+  max-width: 240px;
+  padding-left: 0px;
+  padding-right: 8px;
+}
+.aaPosSubGoodItem, .aaPosSubBadItem {
+  font-size: 16px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-top: 1px solid #301934;
+  border-bottom: 1px solid #301934;
+  cursor: pointer;
+}
+.aaPosSubGoodItem { color: #90ee90 }
+.aaPosSubBadItem { color: #ff4500 }
+
+
 
 

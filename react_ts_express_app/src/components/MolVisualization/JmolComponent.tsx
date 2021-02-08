@@ -2,11 +2,11 @@ import React, { FC, useState, useLayoutEffect, useEffect } from 'react';
 import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import $ from 'jquery';
-import { Navbar, NavbarBrand } from 'reactstrap';
+import { Navbar, NavbarBrand, CardTitle } from 'reactstrap';
 import { appendAsyncScript, removeAsyncScriptBySrc, processedPdbId } from '../../shared/Funcs';
 import { FRONTEND_PREFIX } from '../../shared/Consts';
 
-const JsMol: FC<JMolProps> = (props) => {
+const JsMol: FC<SubMolProps> = (props) => {
   const [molState, setMolState] = useState<MolDisplayState>({ divHidden: true });
   const dispatch = useDispatch<Dispatch<PayloadAction>>();
 
@@ -39,14 +39,25 @@ const JsMol: FC<JMolProps> = (props) => {
   }, []);
   useEffect(() => {
     if (molState.divHidden === false) {
-      let pdb_code = props.pdbId;
-      renderJSmolHTML(pdb_code);
+      renderJSmolHTML(props.pdbId);
     }
-    // eslint-disable-next-line
   }, [props.pdbId, molState]);
 
   return (
-      <div id="jsmol-div">
+    <div className='mol-wrapper container-fluid row'>
+      <div className='aaPosSubList'>
+        <CardTitle tag="h6" style={{ marginTop: '12px' }}>Visualization Options</CardTitle>
+        <ol className='pdb-query-ol'>
+        {
+          props.goodAcids.length > 0 && props.goodAcids.map((item, ind) => 
+            <li key={`${props.pdbId}_good_acid_${ind}`}>
+              {item.chain}
+            </li>
+          )
+        }
+        </ol>
+      </div>
+      <div id="jsmol-div">  
         <div className='row'>
           <Navbar dark color="dark" 
           style={{ margin: 0,  marginLeft: '1rem', padding: 0, paddingLeft: '1rem'}}>
@@ -55,16 +66,17 @@ const JsMol: FC<JMolProps> = (props) => {
             </NavbarBrand>
           </Navbar>
           <button className="btn btn-sm btn-warning" onClick={divToggle}> 
-            { molState.divHidden
-               ? `Show JSmol of pdbID ${processedPdbId(props.pdbId)}`
-               : `Hide JSmol of pdbID ${processedPdbId(props.pdbId)}`
-            } 
-          </button>
+          { molState.divHidden
+             ? `Show JSmol of pdbID ${processedPdbId(props.pdbId)}`
+             : `Hide JSmol of pdbID ${processedPdbId(props.pdbId)}`
+          } 
+          </button> 
         </div>
         <div className="mol-container" id="jsmol-container" 
           style={molState.divHidden ? { display: 'none' } : {}} >
         </div>
       </div>
+    </div>
   );
 }
 

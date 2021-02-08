@@ -12083,10 +12083,7 @@ export type GetPdbBasicQuery = (
     )>>>, rcsb_entry_container_identifiers: (
       { __typename?: 'RcsbEntryContainerIdentifiers' }
       & Pick<RcsbEntryContainerIdentifiers, 'rcsb_id' | 'entity_ids' | 'pubmed_id' | 'related_emdb_ids' | 'branched_entity_ids' | 'polymer_entity_ids' | 'non_polymer_entity_ids'>
-    ), cell?: Maybe<(
-      { __typename?: 'Cell' }
-      & Pick<Cell, 'Z_PDB' | 'angle_alpha' | 'angle_beta' | 'angle_gamma' | 'length_a' | 'length_b' | 'length_c'>
-    )> }
+    ) }
   )> }
 );
 
@@ -12109,7 +12106,13 @@ export type MapPdbToUniprotQuery = (
     ), rcsb_polymer_entity?: Maybe<(
       { __typename?: 'RcsbPolymerEntity' }
       & Pick<RcsbPolymerEntity, 'pdbx_number_of_molecules' | 'pdbx_description' | 'pdbx_mutation'>
-    )> }
+    )>, rcsb_entity_host_organism?: Maybe<Array<Maybe<(
+      { __typename?: 'RcsbEntityHostOrganism' }
+      & Pick<RcsbEntityHostOrganism, 'beg_seq_num' | 'common_name' | 'end_seq_num' | 'ncbi_parent_scientific_name' | 'ncbi_scientific_name' | 'ncbi_taxonomy_id' | 'provenance_source' | 'scientific_name'>
+    )>>>, rcsb_entity_source_organism?: Maybe<Array<Maybe<(
+      { __typename?: 'RcsbEntitySourceOrganism' }
+      & Pick<RcsbEntitySourceOrganism, 'beg_seq_num' | 'common_name' | 'end_seq_num' | 'ncbi_parent_scientific_name' | 'ncbi_scientific_name' | 'ncbi_taxonomy_id' | 'provenance_source' | 'scientific_name' | 'source_type'>
+    )>>> }
   )> }
 );
 
@@ -12156,15 +12159,6 @@ export const GetPdbBasicDocument = gql`
       branched_entity_ids
       polymer_entity_ids
       non_polymer_entity_ids
-    }
-    cell {
-      Z_PDB
-      angle_alpha
-      angle_beta
-      angle_gamma
-      length_a
-      length_b
-      length_c
     }
   }
 }
@@ -12214,6 +12208,27 @@ export const MapPdbToUniprotDocument = gql`
       pdbx_number_of_molecules
       pdbx_description
       pdbx_mutation
+    }
+    rcsb_entity_host_organism {
+      beg_seq_num
+      common_name
+      end_seq_num
+      ncbi_parent_scientific_name
+      ncbi_scientific_name
+      ncbi_taxonomy_id
+      provenance_source
+      scientific_name
+    }
+    rcsb_entity_source_organism {
+      beg_seq_num
+      common_name
+      end_seq_num
+      ncbi_parent_scientific_name
+      ncbi_scientific_name
+      ncbi_taxonomy_id
+      provenance_source
+      scientific_name
+      source_type
     }
   }
 }

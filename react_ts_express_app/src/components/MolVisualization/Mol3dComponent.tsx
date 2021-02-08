@@ -6,7 +6,7 @@ import { Navbar, NavbarBrand } from 'reactstrap';
 import { appendAsyncScript, removeAsyncScriptBySrc, processedPdbId } from '../../shared/Funcs';
 import { FRONTEND_PREFIX } from '../../shared/Consts';
 
-const Mol3D: FC<Mol3DProps> = (props) => {
+const Mol3D: FC<SubMolProps> = (props) => {
   const dispatch = useDispatch<Dispatch<PayloadAction>>();
   const [molState, setMolState] = useState<MolDisplayState>({
     divHidden: true,

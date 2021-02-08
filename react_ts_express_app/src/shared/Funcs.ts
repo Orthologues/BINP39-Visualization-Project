@@ -1,5 +1,5 @@
 // a shared library of self-defined functions
-import { AMINO_ACIDS, AA_1_TO_3, AA_3_TO_1 } from './Consts';
+import { AA_1_TO_3, AA_3_TO_1 } from './Consts';
 import { Dictionary, isEmpty } from 'lodash';
 
 // functions for lifecycle methods/useLayoutEffect hooks in MolComponents
@@ -160,12 +160,12 @@ export const formattedAaClashPred = (aaClashPred: AaClashPredData):
      let pos='';
      let old_aa='';
      const CHAIN_REG_MATCH = chain_pos.match(/([A-Z])(?=_\w\d+)/i);
-     if (CHAIN_REG_MATCH) { chain = CHAIN_REG_MATCH[0] }
+     if (CHAIN_REG_MATCH) chain = CHAIN_REG_MATCH[0].toUpperCase();
      const POS_REG_MATCH = chain_pos.match(/(?<=[A-Z]_)(\w\d+)/i);
      if (POS_REG_MATCH) { 
        pos = POS_REG_MATCH[0]; 
-       const OLD_AA_MATCH = pos.match(/\w(?=\d+)/i);
-       if (OLD_AA_MATCH) { old_aa = OLD_AA_MATCH[0] }
+       const OLD_AA_MATCH = pos.match(/[arndcqeghilkmfpstwyv](?=\d+)/i);
+       if (OLD_AA_MATCH) old_aa = OLD_AA_MATCH[0].toUpperCase(); 
      }
  
      if ( !isEmpty(goodAAs[chain_pos]) ) {
@@ -184,35 +184,46 @@ export const formattedAaClashPred = (aaClashPred: AaClashPredData):
    return output;
 }
 export const aaClashPredGoodBad = (aaClashPred: AaClashPredData): 
-{ goodList: Array<string>, badList: Array<string> } => {
+{ goodList: Array<AaSubDetailed>, badList: Array<AaSubDetailed> } => {
    const goodAAs = aaClashPred.goodAcids as Dictionary<Dictionary<string>>;
    const badAAs = aaClashPred.badAcids as Dictionary<string[]>;
-   const output = { goodList: <Array<string>>[] , badList: <Array<string>>[] };
+   let output = { goodList: [] as Array<AaSubDetailed>, badList: [] as Array<AaSubDetailed> };
    Object.keys(goodAAs).map(chain_pos => {
      let chain=''; 
      let pos='';
      let old_aa='';
      const CHAIN_REG_MATCH = chain_pos.match(/([A-Z])(?=_\w\d+)/i);
-     if (CHAIN_REG_MATCH) { chain = CHAIN_REG_MATCH[0] }
+     if (CHAIN_REG_MATCH) chain = CHAIN_REG_MATCH[0].toUpperCase(); 
      const POS_REG_MATCH = chain_pos.match(/(?<=[A-Z]_)(\w\d+)/i);
      if (POS_REG_MATCH) { 
        pos = POS_REG_MATCH[0]; 
-       const OLD_AA_MATCH = pos.match(/\w(?=\d+)/i);
-       if (OLD_AA_MATCH) { old_aa = OLD_AA_MATCH[0] }
+       const OLD_AA_MATCH = pos.match(/[arndcqeghilkmfpstwyv](?=\d+)/i);
+       if (OLD_AA_MATCH) old_aa = OLD_AA_MATCH[0].toUpperCase();
      }
- 
      if ( !isEmpty(goodAAs[chain_pos]) ) {
        Object.keys(goodAAs[chain_pos]).map(goodAA => {
          (chain.length > 0 && pos.length > 0) && 
-         output.goodList.push(`chain${chain}_${old_aa}${pos.substring(1, pos.length)}${AA_3_TO_1[goodAA]}`)
+         output.goodList.push({
+           chain: chain,
+           oldAa: old_aa,
+           pos: parseInt(pos.substring(1, pos.length)),
+           newAa: AA_3_TO_1[goodAA],
+           pred: 'good'
+         })
        });
      } 
      if (badAAs[chain_pos].length > 0){
        badAAs[chain_pos].map(badAA => {
          (chain.length > 0 && pos.length > 0) && 
-         output.badList.push(`chain${chain}_${old_aa}${pos.substring(1, pos.length)}${AA_3_TO_1[badAA]}`)
+         output.badList.push({
+           chain: chain,
+           oldAa: old_aa,
+           pos: parseInt(pos.substring(1, pos.length)),
+           newAa: AA_3_TO_1[badAA],
+           pred: 'bad'
+         })
        })
-    }
+     }   
    });
    return output;
 }

@@ -26,15 +26,6 @@ export const QUERY_GET_PDB_BASIC = gql`
               polymer_entity_ids
               non_polymer_entity_ids
             }
-            cell {
-              Z_PDB
-              angle_alpha
-              angle_beta
-              angle_gamma
-              length_a
-              length_b
-              length_c
-            }
         }
     }
 `;
@@ -58,6 +49,27 @@ export const QUERY_MAP_PDB_TO_UNIPROT = gql`
               pdbx_number_of_molecules
               pdbx_description
               pdbx_mutation
+            }
+            rcsb_entity_host_organism {
+              beg_seq_num
+              common_name
+              end_seq_num
+              ncbi_parent_scientific_name
+              ncbi_scientific_name
+              ncbi_taxonomy_id
+              provenance_source
+              scientific_name
+            }
+            rcsb_entity_source_organism {
+              beg_seq_num
+              common_name
+              end_seq_num
+              ncbi_parent_scientific_name
+              ncbi_scientific_name
+              ncbi_taxonomy_id
+              provenance_source
+              scientific_name
+              source_type
             }
         }
     }

@@ -49,11 +49,12 @@ const MolComponent: FC<any> = () => {
       molState.molVisChoice === 'Jmol' ?
       dispatch(setJmolPdbId('')) : dispatch(set3DmolPdbId(''))
     }
-    const aggregateAaListForPdbId = (pdbId: string): { goodList: string[], badList: string[] } => {
+    const aggregateAaListForPdbId = (pdbId: string): 
+    { goodList: AaSubDetailed[], badList: AaSubDetailed[] } => {
       const processedPdbId = pdbId.replace(/^\s+|\s+$/g, '').toUpperCase();
       let predPdbId = '';
+      let allGoodAas = [] as AaSubDetailed[], allBadAas = [] as AaSubDetailed[];
       if (molState.displayMode === 'latest') {
-        let allGoodAas: Array<string> = [], allBadAas: Array<string> = [];
         preds.map(pred => {
           let predPdbIdMatch = pred.queryId.match(/\w{4}(?=_\w+)/i);
           predPdbIdMatch && console.log(predPdbIdMatch[0]);
@@ -67,10 +68,12 @@ const MolComponent: FC<any> = () => {
             allBadAas = allBadAas.concat(badAas);
           }
         });
-        return { goodList: uniqueStrings(allGoodAas), badList: uniqueStrings(allBadAas) }
+        return { 
+          goodList: [ ...new Set(allGoodAas) ].sort((a, b) => a.pos > b.pos ? 1 : -1), 
+          badList: [ ...new Set(allBadAas) ].sort((a, b) => a.pos > b.pos ? 1 : -1) 
+        }
       } 
       else {
-        let allGoodAas: Array<string> = [], allBadAas: Array<string> = [];
         predHistory.map(pred => {
           let predPdbIdMatch = pred.queryId.match(/\w{4}(?=_\w+)/i);
           if (predPdbIdMatch) {
@@ -83,7 +86,10 @@ const MolComponent: FC<any> = () => {
             allBadAas = allBadAas.concat(badAas);
           }
         });
-        return { goodList: uniqueStrings(allGoodAas), badList: uniqueStrings(allBadAas) }
+        return { 
+          goodList: [ ...new Set(allGoodAas) ].sort((a, b) => a.pos > b.pos ? 1 : -1), 
+          badList: [ ...new Set(allBadAas) ].sort((a, b) => a.pos > b.pos ? 1 : -1) 
+        }
       }
     }
     const toggleExtraModal = () => setExtraModalOpen(!isExtraModalOpen);
@@ -321,20 +327,16 @@ const MolComponent: FC<any> = () => {
     return (
         <div className="mol-comp under-sticky">
           <QueryList />
-          <div className='row'>
-            <ExtraPdbQueryModal />
-            <div className='col-12 col-lg-3'>
-              {/* <p>{JSON.stringify(aggregateAaListForPdbId(molState.molVisChoice === 'Jmol' ?
-                molState.jmolPdbAaSubs.pdbToLoad : molState.mol3DPdbAa.pdbToLoad)) }</p> */}
-            </div>
-            <div className= 'col-12 col-lg-9'>
-            {
-            molState.molVisChoice === 'Jmol' ?
-              <JsMol pdbId={molState.jmolPdbAaSubs.pdbToLoad} aaSelectionList={[]} /> :
-              <Mol3D pdbId={molState.mol3DPdbAa.pdbToLoad} aaSelectionList={[]}/>
-            }
-            </div>
-          </div>
+          <ExtraPdbQueryModal />
+          {
+          molState.molVisChoice === 'Jmol' ?
+          <JsMol pdbId={molState.jmolPdbAaSubs.pdbToLoad} 
+          goodAcids={aggregateAaListForPdbId(molState.jmolPdbAaSubs.pdbToLoad).goodList}
+          badAcids={aggregateAaListForPdbId(molState.jmolPdbAaSubs.pdbToLoad).badList} /> :
+          <Mol3D pdbId={molState.mol3DPdbAa.pdbToLoad} 
+          goodAcids={aggregateAaListForPdbId(molState.mol3DPdbAa.pdbToLoad).goodList}
+          badAcids={aggregateAaListForPdbId(molState.mol3DPdbAa.pdbToLoad).badList} />
+          }
         </div>
     )
 }

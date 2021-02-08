@@ -20,6 +20,10 @@ type TertiaryProps = {
 }
 
 const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
+    const { data, error, loading, refetch } = useMapPdbToUniprotQuery(
+      { variables: { entry_id: pdbCode, entity_id: '1' } },
+    );
+    
     if ( !rootQuery.entry || !rootQuery.entry.rcsb_entry_container_identifiers.rcsb_id ) {
         return (
             <Card>
@@ -44,14 +48,15 @@ const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
             </Card>
         )
     }
-
+    
     const RCSB_PDB_ID = rootQuery.entry.rcsb_entry_container_identifiers.rcsb_id;
     const KEYWORDS = rootQuery.entry.struct_keywords;
     const STRUCT = rootQuery.entry.struct;
     const PUBMED_ID = rootQuery.entry.rcsb_entry_container_identifiers.pubmed_id;
     const EMDB_IDS = rootQuery.entry.rcsb_entry_container_identifiers.related_emdb_ids;
-    const CELL_INFO = rootQuery.entry.cell;
     const POLYMER_ENTITIES = rootQuery.entry.polymer_entities;
+    const HOST_ORGANISMS = data?.polymer_entity?.rcsb_entity_host_organism;
+    const SOURCE_ORGANISMS = data?.polymer_entity?.rcsb_entity_source_organism;
     return (
       <Card>
         <CardHeader>
@@ -82,38 +87,56 @@ const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
               <b>Sample sequence length of Polymer-entity {ind+1}:</b> {entity.entity_poly.rcsb_sample_sequence_length}
             </CardText>) 
           }
-          {/* { CELL_INFO && (  //crystallographic information isn't quite relevant
-            <React.Fragment>
-              { CELL_INFO.Z_PDB && 
-                <CardText>
-                  <b>Number of the polymeric chains in a unit cell:</b> {CELL_INFO.Z_PDB}
-                </CardText> }
-              { CELL_INFO.angle_alpha && 
-                <CardText>
-                  <b>Unit-cell angle alpha of the reported structure in degrees:</b> {CELL_INFO.angle_alpha}
-                </CardText> }
-              { CELL_INFO.angle_beta && 
-                <CardText>
-                  <b>Unit-cell angle beta in degrees:</b> {CELL_INFO.angle_beta}
-                </CardText> }
-              { CELL_INFO.angle_gamma && 
-                <CardText>
-                  <b>Unit-cell angle gamma in degrees:</b> {CELL_INFO.angle_gamma}
-                </CardText> }
-              { CELL_INFO.length_a && 
-                <CardText>
-                  <b>Unit-cell length a corresponding to the structure reported in ångströms:</b> {CELL_INFO.length_a}
-                </CardText> }
-              { CELL_INFO.length_b && 
-                <CardText>
-                  <b>Unit-cell length b in å:</b> {CELL_INFO.length_b}
-                </CardText> }
-              { CELL_INFO.length_c && 
-                <CardText>
-                  <b>Unit-cell length c in å:</b> {CELL_INFO.length_c}
-                </CardText> }
-            </React.Fragment>
-          ) } */}
+          <hr />
+          { Array.isArray(SOURCE_ORGANISMS) &&
+            SOURCE_ORGANISMS.map((org, ind) => 
+              <React.Fragment key={`src_org_${pdbCode}_${ind}`}>
+                <CardTitle tag='h6'><b>Source organism({ind+1})</b></CardTitle>
+              { (org?.ncbi_scientific_name || org?.scientific_name) && 
+                <CardText>Scientific name: {org.ncbi_scientific_name ? org.ncbi_scientific_name :
+                org.scientific_name}</CardText>
+              }
+              { org?.ncbi_parent_scientific_name &&
+                <CardText>Scientific name of parent: {org.ncbi_parent_scientific_name}</CardText>
+              }
+              { org?.ncbi_taxonomy_id && 
+                <CardText>NCBI taxonomy ID: {org?.ncbi_taxonomy_id}</CardText>
+              }
+              { (org?.beg_seq_num && org?.end_seq_num) && 
+                <CardText>Range of sequence: {org.beg_seq_num}-{org.end_seq_num}</CardText>
+              }
+              { org?.provenance_source && 
+                <CardText>Provenance source: {org.provenance_source}</CardText>
+              }
+              { org?.source_type && 
+                <CardText>Source type: {org.source_type}</CardText>
+              }
+              </React.Fragment>
+            )
+          }
+          { Array.isArray(HOST_ORGANISMS) &&
+            HOST_ORGANISMS.map((org, ind) => 
+              <React.Fragment key={`host_org_${pdbCode}_${ind}`}> 
+                <CardTitle tag='h6'><b>Host organism({ind+1})</b></CardTitle>
+              { (org?.ncbi_scientific_name || org?.scientific_name) && 
+                <CardText>Scientific name: {org.ncbi_scientific_name ? org.ncbi_scientific_name :
+                org.scientific_name}</CardText> 
+              }
+              { org?.ncbi_parent_scientific_name &&
+                <CardText>Scientific name of parent: {org.ncbi_parent_scientific_name}</CardText>
+              }
+              { org?.ncbi_taxonomy_id && 
+                <CardText>NCBI taxonomy ID: {org?.ncbi_taxonomy_id}</CardText>
+              }
+              { (org?.beg_seq_num && org?.end_seq_num) && 
+                <CardText>Range of sequence: {org.beg_seq_num}-{org.end_seq_num}</CardText>
+              }
+              { org?.provenance_source && 
+                <CardText>Provenance source: {org.provenance_source}</CardText>
+              }
+              </React.Fragment>
+            )
+          }
           <a target="_blank" 
           href={`https://www.ebi.ac.uk/thornton-srv/databases/cgi-bin/pdbsum/GetPage.pl?pdbcode=${pdbCode}`}>
             Link for this PDB-ID at PDBsum</a> 

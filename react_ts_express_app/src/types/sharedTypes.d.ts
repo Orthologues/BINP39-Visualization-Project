@@ -65,7 +65,13 @@ type RcsbGraphQlState = {
   selectedPdbId?: string,
   indpPdbIdQueries: Array<string>
 }
-
+type AaSubDetailed = {
+  chain: string;
+  oldAa: string;
+  pos: number;
+  newAa: string;
+  pred: 'good' | 'bad';
+}
 type AaSub = {
   pos: number | string;
   // 'target' has to be one of the 20 amino acids
@@ -94,6 +100,7 @@ type MolComponentState = {
 type MolDisplayState = {
   divHidden: boolean;
 };
+type SubMolProps = { pdbId: string, goodAcids: Array<AaSubDetailed>, badAcids: Array<AaSubDetailed> }
 type JMolProps = { pdbId: string, aaSelectionList: Array<AaSub> }
 type Mol3DProps = { pdbId: string, aaSelectionList: Array<number | string> }
 
