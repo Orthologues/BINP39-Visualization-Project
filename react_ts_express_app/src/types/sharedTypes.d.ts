@@ -93,7 +93,7 @@ type MolComponentState = {
   molVisChoice: 'Jmol'|'3Dmol',
   jmolPdbAaSubs: JmolPdbAaSubs,
   ifJmolWireframeOnly: boolean,
-  ifJmolDelayHover: boolean,
+  ifJmolHighLightSelected: boolean,
   mol3DPdbAa: Mol3DPdbAa,
   indpPdbIdQueries: {mol3d: Array<Mol3DPdbAa>, jmol: Array<JmolPdbAaSubs>}
 }

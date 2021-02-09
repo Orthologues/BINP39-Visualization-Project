@@ -2,8 +2,9 @@ import React, { FC, useState, useEffect, useLayoutEffect } from 'react';
 import $ from 'jquery';
 import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
-import { Navbar, NavbarBrand } from 'reactstrap';
+import { Navbar, NavbarBrand, CardTitle } from 'reactstrap';
 import { appendAsyncScript, removeAsyncScriptBySrc, processedPdbId } from '../../shared/Funcs';
+import { AA_1_TO_3, AA_3_TO_1 } from '../../shared/Consts';
 import { FRONTEND_PREFIX } from '../../shared/Consts';
 
 const Mol3D: FC<SubMolProps> = (props) => {
@@ -57,29 +58,52 @@ const Mol3D: FC<SubMolProps> = (props) => {
   }, [props.pdbId, molState]);
 
   return (
-    <div id="mol3D-div">
-      <div className="row">
-        <Navbar dark color="dark" 
-        style={{margin: 0, marginLeft: '1rem', padding: 0, paddingLeft: '1rem'}}>
-          <NavbarBrand
-            href="https://3dmol.csb.pitt.edu"
-            target="_blank"
-            className="mol3dNav"
-          >
-            See official doc of 3Dmol
-          </NavbarBrand>
-        </Navbar>
-        <button className="btn btn-warning btn-sm" onClick={divToggle}>
-          {molState.divHidden
-            ? `Show 3Dmol of pdbID ${processedPdbId(props.pdbId)}`
-            : `Hide 3Dmol of pdbID ${processedPdbId(props.pdbId)}`
-          }
-        </button>
+    <div className='mol-wrapper container-fluid row'>
+      <div className='molOptionsList'>
+        <CardTitle tag="h6" style={{ marginTop: '12px' }}>Visualization Options</CardTitle>
+        <ol className='pdb-query-ol'>
+        {
+          props.goodAcids.length > 0 && props.goodAcids.map((item, ind) => 
+            <li key={`${props.pdbId}_good_acid_${ind}`} className='aaPosSubGoodItem'>
+              {item.chain}: {item.oldAa}{item.pos}{item.newAa}
+            </li>
+          )
+        }
+        </ol>
+        <ol className='pdb-query-ol'>
+        {
+          props.badAcids.length > 0 && props.badAcids.map((item, ind) => 
+            <li key={`${props.pdbId}_bad_acid_${ind}`} className='aaPosSubBadItem'>
+              {item.chain}: {item.oldAa}{item.pos}{item.newAa}
+            </li>
+          )
+        }
+        </ol>
       </div>
-      <div
-        className="mol-container" id="mol3D-container"
-        style={molState.divHidden ? { display: 'none' } : {}}
-      ></div>
+      <div id="mol3D-div">
+        <div className="row">
+          <Navbar dark color="dark" 
+          style={{margin: 0, marginLeft: '1rem', padding: 0, paddingLeft: '1rem'}}>
+            <NavbarBrand
+              href="https://3dmol.csb.pitt.edu"
+              target="_blank"
+              className="mol3dNav"
+            >
+              See official doc of 3Dmol
+            </NavbarBrand>
+          </Navbar>
+          <button className="btn btn-warning btn-sm" onClick={divToggle}>
+            {molState.divHidden
+              ? `Show 3Dmol of pdbID ${processedPdbId(props.pdbId)}`
+              : `Hide 3Dmol of pdbID ${processedPdbId(props.pdbId)}`
+            }
+          </button>
+        </div>
+        <div
+          className="mol-container" id="mol3D-container"
+          style={molState.divHidden ? { display: 'none' } : {}}
+        ></div>
+      </div>
     </div>
   );
 };

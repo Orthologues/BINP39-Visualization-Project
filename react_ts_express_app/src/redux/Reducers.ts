@@ -123,7 +123,7 @@ const initialMolVisState: MolComponentState = {
   molVisChoice: 'Jmol',
   jmolPdbAaSubs: { pdbToLoad: '', aaSubs: [] },
   ifJmolWireframeOnly: false,
-  ifJmolDelayHover: false,
+  ifJmolHighLightSelected: false,
   mol3DPdbAa: { pdbToLoad: '', aaPoses: [] },
   indpPdbIdQueries: {mol3d: [], jmol: []}
 }
@@ -158,8 +158,8 @@ export const MolVisReducer = (state: MolComponentState = initialMolVisState,
       } }
     case ActionTypes.SET_JMOL_ZOOMED_IN_AA:
       return { ...state, jmolPdbAaSubs: { ...state.jmolPdbAaSubs, zoomedInAa: action.payload } }
-    case ActionTypes.IF_JMOL_DELAY_HOVER:
-      return { ...state, ifJmolDelayHover: action.payload }
+    case ActionTypes.IF_JMOL_HIGHLIGHT_SELECTED:
+      return { ...state, ifJmolHighLightSelected: action.payload }
     case ActionTypes.IF_JMOL_WIREFRAME_ONLY:
       return { ...state, ifJmolWireframeOnly: action.payload }
     case ActionTypes.ADD_INDP_MOL_PDB_ID_QUERY:

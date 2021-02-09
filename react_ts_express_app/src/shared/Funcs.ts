@@ -171,13 +171,13 @@ export const formattedAaClashPred = (aaClashPred: AaClashPredData):
      if ( !isEmpty(goodAAs[chain_pos]) ) {
        Object.keys(goodAAs[chain_pos]).map(goodAA => {
          (chain.length > 0 && pos.length > 0) && 
-         output.goodList.push(`chain: ${chain}, original(substituted) amino acid: ${AA_1_TO_3[old_aa]}(${old_aa}), position: ${pos.substring(1, pos.length)}, new amino acid: ${goodAA}(${AA_3_TO_1[goodAA]})`)
+         output.goodList.push(`${old_aa}${pos.substring(1, pos.length)}${AA_3_TO_1[goodAA]} (chain: ${chain}, ${AA_1_TO_3[old_aa]}->${goodAA})`)
        });
      } 
      if (badAAs[chain_pos].length > 0){
        badAAs[chain_pos].map(badAA => {
          (chain.length > 0 && pos.length > 0) && 
-         output.badList.push(`chain: ${chain}, original(substituted) amino acid: ${AA_1_TO_3[old_aa]}(${old_aa}), position: ${pos.substring(1, pos.length)}, new amino acid: ${badAA}(${AA_3_TO_1[badAA]})`)
+         output.badList.push(`${old_aa}${pos.substring(1, pos.length)}${AA_3_TO_1[badAA]} (chain: ${chain}, ${AA_1_TO_3[old_aa]}->${badAA})`)
        })
      }
    });

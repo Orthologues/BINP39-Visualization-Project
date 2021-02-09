@@ -170,8 +170,8 @@ export const ifJmolWireframeOnly = (newVal: boolean): PayloadAction => ({
   type: ActionTypes.IF_JMOL_WIREFRAME_ONLY,
   payload: newVal
 })
-export const ifJmolDelayHover = (newVal: boolean): PayloadAction => ({
-  type: ActionTypes.IF_JMOL_DELAY_HOVER,
+export const ifJmolHighLightSelected = (newVal: boolean): PayloadAction => ({
+  type: ActionTypes.IF_JMOL_HIGHLIGHT_SELECTED,
   payload: newVal
 })
 // Actions for 3Dmol

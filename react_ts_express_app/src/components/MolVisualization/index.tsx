@@ -57,7 +57,6 @@ const MolComponent: FC<any> = () => {
       if (molState.displayMode === 'latest') {
         preds.map(pred => {
           let predPdbIdMatch = pred.queryId.match(/\w{4}(?=_\w+)/i);
-          predPdbIdMatch && console.log(predPdbIdMatch[0]);
           if (predPdbIdMatch) {
             predPdbId = predPdbIdMatch[0].replace(/^\s+|\s+$/g, '').toUpperCase(); 
           }
@@ -69,8 +68,10 @@ const MolComponent: FC<any> = () => {
           }
         });
         return { 
-          goodList: [ ...new Set(allGoodAas) ].sort((a, b) => a.pos > b.pos ? 1 : -1), 
-          badList: [ ...new Set(allBadAas) ].sort((a, b) => a.pos > b.pos ? 1 : -1) 
+          goodList: [ ...new Set(allGoodAas) ].sort((a, b) => a.pos > b.pos ? 1 : -1).
+          sort((a, b) => a.chain > b.chain ? 1 : -1), 
+          badList: [ ...new Set(allBadAas) ].sort((a, b) => a.pos > b.pos ? 1 : -1).
+          sort((a, b) => a.chain > b.chain ? 1 : -1) 
         }
       } 
       else {
@@ -87,8 +88,10 @@ const MolComponent: FC<any> = () => {
           }
         });
         return { 
-          goodList: [ ...new Set(allGoodAas) ].sort((a, b) => a.pos > b.pos ? 1 : -1), 
-          badList: [ ...new Set(allBadAas) ].sort((a, b) => a.pos > b.pos ? 1 : -1) 
+          goodList: [ ...new Set(allGoodAas) ].sort((a, b) => a.pos > b.pos ? 1 : -1).
+          sort((a, b) => a.chain > b.chain ? 1 : -1), 
+          badList: [ ...new Set(allBadAas) ].sort((a, b) => a.pos > b.pos ? 1 : -1).
+          sort((a, b) => a.chain > b.chain ? 1 : -1) 
         }
       }
     }
@@ -152,13 +155,12 @@ const MolComponent: FC<any> = () => {
                   alert('Your query isn\'t correctly formatted!')   
                 }
               }
+              else alert('Your PDB-id query is already existent in query history!')
             }
           }})
           .catch((err: Error) => alert(`${err.message}. The query you type isn't a published PDB-ID at RCSB-PDB!`))
         } 
-        else { 
-          alert('Your query isn\'t correctly formatted!') 
-        }      
+        else alert('Your query isn\'t correctly formatted!') 
       }
 
       return (
@@ -202,7 +204,7 @@ const MolComponent: FC<any> = () => {
     }
     const QueryList: FC<any> = () => (
       <div className='pdb-query-list' style={{ height: 760 }}>        
-        <CardTitle tag="h5" style={{ marginTop: 12 }}
+        <CardTitle tag="h5" style={{ marginTop: 10 }}
         >Choose a tool</CardTitle>
         <ButtonGroup>
           <Button className='btn-sm'
