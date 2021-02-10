@@ -5,7 +5,7 @@ import axios from 'axios';
 import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { CardTitle, Button, ButtonGroup, Label, Input, Modal, ModalBody, Col, Form, FormGroup } from 'reactstrap';
-import { uniquePdbIds, uniqueStrings, aaClashPredGoodBad } from '../../shared/Funcs'
+import { uniquePdbIds, aaClashPredGoodBad } from '../../shared/Funcs'
 import { switchMolListDisplayMode, switchMolVisChoice, addIndpMolPdbIdQuery, delIndpMolPdbIdQuery, 
   deleteCodeQuery, eraseCodeQueryHistory, setJmolPdbId, set3DmolPdbId } from '../../redux/ActionCreators';
 import './Mol.css';
@@ -68,10 +68,10 @@ const MolComponent: FC<any> = () => {
           }
         });
         return { 
-          goodList: [ ...new Set(allGoodAas) ].sort((a, b) => a.pos > b.pos ? 1 : -1).
-          sort((a, b) => a.chain > b.chain ? 1 : -1), 
-          badList: [ ...new Set(allBadAas) ].sort((a, b) => a.pos > b.pos ? 1 : -1).
-          sort((a, b) => a.chain > b.chain ? 1 : -1) 
+          goodList: [ ...new Set(allGoodAas) ].sort((a, b) => a.chain > b.chain ? -1 : 1)
+          .sort((a, b) => a.pos > b.pos ? 1 : -1), 
+          badList: [ ...new Set(allBadAas) ].sort((a, b) => a.chain > b.chain ? -1 : 1)
+          .sort((a, b) => a.pos > b.pos ? 1 : -1) 
         }
       } 
       else {
@@ -88,10 +88,10 @@ const MolComponent: FC<any> = () => {
           }
         });
         return { 
-          goodList: [ ...new Set(allGoodAas) ].sort((a, b) => a.pos > b.pos ? 1 : -1).
-          sort((a, b) => a.chain > b.chain ? 1 : -1), 
-          badList: [ ...new Set(allBadAas) ].sort((a, b) => a.pos > b.pos ? 1 : -1).
-          sort((a, b) => a.chain > b.chain ? 1 : -1) 
+          goodList: [ ...new Set(allGoodAas) ].sort((a, b) => a.chain > b.chain ? -1 : 1)
+          .sort((a, b) => a.pos > b.pos ? 1 : -1), 
+          badList: [ ...new Set(allBadAas) ].sort((a, b) => a.chain > b.chain ? -1 : 1)
+          .sort((a, b) => a.pos > b.pos ? 1 : -1) 
         }
       }
     }

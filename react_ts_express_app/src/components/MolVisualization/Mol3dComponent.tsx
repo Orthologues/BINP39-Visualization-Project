@@ -9,9 +9,10 @@ import { FRONTEND_PREFIX } from '../../shared/Consts';
 
 const Mol3D: FC<SubMolProps> = (props) => {
   const dispatch = useDispatch<Dispatch<PayloadAction>>();
-  const [molState, setMolState] = useState<MolDisplayState>({
-    divHidden: true,
-  });
+  const zoomedInAa = useSelector<AppReduxState, number|string|undefined>(
+    state => state.molVis.mol3DPdbAa.zoomedInAa
+  )
+  const [molState, setMolState] = useState<MolDisplayState>({ divHidden: true });
 
   const divToggle = () => {
     setMolState((prevState) => {
@@ -42,6 +43,7 @@ const Mol3D: FC<SubMolProps> = (props) => {
   useLayoutEffect(() => {
     //this function loads synchronously right after any DOM mutation
     appendAsyncScript(`${FRONTEND_PREFIX}/assets/3Dmol-min.js`);
+    setTimeout(() => setMolState({divHidden: false}), 1000);
     return () => {
       removeAsyncScriptBySrc(`${FRONTEND_PREFIX}/assets/3Dmol-min.js`);
     };
