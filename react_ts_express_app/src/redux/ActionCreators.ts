@@ -158,7 +158,8 @@ export const setJmolPdbId = (selectedPdbId: string): PayloadAction => ({
   payload: selectedPdbId
 })
 // type 'PdbIdAaQuery' is for AA-Clash Queries, 'string' is for independent queries
-export const setJmolAaSubList = (pdbIdQuery: PdbIdAaQuery|string, aaSubs: Array<AaSub>): PayloadAction => ({
+export const setJmolAaSubList = 
+(pdbIdQuery: PdbIdAaQuery|string, aaSubs: Array<AaSub|AaSubDetailed>): PayloadAction => ({
   type: ActionTypes.SET_JMOL_AA_SUB_LIST,
   payload: {pdbToLoad: pdbIdQuery, aaSubs: aaSubs} as JmolPdbAaSubs
 }) 

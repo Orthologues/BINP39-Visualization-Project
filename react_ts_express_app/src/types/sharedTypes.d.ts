@@ -73,13 +73,15 @@ type AaSubDetailed = {
   pred: 'good' | 'bad';
 }
 type AaSub = {
+  chain: string;
+  oldAa?: string;
   pos: number | string;
   // 'target' has to be one of the 20 amino acids
   target: string;
 };
 type JmolPdbAaSubs = {
   pdbToLoad: string,
-  aaSubs: Array<AaSub>
+  aaSubs: Array<AaSub|AaSubDetailed>
   zoomedInAa?: AaSub,
 }
 type Mol3DPdbAa = {
@@ -101,8 +103,6 @@ type MolDisplayState = {
   divHidden: boolean;
 };
 type SubMolProps = { pdbId: string, goodAcids: Array<AaSubDetailed>, badAcids: Array<AaSubDetailed> }
-type JMolProps = { pdbId: string, aaSelectionList: Array<AaSub> }
-type Mol3DProps = { pdbId: string, aaSelectionList: Array<number | string> }
 
 // combined store for App
 type AppReduxState = { aaClashQuery: AaClashQueryState, rcsbGraphQl: RcsbGraphQlState, molVis: MolComponentState } 

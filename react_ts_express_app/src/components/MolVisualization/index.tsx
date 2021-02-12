@@ -4,7 +4,9 @@ import Mol3D from './Mol3dComponent';
 import axios from 'axios';
 import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
-import { CardTitle, Button, ButtonGroup, Label, Input, Modal, ModalBody, Col, Form, FormGroup } from 'reactstrap';
+import { Dictionary } from 'lodash';
+import { CardTitle, Button, ButtonGroup, Label, Input, 
+  Modal, ModalBody, Col, Form, FormGroup } from 'reactstrap';
 import { uniquePdbIds, aaClashPredGoodBad } from '../../shared/Funcs'
 import { switchMolListDisplayMode, switchMolVisChoice, addIndpMolPdbIdQuery, delIndpMolPdbIdQuery, 
   deleteCodeQuery, eraseCodeQueryHistory, setJmolPdbId, set3DmolPdbId } from '../../redux/ActionCreators';
@@ -95,9 +97,60 @@ const MolComponent: FC<any> = () => {
         }
       }
     }
+    const filterExtraAaSubs = (pdbId: string, aaSubs: Omit<AaSub, 'chain'>[]): AaSub[] => {
+      let entityToChainToLen: Dictionary<Dictionary<string>> = {}; //records maximum residue number of a chain of an entity
+      let filteredAaSubs: AaSub[] = [];
+
+      axios.get(`https://data.rcsb.org/rest/v1/core/entry/${pdbId}`)
+      .then(resp => { 
+        if (resp.status === 200 || resp.statusText === 'OK') {
+          (resp.data["rcsb_entry_container_identifiers"]["polymer_entity_ids"] as string[]).map(id => {
+            entityToChainToLen[id] = {};
+          })
+        }
+        Object.keys(entityToChainToLen).length > 0 && Object.keys(entityToChainToLen).map(entityId => {
+          axios.get(`https://data.rcsb.org/rest/v1/core/polymer_entity/${pdbId}/${entityId}`)
+          .then(resp => { 
+            if (resp.status === 200 || resp.statusText === 'OK') {
+              const asymIds = resp.data["rcsb_polymer_entity_container_identifiers"]["asym_ids"] as string[]|undefined;
+              const authAsymIds = resp.data["rcsb_polymer_entity_container_identifiers"]["auth_asym_ids"] as string[]|undefined;
+              if (asymIds && authAsymIds && asymIds.length === authAsymIds.length) {
+                asymIds.map((asymId, ind) => { 
+                  axios.get(`https://data.rcsb.org/rest/v1/core/polymer_entity_instance/${pdbId}/${asymId}`)
+                  .then(resp => { 
+                    if (resp.status === 200 || resp.statusText === 'OK') {
+                      const dataAsymId = resp.data["rcsb_polymer_entity_instance_container_identifiers"]["asym_id"] as string;
+                      const dataAuthAsymId = resp.data["rcsb_polymer_entity_instance_container_identifiers"]["auth_asym_id"] as string;
+                      if (dataAsymId === asymId && dataAuthAsymId === authAsymIds[ind]) {         
+                        const seqMapping = resp.data["rcsb_polymer_entity_instance_container_identifiers"]["auth_to_entity_poly_seq_mapping"] as string[];
+                        entityToChainToLen[entityId][authAsymIds[ind]] = seqMapping[seqMapping.length-1];
+                        aaSubs.length > 0 && aaSubs.map(aaSub => {
+                          parseInt(aaSub.pos as string) < parseInt(entityToChainToLen[entityId][authAsymIds[ind]]) &&
+                          filteredAaSubs.push({ ...aaSub, chain: authAsymIds[ind] })
+                        })
+                      }
+                    }
+                  })
+                  .catch((err: Error) => console.log(err.message))
+                });  
+              }
+            }
+          })
+          .catch((err: Error) => console.log(err.message));
+        });
+      })
+      .catch((err: Error) => console.log(err.message));
+
+      console.log(JSON.stringify(entityToChainToLen));
+      if (filteredAaSubs.length > 0) {
+        filteredAaSubs = filteredAaSubs.sort((a, b) => a.chain > b.chain ? -1 : 1)
+        .sort((a, b) => a.pos > b.pos ? 1 : -1) 
+      }
+      return filteredAaSubs;
+    }
+    
+
     const toggleExtraModal = () => setExtraModalOpen(!isExtraModalOpen);
-
-
     const ExtraPdbQueryModal: FC<any> = () => {
       const [indpMolPdbIdQuery, setIndpMolPdbIdQuery] = useState<string>('');
       const handleExtraPdbIdInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -119,26 +172,29 @@ const MolComponent: FC<any> = () => {
             if (resp.status === 200 || resp.statusText === 'OK') {
               if (!uniquePdbIds(queryHistory).includes(processedPdbId)) {
                 if (molState.molVisChoice === 'Jmol') {
-                  let aaPosSubList: Array<AaSub> = [];
+                  let aaPosSubList: Array<Omit<AaSub, 'chain'>> = [];
                   let aaPosSubs = indpMolPdbIdQuery.match(/(?<=^\s*>[1-9]\w{3})(\s+\d+[arndcqeghilkmfpstwyv]|\s+\d+)+/gim);
                   aaPosSubs ? 
                     aaPosSubs[0].toUpperCase().split(/\s+/).filter(str => str.length > 0).map(aaPosSub => {  
                       const pos = aaPosSub.match(/\d+(?=[arndcqeghilkmfpstwyv]{0,1})/i);
                       const subTo = aaPosSub.match(/(?<=\d+)[arndcqeghilkmfpstwyv]/i);
-                      pos && !subTo ? aaPosSubList.push({ pos: pos[0] as string, target: ''}) :
+                      pos && !subTo ? aaPosSubList.push({ 
+                        pos: pos[0] as string, target: ''
+                      }) :
                       pos && subTo && aaPosSubList.push({ 
                         pos: pos[0] as string, 
                         target: subTo[0].toUpperCase()
                       });
-                    }) && 
+                    }) &&
                     dispatch(addIndpMolPdbIdQuery(molState.indpPdbIdQueries.jmol.filter(
-                        query => query.pdbToLoad !== processedPdbId
-                      ).concat({ 
-                        pdbToLoad: processedPdbId, 
-                        aaSubs: aaPosSubList 
-                      }),
-                      molState.molVisChoice)) && dispatch(setJmolPdbId(processedPdbId)) &&
-                      setExtraModalOpen(false) :
+                      query => query.pdbToLoad !== processedPdbId
+                    ).concat({ 
+                      pdbToLoad: processedPdbId, 
+                      aaSubs: filterExtraAaSubs(processedPdbId, aaPosSubList) 
+                    }),
+                    molState.molVisChoice)) &&
+                    setTimeout(() => dispatch(setJmolPdbId(processedPdbId)) , 1000) && 
+                    setExtraModalOpen(false) :
                   alert('Your query isn\'t correctly formatted!')
                 }
                 else {

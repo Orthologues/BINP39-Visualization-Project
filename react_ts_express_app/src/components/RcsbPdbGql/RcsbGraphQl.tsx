@@ -211,12 +211,12 @@ export const PdbIdSeqAndToUniprot: FC<SecondaryProps> = ({entryId, entityId}) =>
           </React.Fragment>
           }
           { data.polymer_entity?.entity_poly?.pdbx_seq_one_letter_code_can && (
-            <div className='row' style={{ marginLeft: '0.5rem', textAlign: 'left' }}>
+            <div className='row' style={{ marginLeft: 0, textAlign: 'left' }}>
               <div className='col-12 col-xl-5'>
                 <Label for={`${entryId}_${entityId}_pdb_aa_pos`}>See AA at pos</Label>
                 <Input id={`${entryId}_${entityId}_pdb_aa_pos`} 
                 onChange={e => setPdbIdSeqPos(parseInt(e.target.value)-1)}
-                style={{width: '75px', height: '30px', marginLeft: 5, display: 'inline-block'}}></Input> 
+                style={{width: '70px', height: '30px', marginLeft: 5, display: 'inline-block'}}></Input> 
               </div>
               <div className='col-12 col-xl-3' style={{paddingLeft: 0}}>
                 <p style={{marginTop: '3px'}}>
@@ -279,11 +279,11 @@ const RcsbUniprotInfo: FC<TertiaryProps> = ({uniprotId}) => {
             <CardText><b>RCSB Uniprot-accession:</b> {data.uniprot.rcsb_uniprot_accession}</CardText>
             <CardText><b>RCSB Uniprot-entry name:</b> {data.uniprot.rcsb_uniprot_entry_name}</CardText>
             { data.uniprot.rcsb_uniprot_protein?.sequence && (
-            <div className='row' style={{ marginLeft: '0.5rem', textAlign: 'left' }}>
+            <div className='row' style={{ marginLeft: 0, textAlign: 'left' }}>
               <div className='col-12 col-xl-5'>
                 <Label for={`${uniprotId}_uniprot_aa_pos`}>See AA at pos</Label>
                 <Input id={`${uniprotId}_uniprot_aa_pos`} onChange={e => setUniprotSeqPos(parseInt(e.target.value)-1)}
-                style={{width: '75px', height: '30px', marginLeft: 5, display: 'inline-block'}}></Input> 
+                style={{width: '70px', height: '30px', marginLeft: 5, display: 'inline-block'}}></Input> 
               </div>
               <div className='col-12 col-xl-7' style={{paddingLeft: 0}}>
                 <p style={{marginTop: '3px'}}>
