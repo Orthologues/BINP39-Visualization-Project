@@ -11,13 +11,31 @@ import { FRONTEND_PREFIX } from '../../shared/Consts';
 const JsMol: FC<SubMolProps> = (props) => {
   const [molState, setMolState] = useState<MolDisplayState>({ divHidden: true });
   const [backboneOnly, setBackboneOnly] = useState<boolean>(false);
+  const [selectedChain, setSelectedChain] = useState<string>(''); //select a whole sidechain and highlight it
   const ifWireframeOnly = useSelector<AppReduxState, boolean>(state => state.molVis.ifJmolWireframeOnly);
   const ifHighLightSelected = useSelector<AppReduxState, boolean>(state => state.molVis.ifJmolHighLightSelected);
   const indpJmolQueries = useSelector<AppReduxState, JmolPdbAaSubs[]>(state => state.molVis.indpPdbIdQueries.jmol);
   const aaSubList = useSelector<AppReduxState, (AaSub|AaSubDetailed)[]>(state => state.molVis.jmolPdbAaSubs.aaSubs);
   const zoomedInAa = useSelector<AppReduxState, AaSub|undefined>(state => state.molVis.jmolPdbAaSubs.zoomedInAa);
   const dispatch = useDispatch<Dispatch<PayloadAction>>();
+
+  // Jmol Commmands
   const wireFrameCmd = () => ifWireframeOnly ? 'wireframe only' : '';
+  const mutationSelCmd = () => {
+    let cmd = '';
+    if (!zoomedInAa) {
+
+    }
+    return cmd;
+  }
+  const chainSelCmd = () => {
+    let cmd = '';
+    if (!zoomedInAa && selectedChain !== '') {
+      cmd = `x = "${selectedChain}"; select chain=@x`;
+      dispatch(ReduxActions.ifJmolHighLightSelected(true))
+    }
+    return cmd;
+  }
   const highlightSelectedCmd = () => ifHighLightSelected ? 'set display SELECTED' : '';
   const backboneOnlyCmd = () => backboneOnly ? 'backbone only; color black' : '';
   const mutationCmd = () => {
@@ -33,8 +51,13 @@ const JsMol: FC<SubMolProps> = (props) => {
       else {
         aaSubList.map(aaSub => {
           let pos = (aaSub as AaSub).pos;
-          let newAa = AA_1_TO_3[(aaSub as AaSub).target];
-          cmd = `${cmd}; mutate ${pos} ${newAa}`
+          if ((aaSub as AaSub).target !== '') {
+            let newAa = AA_1_TO_3[(aaSub as AaSub).target];
+            cmd = `${cmd}; mutate ${pos} ${newAa}`
+          }
+          else {
+            cmd = `${cmd}; mutate ${pos} ALA`
+          }
         });
       }
     } 
@@ -63,7 +86,7 @@ const JsMol: FC<SubMolProps> = (props) => {
       script: `
       set antialiasDisplay; set hoverDelay 0.1;
       load =${pdbCode};
-      x = "A"; select chain=@x; 
+      ${chainSelCmd()}; ${mutationSelCmd()};
       ${wireFrameCmd()}; ${backboneOnlyCmd()};
       ${mutationCmd()}; ${zoomInCmd()};
       ${highlightSelectedCmd()}; 
@@ -87,12 +110,11 @@ const JsMol: FC<SubMolProps> = (props) => {
     };
   }, []);
   useEffect(() => {
-    props.pdbId === '' && setTimeout(() => setMolState({divHidden: true}), 100);
-    if (molState.divHidden === false) {
-      renderJSmolHTML(props.pdbId);
-    }
+    props.pdbId === '' ? setTimeout(() => setMolState({divHidden: true}), 100) :
+    molState.divHidden === false && renderJSmolHTML(props.pdbId) 
   }, 
-  [props.pdbId, molState, ifWireframeOnly, ifHighLightSelected, backboneOnly, aaSubList, zoomedInAa]);
+  [props.pdbId, molState, ifWireframeOnly, ifHighLightSelected, backboneOnly, 
+   aaSubList, selectedChain, zoomedInAa]);
 
   return (
     <div className='mol-wrapper container-fluid row'>
@@ -101,46 +123,64 @@ const JsMol: FC<SubMolProps> = (props) => {
       <div className='molIndpOptionsList'>
         <CardTitle tag="h5" style={{ marginTop: '10px' }}>Visualization Options</CardTitle>
         <ol className='pdb-query-ol' style={{marginBottom: 24}}>
-          <Form style={{ textAlign: 'left', paddingLeft: 12}}>
+          <Form style={{ textAlign: 'left', paddingLeft: 10}}>
             <FormGroup check inline>
-              <Label style={{marginRight: 5}} check>set wireframe-only</Label>
+              <Label style={{marginRight: 2}} check>set wireframe-only</Label>
               <Input type="checkbox" checked={ifWireframeOnly}
               onChange={e => dispatch(ReduxActions.ifJmolWireframeOnly(!ifWireframeOnly))}/> 
             </FormGroup>
             <FormGroup check inline>
-              <Label style={{marginRight: 5}} check>highlight selected AAs</Label>
+              <Label style={{marginRight: 2}} check>highlight mutated AAs/zoomed AA</Label>
               <Input type="checkbox" checked={ifHighLightSelected}
               onChange={e => dispatch(ReduxActions.ifJmolHighLightSelected(!ifHighLightSelected))}/> 
             </FormGroup>
             <FormGroup check inline>
-              <Label style={{marginRight: 5}} check>α-carbon backbone only</Label>
+              <Label style={{marginRight: 2}} check>α-carbon backbone only</Label>
               <Input type="checkbox" checked={backboneOnly}
               onChange={e => setBackboneOnly(!backboneOnly)} /> 
             </FormGroup>
-            <FormGroup style={{marginBottom: 5}} check inline>
-              <Label style={{marginRight: 5}} check>mutate all positions</Label>
-              <Input type="checkbox" checked={ifHighLightSelected}
-              onChange={e=>{}}/> 
+            <FormGroup check inline>
+              <Label style={{marginRight: 2}}>select a chain</Label>
+              <CustomInput type="select" id={`${props.pdbId}_chains`} name="extraChainSelection"
+              value={selectedChain} onChange={e => setSelectedChain(e.target.value) }
+              style={{ padding: 0, paddingLeft: 2, height: 28, width: 64 }}>
+                <option value="">None</option>
+            {
+              indpJmolQueries.map(query => query.pdbToLoad === props.pdbId && query.chainList?.map(chain => 
+                <option key={`${props.pdbId}_chain_${chain}_option`} value={chain} >{chain}</option> 
+                )
+              )
+            }
+              </CustomInput>
             </FormGroup>
-            <CardText style={{ color: '#FFFF33', textAlign: 'left', marginBottom: 5}}>
+            <FormGroup style={{marginBottom: 3}} check inline>
+              <Label style={{marginRight: 2}} check>mutate all positions</Label>
+              <Input type="checkbox" 
+              onClick={ e => {
+                dispatch(ReduxActions.setJmolAaSubList(props.pdbId, 
+                indpJmolQueries.filter(query => query.pdbToLoad === props.pdbId)[0].aaSubs as AaSub[]))
+              } }/> 
+            </FormGroup>
+            <CardText style={{ color: '#FFFF33', textAlign: 'left', marginBottom: 5, marginRight: 5}}>
               Click checkbox of an AA-sub to mutate in Jmol, 
               switch on for zooming to its position. 
-              If there are multiple different substitutions at one position, 
+              If there're multiple AA-subs at one position, 
               'mutate all' would choose the first AA-sub on list.
             </CardText>
           </Form>
           <p style={{marginBottom: 5}}>AA-Subs without prediction</p>
-          {
+        {
           indpJmolQueries.map(query =>
-            query.pdbToLoad === props.pdbId &&
-            query.aaSubs.sort((a, b) => 
-              parseInt(a.pos.toString()) > parseInt(b.pos.toString()) ? 1 : -1).map((aaSub, ind) =>
+            query.pdbToLoad === props.pdbId && 
+            query.aaSubs.sort((a, b) => parseInt(a.pos.toString()) > parseInt(b.pos.toString()) ? 1 : -1).
+            map((aaSub, ind) =>
             (aaSub as AaSub).target.length === 0 ?
             AMINO_ACIDS.map(AA => 
             <li key={`indp_${props.pdbId}_acid_${ind}_${AA}`} className='aaPosSubIndpItem'>
               <Row style={{ marginLeft: '2rem' }}> 
                 <FormGroup check inline>
-                  <Input type="checkbox" style={{ marginRight: 24 }}/>     
+                  <Input type="checkbox" checked={AA === 'A' && aaSubList.includes(aaSub as AaSub)}
+                  style={{ marginRight: 24 }}/>     
                   <CustomInput inline type="switch" 
                     id={`zoom_to_indp_${aaSub.pos}${AA}`} 
                     label={`${aaSub.chain}: ${aaSub.pos}${AA}(${AA_1_TO_3[AA]})`}/>   
@@ -151,41 +191,56 @@ const JsMol: FC<SubMolProps> = (props) => {
             <li key={`indp_${props.pdbId}_acid_${ind}`} className='aaPosSubIndpItem'> 
               <Row style={{ marginLeft: '2rem' }}> 
                 <FormGroup check inline>
-                  <Input type="checkbox" style={{ marginRight: 24 }}/>
+                  <Input type="checkbox" checked={aaSubList.includes(aaSub as AaSub)}
+                  style={{ marginRight: 24 }}/>
                   <CustomInput inline type="switch" 
                     id={`zoom_to_indp_${aaSub.pos}${(aaSub as AaSub).target}`} 
                     label={`${aaSub.chain}: ${aaSub.pos}${(aaSub as AaSub).target}(${AA_1_TO_3[(aaSub as AaSub).target]})`}/> 
                 </FormGroup>         
               </Row>         
             </li>
-          ))
-          }
+            )
+          )
+        }
         </ol>
       </div> :
       <div className='molOptionsList'>
         <CardTitle tag="h5" style={{ marginTop: '10px' }}>Visualization Options</CardTitle>
-        <ol className='pdb-query-ol' style={{marginBottom: 10}}>
+        <ol className='pdb-query-ol' style={{marginBottom: 5}}>
           <Form>
             <FormGroup check inline>
-              <Label style={{marginLeft: 8, marginRight: 5}} check>set wireframe-only</Label>
+              <Label style={{marginLeft: 6, marginRight: 2}} check>set wireframe-only</Label>
               <Input type="checkbox" checked={ifWireframeOnly}
               onChange={e => dispatch(ReduxActions.ifJmolWireframeOnly(!ifWireframeOnly))}/> 
             </FormGroup>
-            <FormGroup check inline>
-              <Label style={{marginRight: 5}} check>highlight selected AAs</Label>
-              <Input type="checkbox" checked={ifHighLightSelected}
-              onChange={e => dispatch(ReduxActions.ifJmolHighLightSelected(!ifHighLightSelected))}/> 
-            </FormGroup>
-            <FormGroup style={{marginBottom: 5}} check inline>
-              <Label style={{marginRight: 5}} check>α-carbon backbone only</Label>
+            <FormGroup style={{marginBottom: 2}} check inline>
+              <Label style={{marginRight: 2}} check>α-carbon backbone only</Label>
               <Input type="checkbox" checked={backboneOnly}
               onChange={e => setBackboneOnly(!backboneOnly) } /> 
             </FormGroup>
+            <FormGroup check inline>
+              <Label style={{marginLeft: 6, marginRight: 2, marginBottom: 2}} check>highlight mutated AAs/zoomed AA</Label>
+              <Input type="checkbox" checked={ifHighLightSelected}
+              onChange={e => dispatch(ReduxActions.ifJmolHighLightSelected(!ifHighLightSelected))}/> 
+            </FormGroup>
+            <FormGroup style={{marginBottom: 2}} check inline>
+              <Label style={{marginLeft: 6, marginRight: 3}} >select a chain</Label>
+              <CustomInput type="select" id={`${props.pdbId}_chains`} name="chainSelection"
+              value={selectedChain} onChange={e => setSelectedChain(e.target.value)}
+              style={{ padding: 0, paddingLeft: 2, height: 28, width: 64 }}>
+                <option value="" >None</option>
+            {
+              [ ...new Set(props.goodAcids.concat(props.badAcids).map(item => item.chain))].map(chain => 
+                <option key={`${props.pdbId}_chain_${chain}_option`} value={chain} >{chain}</option> 
+              )
+            }
+              </CustomInput>
+            </FormGroup>
           </Form>
-          <CardText style={{ color: '#FFFF33', textAlign: 'left', marginLeft: 10}}>
+          <CardText style={{ color: '#FFFF33', textAlign: 'left', marginLeft: 6 }}>
             Click checkbox of an AA-sub to mutate in Jmol, 
             switch on for zooming to its position. 
-            If there are multiple different substitutions at one position, 
+            If there are multiple AA-subs at one position, 
             'mutate all' would choose the first AA-sub on list.
           </CardText>
         </ol>

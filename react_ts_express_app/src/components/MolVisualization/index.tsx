@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Dictionary } from 'lodash';
 import { CardTitle, Button, ButtonGroup, Label, Input, 
   Modal, ModalBody, Col, Form, FormGroup } from 'reactstrap';
-import { uniquePdbIds, aaClashPredGoodBad } from '../../shared/Funcs'
+import { uniquePdbIds, aaClashPredGoodBad, uniqueStrings } from '../../shared/Funcs'
 import { switchMolListDisplayMode, switchMolVisChoice, addIndpMolPdbIdQuery, delIndpMolPdbIdQuery, 
   deleteCodeQuery, eraseCodeQueryHistory, setJmolPdbId, set3DmolPdbId } from '../../redux/ActionCreators';
 import './Mol.css';
@@ -97,9 +97,10 @@ const MolComponent: FC<any> = () => {
         }
       }
     }
-    const filterExtraAaSubs = (pdbId: string, aaSubs: Omit<AaSub, 'chain'>[]): AaSub[] => {
+    const filterExtraAaSubs = (pdbId: string, aaSubs: Omit<AaSub, 'chain'>[]): { chainList: string[], aaSubs: AaSub[]} => {
       let entityToChainToLen: Dictionary<Dictionary<string>> = {}; //records maximum residue number of a chain of an entity
       let filteredAaSubs: AaSub[] = [];
+      let chainList = new Array<string>();
 
       axios.get(`https://data.rcsb.org/rest/v1/core/entry/${pdbId}`)
       .then(resp => { 
@@ -124,6 +125,7 @@ const MolComponent: FC<any> = () => {
                       if (dataAsymId === asymId && dataAuthAsymId === authAsymIds[ind]) {         
                         const seqMapping = resp.data["rcsb_polymer_entity_instance_container_identifiers"]["auth_to_entity_poly_seq_mapping"] as string[];
                         entityToChainToLen[entityId][authAsymIds[ind]] = seqMapping[seqMapping.length-1];
+                        chainList.push(authAsymIds[ind]);
                         aaSubs.length > 0 && aaSubs.map(aaSub => {
                           parseInt(aaSub.pos as string) < parseInt(entityToChainToLen[entityId][authAsymIds[ind]]) &&
                           filteredAaSubs.push({ ...aaSub, chain: authAsymIds[ind] })
@@ -141,12 +143,11 @@ const MolComponent: FC<any> = () => {
       })
       .catch((err: Error) => console.log(err.message));
 
-      console.log(JSON.stringify(entityToChainToLen));
       if (filteredAaSubs.length > 0) {
         filteredAaSubs = filteredAaSubs.sort((a, b) => a.chain > b.chain ? -1 : 1)
         .sort((a, b) => a.pos > b.pos ? 1 : -1) 
       }
-      return filteredAaSubs;
+      return { chainList: chainList.sort((a, b) => a > b ? 1 : -1 ), aaSubs: filteredAaSubs };
     }
     
 
@@ -175,39 +176,51 @@ const MolComponent: FC<any> = () => {
                   let aaPosSubList: Array<Omit<AaSub, 'chain'>> = [];
                   let aaPosSubs = indpMolPdbIdQuery.match(/(?<=^\s*>[1-9]\w{3})(\s+\d+[arndcqeghilkmfpstwyv]|\s+\d+)+/gim);
                   aaPosSubs ? 
-                    aaPosSubs[0].toUpperCase().split(/\s+/).filter(str => str.length > 0).map(aaPosSub => {  
-                      const pos = aaPosSub.match(/\d+(?=[arndcqeghilkmfpstwyv]{0,1})/i);
-                      const subTo = aaPosSub.match(/(?<=\d+)[arndcqeghilkmfpstwyv]/i);
-                      pos && !subTo ? aaPosSubList.push({ 
-                        pos: pos[0] as string, target: ''
-                      }) :
-                      pos && subTo && aaPosSubList.push({ 
-                        pos: pos[0] as string, 
-                        target: subTo[0].toUpperCase()
-                      });
-                    }) &&
+                  aaPosSubs[0].toUpperCase().split(/\s+/).filter(str => str.length > 0).map(aaPosSub => {  
+                    const pos = aaPosSub.match(/\d+(?=[arndcqeghilkmfpstwyv]{0,1})/i);
+                    const subTo = aaPosSub.match(/(?<=\d+)[arndcqeghilkmfpstwyv]/i);
+                    pos && !subTo ? aaPosSubList.push({ 
+                      pos: pos[0] as string, target: ''
+                    }) :
+                    pos && subTo && aaPosSubList.push({ 
+                      pos: pos[0] as string, 
+                      target: subTo[0].toUpperCase()
+                    });
+                  }) &&
+                  setTimeout(() => {
+                    const filteredPdbData = filterExtraAaSubs(processedPdbId, aaPosSubList);
                     dispatch(addIndpMolPdbIdQuery(molState.indpPdbIdQueries.jmol.filter(
                       query => query.pdbToLoad !== processedPdbId
                     ).concat({ 
                       pdbToLoad: processedPdbId, 
-                      aaSubs: filterExtraAaSubs(processedPdbId, aaPosSubList) 
-                    }),
-                    molState.molVisChoice)) &&
-                    setTimeout(() => dispatch(setJmolPdbId(processedPdbId)) , 1000) && 
-                    setExtraModalOpen(false) :
+                      aaSubs: filteredPdbData.aaSubs,
+                      chainList: filteredPdbData.chainList
+                    }), molState.molVisChoice)) &&
+                    setTimeout(() => dispatch(setJmolPdbId(processedPdbId)), 1500) && 
+                    setExtraModalOpen(false)
+                  }, 20) :
                   alert('Your query isn\'t correctly formatted!')
                 }
                 else {
                   let aaPoses = indpMolPdbIdQuery.match(/(?<=^\s*>[1-9]\w{3})(\s+\d+)+/gm);
-                  aaPoses ?
-                    dispatch(addIndpMolPdbIdQuery(molState.indpPdbIdQueries.mol3d.filter(
+                  aaPoses ? 
+                  setTimeout(() => {
+                    if (aaPoses) { //verbose but necessary in order to fulfill typescript-check
+                      aaPoses = aaPoses[0].split(/\s+/).filter(str => str.length > 0);
+                      let inputList = new Array<Omit<AaSub, 'chain'>>();
+                      aaPoses.map(aaPos => inputList.push({ pos: aaPos, target: '' }));
+                      const filteredPdbData = filterExtraAaSubs(processedPdbId, inputList);
+                      dispatch(addIndpMolPdbIdQuery(molState.indpPdbIdQueries.mol3d.filter(
                         query => query.pdbToLoad !== processedPdbId
                       ).concat({ 
                         pdbToLoad: processedPdbId, 
-                        aaPoses: aaPoses[0].split(/\s+/).filter(str => str.length > 0) 
-                      }),
-                      molState.molVisChoice)) && dispatch(set3DmolPdbId(processedPdbId)) &&
-                      setExtraModalOpen(false) : 
+                        aaPoses: filteredPdbData.aaSubs,
+                        chainList: filteredPdbData.chainList
+                      }), molState.molVisChoice)) && 
+                      setTimeout(() => dispatch(setJmolPdbId(processedPdbId)), 1500) &&
+                      setExtraModalOpen(false)
+                    } 
+                  }, 20) : 
                   alert('Your query isn\'t correctly formatted!')   
                 }
               }
@@ -218,13 +231,13 @@ const MolComponent: FC<any> = () => {
         } 
         else alert('Your query isn\'t correctly formatted!') 
       }
-
       return (
-      <Modal isOpen={isExtraModalOpen} toggle={toggleExtraModal}>
+      <Modal isOpen={isExtraModalOpen} toggle={toggleExtraModal}
+      style={{ marginLeft: 16, minWidth: 400, maxWidth: 400 }}>
         <ModalBody>
           <Form onSubmit={submitExtraPdbIdInput} onReset={clearExtraPdbIdInput}>
             <FormGroup row>
-              <Col lg={10}>
+              <Col>
                 <Label style={{ marginTop: '0.5rem' }} htmlFor="extraPdbIdInput">
                   Add an extra PDB code-query with AA positions for mol-visualization:
                 </Label>
@@ -256,7 +269,8 @@ const MolComponent: FC<any> = () => {
             </FormGroup>
           </Form>
         </ModalBody>
-      </Modal> )
+      </Modal> 
+      )
     }
     const QueryList: FC<any> = () => (
       <div className='pdb-query-list' style={{ height: 760 }}>        
@@ -380,7 +394,8 @@ const MolComponent: FC<any> = () => {
         }
           </ol>
         </ol>
-      </div> )
+      </div> 
+    )
 
     return (
         <div className="mol-comp under-sticky">

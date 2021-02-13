@@ -180,7 +180,7 @@ export const set3DmolPdbId = (pdbId: string): PayloadAction => ({
   type: ActionTypes.SET_3DMOL_PDB_ID,
   payload: pdbId
 })
-export const set3DmolAaPos = (aaPoses: Array<string>): PayloadAction => ({
+export const set3DmolAaPos = (aaPoses: Array<Omit<AaSub, 'target'|'oldAa'>>): PayloadAction => ({
   type: ActionTypes.SET_3DMOL_AA_POS,
   payload: aaPoses
 })

@@ -19,7 +19,7 @@
   width: 720px;
   height: 760px;
   background-color: #e2f4f4;
-  overflow: hidden scroll;
+  overflow: hidden;
 } 
 #mol3D-div {
   background-color: #e0e0e0;
@@ -43,8 +43,8 @@
   padding: 0;
 }
 .molIndpOptionsList {
-  min-width: 280px;
-  max-width: 280px;
+  min-width: 320px;
+  max-width: 320px;
   padding: 0;
 }
 .aaPosSubGoodItem, .aaPosSubBadItem, .aaPosSubIndpItem {

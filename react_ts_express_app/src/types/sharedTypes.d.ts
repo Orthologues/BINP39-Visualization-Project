@@ -81,12 +81,14 @@ type AaSub = {
 };
 type JmolPdbAaSubs = {
   pdbToLoad: string,
-  aaSubs: Array<AaSub|AaSubDetailed>
+  aaSubs: Array<AaSub|AaSubDetailed>,
+  chainList?: string[];
   zoomedInAa?: AaSub,
 }
 type Mol3DPdbAa = {
   pdbToLoad: string,
-  aaPoses: Array<number | string>
+  aaPoses: Array<Omit<AaSub, 'target'|'oldAa'>>,
+  chainList?: string[];
   zoomedInAa?: string | number,
 }
 type IndpMolQueryPayload = { query: Array<JmolPdbAaSubs|Mol3DPdbAa>, mode: 'Jmol'|"3Dmol" }
