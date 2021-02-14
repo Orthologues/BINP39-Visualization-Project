@@ -122,8 +122,6 @@ const initialMolVisState: MolComponentState = {
   displayMode: 'latest',
   molVisChoice: 'Jmol',
   jmolPdbAaSubs: { pdbToLoad: '', aaSubs: [] },
-  ifJmolWireframeOnly: false,
-  ifJmolHighLightSelected: false,
   mol3DPdbAa: { pdbToLoad: '', aaPoses: [] },
   indpPdbIdQueries: {mol3d: [], jmol: []}
 }
@@ -157,11 +155,8 @@ export const MolVisReducer = (state: MolComponentState = initialMolVisState,
         aaSubs: (action.payload as JmolPdbAaSubs).aaSubs 
       } }
     case ActionTypes.SET_JMOL_ZOOMED_IN_AA:
-      return { ...state, jmolPdbAaSubs: { ...state.jmolPdbAaSubs, zoomedInAa: action.payload } }
-    case ActionTypes.IF_JMOL_HIGHLIGHT_SELECTED:
-      return { ...state, ifJmolHighLightSelected: action.payload }
-    case ActionTypes.IF_JMOL_WIREFRAME_ONLY:
-      return { ...state, ifJmolWireframeOnly: action.payload }
+      return { ...state, jmolPdbAaSubs: { ...state.jmolPdbAaSubs, 
+        zoomedInAa: action.payload as AaSub|AaSubDetailed|undefined } }
     case ActionTypes.ADD_INDP_MOL_PDB_ID_QUERY:
       if ((action.payload as IndpMolQueryPayload).mode === 'Jmol') {
         return { ...state, indpPdbIdQueries: {
@@ -185,7 +180,8 @@ export const MolVisReducer = (state: MolComponentState = initialMolVisState,
     case ActionTypes.SET_3DMOL_AA_POS:
       return { ...state, mol3DPdbAa: { ...state.mol3DPdbAa, aaPoses: action.payload } }
     case ActionTypes.SET_3DMOL_ZOOMED_IN_AA:
-      return { ...state, mol3DPdbAa: { ...state.mol3DPdbAa, zoomedInAa: action.payload } }
+      return { ...state, mol3DPdbAa: { ...state.mol3DPdbAa, 
+        zoomedInAa: action.payload as Omit<AaSub, 'target'|'oldAa'> | undefined} }
     default:
       return state;
   }

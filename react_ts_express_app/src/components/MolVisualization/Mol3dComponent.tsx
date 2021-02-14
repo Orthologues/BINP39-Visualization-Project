@@ -8,8 +8,9 @@ import { AA_1_TO_3, AA_3_TO_1 } from '../../shared/Consts';
 import { FRONTEND_PREFIX } from '../../shared/Consts';
 
 const Mol3D: FC<SubMolProps> = (props) => {
+  const aaPreds = props.aaPreds;
   const dispatch = useDispatch<Dispatch<PayloadAction>>();
-  const zoomedInAa = useSelector<AppReduxState, number|string|undefined>(
+  const zoomedInAa = useSelector<AppReduxState, Omit<AaSub, 'target'|'oldAa'> | undefined>(
     state => state.molVis.mol3DPdbAa.zoomedInAa
   )
   const [molState, setMolState] = useState<MolDisplayState>({ divHidden: true });
@@ -54,7 +55,7 @@ const Mol3D: FC<SubMolProps> = (props) => {
       backgroundColor: 0xe0e0e0,
     };
     if (molState.divHidden === false) {
-      default3DmolView(GLViewerElement, GLViewerConfig);
+      setTimeout(() => default3DmolView(GLViewerElement, GLViewerConfig), 200);
     }
     // eslint-disable-next-line
   }, [props.pdbId, molState]);
@@ -65,7 +66,7 @@ const Mol3D: FC<SubMolProps> = (props) => {
         <CardTitle tag="h6" style={{ marginTop: '12px' }}>Visualization Options</CardTitle>
         <ol className='pdb-query-ol'>
         {
-          props.goodAcids.length > 0 && props.goodAcids.map((item, ind) => 
+          aaPreds.goodList.length > 0 && aaPreds.goodList.map((item, ind) => 
             <li key={`${props.pdbId}_good_acid_${ind}`} className='aaPosSubGoodItem'>
               {item.chain}: {item.oldAa}{item.pos}{item.newAa}
             </li>
@@ -74,7 +75,7 @@ const Mol3D: FC<SubMolProps> = (props) => {
         </ol>
         <ol className='pdb-query-ol'>
         {
-          props.badAcids.length > 0 && props.badAcids.map((item, ind) => 
+          aaPreds.badList.length > 0 && aaPreds.badList.map((item, ind) => 
             <li key={`${props.pdbId}_bad_acid_${ind}`} className='aaPosSubBadItem'>
               {item.chain}: {item.oldAa}{item.pos}{item.newAa}
             </li>

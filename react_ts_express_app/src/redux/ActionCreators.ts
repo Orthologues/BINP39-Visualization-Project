@@ -163,17 +163,9 @@ export const setJmolAaSubList =
   type: ActionTypes.SET_JMOL_AA_SUB_LIST,
   payload: {pdbToLoad: pdbIdQuery, aaSubs: aaSubs} as JmolPdbAaSubs
 }) 
-export const setJmolZoomedInAa = (aaToZoomIn: string|number): PayloadAction => ({
+export const setJmolZoomedInAa = (aaToZoomIn?: AaSub|AaSubDetailed): PayloadAction => ({
   type: ActionTypes.SET_JMOL_ZOOMED_IN_AA,
   payload: aaToZoomIn
-})
-export const ifJmolWireframeOnly = (newVal: boolean): PayloadAction => ({
-  type: ActionTypes.IF_JMOL_WIREFRAME_ONLY,
-  payload: newVal
-})
-export const ifJmolHighLightSelected = (newVal: boolean): PayloadAction => ({
-  type: ActionTypes.IF_JMOL_HIGHLIGHT_SELECTED,
-  payload: newVal
 })
 // Actions for 3Dmol
 export const set3DmolPdbId = (pdbId: string): PayloadAction => ({
@@ -184,7 +176,7 @@ export const set3DmolAaPos = (aaPoses: Array<Omit<AaSub, 'target'|'oldAa'>>): Pa
   type: ActionTypes.SET_3DMOL_AA_POS,
   payload: aaPoses
 })
-export const set3DmolZoomedInAa = (aaToZoomIn: string|number): PayloadAction => ({
+export const set3DmolZoomedInAa = (aaToZoomIn?: Omit<AaSub, 'target' | 'oldAa'>): PayloadAction => ({
   type: ActionTypes.SET_3DMOL_ZOOMED_IN_AA,
   payload: aaToZoomIn
 }) 

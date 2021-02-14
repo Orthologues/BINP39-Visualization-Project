@@ -1,4 +1,4 @@
-import React, { FC, useState, ReactNode } from 'react';
+import React, { FC, useState } from 'react';
 import JsMol from './JmolComponent';
 import Mol3D from './Mol3dComponent';
 import axios from 'axios';
@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Dictionary } from 'lodash';
 import { CardTitle, Button, ButtonGroup, Label, Input, 
   Modal, ModalBody, Col, Form, FormGroup } from 'reactstrap';
-import { uniquePdbIds, aaClashPredGoodBad, uniqueStrings } from '../../shared/Funcs'
+import { uniquePdbIds, aaClashPredGoodBad } from '../../shared/Funcs'
 import { switchMolListDisplayMode, switchMolVisChoice, addIndpMolPdbIdQuery, delIndpMolPdbIdQuery, 
   deleteCodeQuery, eraseCodeQueryHistory, setJmolPdbId, set3DmolPdbId } from '../../redux/ActionCreators';
 import './Mol.css';
@@ -44,7 +44,7 @@ const MolComponent: FC<any> = () => {
         dispatch(eraseCodeQueryHistory()) && dispatch(setJmolPdbId('')) && dispatch(set3DmolPdbId('')) 
       }
     }
-    const deleteExtraPdbIdQUery = (evt: React.MouseEvent<HTMLElement, MouseEvent>, ind: number) => {
+    const deleteExtraPdbIdQuery = (evt: React.MouseEvent<HTMLElement, MouseEvent>, ind: number) => {
       evt.stopPropagation(); 
       const pdbIdToDelete = document.getElementsByClassName('extra-pdb-id-span')[ind].textContent;
       pdbIdToDelete && dispatch(delIndpMolPdbIdQuery(pdbIdToDelete)) && 
@@ -63,6 +63,12 @@ const MolComponent: FC<any> = () => {
             predPdbId = predPdbIdMatch[0].replace(/^\s+|\s+$/g, '').toUpperCase(); 
           }
           if (processedPdbId === predPdbId) {
+            const extraJmolPdbIdSet = [ ...new Set(molState.indpPdbIdQueries.jmol.map(query => 
+              query.pdbToLoad)) ];
+            const extra3DmolPdbIdSet = [ ...new Set(molState.indpPdbIdQueries.mol3d.map(query => 
+              query.pdbToLoad)) ];
+            (extraJmolPdbIdSet.includes(predPdbId) || extra3DmolPdbIdSet.includes(predPdbId)) && 
+             dispatch(delIndpMolPdbIdQuery(predPdbId));
             const goodAas = aaClashPredGoodBad(pred).goodList;
             const badAas = aaClashPredGoodBad(pred).badList;
             allGoodAas = allGoodAas.concat(goodAas); 
@@ -83,6 +89,12 @@ const MolComponent: FC<any> = () => {
             predPdbId = predPdbIdMatch[0].replace(/^\s+|\s+$/g, '').toUpperCase(); 
           }
           if (processedPdbId === predPdbId) {
+            const extraJmolPdbIdSet = [ ...new Set(molState.indpPdbIdQueries.jmol.map(query => 
+              query.pdbToLoad)) ];
+            const extra3DmolPdbIdSet = [ ...new Set(molState.indpPdbIdQueries.mol3d.map(query => 
+              query.pdbToLoad)) ];
+            (extraJmolPdbIdSet.includes(predPdbId) || extra3DmolPdbIdSet.includes(predPdbId)) && 
+             dispatch(delIndpMolPdbIdQuery(predPdbId));
             const goodAas = aaClashPredGoodBad(pred).goodList;
             const badAas = aaClashPredGoodBad(pred).badList;
             allGoodAas = allGoodAas.concat(goodAas); 
@@ -368,13 +380,13 @@ const MolComponent: FC<any> = () => {
             <li key={`indpPdbId_`} className='pdb-query-item-selected'>
               <span className='extra-pdb-id-span'>{query.pdbToLoad}</span>
               <i className="fa fa-trash fa-lg deletion-fa-icon"
-              onClick={ e => deleteExtraPdbIdQUery(e, ind) }></i>
+              onClick={ e => deleteExtraPdbIdQuery(e, ind) }></i>
             </li> : 
             <li key={`indpPdbId_${ind}`} className='pdb-query-item' 
             onClick={() => dispatch(setJmolPdbId(query.pdbToLoad))}>
               <span className='extra-pdb-id-span'>{query.pdbToLoad}</span>
               <i className="fa fa-trash fa-lg deletion-fa-icon"
-              onClick={ e => deleteExtraPdbIdQUery(e, ind) }></i>
+              onClick={ e => deleteExtraPdbIdQuery(e, ind) }></i>
             </li>
           ) :
           molState.indpPdbIdQueries.mol3d.length > 0 &&
@@ -382,13 +394,13 @@ const MolComponent: FC<any> = () => {
             <li key={`indpPdbId_`} className='pdb-query-item-selected'>
               <span className='extra-pdb-id-span'>{query.pdbToLoad}</span>
               <i className="fa fa-trash fa-lg deletion-fa-icon"
-              onClick={ e => deleteExtraPdbIdQUery(e, ind) }></i>
+              onClick={ e => deleteExtraPdbIdQuery(e, ind) }></i>
             </li> : 
             <li key={`indpPdbId_${ind}`} className='pdb-query-item' 
             onClick={() => dispatch(set3DmolPdbId(query.pdbToLoad))}>
               <span className='extra-pdb-id-span'>{query.pdbToLoad}</span>
               <i className="fa fa-trash fa-lg deletion-fa-icon"
-              onClick={ e => deleteExtraPdbIdQUery(e, ind) }></i>
+              onClick={ e => deleteExtraPdbIdQuery(e, ind) }></i>
             </li>
           )
         }
@@ -404,11 +416,9 @@ const MolComponent: FC<any> = () => {
           {
           molState.molVisChoice === 'Jmol' ?
           <JsMol pdbId={molState.jmolPdbAaSubs.pdbToLoad} 
-          goodAcids={aggregateAaListForPdbId(molState.jmolPdbAaSubs.pdbToLoad).goodList}
-          badAcids={aggregateAaListForPdbId(molState.jmolPdbAaSubs.pdbToLoad).badList} /> :
+          aaPreds={aggregateAaListForPdbId(molState.jmolPdbAaSubs.pdbToLoad)} /> :
           <Mol3D pdbId={molState.mol3DPdbAa.pdbToLoad} 
-          goodAcids={aggregateAaListForPdbId(molState.mol3DPdbAa.pdbToLoad).goodList}
-          badAcids={aggregateAaListForPdbId(molState.mol3DPdbAa.pdbToLoad).badList} />
+          aaPreds={aggregateAaListForPdbId(molState.mol3DPdbAa.pdbToLoad)} />
           }
         </div>
     )

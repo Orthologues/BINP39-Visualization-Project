@@ -83,28 +83,33 @@ type JmolPdbAaSubs = {
   pdbToLoad: string,
   aaSubs: Array<AaSub|AaSubDetailed>,
   chainList?: string[];
-  zoomedInAa?: AaSub,
+  zoomedInAa?: AaSub|AaSubDetailed,
 }
 type Mol3DPdbAa = {
   pdbToLoad: string,
   aaPoses: Array<Omit<AaSub, 'target'|'oldAa'>>,
   chainList?: string[];
-  zoomedInAa?: string | number,
+  zoomedInAa?: Omit<AaSub, 'target' | 'oldAa'>,
 }
 type IndpMolQueryPayload = { query: Array<JmolPdbAaSubs|Mol3DPdbAa>, mode: 'Jmol'|"3Dmol" }
 type MolComponentState = {
   displayMode: 'latest' | 'history',
   molVisChoice: 'Jmol'|'3Dmol',
   jmolPdbAaSubs: JmolPdbAaSubs,
-  ifJmolWireframeOnly: boolean,
-  ifJmolHighLightSelected: boolean,
   mol3DPdbAa: Mol3DPdbAa,
   indpPdbIdQueries: {mol3d: Array<Mol3DPdbAa>, jmol: Array<JmolPdbAaSubs>}
 }
 type MolDisplayState = {
   divHidden: boolean;
 };
-type SubMolProps = { pdbId: string, goodAcids: Array<AaSubDetailed>, badAcids: Array<AaSubDetailed> }
+type SubMolProps = { pdbId: string, aaPreds: { goodList: Array<AaSubDetailed>, badList: Array<AaSubDetailed> } }
+type JmolDisplayOptions = {
+  backboneOnly: boolean;
+  alphaCbOnly: boolean;
+  highLightSelected: boolean;
+  wireFrameOnly: boolean;
+  selectedChain: string; //select a whole sidechain and highlight it
+}
 
 // combined store for App
 type AppReduxState = { aaClashQuery: AaClashQueryState, rcsbGraphQl: RcsbGraphQlState, molVis: MolComponentState } 
