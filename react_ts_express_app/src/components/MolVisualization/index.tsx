@@ -239,7 +239,7 @@ const MolComponent: FC<any> = () => {
               else alert('Your PDB-id query is already existent in query history!')
             }
           }})
-          .catch((err: Error) => alert(`${err.message}. The query you type isn't a published PDB-ID at RCSB-PDB!`))
+          .catch((err: Error) => alert(`Network error, or the query you type isn't a published PDB-ID at RCSB-PDB!`))
         } 
         else alert('Your query isn\'t correctly formatted!') 
       }

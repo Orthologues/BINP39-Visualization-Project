@@ -97,9 +97,13 @@ const JsMol: FC<SubMolProps> = (props) => {
   };
   // Jmol Commmands, get updated by useSelector/useState hooks
   const wireFrameCmd = () => (wireFrameOnly ? 'wireframe only;' : '');
-  const mutationHighlightCmd = () => {
-    let cmd = '';
-    if (!zoomedInAa) {
+  const mutationSelCmd = () => {
+    let cmd = '', selList = '';
+    if (!zoomedInAa && aaSubList.length > 0 && selectedChain === '') {
+      aaSubList.map((aaSub, ind) => {
+        selList = `${selList}${ind > 0 ? ' or ' : ''}${aaSub.pos}:${aaSub.chain}${alphaCbOnly ? '.CA' : ''}`
+      });
+      cmd = `select "${selList}"`;
     }
     return cmd;
   };
@@ -140,11 +144,9 @@ const JsMol: FC<SubMolProps> = (props) => {
   };
   const zoomInCmd = () => {
     let cmd = '';
-    if (zoomedInAa && !highLightSelected) {
-      setDisplayOptions((prev) => ({ ...prev, highLightSelected: true }));
+    if (zoomedInAa) {
       cmd = `select ${zoomedInAa.pos}:${zoomedInAa.chain}${alphaCbOnly ? '.CA' : ''}; 
-      center SELECTED; zoom ${mutationCmd() === '' ? '3000' : '8000'}; zoomto; color white; 
-      label %[covalentRadius]; color labels green;`;
+      center SELECTED; zoom 2000; color white; `;
     }
     return cmd;
   };
@@ -160,8 +162,10 @@ const JsMol: FC<SubMolProps> = (props) => {
       serverURL: `${FRONTEND_PREFIX}/assets/JSmol/php/jsmol.php`,
       script: `
       set antialiasDisplay; set hoverDelay 0.1; load =${pdbCode};
-      ${chainSelCmd()} ${mutationCmd()} ${mutationHighlightCmd()}
+      ${mutationCmd()} ${mutationSelCmd()} ${chainSelCmd()} 
       ${wireFrameCmd()} ${backboneOnlyCmd()} ${zoomInCmd()} ${highlightSelectedCmd()} 
+      ${zoomInCmd() === '' && mutationSelCmd() === '' ? '' 
+        : 'label %[covalentRadius]; color labels yellow;'}
       `,
       use: 'html5',
     };
@@ -171,24 +175,22 @@ const JsMol: FC<SubMolProps> = (props) => {
   useLayoutEffect(() => {
     //this function loads synchronously right after any DOM mutation
     appendAsyncScript(`${FRONTEND_PREFIX}/assets/JSmol/JSmol-min.js`);
-    props.pdbId !== '' &&
-      setTimeout(() => setMolState({ divHidden: false }), 100);
     return () => {
       removeAsyncScriptBySrc(`${FRONTEND_PREFIX}/assets/JSmol/JSmol-min.js`);
     };
   }, []);
   useEffect(() => {
-    molState.divHidden === false &&
-      setTimeout(() => renderJSmolHTML(props.pdbId), 100);
-  }, [molState, displayOptions]);
-  useEffect(() => {
-    setDisplayOptions((prevState) => ({ ...prevState, selectedChain: '', highLightSelected: false }));
     props.pdbId === ''
-      ? setTimeout(() => setMolState({ divHidden: true }), 100)
-      : setTimeout(() => setMolState({ divHidden: false }), 100);
+      ? setTimeout(() => setMolState({ divHidden: true }), 50)
+      : setTimeout(() => { 
+        setMolState({ divHidden: false });
+        setDisplayOptions((prevState) => ({ ...prevState, selectedChain: '', highLightSelected: false }));
+      }, 50);
+  }, [props.pdbId]);
+  useEffect(() => {
     molState.divHidden === false &&
-      setTimeout(() => renderJSmolHTML(props.pdbId), 100);
-  }, [props.pdbId, aaSubList, zoomedInAa]);
+      setTimeout(() => renderJSmolHTML(props.pdbId), 50);
+  }, [displayOptions, aaSubList, zoomedInAa]);
 
   return (
     <div className="mol-wrapper container-fluid row">
@@ -252,6 +254,7 @@ const JsMol: FC<SubMolProps> = (props) => {
                   name="extraChainSelection"
                   value={selectedChain}
                   onChange={(e) => {
+                    zoomedInAa && dispatch(ReduxActions.setJmolZoomedInAa(undefined));
                     !(wireFrameOnly || backboneOnly || highLightSelected)
                     ? setDisplayOptions((prev) => ({ ...prev, highLightSelected: true, 
                       selectedChain: e.target.value }))
@@ -287,10 +290,12 @@ const JsMol: FC<SubMolProps> = (props) => {
                     const targetQuery = indpJmolQueries.filter(
                       (query) => query.pdbToLoad === props.pdbId
                     )[0];
-                    !e.target.checked 
+                    if (targetQuery) {
+                      !e.target.checked 
                       ? dispatch(ReduxActions.setJmolAaSubList(props.pdbId, []))
                       : targetQuery && 
-                        dispatch(ReduxActions.setJmolAaSubList(props.pdbId, processMutateAll(targetQuery.aaSubs)))
+                        dispatch(ReduxActions.setJmolAaSubList(props.pdbId, processMutateAll(targetQuery.aaSubs)));
+                    }
                   }}
                 />
               </FormGroup>
@@ -305,72 +310,93 @@ const JsMol: FC<SubMolProps> = (props) => {
                 Click checkbox of an AA-sub to mutate in Jmol, switch on for
                 zooming to its position. If there're multiple AA-subs at one
                 position, 'mutate all' would choose the first AA-sub on list.
-                Green label of a selected atom implies its covalent bonding
+                Yellow label of a selected atom implies its covalent bonding
                 radius(0.4 unit = 0.001 Å).
               </CardText>
             </Form>
             <p style={{ marginBottom: 5 }}>AA-Subs without prediction</p>
-            {indpJmolQueries.map(
-              (query) =>
-                query.pdbToLoad === props.pdbId &&
-                query.aaSubs
-                  .sort((a, b) =>
-                    parseInt(a.pos.toString()) > parseInt(b.pos.toString())
-                      ? 1
-                      : -1
-                  )
-                  .map((aaSub, ind) =>
-                    (aaSub as AaSub).target.length === 0 ? (
-                      AMINO_ACIDS.map((AA) => (
-                        <li
-                          key={`indp_${props.pdbId}_acid_${ind}_${AA}`}
-                          className="aaPosSubIndpItem"
-                        >
-                          <Row style={{ marginLeft: '2rem' }}>
-                            <FormGroup check inline>
-                              <Input
-                                type="checkbox"
-                                checked={aaSubList.includes(aaSub as AaSub)}
-                                style={{ marginRight: 24 }}
-                              />
-                              <CustomInput
-                                inline
-                                type="switch"
-                                id={`zoom_to_indp_${aaSub.pos}${AA}`}
-                                label={`${aaSub.chain}: ${aaSub.pos}${AA}(${AA_1_TO_3[AA]})`}
-                              />
-                            </FormGroup>
-                          </Row>
-                        </li>
-                      ))
-                    ) : (
-                      <li
-                        key={`indp_${props.pdbId}_acid_${ind}`}
-                        className="aaPosSubIndpItem"
-                      >
+            {indpJmolQueries.map(query =>
+              query.pdbToLoad === props.pdbId &&
+              query.aaSubs
+                .sort((a, b) => parseInt(a.pos.toString()) > parseInt(b.pos.toString()) ? 1 : -1)
+                .map((aaSub, ind) =>
+                  (aaSub as AaSub).target.length === 0 ? (
+                    AMINO_ACIDS.map((AA) => (
+                      <li key={`indp_${props.pdbId}_acid_${ind}_${AA}`} className="aaPosSubIndpItem">
                         <Row style={{ marginLeft: '2rem' }}>
                           <FormGroup check inline>
                             <Input
                               type="checkbox"
-                              checked={aaSubList.includes(aaSub as AaSub)}
+                              checked={aaSubList.some(item => JSON.stringify(aaSub) === 
+                                JSON.stringify({...item, target: AA}))
+                              }
+                              onChange={ e => {
+                                !e.target.checked 
+                                ? dispatch(ReduxActions.setJmolAaSubList(props.pdbId, aaSubList.filter(item =>
+                                    JSON.stringify({...item, chain: '', oldAa: ''}) !== 
+                                    JSON.stringify({...aaSub, chain: '', oldAa: ''})     
+                                  ))) 
+                                : dispatch(ReduxActions.setJmolAaSubList(props.pdbId, 
+                                  processSingleMutation({ ...aaSub, target: AA }, aaSubList))) 
+                              }}
                               style={{ marginRight: 24 }}
                             />
                             <CustomInput
                               inline
                               type="switch"
-                              id={`zoom_to_indp_${aaSub.pos}${
-                                (aaSub as AaSub).target
-                              }`}
-                              label={`${aaSub.chain}: ${aaSub.pos}${
-                                (aaSub as AaSub).target
-                              }(${AA_1_TO_3[(aaSub as AaSub).target]})`}
+                              checked={JSON.stringify(zoomedInAa) === JSON.stringify({...aaSub, target: AA} as AaSub)}
+                              onChange={ e => {
+                                !e.target.checked 
+                                ? dispatch(ReduxActions.setJmolZoomedInAa(undefined)) 
+                                : dispatch(ReduxActions.setJmolZoomedInAa(aaSub)) 
+                              }}
+                              id={`zoom_to_indp_${aaSub.pos}${AA}`}
+                              label={`${aaSub.chain}: ${aaSub.pos}${AA}(${AA_1_TO_3[AA]})`}
                             />
                           </FormGroup>
                         </Row>
                       </li>
-                    )
+                    ))
+                  ) : (
+                    <li key={`indp_${props.pdbId}_acid_${ind}`} className="aaPosSubIndpItem">
+                      <Row style={{ marginLeft: '2rem' }}>
+                        <FormGroup check inline>
+                          <Input
+                            type="checkbox"
+                            checked={aaSubList.some(item => JSON.stringify(aaSub) === JSON.stringify(item))}
+                            onChange={ e => {
+                              !e.target.checked 
+                              ? dispatch(ReduxActions.setJmolAaSubList(props.pdbId, aaSubList.filter(item =>
+                                  JSON.stringify({...item, chain: '', oldAa: ''}) !== 
+                                  JSON.stringify({...aaSub, chain: '', oldAa: ''}) 
+                                ))) 
+                              : dispatch(ReduxActions.setJmolAaSubList(props.pdbId, 
+                                processSingleMutation(aaSub, aaSubList))) 
+                            }}
+                            style={{ marginRight: 24 }}
+                          />
+                          <CustomInput
+                            inline
+                            type="switch"
+                            id={`zoom_to_indp_${aaSub.pos}${
+                              (aaSub as AaSub).target
+                            }`}
+                            label={`${aaSub.chain}: ${aaSub.pos}${
+                              (aaSub as AaSub).target
+                            }(${AA_1_TO_3[(aaSub as AaSub).target]})`}
+                            checked={JSON.stringify(zoomedInAa) === JSON.stringify(aaSub)}
+                            onChange={ e => {
+                              !e.target.checked 
+                              ? dispatch(ReduxActions.setJmolZoomedInAa(undefined)) 
+                              : dispatch(ReduxActions.setJmolZoomedInAa(aaSub)) 
+                            }}
+                          />
+                        </FormGroup>
+                      </Row>
+                    </li>
                   )
-            )}
+                )
+            ) }
           </ol>
         </div>
       ) : (
@@ -438,6 +464,7 @@ const JsMol: FC<SubMolProps> = (props) => {
                   name="chainSelection"
                   value={selectedChain}
                   onChange={(e) => {
+                    zoomedInAa && dispatch(ReduxActions.setJmolZoomedInAa(undefined));
                     !(wireFrameOnly || backboneOnly || highLightSelected)
                     ? setDisplayOptions((prev) => ({ ...prev, highLightSelected: true, 
                       selectedChain: e.target.value }))
@@ -466,7 +493,7 @@ const JsMol: FC<SubMolProps> = (props) => {
               Click checkbox of an AA-sub to mutate in Jmol, switch on for
               zooming to its position. If there are multiple AA-subs at one
               position, 'mutate all' would choose the first AA-sub on list.
-              Green label of a selected atom implies its covalent bonding
+              Yellow label of a selected atom implies its covalent bonding
               radius(0.4 unit = 0.001 Å).
             </CardText>
           </ol>
@@ -479,6 +506,7 @@ const JsMol: FC<SubMolProps> = (props) => {
                   </Label>
                   <Input
                     type="checkbox" id="mutate_all_good_checkbox"
+                    checked={JSON.stringify(aaSubList) === JSON.stringify(processMutateAll(aaPreds.goodList))}
                     onChange={(e) => {
                       const mutateAllBadEl = document.getElementById('mutate_all_bad_checkbox') as HTMLInputElement;
                       const processedAaSubs = processMutateAll(aaPreds.goodList.
@@ -487,7 +515,7 @@ const JsMol: FC<SubMolProps> = (props) => {
                         ? (!mutateAllBadEl || !mutateAllBadEl.checked)
                           ? dispatch(ReduxActions.setJmolAaSubList(props.pdbId, []))
                           : dispatch(ReduxActions.setJmolAaSubList(props.pdbId, processMutateAll(aaPreds.badList)))
-                        : dispatch(ReduxActions.setJmolAaSubList(props.pdbId, processedAaSubs));
+                        : dispatch(ReduxActions.setJmolAaSubList(props.pdbId, processedAaSubs))
                     }}
                   />
                 </FormGroup>
@@ -504,13 +532,28 @@ const JsMol: FC<SubMolProps> = (props) => {
                             type="checkbox"
                             style={{ marginRight: 24 }}
                             id={`mutate_${item.chain}_${item.oldAa}${item.pos}${item.newAa}`}
-                            checked={aaSubList.includes(item as AaSubDetailed)}
+                            checked={aaSubList.some(aaSub => JSON.stringify(aaSub) === JSON.stringify(item))}
+                            onChange={ e => {
+                              !e.target.checked 
+                              ? dispatch(ReduxActions.setJmolAaSubList(props.pdbId, aaSubList.filter(aaSub =>
+                                  JSON.stringify({...item, chain: '', oldAa: ''}) !== 
+                                  JSON.stringify({...aaSub, chain: '', oldAa: ''}) 
+                                ))) 
+                              : dispatch(ReduxActions.setJmolAaSubList(props.pdbId, 
+                                processSingleMutation(item, aaSubList))) 
+                            }}
                           />
                           <CustomInput
                             type="switch"
                             inline
                             id={`zoom_to_${item.chain}_${item.oldAa}${item.pos}${item.newAa}`}
                             label={`${item.chain}: ${item.oldAa}${item.pos}${item.newAa}`}
+                            checked={JSON.stringify(zoomedInAa) === JSON.stringify(item)}
+                            onChange={ e => {
+                              !e.target.checked 
+                              ? dispatch(ReduxActions.setJmolZoomedInAa(undefined)) 
+                              : dispatch(ReduxActions.setJmolZoomedInAa(item)) 
+                            }}
                           />
                         </FormGroup>
                       </Row>
@@ -526,6 +569,7 @@ const JsMol: FC<SubMolProps> = (props) => {
                   </Label>
                   <Input
                     type="checkbox" id="mutate_all_bad_checkbox"
+                    checked={JSON.stringify(aaSubList) === JSON.stringify(processMutateAll(aaPreds.badList))}
                     onChange={(e) => {
                       const mutateAllGoodEl = document.getElementById('mutate_all_good_checkbox') as HTMLInputElement;
                       const processedAaSubs = processMutateAll(aaPreds.badList.
@@ -534,7 +578,7 @@ const JsMol: FC<SubMolProps> = (props) => {
                         ? (!mutateAllGoodEl || !mutateAllGoodEl.checked)
                           ? dispatch(ReduxActions.setJmolAaSubList(props.pdbId, []))
                           : dispatch(ReduxActions.setJmolAaSubList(props.pdbId, processMutateAll(aaPreds.goodList)))
-                        : dispatch(ReduxActions.setJmolAaSubList(props.pdbId, processedAaSubs));
+                        : dispatch(ReduxActions.setJmolAaSubList(props.pdbId, processedAaSubs))
                     }}
                   />
                 </FormGroup>
@@ -551,13 +595,28 @@ const JsMol: FC<SubMolProps> = (props) => {
                             type="checkbox"
                             style={{ marginRight: 24 }}
                             id={`mutate_${item.chain}_${item.oldAa}${item.pos}${item.newAa}`}
-                            checked={aaSubList.includes(item as AaSubDetailed)}
+                            checked={aaSubList.some(aaSub => JSON.stringify(aaSub) === JSON.stringify(item))}
+                            onChange={ e => {
+                              !e.target.checked 
+                              ? dispatch(ReduxActions.setJmolAaSubList(props.pdbId, aaSubList.filter(aaSub =>
+                                  JSON.stringify({...item, chain: '', oldAa: ''}) !== 
+                                  JSON.stringify({...aaSub, chain: '', oldAa: ''}) 
+                                ))) 
+                              : dispatch(ReduxActions.setJmolAaSubList(props.pdbId, 
+                                processSingleMutation(item, aaSubList))) 
+                            }}
                           />
                           <CustomInput
                             type="switch"
                             inline
                             id={`zoom_to_${item.chain}_${item.oldAa}${item.pos}${item.newAa}`}
                             label={`${item.chain}: ${item.oldAa}${item.pos}${item.newAa}`}
+                            checked={JSON.stringify(zoomedInAa) === JSON.stringify(item)}
+                            onChange={ e => {
+                              !e.target.checked 
+                              ? dispatch(ReduxActions.setJmolZoomedInAa(undefined)) 
+                              : dispatch(ReduxActions.setJmolZoomedInAa(item)) 
+                            }}
                           />
                         </FormGroup>
                       </Row>
