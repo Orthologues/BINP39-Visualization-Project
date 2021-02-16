@@ -25,13 +25,7 @@ const Mol3D: FC<SubMolProps> = (props) => {
   };
   const default3DmolView = (element: JQuery<HTMLElement>, config: object) => {
     let viewer: $3Dmol.GLViewer = $3Dmol.createViewer(element, config);
-    $3Dmol.download(
-      `pdb:${processedPdbId(props.pdbId)}`,
-      viewer,
-      {
-        onemol: true,
-        multimodel: true,
-      },
+    $3Dmol.download(`pdb:${processedPdbId(props.pdbId)}`, viewer, { onemol: true, multimodel: true },
       (model) => {
         model.setStyle({}, { stick: {} });
         viewer.zoomTo();
@@ -55,7 +49,7 @@ const Mol3D: FC<SubMolProps> = (props) => {
       backgroundColor: 0xe0e0e0,
     };
     if (molState.divHidden === false) {
-      setTimeout(() => default3DmolView(GLViewerElement, GLViewerConfig), 200);
+      setTimeout(() => default3DmolView(GLViewerElement, GLViewerConfig), 100);
     }
     // eslint-disable-next-line
   }, [props.pdbId, molState]);

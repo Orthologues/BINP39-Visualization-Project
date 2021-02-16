@@ -11,6 +11,7 @@ import { uniquePdbIds, aaClashPredGoodBad } from '../../shared/Funcs'
 import { switchMolListDisplayMode, switchMolVisChoice, addIndpMolPdbIdQuery, delIndpMolPdbIdQuery, 
   deleteCodeQuery, eraseCodeQueryHistory, setJmolPdbId, set3DmolPdbId } from '../../redux/ActionCreators';
 import './Mol.css';
+import { AMINO_ACIDS } from '../../shared/Consts';
 
 
 const MolComponent: FC<any> = () => {
@@ -109,9 +110,10 @@ const MolComponent: FC<any> = () => {
         }
       }
     }
-    const filterExtraAaSubs = (pdbId: string, aaSubs: Omit<AaSub, 'chain'>[]): { chainList: string[], aaSubs: AaSub[]} => {
+    const filterExtraAaSubs = (pdbId: string, aaSubs: Omit<AaSub, 'chain'>[], mode: 'Jmol'|'3Dmol'): 
+    { chainList: string[], aaSubs: AaSub[] } => {
       let entityToChainToLen: Dictionary<Dictionary<string>> = {}; //records maximum residue number of a chain of an entity
-      let filteredAaSubs: AaSub[] = [];
+      let filteredAaSubs: AaSub[] = [],  jmolAaSubs: AaSub[] = [];
       let chainList = new Array<string>();
 
       axios.get(`https://data.rcsb.org/rest/v1/core/entry/${pdbId}`)
@@ -139,27 +141,29 @@ const MolComponent: FC<any> = () => {
                         entityToChainToLen[entityId][authAsymIds[ind]] = seqMapping[seqMapping.length-1];
                         chainList.push(authAsymIds[ind]);
                         aaSubs.length > 0 && aaSubs.map(aaSub => {
-                          parseInt(aaSub.pos as string) < parseInt(entityToChainToLen[entityId][authAsymIds[ind]]) &&
-                          filteredAaSubs.push({ ...aaSub, chain: authAsymIds[ind] })
+                          if (parseInt(aaSub.pos as string) < parseInt(entityToChainToLen[entityId][authAsymIds[ind]])) {
+                            let newAaSub = { ...aaSub, chain: authAsymIds[ind] };
+                            filteredAaSubs.push(newAaSub);
+                            newAaSub.target === '' 
+                              ? AMINO_ACIDS.map(AA => jmolAaSubs.push({...newAaSub, target: AA})) 
+                              : jmolAaSubs.push(newAaSub)
+                          }
+                          
                         })
                       }
                     }
                   })
                   .catch((err: Error) => console.log(err.message))
-                });  
+                })
               }
             }
           })
-          .catch((err: Error) => console.log(err.message));
-        });
+          .catch((err: Error) => console.log(err.message))
+        })
       })
       .catch((err: Error) => console.log(err.message));
-
-      if (filteredAaSubs.length > 0) {
-        filteredAaSubs = filteredAaSubs.sort((a, b) => a.chain > b.chain ? -1 : 1)
-        .sort((a, b) => a.pos > b.pos ? 1 : -1) 
-      }
-      return { chainList: chainList.sort((a, b) => a > b ? 1 : -1 ), aaSubs: filteredAaSubs };
+      return { chainList: chainList.sort((a, b) => a > b ? 1 : -1 ), 
+        aaSubs: mode === 'Jmol' ? jmolAaSubs : filteredAaSubs };
     }
     
 
@@ -200,7 +204,7 @@ const MolComponent: FC<any> = () => {
                     });
                   }) &&
                   setTimeout(() => {
-                    const filteredPdbData = filterExtraAaSubs(processedPdbId, aaPosSubList);
+                    const filteredPdbData = filterExtraAaSubs(processedPdbId, aaPosSubList, 'Jmol');
                     dispatch(addIndpMolPdbIdQuery(molState.indpPdbIdQueries.jmol.filter(
                       query => query.pdbToLoad !== processedPdbId
                     ).concat({ 
@@ -221,7 +225,7 @@ const MolComponent: FC<any> = () => {
                       aaPoses = aaPoses[0].split(/\s+/).filter(str => str.length > 0);
                       let inputList = new Array<Omit<AaSub, 'chain'>>();
                       aaPoses.map(aaPos => inputList.push({ pos: aaPos, target: '' }));
-                      const filteredPdbData = filterExtraAaSubs(processedPdbId, inputList);
+                      const filteredPdbData = filterExtraAaSubs(processedPdbId, inputList, '3Dmol');
                       dispatch(addIndpMolPdbIdQuery(molState.indpPdbIdQueries.mol3d.filter(
                         query => query.pdbToLoad !== processedPdbId
                       ).concat({ 
