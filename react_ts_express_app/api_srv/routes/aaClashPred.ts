@@ -113,9 +113,20 @@ const handlePdbCodeQuery = (req: Request, res: Response) => {
         const pdbCodePredPyShell = new PythonShell('prediction_aaclash.py', pyShellOptions);
         pdbCodePredPyShell.on('message', (aaClashResults: Omit<AaClashPredData, 'queryId'>[]) => {
             // catch stdout of the Python script (a simple "print" statement)
-            aaClashResults.map((aaClashResult, ind) => {
-                const aaClashData: AaClashPredData = { queryId: aaClashQueries[ind].queryId, ...aaClashResult };
-                dataToClient.aaClash.push(JSON.parse(JSON.stringify(aaClashData)));
+            aaClashResults.map(aaClashResult => {
+                let jobNameSuffix = aaClashResult.jobName?.match(/(?<=\w+_)[1-9]\w{3}/i);
+                if (jobNameSuffix) {
+                  let pdbIdSuffix = jobNameSuffix[0].toUpperCase(); 
+                  let matchedQuery = aaClashQueries.filter(el => {
+                    let pdbIdPrefixMatch = el.queryId.match(/[1-9]\w{3}(?=_\w+)/i);
+                    if (pdbIdPrefixMatch) {
+                        let pdbIdPrefix = pdbIdPrefixMatch[0].toUpperCase();
+                        if (pdbIdPrefix === pdbIdSuffix) return el;
+                    }
+                  })[0];
+                  const aaClashData: AaClashPredData = { queryId: matchedQuery.queryId, ...aaClashResult };
+                  dataToClient.aaClash.push(JSON.parse(JSON.stringify(aaClashData)));
+                }
             });
         });
 

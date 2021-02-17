@@ -21,7 +21,7 @@ declare module $3Dmol {
     fontOpacity?: number;
     borderThickness?: number;
     borderColor?: ColorSpec;
-    borderOpacity?: string;
+    borderOpacity?: string|number;
     backgroundColor?: ColorSpec;
     backgroundOpacity?: number;
     position: { x: number; y: number; z: number };
@@ -91,7 +91,7 @@ declare module $3Dmol {
     elem?: string;
     hetflag?: boolean;
     chain?: string;
-    resi?: number;
+    resi?: number|Array<string>|string;
     icode?: number;
     rescode?: number;
     serial?: number;
@@ -185,6 +185,9 @@ declare module $3Dmol {
      * style:
      * add: If true, add to current style, don't replace.'
      */
+    setClickable(sel: AtomSelectionSpec, clickable: boolean, callback: () => any): void;
+    setHoverable(sel: AtomSelectionSpec, hoverable: boolean, hover_callback: () => any, 
+    unhover_callback: () => any): void;
     setStyle(sel: AtomSelectionSpec, style: AtomStyleSpec, add?: boolean): void;
     /**
      * Convert the model into an object in the format of a ChemDoodle JSON model.
@@ -227,7 +230,7 @@ declare module $3Dmol {
     /**
      * Add label to viewer.
      */
-    addLabel(text: string, data: LabelSpec): Label;
+    addLabel(text: string, data: LabelSpec, sel?: AtomSelectionSpec): Label;
     /**
      * Create and add line shape.
      * spec: Style specification, can specify dashed, fashLength, and gapLength.
@@ -318,7 +321,7 @@ declare module $3Dmol {
      * animationDuration Denotes the duration of a zoom animation.
      */
     zoom(factor?: number, animationDuration?: number): void;
-    zoomTo();
+    zoomTo(sel?: AtomSelectionSpec, animationDuration?: number);
   }
 
   function createViewer(element, config): GLViewer;

@@ -18,12 +18,9 @@
   margin: 0 auto 0 0;
   width: 720px;
   height: 760px;
-  background-color: #e2f4f4;
+  background-color: #fff8f9;
   overflow: hidden;
 } 
-#mol3D-div {
-  background-color: #e0e0e0;
-}
 .mol3dNav:hover, .jsmolNav:hover {
   background-color: #198396;
 }
@@ -47,7 +44,7 @@
   max-width: 320px;
   padding: 0;
 }
-.aaPosSubGoodItem, .aaPosSubBadItem, .aaPosSubIndpItem {
+.aaPosSubGoodItem, .aaPosSubBadItem, .aaPosSubIndpItem, .aaPosSubMutatedItem {
   font-size: 16px;
   padding-top: 5px;
   padding-bottom: 5px;
@@ -57,7 +54,8 @@
 }
 .aaPosSubGoodItem { color: #90ee90 }
 .aaPosSubBadItem { color: #ff4500 }
-.aaPosSubIndpItem { color: #FFFF33 }
+.aaPosSubIndpItem { color: #ffffff }
+.aaPosSubMutatedItem { color: #FFFF33 }
 
 
 
