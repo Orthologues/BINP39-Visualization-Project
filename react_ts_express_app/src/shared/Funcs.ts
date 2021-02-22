@@ -151,10 +151,10 @@ export const uniqueStrings = (query: Array<string>): Array<string> => {
 
 // function(s) to beautify & format results of AA-Clash prediction
 export const formattedAaClashPred = (aaClashPred: AaClashPredData): 
-{ goodList: Array<string>, badList: Array<string> } => {
+{ goodList: Array<AaSubDetailed>, badList: Array<AaSubDetailed> } => {
    const goodAAs = aaClashPred.goodAcids as Dictionary<Dictionary<string>>;
    const badAAs = aaClashPred.badAcids as Dictionary<string[]>;
-   const output = { goodList: <Array<string>>[] , badList: <Array<string>>[] };
+   const output = { goodList: [] as Array<AaSubDetailed>, badList: [] as Array<AaSubDetailed> };
    Object.keys(goodAAs).map(chain_pos => {
      let chain=''; 
      let pos='';
@@ -171,18 +171,34 @@ export const formattedAaClashPred = (aaClashPred: AaClashPredData):
      if ( !isEmpty(goodAAs[chain_pos]) ) {
        Object.keys(goodAAs[chain_pos]).map(goodAA => {
          (chain.length > 0 && pos.length > 0) && 
-         output.goodList.push(`${old_aa}${pos.substring(1, pos.length)}${AA_3_TO_1[goodAA]} (chain: ${chain}, ${AA_1_TO_3[old_aa]}->${goodAA})`)
+         output.goodList.push({
+           chain: chain,
+           oldAa: old_aa,
+           pos: parseInt(pos.substring(1, pos.length)),
+           newAa: AA_3_TO_1[goodAA],
+           pred: 'good'
+         })
        });
      } 
      if (badAAs[chain_pos].length > 0){
        badAAs[chain_pos].map(badAA => {
          (chain.length > 0 && pos.length > 0) && 
-         output.badList.push(`${old_aa}${pos.substring(1, pos.length)}${AA_3_TO_1[badAA]} (chain: ${chain}, ${AA_1_TO_3[old_aa]}->${badAA})`)
+         output.badList.push({
+          chain: chain,
+          oldAa: old_aa,
+          pos: parseInt(pos.substring(1, pos.length)),
+          newAa: AA_3_TO_1[badAA],
+          pred: 'bad'
+        })
        })
      }
    });
    return output;
 }
+export const parseAaSubDetailedToStr = (aaSub: AaSubDetailed): string => {
+  return `${aaSub.oldAa}${aaSub.pos}${aaSub.newAa} (chain: ${aaSub.chain}, ${AA_1_TO_3[aaSub.oldAa]}->${AA_1_TO_3[aaSub.newAa]})`
+}
+
 export const aaClashPredGoodBad = (aaClashPred: AaClashPredData): 
 { goodList: Array<AaSubDetailed>, badList: Array<AaSubDetailed> } => {
    const goodAAs = aaClashPred.goodAcids as Dictionary<Dictionary<string>>;

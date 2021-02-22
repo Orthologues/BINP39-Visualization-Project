@@ -1,8 +1,9 @@
 // this module defines backend operations of 'http(s)://api.structure.bmc.lu.se/pon-scp/pred'
 
 import { Request, Response } from 'express';
-import { PY_PATH, AA_CLASH_PREFIX } from '../constants.js'
-import { Options, PythonShell, PythonShellError } from 'python-shell'
+import { PY_PATH, AA_CLASH_PREFIX } from '../constants.js';
+import { Options, PythonShell, PythonShellError } from 'python-shell';
+import nodemailer from 'nodemailer';
 import fs from 'fs';
 
 // type declarations only for dev, erased after compilation to ecma-script codes

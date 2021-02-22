@@ -1,8 +1,11 @@
 import React, { FC, useState, useEffect } from 'react'; 
+import { useSelector } from 'react-redux';
 import { GetPdbBasicQuery } from './GqlLib';
 import { useMapPdbToUniprotQuery, useGetUniprotBasicQuery } from './GqlLib';
 import { Card, CardHeader, CardTitle, CardBody, CardText, Button, Label, Input } from 'reactstrap';
-import { AA_1_TO_3 } from '../../shared/Consts';
+import { AA_1_TO_3, SRV_URL_PREFIX, UNIPROT_VARIANT_API_PREFIX } from '../../shared/Consts';
+import { aaClashPredGoodBad } from '../../shared/Funcs'
+import axios from 'axios'; 
 import './RcsbPdbGql.css';
 import { isInteger } from 'lodash';
 
@@ -10,19 +13,250 @@ type RootProps = {
     pdbCode: string,
     rootQuery: GetPdbBasicQuery,
 }
-
 type SecondaryProps = {
     entryId: string, entityId: string 
 }
-
 type TertiaryProps = {
     uniprotId: string 
+}
+type NaturalMutantFeature = {
+  wildType: string;
+  mutatedType: string;
+  altSeq: string;
+  location: string;
+  somaticStatus: boolean;
+  begin: number;
+  end: number;
+  evidences?: Array<{
+    code: string;
+    source: {
+      name: string;
+      id: string;
+    }
+  }>;
+  desc: string; // "In strain: B.1.1.7, 501Y.V2; May enhance affinity to human ACE2 receptor." etc
+}
+type StudyMutantFeature = {
+  wildType: string;
+  mutatedType: string;
+  altSeq: string; 
+  somaticStatus: boolean;
+  begin: number; 
+  end: number;
+  xrefs: Array<{
+    name: string;
+    id: string; // { "name": "ENA", "id": "MN908947.3:25367:A:G" } etc
+  }>;
+  genomicLoc: string; //"NC_045512.2:g.25367A>G" etc
+  proteinLoc: string; //"p.Leu244Val" etc
+  nucleoLoc: string; //"c.730T>G" etc
+  seqId: string; //"ENSSAST00005000004" etc
+  source: string; //'EnsemblViruses' etc
+  codon: string; //'TTA/GTA' etc
+  consequenceType: string; //'missense' etc
+
+}
+type MappedVariant = {
+  mutantInfo: NaturalMutantFeature | StudyMutantFeature;
+  mappedResidueInfo: PdbResidueToUniprot;
+  clashType: 'good' | 'bad',
+  variType: 'natural' | 'study'
+}
+type VariantMappingInfo = {
+  errorMsg?: string;
+  mappedVariants: MappedVariant[];
 }
 
 const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
     const { data, error, loading, refetch } = useMapPdbToUniprotQuery(
       { variables: { entry_id: pdbCode, entity_id: '1' } },
     );
+    const predHistory = useSelector<AppReduxState, AaClashPredData[]>(state => 
+      state.aaClashQuery.codePredResultHistory);
+    const [residueMappingInfo, setResidueMappingInfo] = useState<VariantMappingInfo>({
+      mappedVariants: []
+    });
+    useEffect(() => {
+      mapPdbAaSub2UnipVariant();
+    }, [pdbCode, predHistory]);
+    useEffect(() => {}, [residueMappingInfo]);
+
+    const aggregateAaListForPdbId = (): 
+    { goodList: AaSubDetailed[], badList: AaSubDetailed[] } => {
+      const processedPdbId = pdbCode.replace(/^\s+|\s+$/g, '').toUpperCase();
+      let predPdbId = '';
+      let allGoodAas = [] as AaSubDetailed[], allBadAas = [] as AaSubDetailed[];
+      predHistory.map(pred => {
+        let predPdbIdMatch = pred.queryId.match(/\w{4}(?=_\w+)/i);
+        if (predPdbIdMatch) {
+          predPdbId = predPdbIdMatch[0].replace(/^\s+|\s+$/g, '').toUpperCase(); 
+        }
+        if (processedPdbId === predPdbId) {
+          const goodAas = aaClashPredGoodBad(pred).goodList;
+          const badAas = aaClashPredGoodBad(pred).badList;
+          allGoodAas = allGoodAas.concat(goodAas); 
+          allBadAas = allBadAas.concat(badAas);
+        }
+      });
+      return { 
+        goodList: [ ...new Set(allGoodAas) ].sort((a, b) => a.chain > b.chain ? -1 : 1)
+        .sort((a, b) => a.pos > b.pos ? 1 : -1), 
+        badList: [ ...new Set(allBadAas) ].sort((a, b) => a.chain > b.chain ? -1 : 1)
+        .sort((a, b) => a.pos > b.pos ? 1 : -1) 
+      }
+    }
+
+    const fetchVariationData = (goodResidues: Array<PdbResidueToUniprot>, 
+      badResidues: Array<PdbResidueToUniprot>): MappedVariant[] => {
+        const variData = new Array<MappedVariant>();
+        const goodUnipIdSet = [ ...new Set(goodResidues.map(el => el.uniId)) ];
+        const badUnipIdSet = [ ...new Set(badResidues.map(el => el.uniId)) ];
+        const allUnipIdSet = [ ... new Set(goodUnipIdSet.concat(badUnipIdSet)) ];
+        allUnipIdSet.forEach(async (unipId) => {
+          await axios.get(`${UNIPROT_VARIANT_API_PREFIX}/${unipId}`)
+            .then(res => {
+              if (res.statusText === 'OK' || res.status === 200) { return res }
+              else {
+                let nonOkError = new Error(
+                  `Could not fetch data from url! Error${res.status}`
+                );
+                throw nonOkError;
+              }
+            })
+            .then(res => {
+              if ((res.data['features'] as Array<any>)?.length > 0) {
+                const features = res.data['features'] as Array<any>;
+                features?.length > 0 &&
+                features.forEach(el => {
+                  if (el['sourceType'] === 'uniprot') {
+                    const mutantData: NaturalMutantFeature = {
+                      wildType: el['wildType'],
+                      mutatedType: el['mutatedType'],
+                      begin: parseInt(el['begin']),
+                      end: parseInt(el['end']),
+                      altSeq: el['alternativeSequence'],
+                      somaticStatus: el['somaticStatus'],
+                      location: el['locations'][0]['loc'],
+                      desc: el['descriptions'][0]['value'],
+                      evidences: el['evidences']
+                    }
+                    goodResidues.forEach(resiData => {
+                      resiData.uniId === unipId && 
+                      parseInt(resiData.uniPos.toString()) == mutantData.begin &&
+                      resiData.uniAa === mutantData.wildType &&
+                      variData.push({
+                        mutantInfo: mutantData,
+                        mappedResidueInfo: resiData,
+                        clashType: 'good',
+                        variType: 'natural'
+                      })
+                    });
+                    badResidues.forEach(resiData => {
+                      resiData.uniId === unipId && 
+                      parseInt(resiData.uniPos.toString()) == mutantData.begin &&
+                      resiData.uniAa === mutantData.wildType &&
+                      variData.push({
+                        mutantInfo: mutantData,
+                        mappedResidueInfo: resiData,
+                        clashType: 'bad',
+                        variType: 'natural'
+                      })
+                    })
+                  }
+                  else if (el['sourceType'] === 'large_scale_study') {
+                    const mutantData: StudyMutantFeature = {
+                      wildType: el['wildType'],
+                      mutatedType: el['mutatedType'],
+                      begin: el['begin'],
+                      end: el['end'],
+                      codon: el['codon'],
+                      altSeq: el['alternativeSequence'],
+                      somaticStatus: el['somaticStatus'],
+                      xrefs: el['xrefs'],
+                      seqId: el['locations'][0]['seqId'],
+                      genomicLoc: el['genomicLocation'],
+                      proteinLoc: el['locations'][0]['loc'],
+                      nucleoLoc: el['locations'][1]['loc'],
+                      source: el['locations'][0]['source'],
+                      consequenceType: el['consequenceType']
+                    }
+                    goodResidues.forEach(resiData => {
+                      resiData.uniId === unipId && 
+                      parseInt(resiData.uniPos.toString()) == mutantData.begin &&
+                      resiData.uniAa === mutantData.wildType &&
+                      variData.push({
+                        mutantInfo: mutantData,
+                        mappedResidueInfo: resiData,
+                        clashType: 'good',
+                        variType: 'study'
+                      })
+                    });
+                    badResidues.forEach(resiData => {
+                      resiData.uniId === unipId && 
+                      parseInt(resiData.uniPos.toString()) == mutantData.begin &&
+                      resiData.uniAa === mutantData.wildType &&
+                      variData.push({
+                        mutantInfo: mutantData,
+                        mappedResidueInfo: resiData,
+                        clashType: 'bad',
+                        variType: 'study'
+                      })
+                    })
+                  }
+                })
+              }
+            })
+            .catch((err: Error) => { console.log(err.message) });
+        });
+        return variData;
+    }
+
+    const mapPdbAaSub2UnipVariant = () => {
+      axios.get(`${SRV_URL_PREFIX}/pon-scp/pdb-to-unip/${pdbCode}`)
+        .then(res => {
+          if (res.statusText === 'OK' || res.status === 200) {
+            if (Array.isArray(res.data)) {
+              const mappedResiduesList = res.data as PdbResidueToUniprot[];
+              const goodBadAaList = aggregateAaListForPdbId();
+              const goodAaList = goodBadAaList.goodList;     
+              const badAaList = goodBadAaList.badList;
+              const goodMappedResidues = mappedResiduesList.filter(el => 
+                goodAaList.some(goodEl => el.pdbChain === goodEl.chain 
+                  && el.pdbAa === goodEl.oldAa
+                  && el.pdbPos === goodEl.pos.toString())
+              );
+              const badMappedResidues = mappedResiduesList.filter(el => 
+                badAaList.some(badEl => el.pdbChain === badEl.chain 
+                  && el.pdbAa === badEl.oldAa
+                  && el.pdbPos === badEl.pos.toString())
+              );
+              const variationData = fetchVariationData(goodMappedResidues, badMappedResidues);
+              setTimeout(() => {               
+                console.log(variationData);
+                setResidueMappingInfo({
+                mappedVariants: variationData
+              })}, 100);
+              setTimeout(() => console.log(residueMappingInfo), 100);
+            }
+            else {
+              setResidueMappingInfo({
+                mappedVariants: [], errorMsg: res.data as string
+              })
+            }
+          } 
+          else {
+            let nonOkError = new Error(
+              `Could not fetch data from API server! Error${res.status}`
+            );
+            throw nonOkError;
+          }
+        })
+        .catch((err: Error) => {
+          setResidueMappingInfo({
+            mappedVariants: [], errorMsg: err.message
+          })
+        });
+    }
     
     if ( !rootQuery.entry || !rootQuery.entry.rcsb_entry_container_identifiers.rcsb_id ) {
         return (
@@ -135,6 +369,14 @@ const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
                 <CardText>Provenance source: {org.provenance_source}</CardText>
               }
               </React.Fragment>
+            )
+          }
+          {
+            residueMappingInfo.mappedVariants.length > 0 
+            && residueMappingInfo.mappedVariants.forEach((variant, ind) => 
+              <CardText key={`${pdbCode}_variant_${ind}`}>
+                {JSON.stringify(variant)}
+              </CardText>
             )
           }
           <a target="_blank" 
@@ -308,6 +550,9 @@ const RcsbUniprotInfo: FC<TertiaryProps> = ({uniprotId}) => {
             <br/>
             <a target="_blank" href={`https://www.uniprot.org/uniprot/${uniprotId}`}>
                 Link for this Uniprot-accession at Uniprot</a> 
+            <br />
+            <a target="_blank" href={`${UNIPROT_VARIANT_API_PREFIX}/${uniprotId}`}>
+                Variations of this Uniprot-accession</a> 
             <br />
             <a target="_blank" href={`https://www.ebi.ac.uk/pdbe/pdbe-kb/proteins/${uniprotId}`}>
                 Link for this Uniprot-accession at PDBe</a> 

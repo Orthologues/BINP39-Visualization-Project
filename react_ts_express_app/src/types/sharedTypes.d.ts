@@ -111,5 +111,16 @@ type JmolDisplayOptions = {
   selectedChain: string; //select a whole sidechain and highlight it
 }
 
+// pdb to uniprot residue mapping
+type PdbResidueToUniprot = {
+  pdbId: string,
+  pdbChain: string,
+  pdbPos: string,
+  pdbAa: string;
+  uniId: string,
+  uniPos: string|number,
+  uniAa: string;
+}
+
 // combined store for App
 type AppReduxState = { aaClashQuery: AaClashQueryState, rcsbGraphQl: RcsbGraphQlState, molVis: MolComponentState } 
