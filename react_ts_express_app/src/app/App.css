@@ -37,6 +37,18 @@
   font-size: calc(8px + 1.5vmin);
 }
 
+.AaClash-result {
+  background-color: #2f3f4f;
+  color: white;
+  min-height: 30rem;
+  max-height: 30rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
 /* for pdbQueryList in both MolComponent and RcsbGqlComponent */
 .pdb-query-list {
   background-color:	#C0C0C0;
