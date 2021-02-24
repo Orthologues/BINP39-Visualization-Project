@@ -55,6 +55,11 @@ type VariantMappingInfo = {
   errorMsg?: string;
   mappedVariants: MappedVariant[];
 }
+type AaClashResultState = {
+  displayMode: 'latest'|'history',
+  queryToShowPred: PdbIdAaQuery|PdbFileQueryStore|undefined,
+  residueMappingInfo: VariantMappingInfo
+}
 
 const AaClashResult: FC<any> = () => {
   const appState = useSelector<AppReduxState, AppReduxState>((state) => state);
@@ -78,22 +83,58 @@ const AaClashResult: FC<any> = () => {
     state.aaClashQuery.codePredResultHistory);
   const filePredHistory = useSelector<AppReduxState, AaClashPredData[]>(state => 
     state.aaClashQuery.filePredResultHistory);
-  const [displayMode, setDisplayMode] = useState<'latest'|'history'>('latest');
-  const [queryToShowPred, setQueryToShowPred] = useState<PdbIdAaQuery|PdbFileQueryStore|undefined>();
-  const [residueMappingInfo, setResidueMappingInfo] = useState<VariantMappingInfo>({
-    mappedVariants: []
+  const [compState, setCompState] = useState<AaClashResultState>({
+    displayMode: 'latest',
+    queryToShowPred: undefined,
+    residueMappingInfo: { mappedVariants: [] }
   });
+  const queryToShowPred = compState.queryToShowPred;
+  const residueMappingInfo = compState.residueMappingInfo;
+  const displayMode = compState.displayMode;
+  const setDisplayMode = (mode: 'latest'|'history') => {
+    setCompState(prev => ({ ...prev, displayMode: mode}))
+  }
+  const setQueryToShowPred = async (query: PdbIdAaQuery|PdbFileQueryStore|undefined) => {
+    if (query && Object.keys(query).some(key => key === 'pdbId')) { //code-query
+      const variantsOrErrmsg = await mapPdbAaSub2UnipVariant((query as PdbIdAaQuery).pdbId);
+      setTimeout(() => setCompState((prev) => {
+        if (Array.isArray(variantsOrErrmsg)) { //variants
+          return { ...prev, 
+            queryToShowPred: query as PdbIdAaQuery, 
+            residueMappingInfo: {mappedVariants: variantsOrErrmsg} }
+        }
+        else { //errMsg
+          return { ...prev, 
+            queryToShowPred: query as PdbIdAaQuery, 
+            residueMappingInfo: {mappedVariants: [], errorMsg: variantsOrErrmsg} }
+        }
+      }), 1000)
+    }
+    else { //File-query or undefined
+      setTimeout(() => setCompState((prev) => ({ 
+        ...prev, queryToShowPred: query as PdbFileQueryStore|undefined, 
+        residueMappingInfo: {mappedVariants: []}
+      })), 100)
+    }
+  }
+  
   useEffect(() => {
-    queryMode === "PDB-CODE" && !queryToShowPred
-      ? latestCodeQueries.length > 0 && setQueryToShowPred(latestCodeQueries[0])
-      : latestFileQuery && setQueryToShowPred(latestFileQuery);
-    queryToShowPred && Object.keys(queryToShowPred).some(key => key === 'pdbId') 
-      && mapPdbAaSub2UnipVariant((queryToShowPred as PdbIdAaQuery).pdbId);
-  }, [residueMappingInfo, latestCodePred, latestFilePred, queryToShowPred]);
-
+    queryMode === 'PDB-CODE' 
+      ? latestCodeQueries.length > 0 
+        && setTimeout(async () => await setQueryToShowPred(latestCodeQueries[0]), 100) 
+      : latestFileQuery 
+        && setTimeout(async () => await setQueryToShowPred(latestFileQuery), 100)
+  }, []); //initial rendering
+  useEffect(() => {
+    queryMode === 'PDB-CODE' 
+      ? latestCodeQueries.length > 0 && setTimeout(() => setQueryToShowPred(latestCodeQueries[0]), 100) 
+      : latestFileQuery && setTimeout(() => setQueryToShowPred(latestFileQuery), 100)
+  }, [queryMode, latestCodePred, latestFilePred]);
+  useEffect(() => {}, [compState]);
 
    // mapping from PDB-id AA-sub to Uniprot-id Variants
-   const mapPdbAaSub2UnipVariant = (pdbCode: string) => {
+  const mapPdbAaSub2UnipVariant = (pdbCode: string): Promise<string|MappedVariant[]> => {
+    let rVal = 
     axios.get(`${SRV_URL_PREFIX}/pon-scp/pdb-to-unip/${pdbCode}`)
       .then(res => {
         if (res.statusText === 'OK' || res.status === 200) {
@@ -113,18 +154,9 @@ const AaClashResult: FC<any> = () => {
                 && el.pdbPos === badEl.pos.toString())
             );
             const variationData = fetchVariationData(goodMappedResidues, badMappedResidues);
-            setTimeout(() => {               
-              console.log(variationData);
-              setResidueMappingInfo({
-              mappedVariants: variationData
-            })}, 100);
-            setTimeout(() => console.log(residueMappingInfo), 100);
+            return variationData
           }
-          else {
-            setResidueMappingInfo({
-              mappedVariants: [], errorMsg: res.data as string
-            })
-          }
+          else { return res.data as string }
         } 
         else {
           let nonOkError = new Error(
@@ -133,11 +165,8 @@ const AaClashResult: FC<any> = () => {
           throw nonOkError;
         }
       })
-      .catch((err: Error) => {
-        setResidueMappingInfo({
-          mappedVariants: [], errorMsg: err.message
-        })
-      });
+      .catch((err: Error) => { return err.message });
+    return rVal;
   }
   const aggregateAaListForPdbId = (pdbCode: string): 
   { goodList: AaSubDetailed[], badList: AaSubDetailed[] } => {
@@ -171,7 +200,7 @@ const AaClashResult: FC<any> = () => {
     const goodUnipIdSet = [ ...new Set(goodResidues.map(el => el.uniId)) ];
     const badUnipIdSet = [ ...new Set(badResidues.map(el => el.uniId)) ];
     const allUnipIdSet = [ ... new Set(goodUnipIdSet.concat(badUnipIdSet)) ];
-    allUnipIdSet.forEach(async (unipId) => {
+    allUnipIdSet.forEach( async(unipId) => {
       await axios.get(`${UNIPROT_VARIANT_API_PREFIX}/${unipId}`)
         .then(res => {
           if (res.statusText === 'OK' || res.status === 200) { return res }
@@ -321,7 +350,7 @@ const AaClashResult: FC<any> = () => {
             : 'pdb-query-item'}>
             <span className='pdb-id-span'>{query.pdbId}</span>
             <i className="fa fa-trash fa-lg deletion-fa-icon"
-            onClick={ e => { 
+            onClick={(e) => { 
               e.stopPropagation();
               dispatch(deleteCodeQuery(query)) && setQueryToShowPred(undefined)
             } }></i>
@@ -334,7 +363,7 @@ const AaClashResult: FC<any> = () => {
             : 'pdb-query-item'}>
             <span className='pdb-id-span'>{query.pdbId}</span>
             <i className="fa fa-trash fa-lg deletion-fa-icon"
-            onClick={ e => { 
+            onClick={(e) => { 
               e.stopPropagation();
               dispatch(deleteCodeQuery(query)) && setQueryToShowPred(undefined)
             } }></i>
@@ -346,26 +375,26 @@ const AaClashResult: FC<any> = () => {
       {
       displayMode === 'latest' ?
         latestFileQuery &&
-          <li onClick={() => setQueryToShowPred(latestFileQuery)}
+          <li onClick={ () => setQueryToShowPred(latestFileQuery)}
           className={JSON.stringify(queryToShowPred) === JSON.stringify(latestFileQuery) 
             ? 'pdb-query-item-selected'
             : 'pdb-query-item'}>
             <span className='pdb-id-span'>{latestFileQuery.fileName}</span>
             <i className="fa fa-trash fa-lg deletion-fa-icon"
-            onClick={ e => { 
+            onClick={ (e) => { 
               e.stopPropagation();
               dispatch(deleteFileQuery(latestFileQuery)) && setQueryToShowPred(undefined)
             } }></i>
           </li>
         :
         fileQueryHistory.map((query, ind) => 
-          <li key={`${query.fileName}_${ind}`} onClick={() => setQueryToShowPred(query)}
+          <li key={`${query.fileName}_${ind}`} onClick={ () => setQueryToShowPred(query)}
           className={JSON.stringify(queryToShowPred) === JSON.stringify(query) 
             ? 'pdb-query-item-selected'
             : 'pdb-query-item'}>
             <span className='pdb-id-span'>{query.fileName}</span>
             <i className="fa fa-trash fa-lg deletion-fa-icon"
-            onClick={ e => { 
+            onClick={ (e) => { 
               e.stopPropagation();
               dispatch(deleteFileQuery(query)) && setQueryToShowPred(undefined)
             } }></i>
@@ -407,17 +436,14 @@ const AaClashResult: FC<any> = () => {
   else if (queryToShowPred && codePredHistory.length > 0 
     && Object.keys(queryToShowPred).some(key => key === 'pdbId')) {
     return (
-      <div
-        className="AaClash-result container-fluid"
-        style={{ padding: 0, fontSize: '16px', textAlign: 'left', marginTop: 1 }}
-      >
+      <div className="AaClash-result">
         <QueryList />
       {queryToShowPred &&
-        <div className="container-fluid" style={{ minHeight: 480, maxHeight: 480 }}>
+        <div className="container-fluid">
           <div className='row'>
             <div className="col-6" 
-            style={{ paddingLeft: 16, overflow: 'hidden scroll', 
-              minHeight: 480, paddingTop: 8 }}>
+            style={{ paddingLeft: 16, 
+              overflow: 'hidden scroll', paddingTop: 8, minHeight: 480, maxHeight: 480 }}>
               <CardTitle tag="h5">
                 {(queryToShowPred as PdbIdAaQuery).pdbId}'s good AA-Substitutions without steric clash:
               </CardTitle>
@@ -432,13 +458,15 @@ const AaClashResult: FC<any> = () => {
                       const jobName = codePredHistory.filter(pred => 
                         pred.queryId === queryToShowPred.queryId)[0].jobName;
                       jobName && setTimeout(() => mapJobIdAaSub2Pdb(jobName, item), 50)
-                    }}>Download .pdb file of this AA-sub
+                    }}>Download .pdb file
                   </Button>
                 </CardText>
               ))}
+              <p>{JSON.stringify(compState)}</p>
             </div>
-            <div className="col-6" style={{ paddingLeft: 16, 
-              overflow: 'hidden scroll', paddingTop: 8 }}>
+            <div className="col-6" 
+            style={{ paddingLeft: 16, 
+              overflow: 'hidden scroll', paddingTop: 8, minHeight: 480, maxHeight: 480 }}>
               <CardTitle tag="h5">
                 {(queryToShowPred as PdbIdAaQuery).pdbId}'s bad AA-Substitutions with steric clash:
               </CardTitle>
@@ -454,11 +482,11 @@ const AaClashResult: FC<any> = () => {
                         const jobName = codePredHistory.filter(pred => 
                           pred.queryId === queryToShowPred.queryId)[0].jobName;
                         jobName && setTimeout(() => mapJobIdAaSub2Pdb(jobName, item), 50)
-                    }}>Download .pdb file of this AA-sub
+                    }}>Download .pdb file
                     </Button>
                   </CardText>
               ))}
-              <br />
+              <p>{JSON.stringify(compState)}</p>
             </div>
           </div>
         </div>
@@ -469,11 +497,13 @@ const AaClashResult: FC<any> = () => {
   else if (queryToShowPred && filePredHistory.length > 0
     && Object.keys(queryToShowPred).some(key => key === 'fileName')) {
     return (
-    <div className="AaClash-result container-fluid" style={{padding: 0, fontSize: '16px', textAlign: 'left'}}>
+    <div className="AaClash-result">
       <QueryList />
-      <div className="container-fluid" style={{ minHeight: 480, maxHeight: 480 }}>
+      <div className="container-fluid">
         <div className='row'>
-          <div className="col-6" style={{ paddingLeft: 10, overflow: 'hidden scroll' }}>
+          <div className="col-6" 
+          style={{ paddingLeft: 16, 
+              overflow: 'hidden scroll', paddingTop: 8, minHeight: 480, maxHeight: 480 }}>
             <CardTitle tag="h5">
               {(queryToShowPred as PdbFileQueryStore).fileName}'s good AA-Substitutions without steric clash:
             </CardTitle>
@@ -488,12 +518,15 @@ const AaClashResult: FC<any> = () => {
                     const jobName = filePredHistory.filter(pred => 
                       (queryToShowPred as PdbFileQueryStore).queryId === pred.queryId)[0].jobName;
                     jobName && setTimeout(() => mapJobIdAaSub2Pdb(jobName, item), 50)
-                  }}>Download .pdb file of this AA-sub
+                  }}>Download .pdb file
                 </Button>
               </CardText>
             ))}
+            <p>{JSON.stringify(residueMappingInfo)}</p>
           </div>
-          <div className="col-6" style={{ paddingLeft: 10, overflow: 'hidden scroll' }}>
+          <div className="col-6" 
+          style={{ paddingLeft: 16, 
+            overflow: 'hidden scroll', paddingTop: 8, minHeight: 480, maxHeight: 480 }}>
             <CardTitle tag="h5">
               {(queryToShowPred as PdbFileQueryStore).fileName}'s bad AA-Substitutions with steric clash:
             </CardTitle>
@@ -508,10 +541,11 @@ const AaClashResult: FC<any> = () => {
                     const jobName = filePredHistory.filter(pred => 
                       (queryToShowPred as PdbFileQueryStore).queryId === pred.queryId)[0].jobName;
                     jobName && setTimeout(() => mapJobIdAaSub2Pdb(jobName, item), 50)
-                  }}>Download .pdb file of this AA-sub
+                  }}>Download .pdb file
                 </Button>
               </CardText>
             ))}
+            <p>{JSON.stringify(residueMappingInfo)}</p>
           </div>
         </div>
       </div>
