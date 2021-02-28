@@ -4,7 +4,9 @@ import { Request, Response } from 'express';
 import { PY_PATH, AA_CLASH_PREFIX } from '../constants.js';
 import { Options, PythonShell, PythonShellError } from 'python-shell';
 import nodemailer from 'nodemailer';
+import { Dictionary, isEmpty } from 'lodash';
 import fs from 'fs';
+import { SENDER_PWD } from '../Secrets.js'
 
 // type declarations only for dev, erased after compilation to ecma-script codes
 type PdbIdAaQuery = {
@@ -14,7 +16,12 @@ type PdbIdAaQuery = {
 };
 type PdbFileQueryBody = {
     aaSubs: string,
-    queryId: string
+    queryId: string,
+    emailAddr?: string
+}
+type PdbCodeQueryBody = {
+    queries: Array<PdbIdAaQuery>
+    emailAddr?: string
 }
 type AaClashPredData = {
     queryId: string,
@@ -37,6 +44,91 @@ type FileDataToClient = {
     aaClash: AaClashPredData,
     pyRunInfo: PyScriptResponse
 }
+type AaSubDetailed = {
+    chain: string;
+    oldAa: string;
+    pos: number;
+    newAa: string;
+    pred: 'good' | 'bad';
+}
+const AA_3_TO_1: Dictionary<string> = {"ALA":"A", "ARG":"R", "ASN":"N","ASP":"D", "CYS":"C", 
+"GLN":"Q", "GLU":"E", "GLY":"G", "HIS":"H", "ILE":"I", "LEU":"L", "LYS":"K", 
+"MET":"M", "PHE":"F", "PRO":"P","SER":"S", "THR":"T", "TRP":"W", "TYR":"Y", "VAL":"V"};
+const SENDER_EMAIL = 'jwz.student.bmc.lu@gmail.com';
+
+const sendPredsToEmail = (preds: AaClashPredData[], objAddr: string) => {
+  let formattedPreds: Array<{ queryId: string, goodList: Array<AaSubDetailed>, badList: Array<AaSubDetailed> }> = [];
+  preds.forEach(pred => {
+      formattedPreds.push({ ...formattedAaClashPred(pred), queryId: pred.queryId })
+  });
+
+  let transporter = nodemailer.createTransport(
+  { 
+    port: 2525,
+    secure: true, 
+    service: 'Gmail',
+    auth: 
+    {
+      user: SENDER_EMAIL,
+      pass: SENDER_PWD
+    }
+  });
+  let message = {
+    from: SENDER_EMAIL,
+    // Comma separated list of recipients
+    to: objAddr,
+    // Subject of the message
+    subject: `Steric-clash prediction for AA substitutions by PON-SC+`,
+    // plaintext body
+    text: JSON.stringify(formattedPreds),
+  };
+  transporter.sendMail(message);
+}
+const formattedAaClashPred = (aaClashPred: AaClashPredData): 
+{ goodList: Array<AaSubDetailed>, badList: Array<AaSubDetailed> } => {
+   const goodAAs = aaClashPred.goodAcids as Dictionary<Dictionary<string>>;
+   const badAAs = aaClashPred.badAcids as Dictionary<string[]>;
+   const output = { goodList: [] as Array<AaSubDetailed>, badList: [] as Array<AaSubDetailed> };
+   Object.keys(goodAAs).map(chain_pos => {
+     let chain=''; 
+     let pos='';
+     let old_aa='';
+     const CHAIN_REG_MATCH = chain_pos.match(/([A-Z])(?=_\w\d+)/i);
+     if (CHAIN_REG_MATCH) chain = CHAIN_REG_MATCH[0].toUpperCase();
+     const POS_REG_MATCH = chain_pos.match(/(?<=[A-Z]_)(\w\d+)/i);
+     if (POS_REG_MATCH) { 
+       pos = POS_REG_MATCH[0]; 
+       const OLD_AA_MATCH = pos.match(/[arndcqeghilkmfpstwyv](?=\d+)/i);
+       if (OLD_AA_MATCH) old_aa = OLD_AA_MATCH[0].toUpperCase(); 
+     }
+ 
+     if ( !isEmpty(goodAAs[chain_pos]) ) {
+       Object.keys(goodAAs[chain_pos]).map(goodAA => {
+         (chain.length > 0 && pos.length > 0) && 
+         output.goodList.push({
+           chain: chain,
+           oldAa: old_aa,
+           pos: parseInt(pos.substring(1, pos.length)),
+           newAa: AA_3_TO_1[goodAA],
+           pred: 'good'
+         })
+       });
+     } 
+     if (badAAs[chain_pos].length > 0){
+       badAAs[chain_pos].map(badAA => {
+         (chain.length > 0 && pos.length > 0) && 
+         output.badList.push({
+          chain: chain,
+          oldAa: old_aa,
+          pos: parseInt(pos.substring(1, pos.length)),
+          newAa: AA_3_TO_1[badAA],
+          pred: 'bad'
+        })
+       })
+     }
+   });
+   return output;
+}
 
 // define the route of pdb-file mode
 export const handlePdbFileQuery = (req: Request, res: Response) => {
@@ -44,6 +136,7 @@ export const handlePdbFileQuery = (req: Request, res: Response) => {
     const pdbFileName = req.file.filename;
     let aaSubs = (req.body as PdbFileQueryBody).aaSubs;
     let queryId = (req.body as PdbFileQueryBody).queryId;
+    const emailAddr = (req.body as PdbFileQueryBody).emailAddr;
     if (pdbFile && queryId && aaSubs) { 
         aaSubs = JSON.parse(aaSubs);
         const FILE_NAME = `${AA_CLASH_PREFIX}/extra_files/pos${pdbFileName}.txt`;
@@ -77,13 +170,15 @@ export const handlePdbFileQuery = (req: Request, res: Response) => {
             pyScriptRes.code = code;
             pyScriptRes.signal = signal;
             res.send(dataToClient);
+            emailAddr && sendPredsToEmail([dataToClient.aaClash], emailAddr)
         });
     }
 }
 
 // define the route of pdb-code mode
 const handlePdbCodeQuery = (req: Request, res: Response) => {
-    const aaClashQueries: Array<PdbIdAaQuery> = req.body.queries;
+    const aaClashQueries: Array<PdbIdAaQuery> = (req.body as PdbCodeQueryBody).queries;
+    const emailAddr = (req.body as PdbCodeQueryBody).emailAddr;
     // when authentication is correct, use python-shell and respond back to front-end
     if (aaClashQueries.length > 0) {
         //use time of ISO-format as job_id(part of file_name) of aaclash-query
@@ -141,6 +236,7 @@ const handlePdbCodeQuery = (req: Request, res: Response) => {
             pyScriptRes.code = code;
             pyScriptRes.signal = signal;
             res.send(dataToClient);
+            emailAddr && sendPredsToEmail(dataToClient.aaClash, emailAddr)
         });
     }
 }

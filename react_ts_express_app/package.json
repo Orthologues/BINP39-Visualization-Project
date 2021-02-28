@@ -13,6 +13,7 @@
         "express",
         "python-shell",
         "multer",
+        "lodash",
         "nodemailer"
       ]
     }

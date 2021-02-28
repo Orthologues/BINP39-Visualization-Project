@@ -20,6 +20,8 @@ assets/
 #compiled ecmascript files from ts
 */*/dist/*
 !*/*/dist/src
+#test files
+*test.js
 */api_srv/routes/*.test.ts
 # don't ignore a const .py file under 'aaclash' folder
 !*/*/dist/aaclash

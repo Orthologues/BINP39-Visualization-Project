@@ -4,7 +4,7 @@ import fileDownload from 'js-file-download';
 import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import { CardText, CardTitle, Button, ButtonGroup } from 'reactstrap';
-import { deleteCodeQuery, deleteFileQuery } from '../redux/ActionCreators';
+import { deleteCodeQuery, deleteFileQuery, eraseFileQueryHistory } from '../redux/ActionCreators';
 import { formattedAaClashPred, parseAaSubDetailedToStr, aaClashPredGoodBad } from '../shared/Funcs';
 import { SRV_URL_PREFIX, UNIPROT_VARIANT_API_PREFIX } from '../shared/Consts';
 
@@ -58,7 +58,79 @@ type VariantMappingInfo = {
 type AaClashResultState = {
   displayMode: 'latest'|'history',
   queryToShowPred: PdbIdAaQuery|PdbFileQueryStore|undefined,
-  residueMappingInfo: VariantMappingInfo
+  residueMappingInfo: VariantMappingInfo,
+  showVariantInfo: boolean
+}
+
+
+const DisplayMutantInfo: FC<{variants: MappedVariant[]}> = ({variants}) => {
+  return (
+    <React.Fragment>
+    {
+      [ ...new Set(variants.map(variants => variants.mutantInfo)) ]
+      .map((mutant, ind) => 
+      Object.keys(mutant).some(key => key === 'desc') 
+      //natural variant
+      ? <CardText key={`${JSON.stringify(mutant)}_${ind}}}`} 
+      style={{ fontSize: 15, margin: 0, marginBottom: 8 }}>
+          <p style={{margin: 0}}>
+            <b>Positions at PDB-id/UniProt-accession:</b>
+          {
+          variants.filter(variant => 
+            JSON.stringify(variant.mutantInfo) ===  JSON.stringify(mutant)).map(variant => 
+            variant.mappedResidueInfo).map(el => 
+            <p style={{margin: 0}}
+            >{el.pdbId}-Chain {el.pdbChain}: {el.pdbAa}{el.pdbPos} / {el.uniId}: {el.uniAa}{el.uniPos}</p>
+          )}
+          </p>
+          <p style={{margin: 0}}>
+            <b>Description:</b> {(mutant as NaturalMutantFeature).desc}<br />
+            <b>Location:</b> {(mutant as NaturalMutantFeature).location}, 
+            {(mutant as NaturalMutantFeature).somaticStatus ? ' Somatic' : ' Non-somatic'}
+          </p>
+          {
+          (mutant as NaturalMutantFeature).evidences &&
+          (mutant as NaturalMutantFeature).evidences?.map((evi, ind) =>
+            <p style={{margin: 0}}>
+              <b>Evidence{ind}:</b> {evi.code}, <b>Source: </b>{evi.source.name} {evi.source.id}
+            </p>
+          )
+          }
+        </CardText>
+      //study variant
+      : <CardText key={`${JSON.stringify(mutant)}_${ind}}}`} 
+      style={{ fontSize: 15, margin: 0, marginBottom: 8 }}>  
+          <p style={{margin: 0}}>
+            <b>Positions at PDB-id/UniProt-accession:</b>
+          {
+          variants.filter(variant => 
+            JSON.stringify(variant.mutantInfo) ===  JSON.stringify(mutant)).map(variant => 
+            variant.mappedResidueInfo).map(el => 
+            <p style={{ margin: 0 }}
+            >{el.pdbId}-Chain {el.pdbChain}: {el.pdbAa}{el.pdbPos} / {el.uniId}: {el.uniAa}{el.uniPos}</p>
+          )}
+          </p>
+          <p style={{margin: 0}}>
+            <b>SeqId: </b>{(mutant as StudyMutantFeature).seqId}, 
+            {(mutant as StudyMutantFeature).somaticStatus? ' Somatic' : ' Non-somatic'}<br />
+            <b>Consequence: </b>{(mutant as StudyMutantFeature).consequenceType},
+            <b> Source: </b>{(mutant as StudyMutantFeature).source}<br />
+            <b>Genomic location: </b>{(mutant as StudyMutantFeature).genomicLoc}<br />
+            <b>Nucleotide location: </b>{(mutant as StudyMutantFeature).nucleoLoc}<br />
+            <b>Protein location: </b>{(mutant as StudyMutantFeature).proteinLoc}<br />
+            <b>Codon: </b> {(mutant as StudyMutantFeature).codon}<br />
+            {
+            (mutant as StudyMutantFeature).xrefs.forEach((xref, ind) =>
+              <p key={`${(mutant as StudyMutantFeature).genomicLoc}_xref${ind}`} style={{margin: 0}}>
+                <b>Xref{ind}: </b>{xref.id} {xref.name}
+              </p>
+            )}
+          </p>
+        </CardText>
+      )
+    }
+    </React.Fragment>
+  )
 }
 
 const AaClashResult: FC<any> = () => {
@@ -73,8 +145,8 @@ const AaClashResult: FC<any> = () => {
     state.aaClashQuery.fileQuery);
   const latestCodePred = useSelector<AppReduxState, AaClashPredData[]>(state => 
     state.aaClashQuery.codePredResults);
-  const latestFilePred = useSelector<AppReduxState, AaClashPredData|null>(state => 
-    state.aaClashQuery.filePredResult);
+  // const latestFilePred = useSelector<AppReduxState, AaClashPredData|null>(state => 
+  //   state.aaClashQuery.filePredResult);
   const codeQueryHistory = useSelector<AppReduxState, PdbIdAaQuery[]>(state => 
     state.aaClashQuery.queryHistory);
   const fileQueryHistory = useSelector<AppReduxState, PdbFileQueryStore[]>(state => 
@@ -86,61 +158,64 @@ const AaClashResult: FC<any> = () => {
   const [compState, setCompState] = useState<AaClashResultState>({
     displayMode: 'latest',
     queryToShowPred: undefined,
-    residueMappingInfo: { mappedVariants: [] }
+    residueMappingInfo: { mappedVariants: [] },
+    showVariantInfo: false
   });
   const queryToShowPred = compState.queryToShowPred;
   const residueMappingInfo = compState.residueMappingInfo;
   const displayMode = compState.displayMode;
+  const showVariantInfo = compState.showVariantInfo;
   const setDisplayMode = (mode: 'latest'|'history') => {
     setCompState(prev => ({ ...prev, displayMode: mode}))
   }
   const setQueryToShowPred = async (query: PdbIdAaQuery|PdbFileQueryStore|undefined) => {
     if (query && Object.keys(query).some(key => key === 'pdbId')) { //code-query
-      const variantsOrErrmsg = await mapPdbAaSub2UnipVariant((query as PdbIdAaQuery).pdbId);
-      setTimeout(() => setCompState((prev) => {
+      const variantsOrErrmsg = await mapPdbAaSub2UnipVariant((query as PdbIdAaQuery).pdbId, query.queryId);
+      setCompState((prev) => {
         if (Array.isArray(variantsOrErrmsg)) { //variants
           return { ...prev, 
+            showVariantInfo: false,
             queryToShowPred: query as PdbIdAaQuery, 
             residueMappingInfo: {mappedVariants: variantsOrErrmsg} }
         }
         else { //errMsg
           return { ...prev, 
+            showVariantInfo: false,
             queryToShowPred: query as PdbIdAaQuery, 
             residueMappingInfo: {mappedVariants: [], errorMsg: variantsOrErrmsg} }
         }
-      }), 1000)
+      })
     }
     else { //File-query or undefined
-      setTimeout(() => setCompState((prev) => ({ 
-        ...prev, queryToShowPred: query as PdbFileQueryStore|undefined, 
+      setCompState((prev) => ({ 
+        ...prev, 
+        showVariantInfo: false,
+        queryToShowPred: query as PdbFileQueryStore|undefined, 
         residueMappingInfo: {mappedVariants: []}
-      })), 100)
+      }))
     }
   }
   
+  const switchIfShowVariants = () => {
+    setCompState( prev => ({ ...prev, showVariantInfo: !showVariantInfo }))
+  }
   useEffect(() => {
     queryMode === 'PDB-CODE' 
       ? latestCodeQueries.length > 0 
-        && setTimeout(async () => await setQueryToShowPred(latestCodeQueries[0]), 100) 
+        && setTimeout(async () => await setQueryToShowPred(latestCodeQueries[0]), 10) 
       : latestFileQuery 
-        && setTimeout(async () => await setQueryToShowPred(latestFileQuery), 100)
+        && setTimeout(async () => await setQueryToShowPred(latestFileQuery), 10)
   }, []); //initial rendering
-  useEffect(() => {
-    queryMode === 'PDB-CODE' 
-      ? latestCodeQueries.length > 0 && setTimeout(() => setQueryToShowPred(latestCodeQueries[0]), 100) 
-      : latestFileQuery && setTimeout(() => setQueryToShowPred(latestFileQuery), 100)
-  }, [queryMode, latestCodePred, latestFilePred]);
-  useEffect(() => {}, [compState]);
 
    // mapping from PDB-id AA-sub to Uniprot-id Variants
-  const mapPdbAaSub2UnipVariant = (pdbCode: string): Promise<string|MappedVariant[]> => {
+  const mapPdbAaSub2UnipVariant = (pdbCode: string, queryId: string) => {
     let rVal = 
     axios.get(`${SRV_URL_PREFIX}/pon-scp/pdb-to-unip/${pdbCode}`)
       .then(res => {
         if (res.statusText === 'OK' || res.status === 200) {
           if (Array.isArray(res.data)) {
             const mappedResiduesList = res.data as PdbResidueToUniprot[];
-            const goodBadAaList = aggregateAaListForPdbId(pdbCode);
+            const goodBadAaList = aggregateAaListForQueryId(queryId);
             const goodAaList = goodBadAaList.goodList;     
             const badAaList = goodBadAaList.badList;
             const goodMappedResidues = mappedResiduesList.filter(el => 
@@ -168,19 +243,13 @@ const AaClashResult: FC<any> = () => {
       .catch((err: Error) => { return err.message });
     return rVal;
   }
-  const aggregateAaListForPdbId = (pdbCode: string): 
+  const aggregateAaListForQueryId = (queryId: string): 
   { goodList: AaSubDetailed[], badList: AaSubDetailed[] } => {
-    const processedPdbId = pdbCode.replace(/^\s+|\s+$/g, '').toUpperCase();
-    let predPdbId = '';
     let allGoodAas = [] as AaSubDetailed[], allBadAas = [] as AaSubDetailed[];
     if (displayMode === 'latest') { var preds = latestCodePred }
     else { var preds = codePredHistory }
-    preds.map(pred => {
-      let predPdbIdMatch = pred.queryId.match(/\w{4}(?=_\w+)/i);
-      if (predPdbIdMatch) {
-        predPdbId = predPdbIdMatch[0].replace(/^\s+|\s+$/g, '').toUpperCase(); 
-      }
-      if (processedPdbId === predPdbId) {
+    preds.forEach(pred => {
+      if (pred.queryId === queryId) {
         const goodAas = aaClashPredGoodBad(pred).goodList;
         const badAas = aaClashPredGoodBad(pred).badList;
         allGoodAas = allGoodAas.concat(goodAas); 
@@ -344,28 +413,28 @@ const AaClashResult: FC<any> = () => {
       { 
       displayMode === 'latest' ?
         latestCodeQueries.map((query, ind) =>  
-          <li key={`${query.pdbId}_${ind}`} onClick={() => setQueryToShowPred(query)}
+          <li key={`${query.pdbId}_${ind}`} onClick={async () => await setQueryToShowPred(query)}
           className={JSON.stringify(queryToShowPred) === JSON.stringify(query) 
             ? 'pdb-query-item-selected'
             : 'pdb-query-item'}>
             <span className='pdb-id-span'>{query.pdbId}</span>
             <i className="fa fa-trash fa-lg deletion-fa-icon"
-            onClick={(e) => { 
+            onClick={async (e) => { 
               e.stopPropagation();
-              dispatch(deleteCodeQuery(query)) && setQueryToShowPred(undefined)
+              dispatch(deleteCodeQuery(query)) && await setQueryToShowPred(undefined)
             } }></i>
           </li> 
         ) : 
         codeQueryHistory.map((query, ind) => 
-          <li key={`${query.pdbId}_${ind}`} onClick={() => setQueryToShowPred(query)}
+          <li key={`${query.pdbId}_${ind}`} onClick={async () => await setQueryToShowPred(query)}
           className={JSON.stringify(queryToShowPred) === JSON.stringify(query) 
             ? 'pdb-query-item-selected'
             : 'pdb-query-item'}>
             <span className='pdb-id-span'>{query.pdbId}</span>
             <i className="fa fa-trash fa-lg deletion-fa-icon"
-            onClick={(e) => { 
+            onClick={async (e) => { 
               e.stopPropagation();
-              dispatch(deleteCodeQuery(query)) && setQueryToShowPred(undefined)
+              dispatch(deleteCodeQuery(query)) && await setQueryToShowPred(undefined)
             } }></i>
           </li>
         ) 
@@ -375,28 +444,32 @@ const AaClashResult: FC<any> = () => {
       {
       displayMode === 'latest' ?
         latestFileQuery &&
-          <li onClick={ () => setQueryToShowPred(latestFileQuery)}
+          <li onClick={ async () => await setQueryToShowPred(latestFileQuery)}
           className={JSON.stringify(queryToShowPred) === JSON.stringify(latestFileQuery) 
             ? 'pdb-query-item-selected'
             : 'pdb-query-item'}>
             <span className='pdb-id-span'>{latestFileQuery.fileName}</span>
             <i className="fa fa-trash fa-lg deletion-fa-icon"
-            onClick={ (e) => { 
+            onClick={ async (e) => { 
               e.stopPropagation();
-              dispatch(deleteFileQuery(latestFileQuery)) && setQueryToShowPred(undefined)
+              fileQueryHistory.length === 1 
+                ? dispatch(eraseFileQueryHistory()) && await setQueryToShowPred(undefined)
+                : dispatch(deleteFileQuery(latestFileQuery)) && await setQueryToShowPred(undefined)    
             } }></i>
           </li>
         :
         fileQueryHistory.map((query, ind) => 
-          <li key={`${query.fileName}_${ind}`} onClick={ () => setQueryToShowPred(query)}
+          <li key={`${query.fileName}_${ind}`} onClick={ async () => await setQueryToShowPred(query)}
           className={JSON.stringify(queryToShowPred) === JSON.stringify(query) 
             ? 'pdb-query-item-selected'
             : 'pdb-query-item'}>
             <span className='pdb-id-span'>{query.fileName}</span>
             <i className="fa fa-trash fa-lg deletion-fa-icon"
-            onClick={ (e) => { 
+            onClick={ async (e) => { 
               e.stopPropagation();
-              dispatch(deleteFileQuery(query)) && setQueryToShowPred(undefined)
+              fileQueryHistory.length === 1 
+                ? dispatch(eraseFileQueryHistory()) && await setQueryToShowPred(undefined)
+                : dispatch(deleteFileQuery(query)) && await setQueryToShowPred(undefined)              
             } }></i>
           </li>
         )
@@ -444,49 +517,69 @@ const AaClashResult: FC<any> = () => {
             <div className="col-6" 
             style={{ paddingLeft: 16, 
               overflow: 'hidden scroll', paddingTop: 8, minHeight: 480, maxHeight: 480 }}>
-              <CardTitle tag="h5">
+              <CardTitle tag="h5" style={{margin: 0}}>
                 {(queryToShowPred as PdbIdAaQuery).pdbId}'s good AA-Substitutions without steric clash:
               </CardTitle>
+              <Button className='btn btn-sm' color='link' 
+                style={{ margin: 3, color: 'white'}}
+                onClick={switchIfShowVariants}>
+                  {showVariantInfo ? 'Hide' : 'Show'} PDB to UniProt Variant Mapping
+                </Button>
+              {
+              showVariantInfo && residueMappingInfo.mappedVariants.some(mutant => 
+                mutant.clashType === 'good')
+                ? <DisplayMutantInfo variants={residueMappingInfo.mappedVariants} />
+                : showVariantInfo && <p style={{fontSize: 15}}>No variants are mapped</p>
+              }
               {formattedAaClashPred(
                 codePredHistory.filter(pred => pred.queryId === queryToShowPred.queryId)[0]
               ).goodList.map((item) => (
                 <CardText key={`good_aa_clash_${parseAaSubDetailedToStr(item)}`}
-                  style={{ color: '#90ee90' }}>{parseAaSubDetailedToStr(item)}
+                  style={{ color: '#90ee90', margin: 0 }}>{parseAaSubDetailedToStr(item)}
                   <Button className='btn btn-sm' color='link' 
                     style={{ margin: 0, marginLeft: 5, color: 'yellow'}}
                     onClick={() => {
                       const jobName = codePredHistory.filter(pred => 
                         pred.queryId === queryToShowPred.queryId)[0].jobName;
-                      jobName && setTimeout(() => mapJobIdAaSub2Pdb(jobName, item), 50)
+                      jobName && setTimeout(() => mapJobIdAaSub2Pdb(jobName, item), 10)
                     }}>Download .pdb file
                   </Button>
                 </CardText>
               ))}
-              <p>{JSON.stringify(compState)}</p>
             </div>
             <div className="col-6" 
             style={{ paddingLeft: 16, 
               overflow: 'hidden scroll', paddingTop: 8, minHeight: 480, maxHeight: 480 }}>
-              <CardTitle tag="h5">
+              <CardTitle tag="h5" style={{margin: 0}}>
                 {(queryToShowPred as PdbIdAaQuery).pdbId}'s bad AA-Substitutions with steric clash:
               </CardTitle>
+              <Button className='btn btn-sm' color='link' 
+                style={{ margin: 3, color: 'white'}}
+                onClick={switchIfShowVariants}>
+                  {showVariantInfo ? 'Hide' : 'Show'} PDB to UniProt Variant Mapping
+              </Button>
+              {
+              showVariantInfo && residueMappingInfo.mappedVariants.some(mutant => 
+                mutant.clashType === 'bad')
+                ? <DisplayMutantInfo variants={residueMappingInfo.mappedVariants} />
+                : showVariantInfo && <p style={{fontSize: 15}}>No variants are mapped</p>
+              }
               {formattedAaClashPred(
                 codePredHistory.filter(pred => pred.queryId === queryToShowPred.queryId)[0]
               ).badList.map((item) => (
                   <CardText key={`bad_aa_clash_${parseAaSubDetailedToStr(item)}`}
-                  style={{ color: '#ff4500' }}>
+                  style={{ color: '#ff4500', margin: 0 }}>
                     {parseAaSubDetailedToStr(item)}
                     <Button className='btn btn-sm' color='link' 
                       style={{ margin: 0, marginLeft: 5, color: 'yellow'}}
                       onClick={() => {
                         const jobName = codePredHistory.filter(pred => 
                           pred.queryId === queryToShowPred.queryId)[0].jobName;
-                        jobName && setTimeout(() => mapJobIdAaSub2Pdb(jobName, item), 50)
+                        jobName && setTimeout(() => mapJobIdAaSub2Pdb(jobName, item), 10)
                     }}>Download .pdb file
                     </Button>
                   </CardText>
-              ))}
-              <p>{JSON.stringify(compState)}</p>
+              ))} 
             </div>
           </div>
         </div>
@@ -511,18 +604,17 @@ const AaClashResult: FC<any> = () => {
               filePredHistory.filter(pred => queryToShowPred.queryId === pred.queryId)[0]
               ).goodList.map((item) => (
               <CardText key={`file_good_aa_clash_${parseAaSubDetailedToStr(item)}`}
-              style={{ color: '#90ee90' }}>{parseAaSubDetailedToStr(item)}
+              style={{ color: '#90ee90', margin: 0 }}>{parseAaSubDetailedToStr(item)}
                 <Button className='btn btn-sm' color='link' 
                   style={{ margin: 0, marginLeft: 5, color: 'yellow'}}
                   onClick={() => {
                     const jobName = filePredHistory.filter(pred => 
                       (queryToShowPred as PdbFileQueryStore).queryId === pred.queryId)[0].jobName;
-                    jobName && setTimeout(() => mapJobIdAaSub2Pdb(jobName, item), 50)
+                    jobName && setTimeout(() => mapJobIdAaSub2Pdb(jobName, item), 10)
                   }}>Download .pdb file
                 </Button>
               </CardText>
             ))}
-            <p>{JSON.stringify(residueMappingInfo)}</p>
           </div>
           <div className="col-6" 
           style={{ paddingLeft: 16, 
@@ -534,18 +626,17 @@ const AaClashResult: FC<any> = () => {
               filePredHistory.filter(pred => queryToShowPred.queryId === pred.queryId)[0]
               ).badList.map((item) => (
               <CardText key={`file_bad_aa_clash_${parseAaSubDetailedToStr(item)}`}
-              style={{ color: '#ff4500' }}>{parseAaSubDetailedToStr(item)}
+              style={{ color: '#ff4500', margin: 0 }}>{parseAaSubDetailedToStr(item)}
                 <Button className='btn btn-sm' color='link' 
                   style={{ margin: 0, marginLeft: 5, color: 'yellow'}}
                   onClick={() => {
                     const jobName = filePredHistory.filter(pred => 
                       (queryToShowPred as PdbFileQueryStore).queryId === pred.queryId)[0].jobName;
-                    jobName && setTimeout(() => mapJobIdAaSub2Pdb(jobName, item), 50)
+                    jobName && setTimeout(() => mapJobIdAaSub2Pdb(jobName, item), 10)
                   }}>Download .pdb file
                 </Button>
               </CardText>
             ))}
-            <p>{JSON.stringify(residueMappingInfo)}</p>
           </div>
         </div>
       </div>
