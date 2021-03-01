@@ -3,10 +3,10 @@
 import React, { Component } from 'react';
 import { ThunkDispatch, ThunkAction } from 'redux-thunk';
 import { connect, ConnectedProps } from 'react-redux';
-import { Button, ButtonGroup, CardTitle, Form, FormGroup, Label, Input, Col, Card, CardHeader,
-  CardText, FormText } from 'reactstrap';
+import { Button, ButtonGroup, CardTitle, Form, FormGroup, Label, Input, CustomInput, Col, 
+  Card, CardHeader, CardText, FormText } from 'reactstrap';
 import * as ReduxActions from '../redux/ActionCreators';
-import { PDB_CODE_ENTRY_REGEX, AA_SUB_ENTRY_REGEX, FILE_AA_SUB_REGEX } from '../shared/Consts';
+import { PDB_CODE_ENTRY_REGEX, AA_SUB_ENTRY_REGEX, FILE_AA_SUB_REGEX, EMAIL_ADDR_REGEX } from '../shared/Consts';
 import { processedCodeQueries, processedFileQuery } from '../shared/Funcs';
 import AaClashResult from './AaClashResultComponent';
 import Loading from './LoadingComponent';
@@ -35,7 +35,8 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<
   resetAppReduxState: () => dispatch(ReduxActions.resetAppReduxState()),
   handleCodeInput: (input: string) => dispatch(ReduxActions.handleCodeQueryInput(input)),
   handleFileInput: (input: string) => dispatch(ReduxActions.handleFileQueryInput(input)),
-  postCodeQuery: (aaClashQuery: PdbIdAaQuery[]) => dispatch(ReduxActions.postCodeQuery(aaClashQuery)),
+  postCodeQuery: (aaClashQuery: PdbIdAaQuery[], emailAddr?: string) => 
+    dispatch(ReduxActions.postCodeQuery(aaClashQuery, emailAddr)),
   postFileQuery: (aaClashQuery: PdbQueryFormData, queryStore: PdbFileQueryStore) => dispatch(ReduxActions.postFileQuery(aaClashQuery, queryStore)),
   switchAaClashQueryMode: (newMode: 'PDB-CODE'|'FILE') => dispatch(ReduxActions.switchAaClashQueryMode(newMode))
 });
@@ -46,7 +47,10 @@ type MainState = { //define this instead of 'any' in order to do error handling 
   codeQueryErrMsg: string,
   fileFormTouched: boolean,
   fileQueryErrMsg: string,
-  selectedPdbFile: File | null
+  selectedPdbFile: File | null,
+  ifSendEmail: boolean,
+  emailAddr: string,
+  emailAddrErrMsg: string
 }
 
 
@@ -60,6 +64,9 @@ class Main extends Component<MainProps, MainState> {
       fileFormTouched: false,
       fileQueryErrMsg: '',
       selectedPdbFile: null,
+      ifSendEmail: false,
+      emailAddr: '',
+      emailAddrErrMsg: ''
     }
     this.handleAaClashQueryBlur = this.handleAaClashQueryBlur.bind(this);
     this.handleAaClashQueryInput = this.handleAaClashQueryInput.bind(this);
@@ -141,8 +148,13 @@ class Main extends Component<MainProps, MainState> {
     } 
     const pdbIds = this.props.aaClashQuery.codeQueryFormValue.match(PDB_CODE_ENTRY_REGEX);
     const aaSubsRaw = this.props.aaClashQuery.codeQueryFormValue.match(AA_SUB_ENTRY_REGEX); 
-    (pdbIds && aaSubsRaw && aaSubsRaw.length > 0) && 
-    this.props.postCodeQuery(processedCodeQueries(pdbIds, aaSubsRaw));
+    if (pdbIds && aaSubsRaw && aaSubsRaw.length > 0) {
+      this.state.ifSendEmail && this.state.emailAddr !== '' && this.state.emailAddrErrMsg === '' 
+       ? this.props.postCodeQuery(processedCodeQueries(pdbIds, aaSubsRaw), this.state.emailAddr.toLowerCase())
+         && this.setState(prev => ({ ...prev, emailAddr: '', emailAddrErrMsg: '', ifSendEmail: false }))
+       : this.props.postCodeQuery(processedCodeQueries(pdbIds, aaSubsRaw))
+         && this.setState(prev => ({ ...prev, emailAddr: '', emailAddrErrMsg: '', ifSendEmail: false }))
+    }
   }
   handlePdbChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = evt.target.files;
@@ -168,9 +180,31 @@ class Main extends Component<MainProps, MainState> {
         queryData.append('pdbFile', this.state.selectedPdbFile);
         queryData.append('aaSubs', JSON.stringify(queryStore.aaSubs));
         queryData.append('queryId', queryStore.queryId);
-        this.props.postFileQuery(queryData, queryStore);
+        this.state.ifSendEmail && this.state.emailAddr !== '' && this.state.emailAddrErrMsg === '' 
+          && queryData.append('emailAddr' ,this.state.emailAddr.toLowerCase());
+        this.props.postFileQuery(queryData, queryStore)
+          && this.setState(prev => ({ ...prev, emailAddr: '', emailAddrErrMsg: '', ifSendEmail: false }))
       }
     } 
+  }
+  handleEmailAddrInput = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    evt.preventDefault();
+    const addr = evt.target.value;
+    EMAIL_ADDR_REGEX.test(addr) 
+      ? this.setState(prev => { 
+          return {...prev, emailAddrErrMsg: '', emailAddr: addr }})
+      : this.setState(prev => { 
+          return {...prev, emailAddrErrMsg: '(Email-address is invalid!)', emailAddr: '' }})
+  }
+  handleEmailAddrSwitch = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const emailAddrErrMsg = this.state.emailAddrErrMsg;
+    const emailAddr = this.state.emailAddr;
+    let prevChecked = this.state.ifSendEmail;
+    if (!prevChecked) {
+      emailAddrErrMsg === '' && emailAddr !== ''
+        && this.setState(prev => { return {...prev, ifSendEmail: true }})
+    }
+    else { this.setState(prev => { return {...prev, ifSendEmail: false }}) }
   }
 
 
@@ -244,8 +278,22 @@ class Main extends Component<MainProps, MainState> {
                   onBlur={this.handleAaClashQueryBlur}
                   valid={this.props.aaClashQuery.codeQueryFormValue.match(AA_SUB_ENTRY_REGEX) !== null}
                   invalid={!AA_SUB_ENTRY_REGEX.test(this.props.aaClashQuery.codeQueryFormValue)}
-                  rows="11" placeholder={CodeQueryExample}>
+                  rows="9" placeholder={CodeQueryExample}>
                   </Input>
+                </Col>
+              </FormGroup>
+              <FormGroup row style={{ fontSize: 16, textAlign: 'left' }}>
+                <Col lg={{ size: 3, offset: 3 }}>
+                  <Input onChange={this.handleEmailAddrInput} 
+                    placeholder='Type in an email address'
+                    style={{width: '15rem' }}>
+                  </Input>
+                </Col>
+                <Col lg={{ size: 5 }} style={{ padding: 0, marginLeft: 16 }}>
+                  <CustomInput inline id="if-send-email-switch"
+                    type='switch' checked={this.state.ifSendEmail} 
+                    onChange={this.handleEmailAddrSwitch}
+                    label={`Send predictions to email ${this.state.emailAddrErrMsg}`}/>
                 </Col>
               </FormGroup>
               <FormGroup row>
@@ -274,8 +322,22 @@ class Main extends Component<MainProps, MainState> {
                   onBlur={this.handleAaClashQueryBlur}
                   valid={this.props.aaClashQuery.fileQueryFormValue.match(FILE_AA_SUB_REGEX) !== null}
                   invalid={!FILE_AA_SUB_REGEX.test(this.props.aaClashQuery.fileQueryFormValue)}
-                  rows="11" placeholder={FileQueryExample}>
+                  rows="9" placeholder={FileQueryExample}>
                   </Input>
+                </Col>
+              </FormGroup>
+              <FormGroup row style={{ fontSize: 16, textAlign: 'left' }}>
+                <Col lg={{ size: 3, offset: 3 }}>
+                  <Input onChange={this.handleEmailAddrInput}
+                    placeholder='Type in an email address'
+                    style={{width: '15rem' }}>
+                  </Input>
+                </Col>
+                <Col lg={{ size: 5 }} style={{ padding: 0, marginLeft: 16 }}>
+                  <CustomInput inline id="if-send-email-switch"
+                    type='switch' checked={this.state.ifSendEmail}
+                    onChange={this.handleEmailAddrSwitch}
+                    label={`Send predictions to email ${this.state.emailAddrErrMsg}`}/>
                 </Col>
               </FormGroup>
               <FormGroup row>

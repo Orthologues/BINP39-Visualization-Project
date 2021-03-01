@@ -19,6 +19,7 @@ export const PDB_CODE_ENTRY_REGEX = /(?<=^\s*>)[1-9]\w{3}/gm;
 export const PDB_FILE_NAME_REGEX = /[1-9]\w{3}\.pdb/i;
 export const AA_SUB_ENTRY_REGEX = /(?<=^\s*>[1-9]\w{3})(\s+[arndcqeghilkmfpstwyv]{0,1}\d+[arndcqeghilkmfpstwyv]|\s+\d+)+/gim;
 export const FILE_AA_SUB_REGEX = /((?<=(^\s*|\s+))([arndcqeghilkmfpstwyv]{0,1}\d+[arndcqeghilkmfpstwyv]|\d+)|(?<=(^\s*|\s+))([arndcqeghilkmfpstwyv]{0,1}\d+[arndcqeghilkmfpstwyv]|\d+)(?=\s*$))+/gim;
+export const EMAIL_ADDR_REGEX = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 //EBI's Variant API
 export const UNIPROT_VARIANT_API_PREFIX = 'https://www.ebi.ac.uk/proteins/api/variation';

@@ -642,7 +642,14 @@ const AaClashResult: FC<any> = () => {
       </div>
     </div>
     ) }
-  return <div></div>;
+  return (
+    <div className="AaClash-result">
+      <QueryList />
+      <div className="container-fluid">
+        <div className='row'></div>
+      </div>
+    </div>
+  );
 };
 
 export default AaClashResult;

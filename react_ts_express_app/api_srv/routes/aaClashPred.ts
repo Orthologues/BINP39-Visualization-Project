@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 import { PY_PATH, AA_CLASH_PREFIX } from '../constants.js';
 import { Options, PythonShell, PythonShellError } from 'python-shell';
 import nodemailer from 'nodemailer';
-import { Dictionary, isEmpty } from 'lodash';
+import { Dictionary } from 'lodash';
 import fs from 'fs';
 import { SENDER_PWD } from '../Secrets.js'
 
@@ -55,13 +55,20 @@ const AA_3_TO_1: Dictionary<string> = {"ALA":"A", "ARG":"R", "ASN":"N","ASP":"D"
 "GLN":"Q", "GLU":"E", "GLY":"G", "HIS":"H", "ILE":"I", "LEU":"L", "LYS":"K", 
 "MET":"M", "PHE":"F", "PRO":"P","SER":"S", "THR":"T", "TRP":"W", "TYR":"Y", "VAL":"V"};
 const SENDER_EMAIL = 'jwz.student.bmc.lu@gmail.com';
+const isEmpty = (value: object|string) => {
+  return (
+    value == null || // From standard.js: Always use === - but obj == null is allowed to check null || undefined
+    (typeof value === 'object' && Object.keys(value).length === 0) ||
+    (typeof value === 'string' && value.trim().length === 0)
+  )
+}
+  
 
 const sendPredsToEmail = (preds: AaClashPredData[], objAddr: string) => {
   let formattedPreds: Array<{ queryId: string, goodList: Array<AaSubDetailed>, badList: Array<AaSubDetailed> }> = [];
   preds.forEach(pred => {
-      formattedPreds.push({ ...formattedAaClashPred(pred), queryId: pred.queryId })
+      formattedPreds.push({ queryId: pred.queryId, ...formattedAaClashPred(pred) })
   });
-
   let transporter = nodemailer.createTransport(
   { 
     port: 2525,

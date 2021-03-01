@@ -56,11 +56,11 @@ export const pdbQueryFailed = (errMsg: string | Array<string>): PayloadAction =>
 
 
 export const postCodeQuery = (
-  queries: PdbIdAaQuery[]
+  queries: PdbIdAaQuery[], emailAddr?: string
 ): ThunkAction<Promise<void>, AaClashQueryState, undefined, PayloadAction> => async dispatch => {
   dispatch(loadingPdbQuery());
   // dispatch(addPdbQuery(queries)); // just for test
-  axios.post(`${SRV_URL_PREFIX}/pon-scp/pred/code`, JSON.stringify({ queries: queries }), 
+  axios.post(`${SRV_URL_PREFIX}/pon-scp/pred/code`, JSON.stringify({ queries: queries, emailAddr: emailAddr }), 
   { headers: { 'Content-Type': 'application/json' } }
   ).then((response) => {
       if (response.statusText === 'OK' || response.status === 200) {
