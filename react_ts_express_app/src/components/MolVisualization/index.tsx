@@ -262,7 +262,7 @@ const MolComponent: FC<any> = () => {
         <ol className='pdb-query-ol'>
       { 
         molState.displayMode === 'latest' && molState.molVisChoice === 'Jmol' &&
-          uniquePdbIds(queries).map((query, ind) =>  molState.jmolPdbAaSubs.pdbToLoad === query ? 
+          uniquePdbIds(queries).reverse().map((query, ind) =>  molState.jmolPdbAaSubs.pdbToLoad === query ? 
           <li key={`Jmol_${query}_${ind}`} className='pdb-query-item-selected'>
             <span className='pdb-id-span'>{query}</span>
             <i className="fa fa-trash fa-lg deletion-fa-icon"
@@ -278,7 +278,7 @@ const MolComponent: FC<any> = () => {
       }
       {
         molState.displayMode === 'history' && molState.molVisChoice === 'Jmol' &&
-          uniquePdbIds(queryHistory).map((query, ind) =>  molState.jmolPdbAaSubs.pdbToLoad === query ? 
+          uniquePdbIds(queryHistory).reverse().map((query, ind) =>  molState.jmolPdbAaSubs.pdbToLoad === query ? 
           <li key={`Jmol_${query}_${ind}`} className='pdb-query-item-selected'>
             <span className='pdb-id-span'>{query}</span>
             <i className="fa fa-trash fa-lg deletion-fa-icon"
@@ -300,7 +300,7 @@ const MolComponent: FC<any> = () => {
           <ol className='pdb-query-ol'>
       { 
         molState.molVisChoice === 'Jmol' && molState.indpPdbIdQueries.jmol.length > 0 &&
-          molState.indpPdbIdQueries.jmol.map((query, ind) => molState.jmolPdbAaSubs.pdbToLoad === query.pdbToLoad ? 
+          molState.indpPdbIdQueries.jmol.reverse().map((query, ind) => molState.jmolPdbAaSubs.pdbToLoad === query.pdbToLoad ? 
           <li key={`indpPdbId_`} className='pdb-query-item-selected'>
             <span className='extra-pdb-id-span'>{query.pdbToLoad}</span>
             <i className="fa fa-trash fa-lg deletion-fa-icon"

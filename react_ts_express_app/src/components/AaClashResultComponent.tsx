@@ -149,8 +149,16 @@ const AaClashResult: FC<any> = () => {
   //   state.aaClashQuery.filePredResult);
   const codeQueryHistory = useSelector<AppReduxState, PdbIdAaQuery[]>(state => 
     state.aaClashQuery.queryHistory);
+  let revCodeQueryHistory = new Array<PdbIdAaQuery>();
+  for (let i=codeQueryHistory.length-1; i >= 0 ; i--) {
+    revCodeQueryHistory.push(codeQueryHistory[i])
+  }
   const fileQueryHistory = useSelector<AppReduxState, PdbFileQueryStore[]>(state => 
     state.aaClashQuery.fileQueryHistory);
+  let revFileQueryHistory = new Array<PdbFileQueryStore>();
+  for (let i=fileQueryHistory.length-1; i >= 0 ; i--) {
+    revFileQueryHistory.push(fileQueryHistory[i])
+  }
   const codePredHistory = useSelector<AppReduxState, AaClashPredData[]>(state => 
     state.aaClashQuery.codePredResultHistory);
   const filePredHistory = useSelector<AppReduxState, AaClashPredData[]>(state => 
@@ -425,7 +433,7 @@ const AaClashResult: FC<any> = () => {
             } }></i>
           </li> 
         ) : 
-        codeQueryHistory.map((query, ind) => 
+        revCodeQueryHistory.map((query, ind) => 
           <li key={`${query.pdbId}_${ind}`} onClick={async () => await setQueryToShowPred(query)}
           className={JSON.stringify(queryToShowPred) === JSON.stringify(query) 
             ? 'pdb-query-item-selected'
@@ -443,7 +451,7 @@ const AaClashResult: FC<any> = () => {
         <ol className='pdb-query-ol'>
       {
       displayMode === 'latest' ?
-        latestFileQuery &&
+        latestFileQuery && latestFileQuery.queryId !== '' && latestFileQuery.fileName !== '' &&
           <li onClick={ async () => await setQueryToShowPred(latestFileQuery)}
           className={JSON.stringify(queryToShowPred) === JSON.stringify(latestFileQuery) 
             ? 'pdb-query-item-selected'
@@ -458,7 +466,7 @@ const AaClashResult: FC<any> = () => {
             } }></i>
           </li>
         :
-        fileQueryHistory.map((query, ind) => 
+        revFileQueryHistory.map((query, ind) => 
           <li key={`${query.fileName}_${ind}`} onClick={ async () => await setQueryToShowPred(query)}
           className={JSON.stringify(queryToShowPred) === JSON.stringify(query) 
             ? 'pdb-query-item-selected'

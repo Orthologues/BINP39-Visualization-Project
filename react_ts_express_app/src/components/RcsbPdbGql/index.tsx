@@ -80,7 +80,7 @@ const RcsbGqlIndex: FC<any> = () => {
           style={{ marginTop: '1rem' }}>AA-Clash PDB-ID queries</CardTitle>
           <ol className='pdb-query-ol'>
             { listDisplayMode === 'latest' ?
-            uniquePdbIds(queries).map((query, ind) => ( selectedQuery === query ? 
+            uniquePdbIds(queries).reverse().map((query, ind) => ( selectedQuery === query ? 
             ( <li key={`${query}_${ind}`} className='pdb-query-item-selected'>
                 <span className='pdb-id-span'>{query}</span>
                 <i className="fa fa-trash fa-lg deletion-fa-icon"
@@ -93,7 +93,7 @@ const RcsbGqlIndex: FC<any> = () => {
                 onClick={ e => deleteQueriesOfPdbId(e, ind) }></i>
               </li> )
             )) : 
-            uniquePdbIds(queryHistory).map((query, ind) => ( selectedQuery === query ? 
+            uniquePdbIds(queryHistory).reverse().map((query, ind) => ( selectedQuery === query ? 
             ( <li key={`${query}_${ind}`} className='pdb-query-item-selected'>
                 <span className='pdb-id-span'>{query}</span>
                 <i className="fa fa-trash fa-lg deletion-fa-icon"
@@ -108,7 +108,8 @@ const RcsbGqlIndex: FC<any> = () => {
             )) }
           <CardTitle tag="h6" style={{ color: '#663399', marginTop: '1rem' }}>Extra PDB-ID queries</CardTitle>
             <ol className='pdb-query-ol'>
-          { indpPdbIdQueries.length > 0 && indpPdbIdQueries.map((query, ind) => selectedQuery === query ? 
+          { indpPdbIdQueries.length > 0 
+              && indpPdbIdQueries.reverse().map((query, ind) => selectedQuery === query ? 
             ( <li key={`indpPdbId_`} className='pdb-query-item-selected'>
                 <span className='extra-pdb-id-span'>{query}</span>
                 <i className="fa fa-trash fa-lg deletion-fa-icon"
