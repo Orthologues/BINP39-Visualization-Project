@@ -109,6 +109,8 @@ type JmolDisplayOptions = {
   highLightSelected: boolean;
   wireFrameOnly: boolean;
   selectedChain: string; //select a whole sidechain and highlight it
+  angstromsRestrictionVal: number;
+  ifOpenAngstromsRestriction: boolean;
 }
 
 // pdb to uniprot residue mapping

@@ -1,5 +1,5 @@
 // this module defines backend operations of 'http(s)://api.structure.bmc.lu.se/pon-scp/pred'
-
+// alternative mail: proteinbioinformatik@med.lu.se
 import { Request, Response } from 'express';
 import { PY_PATH, AA_CLASH_PREFIX } from '../constants.js';
 import { Options, PythonShell, PythonShellError } from 'python-shell';

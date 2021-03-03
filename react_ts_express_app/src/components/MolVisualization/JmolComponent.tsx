@@ -14,6 +14,7 @@ import {
   Input,
   CustomInput,
   Row,
+  Col
 } from 'reactstrap';
 import {
   appendAsyncScript,
@@ -22,6 +23,7 @@ import {
 } from '../../shared/Funcs';
 import { AA_1_TO_3 } from '../../shared/Consts';
 import { FRONTEND_PREFIX } from '../../shared/Consts';
+import { isNumber } from 'lodash';
 
 const JsMol: FC<SubMolProps> = (props) => {
   const aaPreds = props.aaPreds;
@@ -34,12 +36,15 @@ const JsMol: FC<SubMolProps> = (props) => {
     highLightSelected: false,
     wireFrameOnly: false,
     selectedChain: '',
+    angstromsRestrictionVal: -1,
+    ifOpenAngstromsRestriction: false 
   });
   const backboneOnly = displayOptions.backboneOnly;
   const alphaCbOnly = displayOptions.alphaCbOnly;
   const highLightSelected = displayOptions.highLightSelected;
   const wireFrameOnly = displayOptions.wireFrameOnly;
   const selectedChain = displayOptions.selectedChain;
+  // adding ribbon/balls-sticks mode switching later
   const indpJmolQueries = useSelector<AppReduxState, JmolPdbAaSubs[]>(
     (state) => state.molVis.indpPdbIdQueries.jmol
   );
@@ -108,7 +113,7 @@ const JsMol: FC<SubMolProps> = (props) => {
     }
     return cmd;
   };
-  const mutationCmd = () => {
+  const mutationCmd = () => { // Unfortunately it's impossible to select specific chains with 'mutate' cmd
     let cmd = '';
     if (aaSubList.length > 0) {
       if (Object.keys(aaSubList[0]).includes('pred')) {
@@ -128,7 +133,7 @@ const JsMol: FC<SubMolProps> = (props) => {
     }
     return cmd;
   };
-  const mutationSelCmd = () => {
+  const mutationSelCmd = () => { 
     let cmd = '', selList = '';
     if (!zoomedInAa && aaSubList.length > 0 && selectedChain === '') {
       aaSubList.map((aaSub, ind) => {
@@ -146,6 +151,15 @@ const JsMol: FC<SubMolProps> = (props) => {
     }
     return cmd;
   };
+  const restrictCmd = () => { // hides everything not in expression, to be used together with 'within' cmd
+    if (zoomedInAa && displayOptions.angstromsRestrictionVal > 0 && displayOptions.ifOpenAngstromsRestriction) {
+      const distance = displayOptions.angstromsRestrictionVal.toFixed(2);
+      return `restrict within(${distance}, SELECTED); `
+    }
+  }
+  const slabCmd = () => {
+
+  }
 
   const divToggle = () => setMolState({divHidden: !molState.divHidden});
 
@@ -164,6 +178,7 @@ const JsMol: FC<SubMolProps> = (props) => {
         : zoomInCmd() === '' 
           ? 'selectionHalos;'
           : 'label %[covalentRadius]; color labels green; selectionHalos;' }
+      ${restrictCmd()}
       `,
       use: 'html5',
     };
@@ -297,6 +312,34 @@ const JsMol: FC<SubMolProps> = (props) => {
                 }}
               />
             </FormGroup>
+          {
+            zoomedInAa &&
+            <FormGroup style={{ marginBottom: 3, textAlign: 'left' }} check inline>
+              <Col lg={{ size: 4 }} style={{ padding: 0 }}>
+                <Input id='angstroms-restriction-input' 
+                  placeholder='Type in N'
+                  style={{width: '6rem' }}>
+                </Input>
+              </Col>
+              <Col lg={{ size: 8 }} style={{ padding: 0, marginLeft: 10 }}>
+                <CustomInput inline id="if-angstroms-restriction"
+                  type='switch' checked={displayOptions.ifOpenAngstromsRestriction} 
+                  onChange={ e => {
+                    const angsInputEl = document.getElementById('angstroms-restriction-input') as HTMLInputElement;
+                    const angsInputVal = angsInputEl.value;
+                    const numVal = parseFloat(angsInputVal);
+                    isNumber(numVal) && numVal > 0 &&
+                    setDisplayOptions(prev => (
+                      prev.ifOpenAngstromsRestriction === false
+                        ? { ...prev, ifOpenAngstromsRestriction: true, angstromsRestrictionVal: numVal }
+                        : { ...prev, ifOpenAngstromsRestriction: false, angstromsRestrictionVal: numVal }
+                    ))
+                  }}
+                  label={`Display only N
+                  (${displayOptions.angstromsRestrictionVal.toFixed(2)}) X Å around zoomed-in residue`}/>
+              </Col>
+            </FormGroup> 
+          }
             <CardText
               style={{
                 color: '#FFFF33',
@@ -452,6 +495,34 @@ const JsMol: FC<SubMolProps> = (props) => {
                 ))}
               </CustomInput>
             </FormGroup>
+            {
+            zoomedInAa &&
+            <FormGroup style={{ marginBottom: 3, textAlign: 'left' }} check inline>
+              <Col lg={{ size: 4 }}>
+                <Input id='angstroms-restriction-input' 
+                  placeholder='Type in N'
+                  style={{width: '6rem' }}>
+                </Input>
+              </Col>
+              <Col lg={{ size: 8 }} style={{ padding: 0, marginLeft: 0 }}>
+                <CustomInput inline id="if-angstroms-restriction"
+                  type='switch' checked={displayOptions.ifOpenAngstromsRestriction} 
+                  onChange={ e => {
+                    const angsInputEl = document.getElementById('angstroms-restriction-input') as HTMLInputElement;
+                    const angsInputVal = angsInputEl.value;
+                    const numVal = parseFloat(angsInputVal);
+                    isNumber(numVal) && numVal > 0 &&
+                    setDisplayOptions(prev => (
+                      prev.ifOpenAngstromsRestriction === false
+                        ? { ...prev, ifOpenAngstromsRestriction: true, angstromsRestrictionVal: numVal }
+                        : { ...prev, ifOpenAngstromsRestriction: false, angstromsRestrictionVal: numVal }
+                    ))
+                  }}
+                  label={`Display only N
+                  (${displayOptions.angstromsRestrictionVal.toFixed(2)}) X Å around zoomed-in residue`}/>
+              </Col>
+            </FormGroup> 
+          }
           </Form>
           <CardText
             style={{ color: '#FFFF33', textAlign: 'left', marginLeft: 6 }}
