@@ -536,7 +536,8 @@ const AaClashResult: FC<any> = () => {
               {
               showVariantInfo && residueMappingInfo.mappedVariants.some(mutant => 
                 mutant.clashType === 'good')
-                ? <DisplayMutantInfo variants={residueMappingInfo.mappedVariants} />
+                ? <DisplayMutantInfo 
+                  variants={residueMappingInfo.mappedVariants.filter(el => el.clashType === 'good')} />
                 : showVariantInfo && <p style={{fontSize: 15}}>No variants are mapped</p>
               }
               {formattedAaClashPred(
@@ -569,7 +570,8 @@ const AaClashResult: FC<any> = () => {
               {
               showVariantInfo && residueMappingInfo.mappedVariants.some(mutant => 
                 mutant.clashType === 'bad')
-                ? <DisplayMutantInfo variants={residueMappingInfo.mappedVariants} />
+                ? <DisplayMutantInfo 
+                  variants={residueMappingInfo.mappedVariants.filter(el => el.clashType === 'bad')} />
                 : showVariantInfo && <p style={{fontSize: 15}}>No variants are mapped</p>
               }
               {formattedAaClashPred(

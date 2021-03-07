@@ -50,7 +50,7 @@ const execMapping = async (pdbId: string) => {
 
 export default async function pdbResidueToUniprot(req: Request, res: Response) {
   const pdbId: string = req.params.pdb_id;
-  const mappedData = await execMapping(pdbId);
+  const mappedData = await execMapping(pdbId).catch((err: Error) => console.log(err.message));
   Array.isArray(mappedData) 
     ? mappedData.length > 0 
       ? res.send(mappedData as PdbResidueToUniprot[])

@@ -66,8 +66,22 @@ const isEmpty = (value: object|string) => {
 
 const sendPredsToEmail = (preds: AaClashPredData[], objAddr: string) => {
   let formattedPreds: Array<{ queryId: string, goodList: Array<AaSubDetailed>, badList: Array<AaSubDetailed> }> = [];
-  preds.forEach(pred => {
-      formattedPreds.push({ queryId: pred.queryId, ...formattedAaClashPred(pred) })
+  let attachments = new Array<{
+    filename: string, 
+    content: string,
+    encoding: 'utf-8', //for JSON
+    cid?: string, 
+  }>();
+  let htmlToDisplay: string = '';
+  preds.forEach((pred, ind) => {
+      const formattedPred = formattedAaClashPred(pred);
+      htmlToDisplay = `${htmlToDisplay}<p><b>AA-Clash Query-ID ${ind+1}:</b> ${pred.queryId}</p>`;
+      formattedPreds.push({ queryId: pred.queryId, ...formattedPred });
+      attachments.push({ 
+        filename: `AA_Clash_Prediction_${pred.queryId}.json`,
+        content: JSON.stringify({ formatted: formattedPreds[ind], raw: pred }),
+        encoding: 'utf-8'
+      })
   });
   let transporter = nodemailer.createTransport(
   { 
@@ -80,16 +94,17 @@ const sendPredsToEmail = (preds: AaClashPredData[], objAddr: string) => {
       pass: SENDER_PWD
     }
   });
+  // let attachMentList
   let message = {
     from: SENDER_EMAIL,
     // Comma separated list of recipients
     to: objAddr,
     // Subject of the message
+    html: htmlToDisplay,
     subject: `Steric-clash prediction for AA substitutions by PON-SC+`,
-    // plaintext body
-    text: JSON.stringify(formattedPreds),
+    attachments: attachments
   };
-  transporter.sendMail(message);
+  transporter.sendMail(message).catch((err: Error) => console.log(err.message));
 }
 const formattedAaClashPred = (aaClashPred: AaClashPredData): 
 { goodList: Array<AaSubDetailed>, badList: Array<AaSubDetailed> } => {
@@ -242,7 +257,7 @@ const handlePdbCodeQuery = (req: Request, res: Response) => {
             }
             pyScriptRes.code = code;
             pyScriptRes.signal = signal;
-            res.send(dataToClient);
+            res.send(dataToClient); 
             emailAddr && sendPredsToEmail(dataToClient.aaClash, emailAddr)
         });
     }
