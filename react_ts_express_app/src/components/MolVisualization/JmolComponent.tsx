@@ -44,6 +44,7 @@ const JsMol: FC<SubMolProps> = (props) => {
   const highLightSelected = displayOptions.highLightSelected;
   const wireFrameOnly = displayOptions.wireFrameOnly;
   const selectedChain = displayOptions.selectedChain;
+  const angsAround = displayOptions.angstromsRestrictionVal;
   // adding ribbon/balls-sticks mode switching later
   const indpJmolQueries = useSelector<AppReduxState, JmolPdbAaSubs[]>(
     (state) => state.molVis.indpPdbIdQueries.jmol
@@ -335,8 +336,8 @@ const JsMol: FC<SubMolProps> = (props) => {
                         : { ...prev, ifOpenAngstromsRestriction: false, angstromsRestrictionVal: numVal }
                     ))
                   }}
-                  label={`Display only N
-                  (${displayOptions.angstromsRestrictionVal.toFixed(2)}) X Å around zoomed-in residue`}/>
+                  label={`Display only
+                  ${angsAround > 0 ? angsAround.toFixed(2) : '___'}(N) X Å around zoomed-in residue`}/>
               </Col>
             </FormGroup> 
           }
@@ -518,8 +519,8 @@ const JsMol: FC<SubMolProps> = (props) => {
                         : { ...prev, ifOpenAngstromsRestriction: false, angstromsRestrictionVal: numVal }
                     ))
                   }}
-                  label={`Display only N
-                  (${displayOptions.angstromsRestrictionVal.toFixed(2)}) X Å around zoomed-in residue`}/>
+                  label={`Display only
+                  ${angsAround > 0 ? angsAround.toFixed(2) : '___'}(N) X Å around zoomed-in residue`}/>
               </Col>
             </FormGroup> 
           }
@@ -544,8 +545,7 @@ const JsMol: FC<SubMolProps> = (props) => {
                 </Label>
                 <Input
                   type="checkbox" id="mutate_all_good_checkbox"
-                  checked={JSON.stringify(aaSubList) === JSON.stringify(processMutateAll(aaPreds.goodList))}
-                  onChange={(e) => {
+                  onChange={ e => {
                     const mutateAllBadEl = document.getElementById('mutate_all_bad_checkbox') as HTMLInputElement;
                     const processedAaSubs = processMutateAll(aaPreds.goodList.
                       concat(aaSubList as AaSubDetailed[]));
@@ -610,7 +610,6 @@ const JsMol: FC<SubMolProps> = (props) => {
                 </Label>
                 <Input
                   type="checkbox" id="mutate_all_bad_checkbox"
-                  checked={JSON.stringify(aaSubList) === JSON.stringify(processMutateAll(aaPreds.badList))}
                   onChange={(e) => {
                     const mutateAllGoodEl = document.getElementById('mutate_all_good_checkbox') as HTMLInputElement;
                     const processedAaSubs = processMutateAll(aaPreds.badList.

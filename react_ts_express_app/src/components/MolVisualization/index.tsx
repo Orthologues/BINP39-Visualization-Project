@@ -61,14 +61,20 @@ const MolComponent: FC<any> = () => {
             extraJmolPdbIdSet.includes(predPdbId) && dispatch(delIndpMolPdbIdQuery(predPdbId));
             const goodAas = aaClashPredGoodBad(pred).goodList;
             const badAas = aaClashPredGoodBad(pred).badList;
-            allGoodAas = allGoodAas.concat(goodAas); 
-            allBadAas = allBadAas.concat(badAas);
+            goodAas.forEach(goodAa => {
+              !allGoodAas.some(el => JSON.stringify(el) === JSON.stringify(goodAa))
+               && allGoodAas.push(goodAa)
+            })
+            badAas.forEach(badAa => {
+              !allBadAas.some(el => JSON.stringify(el) === JSON.stringify(badAa))
+               && allBadAas.push(badAa)
+            })
           }
         });
         return { 
-          goodList: [ ...new Set(allGoodAas) ].sort((a, b) => a.chain > b.chain ? -1 : 1)
+          goodList: allGoodAas.sort((a, b) => a.chain > b.chain ? -1 : 1)
           .sort((a, b) => a.pos > b.pos ? 1 : -1), 
-          badList: [ ...new Set(allBadAas) ].sort((a, b) => a.chain > b.chain ? -1 : 1)
+          badList: allBadAas.sort((a, b) => a.chain > b.chain ? -1 : 1)
           .sort((a, b) => a.pos > b.pos ? 1 : -1) 
         }
       } 
@@ -84,14 +90,20 @@ const MolComponent: FC<any> = () => {
             extraJmolPdbIdSet.includes(predPdbId) && dispatch(delIndpMolPdbIdQuery(predPdbId));
             const goodAas = aaClashPredGoodBad(pred).goodList;
             const badAas = aaClashPredGoodBad(pred).badList;
-            allGoodAas = allGoodAas.concat(goodAas); 
-            allBadAas = allBadAas.concat(badAas);
+            goodAas.forEach(goodAa => {
+              !allGoodAas.some(el => JSON.stringify(el) === JSON.stringify(goodAa))
+               && allGoodAas.push(goodAa)
+            })
+            badAas.forEach(badAa => {
+              !allBadAas.some(el => JSON.stringify(el) === JSON.stringify(badAa))
+               && allBadAas.push(badAa)
+            })
           }
         });
         return { 
-          goodList: [ ...new Set(allGoodAas) ].sort((a, b) => a.chain > b.chain ? -1 : 1)
+          goodList: allGoodAas.sort((a, b) => a.chain > b.chain ? -1 : 1)
           .sort((a, b) => a.pos > b.pos ? 1 : -1), 
-          badList: [ ...new Set(allBadAas) ].sort((a, b) => a.chain > b.chain ? -1 : 1)
+          badList: allBadAas.sort((a, b) => a.chain > b.chain ? -1 : 1)
           .sort((a, b) => a.pos > b.pos ? 1 : -1) 
         }
       }
