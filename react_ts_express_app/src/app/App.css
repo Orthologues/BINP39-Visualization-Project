@@ -54,10 +54,10 @@
 /* for pdbQueryList in both MolComponent and RcsbGqlComponent */
 .pdb-query-list {
   background-color:	#C0C0C0;
-  min-width: 220px;
-  max-width: 220px;
-  padding-left: 8px;
-  padding-right: 8px;
+  min-width: 184px;
+  max-width: 184px;
+  padding-left: 4px;
+  padding-right: 4px;
   overflow: hidden scroll;
 }
 
