@@ -48,6 +48,7 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
+    "pon-scp": "export PORT=3011 && react-scripts start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -25,6 +25,13 @@ import { AA_1_TO_3 } from '../../shared/Consts';
 import { isNumber } from 'lodash';
 
 const JsMol: FC<SubMolProps> = (props) => {
+
+  const JMOL_MANUAL = `Click checkbox of an item for adding halos to/mutating its residue, 
+  yellow text indicates that an item's residue is mutated. Switch on to
+  zoom in an AA. If there're multiple AA-subs at one
+  position, 'mutate all' would choose the first AA-sub on list.
+  Green label of a selected atom implies its covalent bonding
+  radius(0.4 unit = 0.001 Å).`;
   const aaPreds = props.aaPreds;
   const [molState, setMolState] = useState<MolDisplayState>({
     divHidden: true,
@@ -139,7 +146,7 @@ const JsMol: FC<SubMolProps> = (props) => {
       aaSubList.map((aaSub, ind) => {
         selList = `${selList}${ind > 0 ? ' or ' : ''}${aaSub.pos}:${aaSub.chain}${alphaCbOnly ? '.CA' : ''}`
       });
-      cmd = `select "${selList}"`;
+      cmd = `select "${selList}";`;
     }
     return cmd;
   };
@@ -174,7 +181,8 @@ const JsMol: FC<SubMolProps> = (props) => {
       ${zoomInCmd() === '' && mutationSelCmd() === '' ? '' 
         : zoomInCmd() === '' 
           ? 'selectionHalos;'
-          : 'label %[covalentRadius]; color labels green; selectionHalos;' }
+          : 'label %[covalentRadius]; color labels green;' }
+      ${zoomedInAa ? '' : 'ribbon only;'}
       ${restrictCmd()}
       `,
       use: 'html5',
@@ -182,7 +190,7 @@ const JsMol: FC<SubMolProps> = (props) => {
     $('#jsmol-container').html(Jmol.getAppletHtml('html5Jmol', JmolInfo));
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     //this function loads synchronously right after any DOM mutation
     appendAsyncScript(`/assets/JSmol/JSmol-min.js`);
     return () => {
@@ -198,8 +206,7 @@ const JsMol: FC<SubMolProps> = (props) => {
       }, 50);
   }, [props.pdbId]);
   useEffect(() => {
-    molState.divHidden === false &&
-      setTimeout(() => renderJSmolHTML(props.pdbId), 50);
+    molState.divHidden === false && setTimeout(() => renderJSmolHTML(props.pdbId), 50)
   }, [displayOptions, aaSubList, zoomedInAa]);
 
   return (
@@ -345,12 +352,7 @@ const JsMol: FC<SubMolProps> = (props) => {
                 marginRight: 5,
               }}
             >
-              Click checkbox of an item for adding halos to/mutating its residue in Jmol, 
-              yellow text indicates that an item's residue is mutated. Switch on for
-              zooming to its position. If there're multiple AA-subs at one
-              position, 'mutate all' would choose the first AA-sub on list.
-              Green label of a selected atom implies its covalent bonding
-              radius(0.4 unit = 0.001 Å).
+              {JMOL_MANUAL}
             </CardText>
           </Form>
           <p style={{ marginBottom: 5 }}>AA-Subs without prediction</p>
@@ -524,13 +526,8 @@ const JsMol: FC<SubMolProps> = (props) => {
           <CardText
             style={{ color: '#FFFF33', textAlign: 'left', marginLeft: 6 }}
           >
-            Click checkbox of an item for adding halos to/mutating its residue in Jmol, 
-            yellow text indicates that an item's residue is mutated. Switch on for
-            zooming to its position. If there're multiple AA-subs at one
-            position, 'mutate all' would choose the first AA-sub on list.
-            Green label of a selected atom implies its covalent bonding
-            radius(0.4 unit = 0.001 Å).
-          </CardText>
+            {JMOL_MANUAL}
+            </CardText>
         </ol>
         <div className="row" style={{ marginBottom: 24 }}>
           <div className="col-12 col-lg-6">
