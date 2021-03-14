@@ -22,7 +22,6 @@ import {
   processedPdbId,
 } from '../../shared/Funcs';
 import { AA_1_TO_3 } from '../../shared/Consts';
-import { FRONTEND_PREFIX } from '../../shared/Consts';
 import { isNumber } from 'lodash';
 
 const JsMol: FC<SubMolProps> = (props) => {
@@ -158,9 +157,6 @@ const JsMol: FC<SubMolProps> = (props) => {
       return `restrict within(${distance}, SELECTED); `
     }
   }
-  const slabCmd = () => {
-
-  }
 
   const divToggle = () => setMolState({divHidden: !molState.divHidden});
 
@@ -169,8 +165,8 @@ const JsMol: FC<SubMolProps> = (props) => {
       width: '100%',
       height: '100%',
       color: '#fff8f9',
-      j2sPath: `${FRONTEND_PREFIX}/assets/JSmol/j2s`,
-      serverURL: `${FRONTEND_PREFIX}/assets/JSmol/php/jsmol.php`,
+      j2sPath: `/assets/JSmol/j2s`,
+      serverURL: `/assets/JSmol/php/jsmol.php`,
       script: `
       set antialiasDisplay; set hoverDelay 0.1; load =${pdbCode};
       ${mutationCmd()} ${mutationSelCmd()} ${chainSelCmd()} 
@@ -188,9 +184,9 @@ const JsMol: FC<SubMolProps> = (props) => {
 
   useLayoutEffect(() => {
     //this function loads synchronously right after any DOM mutation
-    appendAsyncScript(`${FRONTEND_PREFIX}/assets/JSmol/JSmol-min.js`);
+    appendAsyncScript(`/assets/JSmol/JSmol-min.js`);
     return () => {
-      removeAsyncScriptBySrc(`${FRONTEND_PREFIX}/assets/JSmol/JSmol-min.js`);
+      removeAsyncScriptBySrc(`/assets/JSmol/JSmol-min.js`);
     };
   }, []);
   useEffect(() => {

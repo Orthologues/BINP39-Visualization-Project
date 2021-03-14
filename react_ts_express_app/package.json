@@ -57,7 +57,7 @@
     "full-dev": "concurrently -k -n COMPILER,NODEMON,REACT -c green,yellow,blue \"cd api_srv && tsc -w\" \"nodemon -w dist -q api_srv/dist/express_srv.js\" \"react-scripts start\"",
     "codegen": "graphql-codegen --config codegen.yml"
   },
-  "proxy": "http://localhost:3010",
+  "homepage": ".",
   "eslintConfig": {
     "extends": [
       "react-app",

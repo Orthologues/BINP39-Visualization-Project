@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Navbar, NavbarBrand, Nav, NavbarToggler, Collapse, NavItem } from 'reactstrap';
-import { FRONTEND_PREFIX } from '../shared/Consts';
 
 const Header: FC<any> = () => {
   const [isNavOpen, setNavOpen] = useState<boolean>(false);
@@ -16,7 +15,7 @@ const Header: FC<any> = () => {
           onClick={toggleNav}  style={{ marginRight: "1rem" }}/>
           <NavbarBrand className="mr-auto" href="/" >
             <img 
-            src={`${FRONTEND_PREFIX}/logo192.png`} 
+            src={`/logo192.png`} 
             height="36" 
             width="36" 
             alt='PON-SC+' 

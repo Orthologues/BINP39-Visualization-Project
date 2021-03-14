@@ -4,9 +4,6 @@ import { invert, Dictionary } from 'lodash';
 const SRV_PORT = 3010;
 export const SRV_URL_PREFIX = `http://localhost:${SRV_PORT.toString()}`;
 
-// prefix of the front-end server
-export const FRONTEND_PREFIX = 'http://localhost:3000';
-
 export const AMINO_ACIDS = ['A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I', 
 'L', 'K', 'M', 'F', 'P', 'S', 'T', 'W', 'Y', 'V'];
 export const AA_3_TO_1: Dictionary<string> = {"ALA":"A", "ARG":"R", "ASN":"N","ASP":"D", "CYS":"C", 
