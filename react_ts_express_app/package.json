@@ -40,7 +40,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "serve-build": "serve -s build",
+    "serve": "serve -s build",
     "srv-dev": "cd api_srv && npx concurrently -k -n COMPILER,NODEMON -c green,yellow \"tsc -w\" \"nodemon -w dist -q dist/pon_scp_express_srv.js\"",
     "srv-build": "cd api_srv && tsc",
     "full-dev": "concurrently -k -n COMPILER,NODEMON,REACT -c green,yellow,blue \"cd api_srv && tsc -w\" \"nodemon -w dist -q api_srv/dist/pon_scp_express_srv.js\" \"react-scripts start\"",

@@ -74,9 +74,9 @@ export const postCodeQuery = (
       }
     }).then((response) => {
       const aaClashData: AaClashDataToClient = response.data;
-      let predResults = aaClashData.aaClash; 
+      let predResults = aaClashData.aaClash as AaClashPredData[]; 
       const pyRunInfo: PyScriptResponse = aaClashData.pyRunInfo;
-      pyRunInfo.code === 0 ?
+      pyRunInfo.code === 0 && predResults.every(pred => pred.goodAcids && pred.badAcids) ?
       dispatch(addCodeQuery(queries, <Array<AaClashPredData>>predResults)) && 
       dispatch(appendCodeQuery(queries, <Array<AaClashPredData>>predResults)) :
       dispatch(pdbQueryFailed([`Error while running the python scripts for AA steric-clash on our server!`,
@@ -103,9 +103,9 @@ ThunkAction<Promise<void>, AaClashQueryState, undefined, PayloadAction> => async
       }
     }).then((response) => {
       const aaClashData: AaClashDataToClient = response.data;
-      let predResult = aaClashData.aaClash; 
+      let predResult = aaClashData.aaClash as AaClashPredData; 
       const pyRunInfo: PyScriptResponse = aaClashData.pyRunInfo;
-      pyRunInfo.code === 0 && JSON.stringify(predResult).match(`.+goodAcids.+`) ?
+      pyRunInfo.code === 0 && predResult.goodAcids && predResult.badAcids ?
       dispatch(addFileQuery(query, <AaClashPredData>predResult)) && 
       dispatch(appendFileQuery(query, <AaClashPredData>predResult)) :
       dispatch(pdbQueryFailed([`Error while running the python scripts for AA steric-clash on our server!`,
