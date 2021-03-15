@@ -30,13 +30,7 @@ export const removeSyncScriptBySrc = (givenSrc: string): void => {
         foundScript.nodeName === 'SCRIPT' &&
         (foundScript as HTMLScriptElement).async === false &&
         (foundScript as HTMLScriptElement).src === givenSrc
-      ) {
-        document.body.removeChild(foundScript);
-        break;
-      }
-      console.log(
-        `This element with a className "embeddedSyncJS" isn't a sync script element with 'src' as "${givenSrc}" !`
-      );
+      ) { document.body.removeChild(foundScript) }
     }
   }
 };
@@ -49,19 +43,11 @@ export const removeAsyncScriptBySrc = (givenSrc: string): void => {
   } else {
     for (let i = scripts.length - 1; i >= 0; i--) {
       const foundScript: Element = scripts[i];
-      // console.log(`${foundScript.nodeName}  ${(foundScript as HTMLScriptElement).async}  ${(foundScript as HTMLScriptElement).src}`)
       if (
         foundScript.nodeName === 'SCRIPT' &&
         (foundScript as HTMLScriptElement).async === true &&
         (foundScript as HTMLScriptElement).src === givenSrc
-      ) {
-        document.body.removeChild(foundScript);
-        // alert(`"${givenSrc}" removed!`);
-        break;
-      }
-      console.log(
-        `This element with a className "embeddedAsyncJS" isn't an async script element with 'src' as "${givenSrc}" !`
-      );
+      ) { document.body.removeChild(foundScript) }
     }
   }
 };

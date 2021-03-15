@@ -167,34 +167,41 @@ const JsMol: FC<SubMolProps> = (props) => {
 
   const divToggle = () => setMolState({divHidden: !molState.divHidden});
 
-  const renderJSmolHTML = (pdbCode: string) => {
-    let JmolInfo = {
+  const renderJSmolHTML = () => {
+    let jmolScript = `
+    set antialiasDisplay; set hoverDelay 0.1; load =${props.pdbId};
+    ${mutationCmd()} ${mutationSelCmd()} ${chainSelCmd()} 
+    ${wireFrameCmd()} ${backboneOnlyCmd()} ${zoomInCmd()} ${highlightSelectedCmd()} 
+    ${zoomInCmd() === '' && mutationSelCmd() === '' ? '' 
+      : zoomInCmd() === '' 
+        ? 'selectionHalos;'
+        : 'label %[covalentRadius]; color labels green;' }
+    ${zoomedInAa ? '' : 'ribbon only;'}
+    ${restrictCmd()} 
+    `;
+    const JmolInfo = {
       width: '100%',
       height: '100%',
       color: '#fff8f9',
-      j2sPath: `/assets/JSmol/j2s`,
-      serverURL: `/assets/JSmol/php/jsmol.php`,
-      script: `
-      set antialiasDisplay; set hoverDelay 0.1; load =${pdbCode};
-      ${mutationCmd()} ${mutationSelCmd()} ${chainSelCmd()} 
-      ${wireFrameCmd()} ${backboneOnlyCmd()} ${zoomInCmd()} ${highlightSelectedCmd()} 
-      ${zoomInCmd() === '' && mutationSelCmd() === '' ? '' 
-        : zoomInCmd() === '' 
-          ? 'selectionHalos;'
-          : 'label %[covalentRadius]; color labels green;' }
-      ${zoomedInAa ? '' : 'ribbon only;'}
-      ${restrictCmd()}
-      `,
+      j2sPath: '/JSmol/j2s',
+      serverURL: '/JSmol/php/jsmol.php',
       use: 'html5',
+      script: jmolScript
     };
-    $('#jsmol-container').html(Jmol.getAppletHtml('html5Jmol', JmolInfo));
+    $(() => {
+      $('#jsmol-container').html(Jmol.getAppletHtml('html5Jmol', JmolInfo));
+    })
   };
 
   useEffect(() => {
     //this function loads synchronously right after any DOM mutation
-    appendAsyncScript(`/assets/JSmol/JSmol-min.js`);
+    appendAsyncScript('/JSmol/JSmol.min.js');
+    setTimeout(() => { 
+      delete Jmol._tracker;
+      console.log('Jmol._tracker is deleted!');
+     }, 50);
     return () => {
-      removeAsyncScriptBySrc(`/assets/JSmol/JSmol-min.js`);
+      removeAsyncScriptBySrc('/JSmol/JSmol.min.js');
     };
   }, []);
   useEffect(() => {
@@ -206,7 +213,7 @@ const JsMol: FC<SubMolProps> = (props) => {
       }, 50);
   }, [props.pdbId]);
   useEffect(() => {
-    molState.divHidden === false && setTimeout(() => renderJSmolHTML(props.pdbId), 50)
+    molState.divHidden === false && setTimeout(() => renderJSmolHTML(), 50)
   }, [displayOptions, aaSubList, zoomedInAa]);
 
   return (
