@@ -46,3 +46,8 @@ extra_assets
 
 # authentication
 *Secrets.ts
+
+#frontend_build
+frontend_build_config
+!frontend_build_config/package.json
+!frontend_build_config/tsconfig.json
