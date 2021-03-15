@@ -76,8 +76,8 @@ const sendPredsToEmail = (preds: AaClashPredData[], objAddr: string) => {
   preds.forEach((pred, ind) => {
       const formattedPred = formattedAaClashPred(pred);
       htmlToDisplay = `${htmlToDisplay}<p><b>AA-Clash Query-ID ${ind+1}:</b> ${pred.queryId}</p>`;
-      formattedPreds.push({ queryId: pred.queryId, ...formattedPred });
-      attachments.push({ 
+      formattedPred && formattedPreds.push({ queryId: pred.queryId, ...formattedPred });
+      formattedPred && attachments.push({ 
         filename: `AA_Clash_Prediction_${pred.queryId}.json`,
         content: JSON.stringify({ formatted: formattedPreds[ind], raw: pred }),
         encoding: 'utf-8'
@@ -104,13 +104,14 @@ const sendPredsToEmail = (preds: AaClashPredData[], objAddr: string) => {
     subject: `Steric-clash prediction for AA substitutions by PON-SC+`,
     attachments: attachments
   };
-  transporter.sendMail(message).catch((err: Error) => console.log(err.message));
+  attachments.length > 0 && transporter.sendMail(message).catch((err: Error) => console.log(err.message));
 }
 const formattedAaClashPred = (aaClashPred: AaClashPredData): 
-{ goodList: Array<AaSubDetailed>, badList: Array<AaSubDetailed> } => {
-   const goodAAs = aaClashPred.goodAcids as Dictionary<Dictionary<string>>;
-   const badAAs = aaClashPred.badAcids as Dictionary<string[]>;
+{ goodList: Array<AaSubDetailed>, badList: Array<AaSubDetailed> } | undefined => {
+   const goodAAs = aaClashPred.goodAcids as Dictionary<Dictionary<string>>|undefined;
+   const badAAs = aaClashPred.badAcids as Dictionary<string[]>|undefined;
    const output = { goodList: [] as Array<AaSubDetailed>, badList: [] as Array<AaSubDetailed> };
+   if (!(goodAAs && badAAs)) { return undefined }; 
    Object.keys(goodAAs).map(chain_pos => {
      let chain=''; 
      let pos='';
@@ -192,7 +193,7 @@ export const handlePdbFileQuery = (req: Request, res: Response) => {
             pyScriptRes.code = code;
             pyScriptRes.signal = signal;
             res.send(dataToClient);
-            emailAddr && sendPredsToEmail([dataToClient.aaClash], emailAddr)
+            !err && emailAddr && sendPredsToEmail([dataToClient.aaClash], emailAddr)
         });
     }
 }
@@ -258,7 +259,7 @@ const handlePdbCodeQuery = (req: Request, res: Response) => {
             pyScriptRes.code = code;
             pyScriptRes.signal = signal;
             res.send(dataToClient); 
-            emailAddr && sendPredsToEmail(dataToClient.aaClash, emailAddr)
+            !err && emailAddr && sendPredsToEmail(dataToClient.aaClash, emailAddr)
         });
     }
 }

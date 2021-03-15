@@ -143,9 +143,12 @@ class Main extends Component<MainProps, MainState> {
   submitCodeQuery = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     setTimeout(() => {}, 50);
-    if (this.state.codeQueryErrMsg !== '' || !this.state.codeFormTouched) {
+    if (this.state.codeQueryErrMsg !== '') {
       alert(`Your code-query is incorrectly formatted!`); return
     } 
+    if (!this.state.codeFormTouched) {
+      alert(`Query form hasn't been touched!`); return
+    }
     const pdbIds = this.props.aaClashQuery.codeQueryFormValue.match(PDB_CODE_ENTRY_REGEX);
     const aaSubsRaw = this.props.aaClashQuery.codeQueryFormValue.match(AA_SUB_ENTRY_REGEX); 
     if (pdbIds && aaSubsRaw && aaSubsRaw.length > 0) {
@@ -167,13 +170,11 @@ class Main extends Component<MainProps, MainState> {
     evt.preventDefault();
     setTimeout(() => {}, 50);
     if (! this.state.selectedPdbFile) { alert('No .pdb input file is uploaded!'); return }
-    // such check would block unpublished .pdb files, don't use it //
-    // if (! this.state.selectedPdbFile?.name.match(PDB_FILE_NAME_REGEX)) { 
-    //   alert(`Prefix of the .pdb file you uploaded doesn't match PDB-id format!`); return 
-    // } 
+    if (! this.state.fileFormTouched) { alert(`Query form hasn't been touched!`); return }
+
     const aaSubsRaw = this.props.aaClashQuery.fileQueryFormValue.match(FILE_AA_SUB_REGEX); 
-    if (aaSubsRaw && aaSubsRaw.length > 0 && this.state.fileQueryErrMsg === '' && 
-    this.state.fileFormTouched && this.state.selectedPdbFile) {
+    if (aaSubsRaw && aaSubsRaw.length > 0 && this.state.fileQueryErrMsg === '' 
+    && this.state.selectedPdbFile) {
       const queryStore = processedFileQuery(this.state.selectedPdbFile.name, aaSubsRaw);
       if (queryStore) {
         const queryData = new FormData();
