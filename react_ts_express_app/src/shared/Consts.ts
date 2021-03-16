@@ -20,3 +20,6 @@ export const EMAIL_ADDR_REGEX = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\
 
 //EBI's Variant API
 export const UNIPROT_VARIANT_API_PREFIX = 'https://www.ebi.ac.uk/proteins/api/variation';
+
+//JSmol CDN
+export const JSMOL_HOST = 'https://chemapps.stolaf.edu/jmol/jsmol';

@@ -1,5 +1,4 @@
 import React, { FC, useState, useEffect } from 'react'; 
-import { useSelector } from 'react-redux';
 import { GetPdbBasicQuery } from './GqlLib';
 import { useMapPdbToUniprotQuery, useGetUniprotBasicQuery } from './GqlLib';
 import { Card, CardHeader, CardTitle, CardBody, CardText, Button, Label, Input } from 'reactstrap';
@@ -22,8 +21,6 @@ const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
     const { data, error, loading, refetch } = useMapPdbToUniprotQuery(
       { variables: { entry_id: pdbCode, entity_id: '1' } },
     );
-    const predHistory = useSelector<AppReduxState, AaClashPredData[]>(state => 
-      state.aaClashQuery.codePredResultHistory);
     useEffect(() => {
     }, [pdbCode]);
     
@@ -80,7 +77,7 @@ const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
           { PUBMED_ID && (<CardText><b>PudMed ID:</b> {PUBMED_ID}</CardText>) }
           { EMDB_IDS && 
             EMDB_IDS.map((emdbId, ind) =>
-              <CardText><b>Related EMDB ID({ind}):</b> {emdbId}</CardText>
+              <CardText key={`${emdbId}_${ind}`}><b>Related EMDB ID({ind}):</b> {emdbId}</CardText>
             )
           }
           { Array.isArray(POLYMER_ENTITIES) && 

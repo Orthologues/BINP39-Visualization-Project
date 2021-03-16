@@ -1,4 +1,4 @@
-import React, { FC, useState, useLayoutEffect, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { Dispatch } from 'redux';
 import { useSelector, useDispatch } from 'react-redux';
 import $ from 'jquery';
@@ -18,7 +18,6 @@ import {
 } from 'reactstrap';
 import {
   appendAsyncScript,
-  removeAsyncScriptBySrc,
   processedPdbId,
 } from '../../shared/Funcs';
 import { AA_1_TO_3 } from '../../shared/Consts';
@@ -69,7 +68,7 @@ const JsMol: FC<SubMolProps> = (props) => {
     const chainPosPairSet = [
       ...new Set(rawAaSubs.map((aaSub) => `${aaSub.chain}_${aaSub.pos}`)),
     ];
-    chainPosPairSet.map((chain_pos) => {
+    chainPosPairSet.forEach((chain_pos) => {
       const matchedMuts = rawAaSubs.filter(
         (aaSub) => `${aaSub.chain}_${aaSub.pos}` === chain_pos
       );
@@ -125,13 +124,13 @@ const JsMol: FC<SubMolProps> = (props) => {
     if (aaSubList.length > 0) {
       if (Object.keys(aaSubList[0]).includes('pred')) {
         // AA-clash pred mode instead of extra-query mode
-        aaSubList.map((aaSub) => {
+        aaSubList.forEach((aaSub) => {
           let pos = (aaSub as AaSubDetailed).pos;
           let newAa = AA_1_TO_3[(aaSub as AaSubDetailed).newAa];
           cmd = `${cmd} mutate ${pos} ${newAa};`;
         });
       } else {
-        aaSubList.map((aaSub) => {
+        aaSubList.forEach((aaSub) => {
           let pos = (aaSub as AaSub).pos;
           let newAa = AA_1_TO_3[(aaSub as AaSub).target];
           cmd = `${cmd} mutate ${pos} ${newAa};`;
@@ -143,7 +142,7 @@ const JsMol: FC<SubMolProps> = (props) => {
   const mutationSelCmd = () => { 
     let cmd = '', selList = '';
     if (!zoomedInAa && aaSubList.length > 0 && selectedChain === '') {
-      aaSubList.map((aaSub, ind) => {
+      aaSubList.forEach((aaSub, ind) => {
         selList = `${selList}${ind > 0 ? ' or ' : ''}${aaSub.pos}:${aaSub.chain}${alphaCbOnly ? '.CA' : ''}`
       });
       cmd = `select "${selList}";`;
@@ -192,10 +191,8 @@ const JsMol: FC<SubMolProps> = (props) => {
 
   useEffect(() => {
     //this function loads synchronously right after any DOM mutation
-    appendAsyncScript(`/JSmol/JSmol.min.js`);
-    return () => {
-      removeAsyncScriptBySrc(`/JSmol/JSmol.min.js`);
-    };
+    const jsMolMinScript = document.getElementById('js_mol_min');
+    !jsMolMinScript && appendAsyncScript('/JSmol/JSmol.min.js', 'js_mol_min');
   }, []);
   useEffect(() => {
     props.pdbId === ''

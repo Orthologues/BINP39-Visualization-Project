@@ -8,17 +8,18 @@ export const appendSyncScript = (scriptToAppend: string): void => {
   script.className = 'embeddedSyncJS';
   script.src = scriptToAppend;
   script.async = false;
-  document.body.appendChild(script);
+  document.head.appendChild(script);
 };
-export const appendAsyncScript = (scriptToAppend: string): void => {
+export const appendAsyncScript = (scriptToAppend: string, scriptId: string): void => {
   const script: HTMLScriptElement = document.createElement('script');
   script.className = 'embeddedAsyncJS';
   script.src = scriptToAppend;
+  script.id = scriptId;
   script.async = true;
-  document.body.appendChild(script);
+  document.head.appendChild(script);
 };
 export const removeSyncScriptBySrc = (givenSrc: string): void => {
-  const scripts: HTMLCollectionOf<Element> = document.getElementsByClassName(
+  const scripts: HTMLCollectionOf<Element> = document.head.getElementsByClassName(
     'embeddedSyncJS'
   );
   if (scripts.length === 0) {
@@ -30,7 +31,7 @@ export const removeSyncScriptBySrc = (givenSrc: string): void => {
         foundScript.nodeName === 'SCRIPT' &&
         (foundScript as HTMLScriptElement).async === false &&
         (foundScript as HTMLScriptElement).src === givenSrc
-      ) { document.body.removeChild(foundScript) }
+      ) { document.head.removeChild(foundScript) }
     }
   }
 };
@@ -47,7 +48,7 @@ export const removeAsyncScriptBySrc = (givenSrc: string): void => {
         foundScript.nodeName === 'SCRIPT' &&
         (foundScript as HTMLScriptElement).async === true &&
         (foundScript as HTMLScriptElement).src === givenSrc
-      ) { document.body.removeChild(foundScript) }
+      ) { document.head.removeChild(foundScript) }
     }
   }
 };
@@ -62,7 +63,7 @@ export const removeAllSyncScripts = (): void => {
       const foundScript: Element = scripts[i];
       foundScript.nodeName === 'SCRIPT' &&
       (foundScript as HTMLScriptElement).async === false
-        ? document.body.removeChild(foundScript)
+        ? document.head.removeChild(foundScript)
         : console.log(
             `This element with a className "embeddedSyncJS" isn't a sync script element!`
           );
@@ -80,7 +81,7 @@ export const removeAllAsyncScripts = (): void => {
       const foundScript: Element = scripts[i];
       foundScript.nodeName === 'SCRIPT' &&
       (foundScript as HTMLScriptElement).async === true
-        ? document.body.removeChild(foundScript)
+        ? document.head.removeChild(foundScript)
         : console.log(
             `This element with a className "embeddedAsyncJS" isn't an async script element!`
           );

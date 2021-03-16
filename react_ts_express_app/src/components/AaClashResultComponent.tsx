@@ -254,16 +254,23 @@ const AaClashResult: FC<any> = () => {
   const aggregateAaListForQueryId = (queryId: string): 
   { goodList: AaSubDetailed[], badList: AaSubDetailed[] } => {
     let allGoodAas = [] as AaSubDetailed[], allBadAas = [] as AaSubDetailed[];
-    if (displayMode === 'latest') { var preds = latestCodePred }
-    else { var preds = codePredHistory }
-    preds.forEach(pred => {
-      if (pred.queryId === queryId) {
-        const goodAas = aaClashPredGoodBad(pred).goodList;
-        const badAas = aaClashPredGoodBad(pred).badList;
-        allGoodAas = allGoodAas.concat(goodAas); 
-        allBadAas = allBadAas.concat(badAas);
-      }
-    });
+    displayMode === 'latest' 
+    ? latestCodePred.forEach(pred => {
+        if (pred.queryId === queryId) {
+          const goodAas = aaClashPredGoodBad(pred).goodList;
+          const badAas = aaClashPredGoodBad(pred).badList;
+          allGoodAas = allGoodAas.concat(goodAas); 
+          allBadAas = allBadAas.concat(badAas);
+        }
+      })
+    : codePredHistory.forEach(pred => {
+        if (pred.queryId === queryId) {
+          const goodAas = aaClashPredGoodBad(pred).goodList;
+          const badAas = aaClashPredGoodBad(pred).badList;
+          allGoodAas = allGoodAas.concat(goodAas); 
+          allBadAas = allBadAas.concat(badAas);
+        }
+      })
     return { 
       goodList: [ ...new Set(allGoodAas) ].sort((a, b) => a.chain > b.chain ? -1 : 1)
       .sort((a, b) => a.pos > b.pos ? 1 : -1), 

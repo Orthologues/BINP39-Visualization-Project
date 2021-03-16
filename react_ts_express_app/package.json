@@ -1,8 +1,13 @@
 {
   "name": "react_ts_app",
   "type": "module",
+  "author": "Jiawei Zhao, email-1: ji8842zh-s@student.lu.se, email-2: jwz.student.bmc.lu@gmail.com",
+  "private": "true",
   "version": "0.1.0",
-  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Orthologues/BINP39-Visualization-Project.git"
+  },
   "description": 
     "this json file consists of dependencies for react.js(with ts at dev stage) frontend and express.js(with ts at dev stage) backend codes",
   "dependencies": {

@@ -29,7 +29,7 @@ const MolComponent: FC<any> = () => {
       evt.stopPropagation(); 
       if (queryHistory.length > 1) {
         const pdbIdToDelete = document.getElementsByClassName('pdb-id-span')[ind].textContent;
-        pdbIdToDelete && queryHistory.map(query => {
+        pdbIdToDelete && queryHistory.forEach(query => {
           const processedPdbIdToDel = pdbIdToDelete.replace(/^\s+|\s+$/g, '').toUpperCase();
           processedPdbIdToDel === query.pdbId.toUpperCase() && dispatch(deleteCodeQuery(query));
           molState.jmolPdbAaSubs.pdbToLoad.toUpperCase() === processedPdbIdToDel 
@@ -50,7 +50,7 @@ const MolComponent: FC<any> = () => {
       let predPdbId = '';
       let allGoodAas = [] as AaSubDetailed[], allBadAas = [] as AaSubDetailed[];
       if (molState.displayMode === 'latest') {
-        preds.map(pred => {
+        preds.forEach(pred => {
           let predPdbIdMatch = pred.queryId.match(/\w{4}(?=_\w+)/i);
           if (predPdbIdMatch) {
             predPdbId = predPdbIdMatch[0].replace(/^\s+|\s+$/g, '').toUpperCase(); 
@@ -79,7 +79,7 @@ const MolComponent: FC<any> = () => {
         }
       } 
       else {
-        predHistory.map(pred => {
+        predHistory.forEach(pred => {
           let predPdbIdMatch = pred.queryId.match(/\w{4}(?=_\w+)/i);
           if (predPdbIdMatch) {
             predPdbId = predPdbIdMatch[0].replace(/^\s+|\s+$/g, '').toUpperCase(); 
@@ -117,18 +117,18 @@ const MolComponent: FC<any> = () => {
       axios.get(`https://data.rcsb.org/rest/v1/core/entry/${pdbId}`)
       .then(resp => { 
         if (resp.status === 200 || resp.statusText === 'OK') {
-          (resp.data["rcsb_entry_container_identifiers"]["polymer_entity_ids"] as string[]).map(id => {
+          (resp.data["rcsb_entry_container_identifiers"]["polymer_entity_ids"] as string[]).forEach(id => {
             entityToChainToLen[id] = {};
           })
         }
-        Object.keys(entityToChainToLen).length > 0 && Object.keys(entityToChainToLen).map(entityId => {
+        Object.keys(entityToChainToLen).length > 0 && Object.keys(entityToChainToLen).forEach(entityId => {
           axios.get(`https://data.rcsb.org/rest/v1/core/polymer_entity/${pdbId}/${entityId}`)
           .then(resp => { 
             if (resp.status === 200 || resp.statusText === 'OK') {
               const asymIds = resp.data["rcsb_polymer_entity_container_identifiers"]["asym_ids"] as string[]|undefined;
               const authAsymIds = resp.data["rcsb_polymer_entity_container_identifiers"]["auth_asym_ids"] as string[]|undefined;
               if (asymIds && authAsymIds && asymIds.length === authAsymIds.length) {
-                asymIds.map((asymId, ind) => { 
+                asymIds.forEach((asymId, ind) => { 
                   axios.get(`https://data.rcsb.org/rest/v1/core/polymer_entity_instance/${pdbId}/${asymId}`)
                   .then(resp => { 
                     if (resp.status === 200 || resp.statusText === 'OK') {
@@ -138,12 +138,12 @@ const MolComponent: FC<any> = () => {
                         const seqMapping = resp.data["rcsb_polymer_entity_instance_container_identifiers"]["auth_to_entity_poly_seq_mapping"] as string[];
                         entityToChainToLen[entityId][authAsymIds[ind]] = seqMapping[seqMapping.length-1];
                         chainList.push(authAsymIds[ind]);
-                        aaSubs.length > 0 && aaSubs.map(aaSub => {
+                        aaSubs.length > 0 && aaSubs.forEach(aaSub => {
                           if (parseInt(aaSub.pos as string) < parseInt(entityToChainToLen[entityId][authAsymIds[ind]])) {
                             let newAaSub = { ...aaSub, chain: authAsymIds[ind] };
                             filteredAaSubs.push(newAaSub);
                             newAaSub.target === '' 
-                              ? AMINO_ACIDS.map(AA => jmolAaSubs.push({...newAaSub, target: AA})) 
+                              ? AMINO_ACIDS.forEach(AA => jmolAaSubs.push({...newAaSub, target: AA})) 
                               : jmolAaSubs.push(newAaSub)
                           }
                           
