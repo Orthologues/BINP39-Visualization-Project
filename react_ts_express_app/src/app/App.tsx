@@ -47,7 +47,7 @@ const App: FC<any> = () => {
       <ApolloProvider client={rcsbClient}>
         <ApolloHooksProvider client={rcsbClient}>
           <ReduxProvider store={store}>
-            <Router>
+            <Router basename={process.env.PUBLIC_URL}>
               <PersistGate loading={<Loading text='Loading local store ...'/>} persistor={persister}>
                 <div className="App">
                   <Header />

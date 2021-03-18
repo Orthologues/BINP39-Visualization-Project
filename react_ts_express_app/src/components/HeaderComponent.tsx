@@ -15,7 +15,7 @@ const Header: FC<any> = () => {
           onClick={toggleNav}  style={{ marginRight: "1rem" }}/>
           <NavbarBrand className="mr-auto" href="/" >
             <img 
-            src={`/logo192.png`} 
+            src='/view-scp/logo192.png' 
             height="36" 
             width="36" 
             alt='PON-SC+' 

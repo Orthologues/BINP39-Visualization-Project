@@ -4,6 +4,7 @@
   "author": "Jiawei Zhao, email-1: ji8842zh-s@student.lu.se, email-2: jwz.student.bmc.lu@gmail.com",
   "private": "true",
   "version": "0.1.0",
+  "homepage": "/view-scp",
   "repository": {
     "type": "git",
     "url": "git@github.com:Orthologues/BINP39-Visualization-Project.git"

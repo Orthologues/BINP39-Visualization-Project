@@ -171,8 +171,8 @@ const JsMol: FC<SubMolProps> = (props) => {
       width: '100%',
       height: '100%',
       color: '#fff8f9',
-      j2sPath: `/JSmol/j2s`,
-      serverURL: `/JSmol/php/jsmol.php`,
+      j2sPath: '/view-scp/JSmol/j2s',
+      serverURL: '/view-scp/JSmol/php/jsmol.php',
       script: `
       set antialiasDisplay; set hoverDelay 0.1; load =${pdbCode};
       ${mutationCmd()} ${mutationSelCmd()} ${chainSelCmd()} 
@@ -192,7 +192,7 @@ const JsMol: FC<SubMolProps> = (props) => {
   useEffect(() => {
     //this function loads synchronously right after any DOM mutation
     const jsMolMinScript = document.getElementById('js_mol_min');
-    !jsMolMinScript && appendAsyncScript('/JSmol/JSmol.min.js', 'js_mol_min');
+    !jsMolMinScript && appendAsyncScript('/view-scp/JSmol/JSmol.min.js', 'js_mol_min');
   }, []);
   useEffect(() => {
     props.pdbId === ''
