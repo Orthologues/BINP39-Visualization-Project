@@ -8,7 +8,6 @@ import dlJobIdPdbFile from './routes/jobIdToPdbFile.js';
 import pdbResidueToUniprot from './routes/pdbToUnipResMapping.js'
 
 const app = express();
-const PORT = process.env.PORT || PORT_NUM;
 
 // middle-wares 
 app.use(bodyParser.json());
@@ -27,4 +26,4 @@ app.post("/pon-scp/pdb/:job_id", dlJobIdPdbFile);
 // use tool at https://github.com/mgalardini/pdb2uniprot for residue-level mapping for variant identification
 app.get("/pon-scp/pdb-to-unip/:pdb_id", pdbResidueToUniprot);
 
-app.listen(PORT, () => console.log(`Express.js server for PON-SC+ is listening on port ${PORT}`));
+app.listen(PORT_NUM, () => console.log(`Express.js server for PON-SC+ is listening on port ${PORT_NUM}`));
