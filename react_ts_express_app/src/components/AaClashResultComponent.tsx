@@ -92,7 +92,7 @@ const DisplayMutantInfo: FC<{variants: MappedVariant[]}> = ({variants}) => {
           (mutant as NaturalMutantFeature).evidences &&
           (mutant as NaturalMutantFeature).evidences?.map((evi, ind) =>
             <p style={{margin: 0}} key={`evi_${ind}`}>
-              <b>Evidence{ind}:</b> {evi.code}, <b>Source: </b>{evi.source.name} {evi.source.id}
+              <b>Evidence{ind}:</b> {evi.code}, <b>Source: </b>{evi.source?.name ? evi.source.name : ''} {evi.source?.id ? evi.source.id : ''}
             </p>
           )
           }
