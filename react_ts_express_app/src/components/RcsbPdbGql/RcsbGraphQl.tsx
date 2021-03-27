@@ -74,7 +74,7 @@ const RcsbPdbIdInfo: FC<RootProps> = ({pdbCode, rootQuery}) => {
           <CardText><b>Title:</b> {STRUCT.title}</CardText>
           </React.Fragment>
           }
-          { PUBMED_ID && (<CardText><b>PudMed ID:</b> {PUBMED_ID}</CardText>) }
+          { PUBMED_ID && (<CardText><b>PubMed ID:</b> {PUBMED_ID}</CardText>) }
           { EMDB_IDS && 
             EMDB_IDS.map((emdbId, ind) =>
               <CardText key={`${emdbId}_${ind}`}><b>Related EMDB ID({ind}):</b> {emdbId}</CardText>
