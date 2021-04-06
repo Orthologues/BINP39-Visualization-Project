@@ -1,8 +1,7 @@
 import { invert, Dictionary } from 'lodash';
 
 // express.js API server
-const SRV_PORT = 3010;
-export const SRV_URL_PREFIX = `http://localhost:${SRV_PORT.toString()}`;
+export const SRV_URL_PREFIX = 'https://structure-next.med.lu.se';
 
 export const AMINO_ACIDS = ['A', 'R', 'N', 'D', 'C', 'Q', 'E', 'G', 'H', 'I', 
 'L', 'K', 'M', 'F', 'P', 'S', 'T', 'W', 'Y', 'V'];

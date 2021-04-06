@@ -79,7 +79,8 @@ const DisplayMutantInfo: FC<{variants: MappedVariant[]}> = ({variants}) => {
           variants.filter(variant => 
             JSON.stringify(variant.mutantInfo) ===  JSON.stringify(mutant)).map(variant => 
             variant.mappedResidueInfo).map((el, ind) => 
-            <p style={{margin: 0}} key={`residue_${ind}`}
+            <p style={{margin: 0}}
+               key={`residue_${ind}`}
             >{el.pdbId}-Chain {el.pdbChain}: {el.pdbAa}{el.pdbPos} / {el.uniId}: {el.uniAa}{el.uniPos}</p>
           )}
           </p>
@@ -92,7 +93,7 @@ const DisplayMutantInfo: FC<{variants: MappedVariant[]}> = ({variants}) => {
           (mutant as NaturalMutantFeature).evidences &&
           (mutant as NaturalMutantFeature).evidences?.map((evi, ind) =>
             <p style={{margin: 0}} key={`evi_${ind}`}>
-              <b>Evidence{ind}:</b> {evi.code}, <b>Source: </b>{evi.source?.name ? evi.source.name : ''} {evi.source?.id ? evi.source.id : ''}
+              <b>Evidence{ind}:</b> {evi.code}, <b>Source: </b>{evi.source?.name ? evi.source.name : '' } {evi.source?.id ? evi.source.id : '' }
             </p>
           )
           }
@@ -106,7 +107,8 @@ const DisplayMutantInfo: FC<{variants: MappedVariant[]}> = ({variants}) => {
           variants.filter(variant => 
             JSON.stringify(variant.mutantInfo) ===  JSON.stringify(mutant)).map(variant => 
             variant.mappedResidueInfo).map((el, ind) => 
-            <p style={{ margin: 0 }} key={`study_residue_${ind}`}
+            <p style={{ margin: 0 }}
+               key={`study_residue_${ind}`}
             >{el.pdbId}-Chain {el.pdbChain}: {el.pdbAa}{el.pdbPos} / {el.uniId}: {el.uniAa}{el.uniPos}</p>
           )}
           </p>
@@ -120,7 +122,7 @@ const DisplayMutantInfo: FC<{variants: MappedVariant[]}> = ({variants}) => {
             <b>Protein location: </b>{(mutant as StudyMutantFeature).proteinLoc}<br />
             <b>Codon: </b> {(mutant as StudyMutantFeature).codon}<br />
             {
-            (mutant as StudyMutantFeature).xrefs.map((xref, ind) =>
+            (mutant as StudyMutantFeature).xrefs.forEach((xref, ind) =>
               <p key={`${(mutant as StudyMutantFeature).genomicLoc}_xref${ind}`} style={{margin: 0}}>
                 <b>Xref{ind}: </b>{xref.id} {xref.name}
               </p>

@@ -41,8 +41,11 @@ const Footer: FC<any> = () => {
                 <i className="fa fa-phone fa-lg"></i>: +46 46 222 72 14
                 <br />
                 <i className="fa fa-envelope fa-lg"></i>:{' '}
-                <a href="mailto:mauno.vihinen@med.lu.se">mauno.vihinen@med.lu.se</a>
-              </address>
+                <a href="mailto:mauno.vihinen@med.lu.se">mail to Prof. Mauno Vihinen</a>
+                <br />
+                <i className="fa fa-envelope fa-lg"></i>:{' '}
+                <a href="mailto:jwz.student.bmc.lu@gmail.com">mail to Jiawei Zhao</a>
+            </address>
             </div>
             <div className="col-12 col-md-2 align-self-center">
               <div className="text-center">
