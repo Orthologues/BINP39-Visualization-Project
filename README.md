@@ -1,7 +1,7 @@
 <h1 align="center">BINP39 Project</h1>
 <p align="left">The repository of my master's BINP39 project in <em>Variant Visualization</em> for <a href="http://structure.bmc.lu.se/PON-SC">PON-SC</a> at Lund University.</p>
 <p>Project tutor: <em>Mauno Vihinen</em></p><br>
-<p>The project web-app is now available at: <a>https://structure-next.med.lu.se/view-scp</a> <code>Notice: Your browser must support look-behind in JavaScript regex to display the website. Thus, Safari, Safari for iOS and IE can not display the website at the moment (April 2021)!</code><hr>
+<p>The project web-app is now available at: <a href="https://structure-next.med.lu.se/view-scp">https://structure-next.med.lu.se/view-scp</a>  <code>Notice: Your browser must support look-behind in JavaScript regex to display the website. Thus, Safari, Safari for iOS and IE can not display the website at the moment (April 2021)!</code><hr>
 
 [*Relevant Tools*](#RTool)
 + [**Secondary Structural Identification**](#STRIDE)
