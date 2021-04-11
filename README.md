@@ -1,7 +1,7 @@
 <h1 align="center">BINP39 Project</h1>
 <p align="left">The repository of my master's BINP39 project in <em>Variant Visualization</em> for <a href="http://structure.bmc.lu.se/PON-SC">PON-SC</a> at Lund University.</p>
 <p>Project tutor: <em>Mauno Vihinen</em></p><br>
-<p> <code>Hints:</code> PDBe for pdbCode to UniProt mapping. <br><hr> <code>Further aims:</code> Need surrounding position of side chains and backbone. Make a sphere radius around AAs. Have whole strcture. Zoom in to see certain aminos acids & side chain predictors (where steric clashes happen && AA around it) & backbone. Don't move away from the central AA. Highlight positions of the query. Show the same structure of side chain before & after substitutions. Zoom in to see alpha atom of backbone</p><hr>
+<p>The project web-app is now available at: <a href="https://structure-next.med.lu.se/view-scp">https://structure-next.med.lu.se/view-scp</a>  <code>Notice: Your browser must support look-behind in JavaScript regex to display the website. Thus, Safari, Safari for iOS and IE can not display the website at the moment (April 2021)!</code><hr>
 
 [*Relevant Tools*](#RTool)
 + [**Secondary Structural Identification**](#STRIDE)
