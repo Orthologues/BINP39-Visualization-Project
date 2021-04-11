@@ -244,7 +244,7 @@ class Main extends Component<MainProps, MainState> {
         <Card>
           <CardHeader>
             <CardTitle tag='h5'>PON-SC+ for Amino Acid clash detection, Molecular visualization, UI access to RCSB-PDB's API, Mapping to UniprotID etc</CardTitle>
-            <CardText style={{ textAlign: 'left' }}>This tool identifies if an amino acid substitution would cause clashes in protein structure or not. Taking PDB format file or PDB accession codes as input, for each position of interest substitutions are modeled using backbone-dependent rotamer library (<a target="_blank" href="https://pubmed.ncbi.nlm.nih.gov/21645855/">Shapovalov and Dunbrack, 2011</a>). Sterical clashes are calculated based on the distance between atoms.</CardText>
+            <CardText style={{ textAlign: 'left' }}>This tool identifies if an amino acid substitution would cause clashes in protein structure or not. Taking PDB format file or PDB accession codes as input, for each position of interest substitutions are modeled using backbone-dependent rotamer library (<a target="_blank" href="https://pubmed.ncbi.nlm.nih.gov/21645855/">Shapovalov MV, Dunbrack RL Jr, 2011</a>). Steric clash prediction is based on the source code of PON-SC (<a target="_blank" href="https://pubmed.ncbi.nlm.nih.gov/29187139/">Čalyševa J, Vihinen M. 2017</a>).</CardText>
           </CardHeader>
         </Card>
         <div className='row'>

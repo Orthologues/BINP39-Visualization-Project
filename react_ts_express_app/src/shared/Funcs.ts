@@ -3,10 +3,11 @@ import { AA_1_TO_3, AA_3_TO_1 } from './Consts';
 import { Dictionary, isEmpty } from 'lodash';
 
 // functions for lifecycle methods/useLayoutEffect hooks in MolComponents
-export const appendSyncScript = (scriptToAppend: string): void => {
+export const appendSyncScript = (scriptToAppend: string, scriptId: string): void => {
   const script: HTMLScriptElement = document.createElement('script');
   script.className = 'embeddedSyncJS';
   script.src = scriptToAppend;
+  script.id = scriptId;
   script.async = false;
   document.head.appendChild(script);
 };

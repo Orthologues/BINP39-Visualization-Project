@@ -535,7 +535,7 @@ const AaClashResult: FC<any> = () => {
             style={{ paddingLeft: 16, 
               overflow: 'hidden scroll', paddingTop: 8, minHeight: 480, maxHeight: 480 }}>
               <CardTitle tag="h5" style={{margin: 0}}>
-                {(queryToShowPred as PdbIdAaQuery).pdbId}'s good AA-Substitutions without steric clash:
+                {(queryToShowPred as PdbIdAaQuery).pdbId}'s AA-Substitutions predicted to render no steric clashes:
               </CardTitle>
               <Button className='btn btn-sm' color='link' 
                 style={{ margin: 3, color: 'white'}}
@@ -569,7 +569,7 @@ const AaClashResult: FC<any> = () => {
             style={{ paddingLeft: 16, 
               overflow: 'hidden scroll', paddingTop: 8, minHeight: 480, maxHeight: 480 }}>
               <CardTitle tag="h5" style={{margin: 0}}>
-                {(queryToShowPred as PdbIdAaQuery).pdbId}'s bad AA-Substitutions with steric clash:
+                {(queryToShowPred as PdbIdAaQuery).pdbId}'s AA-Substitutions predicted to render steric clashes:
               </CardTitle>
               <Button className='btn btn-sm' color='link' 
                 style={{ margin: 3, color: 'white'}}

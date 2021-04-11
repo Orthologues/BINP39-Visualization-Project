@@ -17,7 +17,7 @@ import {
   Col
 } from 'reactstrap';
 import {
-  appendAsyncScript,
+  appendSyncScript,
   processedPdbId,
 } from '../../shared/Funcs';
 import { AA_1_TO_3 } from '../../shared/Consts';
@@ -192,7 +192,7 @@ const JsMol: FC<SubMolProps> = (props) => {
   useEffect(() => {
     //this function loads synchronously right after any DOM mutation
     const jsMolMinScript = document.getElementById('js_mol_min');
-    !jsMolMinScript && appendAsyncScript('/view-scp/JSmol/JSmol.min.js', 'js_mol_min');
+    !jsMolMinScript && appendSyncScript('/view-scp/JSmol/JSmol.min.js', 'js_mol_min');
   }, []);
   useEffect(() => {
     props.pdbId === ''
@@ -547,7 +547,7 @@ const JsMol: FC<SubMolProps> = (props) => {
                   }}
                 />
               </FormGroup>
-              <p style={{ marginBottom: 5 }}>Good AA-Subs</p>
+              <p style={{ marginBottom: 5 }}>Non steric clashes</p>
               {aaPreds.goodList.length > 0 &&
                 aaPreds.goodList.map((item, ind) => (
                   <li
@@ -612,7 +612,7 @@ const JsMol: FC<SubMolProps> = (props) => {
                   }}
                 />
               </FormGroup>
-              <p style={{ marginBottom: 5 }}>Bad AA-Subs</p>
+              <p style={{ marginBottom: 5 }}>Steric Clashes</p>
               {aaPreds.badList.length > 0 &&
                 aaPreds.badList.map((item, ind) => (
                   <li
