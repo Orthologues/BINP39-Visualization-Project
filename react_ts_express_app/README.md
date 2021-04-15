@@ -20,7 +20,7 @@
 <a name="step1"></a>
 ### Step 1. Clone the project repository from Github
 #### assuming <code>/home/${username}/</code> as the initial working directory 
-<code>cd ~ && git clone git@github.com:Orthologues/BINP39-Visualization-Project.git</code><br />
+<code>cd ~ && git clone https://github.com/Orthologues/BINP39-Visualization-Project/</code><br />
 <code>mv BINP39-Visualization-Project/react_ts_express_app ~/view-scp-fullstack && rm -rf BINP39-Visualization-Project</code><br />
 
 <a name="step2"></a>
