@@ -68,6 +68,8 @@
 <code>cd ~/view-scp-fullstack/aaclash && mkdir -p STRIDE</code></br>
 <code>curl -sSL http://webclu.bio.wzw.tum.de/stride/stride.tar.gz -o STRIDE/stride.tar.gz</code></br>
 <code>cd ~/view-scp-fullstack/aaclash/STRIDE && tar -zxf stride.tar.gz && make</code></br>
+#### Install <a href="http://webclu.bio.wzw.tum.de/stride/">STRIDE: a web server for secondary structure assignment from known atomic coordinates of proteins</a> (<a href="https://pubmed.ncbi.nlm.nih.gov/15215436/">PUBMED link</a>)
+<code>cd ~/view-scp-fullstack/aaclash/STRIDE && tar -zxf stride.tar.gz && make</code></br>
 
 <a name="papers"></a>
 ## Pre-existing source code that provides the basis for VIEW-SC+

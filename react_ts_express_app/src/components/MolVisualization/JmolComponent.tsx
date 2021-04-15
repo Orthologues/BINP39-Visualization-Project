@@ -186,7 +186,7 @@ const JsMol: FC<SubMolProps> = (props) => {
       `,
       use: 'html5',
     };
-    $('#jsmol-container').html(Jmol.getAppletHtml('html5Jmol', JmolInfo));
+    $('#jsmol-container').html(Jmol?.getAppletHtml('html5Jmol', JmolInfo));
   };
 
   useEffect(() => {
@@ -203,7 +203,7 @@ const JsMol: FC<SubMolProps> = (props) => {
       }, 50);
   }, [props.pdbId]);
   useEffect(() => {
-    molState.divHidden === false && setTimeout(() => renderJSmolHTML(props.pdbId), 50)
+    molState.divHidden === false && setTimeout(() => renderJSmolHTML(props.pdbId), 150)
   }, [displayOptions, aaSubList, zoomedInAa]);
 
   return (
