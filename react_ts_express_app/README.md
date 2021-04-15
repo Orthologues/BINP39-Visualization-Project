@@ -1,46 +1,76 @@
-# Getting Started with Create React App
+<h1 align="center">VIEW-SC+, BINP39 Project by Jiawei Zhao</h1>
+<p align="left">This README file documents Jiawei Zhao's BINP39 project in developing <em>VIEW-SC+, a web tool for integrating steric clash prediction, 3D visualization and information mapping in PDB structures</em> at <a href="https://structure-next.med.lu.se">Protein Structure and Bioinformatics Group</a>, Faculty of Medicine, Lund University.</p>
+<p>Project tutor: <em>Mauno Vihinen</em></p>
+<p>The project web-app is now available at: <a href="https://structure-next.med.lu.se/view-scp">https://structure-next.med.lu.se/view-scp</a>
+<br />  
+<code>Notice: Your browser must support look-behind in JavaScript regex to display the website. Thus, Safari, Safari for iOS and IE can not display the website at the moment (April 2021)</code><hr>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[*Setting up fullstack VIEW-SCP service: prerequisites*](#view_scp_title)
++ [**Step 1, Clone the project repository from Github**](#step1)
++ [**Step 2, Install necessary dependencies for web-service and configure Firewall settings**](#step2)
++ [**Step 3, Set up index page for your domain**](#step3)
++ [**Step 4, Install PON-SC, program for identifying steric clashes caused by amino acid substitutions**](#step4)
++ [**VarSite: Disease variants and protein structure**](#varsite)
+[*Pre-existing source code that provides the basis for VIEW-SC+*](#papers)
++ [**PON-SC – program for identifying steric clashes caused by amino acid substitutions <em>(read)</em>**](#ponsc)
 
-## Available Scripts
+<br><a name="view_scp_title"></a>
+<h2 align="center">How to set up fullstack VIEW-SCP service on a Linux server?</h2><br />
+<p>Prerequisite: an account with <code>sudo</code> access on a Linux server (preferably CentOS 7). The following instruction assumes CentOS 7 as the operating system. Replace <code>yum</code> with <code>apt-get</code> if you use Ubuntu Server.</p>
 
-In the project directory, you can run:
+<a name="step1"></a>
+## Step 1. Clone the project repository from Github
+### assuming <code>/home/${username}</code> as the initial working directory 
+<code>cd ~ && git clone git@github.com:Orthologues/BINP39-Visualization-Project.git</code><br />
+<code>mv BINP39-Visualization-Project/react_ts_express_app ~/view-scp-fullstack && rm -rf BINP39-Visualization-Project</code><br />
 
-### `yarn start`
+<a name="step2"></a>
+## Step 2. Install necessary dependencies at the OS and configure Firewall settings
+### Node14, Yarn, CertBot, Nginx, pm2 are necessary dependencies for web service
+<code>sudo yum -y update && sudo yum -y upgrade</code><br />
+<code>sudo yum install -y gcc-c++ make</code><br />
+<code>curl -sL https://rpm.nodesource.com/setup_14.x | sudo -E bash -</code><br />
+<code>sudo yum install -y nodejs</code>
+#### Check the version of <code>node</code> and <code>npm</code>
+<code>node -v && npm -v</code>
+#### Install <code>yarn</code>, which is reputed to be a better javascript package management tool than <code>npm</code> 
+<code>sudo npm install -g yarn && yarn -v</code>
+#### Install <code>nginx</code>, a web server which provides efficient reverse-proxy
+<code>sudo yum install -y epel-release</code><br />
+<code>sudo yum –y install nginx && nginx -v</code><br />
+<code>sudo systemctl start nginx</code><br />
+<code>sudo systemctl status nginx</code><br />
+#### Ensure that <code>nginx</code> starts up automatically whenever the server restarts
+<code>sudo systemctl enable nginx</code>
+#### Configure Firewall to Allow Traffic
+<code>sudo firewall-cmd --zone=public --permanent --add-service=http</code><br />
+<code>sudo firewall-cmd --zone=public --permanent --add-service=https</code><br />
+<code>sudo firewall-cmd --reload</code><br />
+#### Install <code>certbot</code> and its plugins for Nginx for SSL Certificates
+<code>sudo yum install -y certbot</code><br />
+<code>sudo yum install -y python-certbot-nginx</code><br />
+#### Install <code>pm2</code> for management of Node.js processes
+<code>sudo npm install -g pm2</code><br />
 
-Runs the app in the development mode.\
-Open [http://localhost:3005](http://localhost:3005) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<a name="step3"></a>
+## Step 3, Set up index page for your domain
+### This instruction assumes the root route of your server's public domain as hosting index.html file of your lab etc. As an example, the author of VIEW-SCP hosted the introduction page of Vihinen Lab at <a href="https://structure-next.med.lu.se">https://structure-next.med.lu.se</a>. Assuming the public domain name of your lab as <code>mylab.org</code>, front-end and back-end web services are hosted on mylab.org/view-scp and mylab.org/pon-scp instead. 
+#### Create the directory i.e. <code>mylab.org</code> for your index page which consists of HTML, CSS, and maybe JavaScript files first. 
+<code>cd ~ && mv mylab.org /var/www/</code><br />
+<code>sudo setsebool -P httpd_can_network_connect on</code><br />
+<code>sudo chcon -Rt httpd_sys_content_t /var/www/mylab.org/</code><br />
+#### The index page would not be available since Nginx configs are not adjusted yet. You will do that later by modifying Nginx config files.
 
-### `yarn test`
+<a name="step4"></a>
+## Step 4, Install PON-SC, a program for identifying steric clashes caused by amino acid substitutions, which will be called by Node.js back-end scripts as Python subprocess
+### Settle <code>aaclash</code> directory under <code>~/view-scp-fullstack</code>. <code>aaclash</code> consists of source code of <a href="https://pubmed.ncbi.nlm.nih.gov/29187139/">PON-SC</a>, which was written by Jelena Čalyševa and updated by Jiawei Zhao. Data availability of <code>aaclash</code>: Please contact Jiawei Zhao (ji8842zh-s@student.lu.se or jwz.student.bmc.lu@gmail.com).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Install <a href="http://webclu.bio.wzw.tum.de/stride/">STRIDE, a web server for secondary structure assignment from known atomic coordinates of proteins</a> (<a href="https://pubmed.ncbi.nlm.nih.gov/15215436/">PUBMED link</a>)
+<code>cd ~/view-scp-fullstack/aaclash</code>
 
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+<a name="papers"></a>
+# Pre-existing source code that provides the basis for VIEW-SC+
+<a name="ponsc">PON-SC</a>
+## PON-SC
+[**Čalyševa J, Vihinen M. PON-SC - program for identifying steric clashes caused by amino acid substitutions. BMC Bioinformatics. 2017;18(1):531. Published 2017 Nov 29. doi:10.1186/s12859-017-1947-7**](https://pubmed.ncbi.nlm.nih.gov/29187139/)
