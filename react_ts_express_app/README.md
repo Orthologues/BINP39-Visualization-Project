@@ -10,6 +10,10 @@
 + [**Step 2. Install necessary dependencies for web-service and configure Firewall settings**](#step2)
 + [**Step 3. Set up index page for your domain**](#step3)
 + [**Step 4. Install PON-SC, program for identifying steric clashes caused by amino acid substitutions**](#step4)
++ [**Step 5. Install pdb2uniprot: Convert PDB residues to their Uniprot equivalents**](#step5)
++ [**Step 6. Install back-end web service in Node.js**](#step6)
++ [**Step 7. Install frontend-end web service in Create-React-App and Typescript**](#step7)
++ [**Step 8. Configure Nginx configs and Secure your domain with CertBot to render your website public**](#step8)
 [*Pre-existing source code that provides the basis for VIEW-SC+*](#papers)
 + [**PON-SC – program for identifying steric clashes caused by amino acid substitutions <em>(read)</em>**](#ponsc)
 
@@ -51,7 +55,6 @@
 #### Install <code>pm2</code> for management of Node.js processes
 <code>sudo npm install -g pm2</code><br />
 
-
 <a name="step3"></a>
 ### Step 3. Set up index page for your domain
 #### This instruction assumes the root route of your server's public domain as hosting index.html file of your lab etc. As an example, the author of VIEW-SCP hosted the introduction page of Vihinen Lab at <a href="https://structure-next.med.lu.se">https://structure-next.med.lu.se</a>. Assuming the public domain name of your lab as <code>mylab.org</code>, front-end and back-end web services are hosted on mylab.org/view-scp and mylab.org/pon-scp instead. 
@@ -68,8 +71,30 @@
 <code>cd ~/view-scp-fullstack/aaclash && mkdir -p STRIDE</code></br>
 <code>curl -sSL http://webclu.bio.wzw.tum.de/stride/stride.tar.gz -o STRIDE/stride.tar.gz</code></br>
 <code>cd ~/view-scp-fullstack/aaclash/STRIDE && tar -zxf stride.tar.gz && make</code></br>
-#### Install <a href="http://webclu.bio.wzw.tum.de/stride/">STRIDE: a web server for secondary structure assignment from known atomic coordinates of proteins</a> (<a href="https://pubmed.ncbi.nlm.nih.gov/15215436/">PUBMED link</a>)
-<code>cd ~/view-scp-fullstack/aaclash/STRIDE && tar -zxf stride.tar.gz && make</code></br>
+<code>cd ~/view-scp-fullstack/aaclash/ && touch program_paths.py</code></br>
+#### Add the following code to <code>~/view-scp-fullstack/aaclash/program_paths.py</code>
+<code>STRIDE_PATH: str = '/home/your_username/view-scp-fullstack/aaclash/STRIDE'</code><br />
+<code>SCRIPT_PATH: str = '/home/your_username/view-scp-fullstack/aaclash'</code>
+#### In order to run PON-SC scripts, ensure that you have installed <code>regex</code>, <code>numpy</code>, <code>biopython</code>, <code>scipy</code>, <code>scikit-learn</code>.
+
+<a name="step5"></a>
+### Step 5. Install pdb2uniprot: Convert PDB residues to their Uniprot equivalents
+<code>cd ~/view-scp-fullstack/aaclash/</code><br />
+<code>git clone https://github.com/mgalardini/pdb2uniprot</code></br>
+<code>mv pdb2uniprot/parse_sifts.py . && rm -rf pdb2uniprot</code>
+
+<a name="step6"></a>
+### Step 6. Install back-end web service in Node.js
+<code>cd ~/view-scp-fullstack/ && mv backend_build_config backend</code><br />
+<code>cd backend && yarn</code></br>
+#### Add a file called <code>Secrets.js</code> to record the password of sender's email account
+#### Add a file called <code>constants.js</code> to define vital constants
+
+<a name="step7"></a>
+### Step 7. Install frontend-end web service in Create-React-App and Typescript
+
+<a name="step8"></a>
+### Step 8. Configure Nginx configs and Secure your domain with CertBot to render your website public
 
 <a name="papers"></a>
 ## Pre-existing source code that provides the basis for VIEW-SC+
