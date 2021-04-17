@@ -190,11 +190,6 @@ const JsMol: FC<SubMolProps> = (props) => {
   };
 
   useEffect(() => {
-    //this function loads synchronously right after any DOM mutation
-    const jsMolMinScript = document.getElementById('js_mol_min');
-    !jsMolMinScript && appendSyncScript('/view-scp/JSmol/JSmol.min.js', 'js_mol_min');
-  }, []);
-  useEffect(() => {
     props.pdbId === ''
       ? setTimeout(() => setMolState({ divHidden: true }), 50)
       : setTimeout(() => { 
@@ -203,7 +198,7 @@ const JsMol: FC<SubMolProps> = (props) => {
       }, 50);
   }, [props.pdbId]);
   useEffect(() => {
-    molState.divHidden === false && setTimeout(() => renderJSmolHTML(props.pdbId), 150)
+    molState.divHidden === false && setTimeout(() => renderJSmolHTML(props.pdbId), 50)
   }, [displayOptions, aaSubList, zoomedInAa]);
 
   return (
