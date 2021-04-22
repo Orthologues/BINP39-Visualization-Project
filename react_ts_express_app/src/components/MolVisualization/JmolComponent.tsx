@@ -109,13 +109,16 @@ const JsMol: FC<SubMolProps> = (props) => {
   // Jmol Commmands, get updated by useSelector/useState hooks
   const wireFrameCmd = () => (wireFrameOnly ? 'wireframe only;' : '');
   const highlightSelectedCmd = () =>
-    highLightSelected ? 'set display SELECTED;' : '';
+    highLightSelected ? 'set display selected;' : '';
   const backboneOnlyCmd = () =>
     backboneOnly ? 'backbone only; color black;' : '';
   const chainSelCmd = () => {
     let cmd = '';
     if (!zoomedInAa && selectedChain !== '') {
       cmd = `select chain="${selectedChain}";`;
+    }
+    if (zoomedInAa && selectedChain === '') {
+      cmd = `restrict chain="${zoomedInAa.chain}";`;
     }
     return cmd;
   };
@@ -153,37 +156,41 @@ const JsMol: FC<SubMolProps> = (props) => {
     let cmd = '';
     if (zoomedInAa) {
       cmd = `select ${zoomedInAa.pos}:${zoomedInAa.chain}${alphaCbOnly ? '.CA' : ''}; 
-      center SELECTED; zoom 2500; color white; `;
+      center selected; zoom ${aaSubList.some(el => 
+        JSON.stringify(el) === JSON.stringify(zoomedInAa)) ? 4000 : 2000}; color red; color (not selected) white`;
     }
     return cmd;
   };
   const restrictCmd = () => { // hides everything not in expression, to be used together with 'within' cmd
     if (zoomedInAa && displayOptions.angstromsRestrictionVal > 0 && displayOptions.ifOpenAngstromsRestriction) {
       const distance = displayOptions.angstromsRestrictionVal.toFixed(2);
-      return `restrict within(${distance}, SELECTED); `
+      return `restrict within(${distance}, selected); `
     }
+    return '';
   }
 
   const divToggle = () => setMolState({divHidden: !molState.divHidden});
 
   const renderJSmolHTML = (pdbCode: string) => {
+    let newScript = `
+    set antialiasDisplay; set hoverDelay 0.1; load =${pdbCode};
+    ${mutationCmd()} ${mutationSelCmd()} ${chainSelCmd()} 
+    ${wireFrameCmd()} ${backboneOnlyCmd()} ${zoomInCmd()} ${highlightSelectedCmd()} 
+    ${zoomInCmd() === '' && mutationSelCmd() === '' ? '' 
+      : zoomInCmd() === '' 
+        ? 'selectionHalos;'
+        : 'label %[covalentRadius]; color labels blue;' }
+    ${zoomedInAa ? '' : 'ribbon only;'}
+    ${restrictCmd()}
+    `;
+    console.log(`Jmol Commands: ${newScript}`);
     let JmolInfo = {
       width: '100%',
       height: '100%',
       color: '#fff8f9',
       j2sPath: '/view-scp/JSmol/j2s',
       serverURL: '/view-scp/JSmol/php/jsmol.php',
-      script: `
-      set antialiasDisplay; set hoverDelay 0.1; load =${pdbCode};
-      ${mutationCmd()} ${mutationSelCmd()} ${chainSelCmd()} 
-      ${wireFrameCmd()} ${backboneOnlyCmd()} ${zoomInCmd()} ${highlightSelectedCmd()} 
-      ${zoomInCmd() === '' && mutationSelCmd() === '' ? '' 
-        : zoomInCmd() === '' 
-          ? 'selectionHalos;'
-          : 'label %[covalentRadius]; color labels green;' }
-      ${zoomedInAa ? '' : 'ribbon only;'}
-      ${restrictCmd()}
-      `,
+      script: newScript,
       use: 'html5',
     };
     $('#jsmol-container').html(Jmol?.getAppletHtml('html5Jmol', JmolInfo));

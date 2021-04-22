@@ -127,7 +127,7 @@ cd public
 curl -sSL https://sourceforge.net/projects/jmol/files/Jmol/Version%2014.31/Jmol%2014.31.36/Jmol-14.31.36-binary.tar.gz/download -o Jmol-14.31.36.tar.gz;
 tar -xzf Jmol-14.31.36.tar.gz && rm Jmol-14.31.36.tar.gz;
 mv jmol-14.31.36/jsmol.zip . && rm -rf jmol-14.31.36
-unzip jsmol.zip && rm jsmol.zip && cd JSmol
+unzip jsmol.zip && rm jsmol.zip && mv jsmol JSmol && cd JSmol
 ls .|grep -v "JSmol.min.js"|grep -v "j2s"|grep -v "php"|while read noneed;do rm -rf $noneed;done
 ```
 #### Run back-end and front-end service with pm2
