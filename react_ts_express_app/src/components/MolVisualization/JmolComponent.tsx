@@ -28,9 +28,7 @@ const JsMol: FC<SubMolProps> = (props) => {
   const JMOL_MANUAL = `Click checkbox of an item for adding halos to/mutating its residue, 
   yellow text indicates that an item's residue is mutated. Switch on to
   zoom in an AA. If there're multiple AA-subs at one
-  position, 'mutate all' would choose the first AA-sub on list.
-  Green label of a selected atom implies its covalent bonding
-  radius(0.4 unit = 0.001 Å).`;
+  position, 'mutate all' would choose the first AA-sub on list.`;
   const aaPreds = props.aaPreds;
   const [molState, setMolState] = useState<MolDisplayState>({
     divHidden: true,
@@ -39,7 +37,7 @@ const JsMol: FC<SubMolProps> = (props) => {
     backboneOnly: false,
     alphaCbOnly: false,
     highLightSelected: false,
-    wireFrameOnly: false,
+    wireFrameOnly: true,
     selectedChain: '',
     angstromsRestrictionVal: -1,
     ifOpenAngstromsRestriction: false 
@@ -50,7 +48,6 @@ const JsMol: FC<SubMolProps> = (props) => {
   const wireFrameOnly = displayOptions.wireFrameOnly;
   const selectedChain = displayOptions.selectedChain;
   const angsAround = displayOptions.angstromsRestrictionVal;
-  // adding ribbon/balls-sticks mode switching later
   const indpJmolQueries = useSelector<AppReduxState, JmolPdbAaSubs[]>(
     (state) => state.molVis.indpPdbIdQueries.jmol
   );
@@ -107,15 +104,13 @@ const JsMol: FC<SubMolProps> = (props) => {
     }
   };
   // Jmol Commmands, get updated by useSelector/useState hooks
-  const wireFrameCmd = () => (wireFrameOnly ? 'wireframe only;' : '');
-  const highlightSelectedCmd = () =>
-    highLightSelected ? 'set display selected;' : '';
+  const wireFrameCmd = () => (wireFrameOnly ? 'wireframe 0.25; spacefill 0;' : '');
   const backboneOnlyCmd = () =>
     backboneOnly ? 'backbone only; color black;' : '';
   const chainSelCmd = () => {
     let cmd = '';
     if (!zoomedInAa && selectedChain !== '') {
-      cmd = `select chain="${selectedChain}";`;
+      cmd = `select chain="${selectedChain}"; selectionHalos;`;
     }
     if (zoomedInAa && selectedChain === '') {
       cmd = `restrict chain="${zoomedInAa.chain}";`;
@@ -154,17 +149,19 @@ const JsMol: FC<SubMolProps> = (props) => {
   };
   const zoomInCmd = () => {
     let cmd = '';
+    const zoom_mut_match = aaSubList.some(el => 
+      JSON.stringify(el) === JSON.stringify(zoomedInAa));
     if (zoomedInAa) {
       cmd = `select ${zoomedInAa.pos}:${zoomedInAa.chain}${alphaCbOnly ? '.CA' : ''}; 
-      center selected; zoom ${aaSubList.some(el => 
-        JSON.stringify(el) === JSON.stringify(zoomedInAa)) ? 4000 : 2000}; color red; color (not selected) white`;
+      center selected; zoom ${zoom_mut_match ? '3600' : '1800'}; color red; color (not selected) white; 
+      ${zoom_mut_match ? wireFrameCmd() : ''}`;
     }
     return cmd;
   };
   const restrictCmd = () => { // hides everything not in expression, to be used together with 'within' cmd
     if (zoomedInAa && displayOptions.angstromsRestrictionVal > 0 && displayOptions.ifOpenAngstromsRestriction) {
       const distance = displayOptions.angstromsRestrictionVal.toFixed(2);
-      return `restrict within(${distance}, selected); `
+      return `restrict within(${distance}, selected);`
     }
     return '';
   }
@@ -174,14 +171,11 @@ const JsMol: FC<SubMolProps> = (props) => {
   const renderJSmolHTML = (pdbCode: string) => {
     let newScript = `
     set antialiasDisplay; set hoverDelay 0.1; load =${pdbCode};
+    ${wireFrameCmd()} ${backboneOnlyCmd()} 
     ${mutationCmd()} ${mutationSelCmd()} ${chainSelCmd()} 
-    ${wireFrameCmd()} ${backboneOnlyCmd()} ${zoomInCmd()} ${highlightSelectedCmd()} 
-    ${zoomInCmd() === '' && mutationSelCmd() === '' ? '' 
-      : zoomInCmd() === '' 
-        ? 'selectionHalos;'
-        : 'label %[covalentRadius]; color labels blue;' }
-    ${zoomedInAa ? '' : 'ribbon only;'}
-    ${restrictCmd()}
+    ${zoomInCmd()} 
+    ${zoomInCmd() === '' && mutationSelCmd() !== '' ? 'selectionHalos;' : ''}
+    ${restrictCmd()} 
     `;
     console.log(`Jmol Commands: ${newScript}`);
     let JmolInfo = {
@@ -219,25 +213,13 @@ const JsMol: FC<SubMolProps> = (props) => {
           <Form style={{ textAlign: 'left', paddingLeft: 10 }}>
             <FormGroup check inline>
               <Label style={{ marginRight: 2 }} check>
-                set wireframe-only
+                show balls in addition to sticks
               </Label>
               <Input
                 type="checkbox"
-                checked={wireFrameOnly}
+                checked={!wireFrameOnly}
                 onChange={(e) =>
                   setDisplayOptions((prev) => ({ ...prev, wireFrameOnly: !wireFrameOnly }))
-                }
-              />
-            </FormGroup>
-            <FormGroup check inline>
-              <Label style={{ marginRight: 2 }} check>
-                highlight selected AA(s)/chain
-              </Label>
-              <Input
-                type="checkbox"
-                checked={highLightSelected}
-                onChange={(e) =>
-                  setDisplayOptions((prev) => ({ ...prev, highLightSelected: !highLightSelected }))
                 }
               />
             </FormGroup>
@@ -271,10 +253,10 @@ const JsMol: FC<SubMolProps> = (props) => {
                 value={selectedChain}
                 onChange={(e) => {
                   zoomedInAa && dispatch(ReduxActions.setJmolZoomedInAa(undefined));
-                  !(wireFrameOnly || backboneOnly || highLightSelected)
+                  ! (backboneOnly || highLightSelected)
                   ? setDisplayOptions((prev) => ({ ...prev, highLightSelected: true, 
                     selectedChain: e.target.value }))
-                  : (wireFrameOnly || backboneOnly) && highLightSelected 
+                  : backboneOnly && highLightSelected 
                   ? setDisplayOptions((prev) => ({ ...prev, highLightSelected: false, 
                       selectedChain: e.target.value }))
                   : setDisplayOptions((prev) => ({ ...prev, selectedChain: e.target.value }));
@@ -415,11 +397,11 @@ const JsMol: FC<SubMolProps> = (props) => {
           <Form>
             <FormGroup check inline>
               <Label style={{ marginLeft: 6, marginRight: 2 }} check>
-                set wireframe-only
+              show balls in addition to sticks
               </Label>
               <Input
                 type="checkbox"
-                checked={wireFrameOnly}
+                checked={!wireFrameOnly}
                 onChange={(e) =>
                   setDisplayOptions((prev) => ({ ...prev, wireFrameOnly: !wireFrameOnly }))
                 }
@@ -449,18 +431,6 @@ const JsMol: FC<SubMolProps> = (props) => {
                 }
               />
             </FormGroup>
-            <FormGroup check inline>
-              <Label style={{ marginLeft: 6, marginRight: 2, marginBottom: 2 }} check>
-                highlight selected AA(s)/chain
-              </Label>
-              <Input
-                type="checkbox"
-                checked={highLightSelected}
-                onChange={(e) =>
-                  setDisplayOptions((prev) => ({ ...prev, highLightSelected: !highLightSelected }))
-                }
-              />
-            </FormGroup>
             <FormGroup style={{ marginBottom: 2 }} check inline>
               <Label style={{ marginLeft: 6, marginRight: 3 }}>
                 highlight a chain
@@ -472,10 +442,10 @@ const JsMol: FC<SubMolProps> = (props) => {
                 value={selectedChain}
                 onChange={(e) => {
                   zoomedInAa && dispatch(ReduxActions.setJmolZoomedInAa(undefined));
-                  !(wireFrameOnly || backboneOnly || highLightSelected)
+                  ! (backboneOnly || highLightSelected)
                   ? setDisplayOptions((prev) => ({ ...prev, highLightSelected: true, 
                     selectedChain: e.target.value }))
-                  : (wireFrameOnly || backboneOnly) && highLightSelected 
+                  : backboneOnly && highLightSelected 
                   ? setDisplayOptions((prev) => ({ ...prev, highLightSelected: false, 
                       selectedChain: e.target.value }))
                   : setDisplayOptions((prev) => ({ ...prev, selectedChain: e.target.value }));
