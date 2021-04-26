@@ -158,6 +158,7 @@ sudo crontab -e
 #### Add the following line to the text file, save and exit
 ```bash
 30 * * * * /usr/bin/certbot renew --quiet #checks renewal at the 30th minute every hour
+0 5 1,15 * * /usr/bin/rm -rf /home/your_username/PON-SC+/aaclash-plus/templates/* -rf /home/your_username/PON-SC+/aaclash-plus/extra_files/* #Erase AA-Clash query records on the server at 5am, CET on 1st and 15th of every month
 ```
 ```bash
 cd /etc/nginx && sudo vi ./nginx.conf

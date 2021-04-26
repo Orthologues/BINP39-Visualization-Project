@@ -336,7 +336,9 @@ const JsMol: FC<SubMolProps> = (props) => {
               {JMOL_MANUAL}
             </CardText>
           </Form>
-          <p style={{ marginBottom: 5 }}>AA-Subs without prediction</p>
+          <p style={{ marginBottom: 5 }}>
+            { indpJmolQueries.length > 0 ? 'AA-Subs without prediction' : 'Neither an AA-Clash query nor an independent query is given' }
+          </p>
         { indpJmolQueries.map(query =>
             query.pdbToLoad === props.pdbId &&
             query.aaSubs
