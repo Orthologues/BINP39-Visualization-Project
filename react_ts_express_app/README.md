@@ -158,7 +158,8 @@ sudo crontab -e
 #### Add the following line to the text file, save and exit
 ```bash
 30 * * * * /usr/bin/certbot renew --quiet #checks renewal at the 30th minute every hour
-0 5 1,15 * * /usr/bin/rm -rf /home/your_username/PON-SC+/aaclash-plus/templates/* -rf /home/your_username/PON-SC+/aaclash-plus/extra_files/* #Erase AA-Clash query records on the server at 5am, CET on 1st and 15th of every month
+0 5 * * * /usr/bin/find /home/ji8842zh-s/PON-SC+/aaclash-plus/templates/ -type f -mtime +14 -delete #delete record of pdb files which are older than 14 days everyday at 5am 
+0 5 * * * /usr/bin/find /home/ji8842zh-s/PON-SC+/aaclash-plus/extra_files/ -type f -mtime +14 -delete #delete record of query files which are older than 14 days everyday at 5am 
 ```
 ```bash
 cd /etc/nginx && sudo vi ./nginx.conf

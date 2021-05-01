@@ -22,7 +22,7 @@ const FileQueryExample = `Example of PDB-File Query:
 91 96I  99R 
  A101S
 115P`
-const DeletionNotice = "Be aware that AA-Clash query records are erased on the server at 5am CET on 1st and 15th of every month"
+const DeletionNotice = "Be aware that records of your AA-Clash queries are deleted 14 days after submission on the server"
 
 
 const mapAppStateToProps = (state: AppReduxState) => ({
