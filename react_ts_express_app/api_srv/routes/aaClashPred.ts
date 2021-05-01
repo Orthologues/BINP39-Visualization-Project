@@ -46,10 +46,10 @@ type FileDataToClient = {
 }
 type AaSubDetailed = {
     chain: string;
-    oldAa: string;
+    wildType: string;
     pos: number;
-    newAa: string;
-    pred: 'good' | 'bad';
+    variant: string;
+    pred: 'no clash' | 'clash';
 }
 const AA_3_TO_1: Dictionary<string> = {"ALA":"A", "ARG":"R", "ASN":"N","ASP":"D", "CYS":"C", 
 "GLN":"Q", "GLU":"E", "GLY":"G", "HIS":"H", "ILE":"I", "LEU":"L", "LYS":"K", 
@@ -130,10 +130,10 @@ const formattedAaClashPred = (aaClashPred: AaClashPredData):
          (chain.length > 0 && pos.length > 0) && 
          output.goodList.push({
            chain: chain,
-           oldAa: old_aa,
+           wildType: old_aa,
            pos: parseInt(pos.substring(1, pos.length)),
-           newAa: AA_3_TO_1[goodAA],
-           pred: 'good'
+           variant: AA_3_TO_1[goodAA],
+           pred: 'no clash'
          })
        });
      } 
@@ -142,10 +142,10 @@ const formattedAaClashPred = (aaClashPred: AaClashPredData):
          (chain.length > 0 && pos.length > 0) && 
          output.badList.push({
           chain: chain,
-          oldAa: old_aa,
+          wildType: old_aa,
           pos: parseInt(pos.substring(1, pos.length)),
-          newAa: AA_3_TO_1[badAA],
-          pred: 'bad'
+          variant: AA_3_TO_1[badAA],
+          pred: 'clash'
         })
        })
      }

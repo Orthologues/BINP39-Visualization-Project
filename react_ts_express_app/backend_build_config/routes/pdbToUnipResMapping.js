@@ -1,8 +1,8 @@
 import { PY_PATH, AA_CLASH_PREFIX } from '../constants.js';
-import util from 'util';
+import { promisify } from 'util';
 import { exec } from 'child_process';
 const execMapping = async (pdbId) => {
-    const execPromise = util.promisify(exec);
+    const execPromise = promisify(exec);
     const PDB_ID = pdbId.toLowerCase();
     const XML_URL = `ftp://ftp.ebi.ac.uk/pub/databases/msd/sifts/xml/${PDB_ID}.xml.gz`;
     const SCRIPT_PATH = `${AA_CLASH_PREFIX}/parse_sifts.py`;

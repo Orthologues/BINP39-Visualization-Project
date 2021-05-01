@@ -409,6 +409,28 @@ const AaClashResult: FC<any> = () => {
       });
   }
 
+  const mapJobIdAaSub2FullPdb = (jobId: string, aaSub: AaSubDetailed) => {
+    axios.post(`${SRV_URL_PREFIX}/pon-scp/full-pdb/${jobId}`, JSON.stringify({
+      aaSub: aaSub
+    }),
+    { headers: { 'Content-Type': 'application/json' }, responseType: 'blob' })
+      .then(res => {
+        if (res.statusText === 'OK' || res.status === 200) {
+          const AA_SUB_NAME = `${aaSub.chain}_${aaSub.oldAa}${aaSub.pos}${aaSub.newAa}`;
+          fileDownload(res.data as Blob, `${jobId}-${AA_SUB_NAME}_full.pdb`)
+        } 
+        else {
+          let nonOkError = new Error(
+            `Could not fetch .pdb file from API server! Error${res.status}`
+          );
+          throw nonOkError;
+        }
+      })
+      .catch((err: Error) => {
+        alert(err.message)
+      });
+  }
+
 
   // scrolling query list, displayMode: 'latest'|'history', queryMode: 'FILE'|'CODE'
   const QueryList = (): JSX.Element => (
@@ -560,7 +582,15 @@ const AaClashResult: FC<any> = () => {
                       const jobName = codePredHistory.filter(pred => 
                         pred.queryId === queryToShowPred.queryId)[0].jobName;
                       jobName && setTimeout(() => mapJobIdAaSub2Pdb(jobName, item), 10)
-                    }}>Download .pdb file
+                    }}>.pdb of AA
+                  </Button>
+                  <Button className='btn btn-sm' color='link' 
+                    style={{ margin: 0, marginLeft: 5, color: 'yellow'}}
+                    onClick={() => {
+                      const jobName = codePredHistory.filter(pred => 
+                        pred.queryId === queryToShowPred.queryId)[0].jobName;
+                      jobName && setTimeout(() => mapJobIdAaSub2FullPdb(jobName, item), 10)
+                    }}>.pdb of whole variant
                   </Button>
                 </CardText>
               ))}
@@ -595,7 +625,15 @@ const AaClashResult: FC<any> = () => {
                         const jobName = codePredHistory.filter(pred => 
                           pred.queryId === queryToShowPred.queryId)[0].jobName;
                         jobName && setTimeout(() => mapJobIdAaSub2Pdb(jobName, item), 10)
-                    }}>Download .pdb file
+                    }}>.pdb of AA
+                    </Button>
+                    <Button className='btn btn-sm' color='link' 
+                      style={{ margin: 0, marginLeft: 5, color: 'yellow'}}
+                      onClick={() => {
+                        const jobName = codePredHistory.filter(pred => 
+                          pred.queryId === queryToShowPred.queryId)[0].jobName;
+                        jobName && setTimeout(() => mapJobIdAaSub2FullPdb(jobName, item), 10)
+                    }}>.pdb of whole variant
                     </Button>
                   </CardText>
               ))} 
@@ -617,7 +655,7 @@ const AaClashResult: FC<any> = () => {
           style={{ paddingLeft: 16, 
               overflow: 'hidden scroll', paddingTop: 8, minHeight: 480, maxHeight: 480 }}>
             <CardTitle tag="h5">
-              {(queryToShowPred as PdbFileQueryStore).fileName}'s good AA-Substitutions without steric clash:
+              {(queryToShowPred as PdbFileQueryStore).fileName}'s AA-Substitutions predicted to render no steric clashes:
             </CardTitle>
             {formattedAaClashPred(
               filePredHistory.filter(pred => queryToShowPred.queryId === pred.queryId)[0]
@@ -630,7 +668,15 @@ const AaClashResult: FC<any> = () => {
                     const jobName = filePredHistory.filter(pred => 
                       (queryToShowPred as PdbFileQueryStore).queryId === pred.queryId)[0].jobName;
                     jobName && setTimeout(() => mapJobIdAaSub2Pdb(jobName, item), 10)
-                  }}>Download .pdb file
+                  }}>.pdb of AA
+                </Button>
+                <Button className='btn btn-sm' color='link' 
+                  style={{ margin: 0, marginLeft: 5, color: 'yellow'}}
+                  onClick={() => {
+                    const jobName = filePredHistory.filter(pred => 
+                      (queryToShowPred as PdbFileQueryStore).queryId === pred.queryId)[0].jobName;
+                    jobName && setTimeout(() => mapJobIdAaSub2FullPdb(jobName, item), 10)
+                  }}>.pdb of whole variant
                 </Button>
               </CardText>
             ))}
@@ -639,7 +685,7 @@ const AaClashResult: FC<any> = () => {
           style={{ paddingLeft: 16, 
             overflow: 'hidden scroll', paddingTop: 8, minHeight: 480, maxHeight: 480 }}>
             <CardTitle tag="h5">
-              {(queryToShowPred as PdbFileQueryStore).fileName}'s bad AA-Substitutions with steric clash:
+              {(queryToShowPred as PdbFileQueryStore).fileName}'s AA-Substitutions predicted to render steric clashes:
             </CardTitle>
             {formattedAaClashPred(
               filePredHistory.filter(pred => queryToShowPred.queryId === pred.queryId)[0]
@@ -652,7 +698,15 @@ const AaClashResult: FC<any> = () => {
                     const jobName = filePredHistory.filter(pred => 
                       (queryToShowPred as PdbFileQueryStore).queryId === pred.queryId)[0].jobName;
                     jobName && setTimeout(() => mapJobIdAaSub2Pdb(jobName, item), 10)
-                  }}>Download .pdb file
+                  }}>.pdb of AA
+                </Button>
+                <Button className='btn btn-sm' color='link' 
+                  style={{ margin: 0, marginLeft: 5, color: 'yellow'}}
+                  onClick={() => {
+                    const jobName = filePredHistory.filter(pred => 
+                      (queryToShowPred as PdbFileQueryStore).queryId === pred.queryId)[0].jobName;
+                    jobName && setTimeout(() => mapJobIdAaSub2FullPdb(jobName, item), 10)
+                  }}>.pdb of whole variant
                 </Button>
               </CardText>
             ))}

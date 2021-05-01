@@ -74,10 +74,10 @@ const formattedAaClashPred = (aaClashPred) => {
                 (chain.length > 0 && pos.length > 0) &&
                     output.goodList.push({
                         chain: chain,
-                        oldAa: old_aa,
+                        wildType: old_aa,
                         pos: parseInt(pos.substring(1, pos.length)),
-                        newAa: AA_3_TO_1[goodAA],
-                        pred: 'good'
+                        variant: AA_3_TO_1[goodAA],
+                        pred: 'no clash'
                     });
             });
         }
@@ -86,10 +86,10 @@ const formattedAaClashPred = (aaClashPred) => {
                 (chain.length > 0 && pos.length > 0) &&
                     output.badList.push({
                         chain: chain,
-                        oldAa: old_aa,
+                        wildType: old_aa,
                         pos: parseInt(pos.substring(1, pos.length)),
-                        newAa: AA_3_TO_1[badAA],
-                        pred: 'bad'
+                        variant: AA_3_TO_1[badAA],
+                        pred: 'clash'
                     });
             });
         }
