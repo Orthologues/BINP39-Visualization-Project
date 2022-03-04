@@ -139,7 +139,7 @@ cd ~/view-scp-fullstack/ && sudo vi ./start_pon-sc+.sh
 #! /usr/bin/bash
 
 pm2 start /home/your_username/PON-SC+/nodejs-backend/pon_scp_express_srv.js --name pon-scp
-cd /home/your_username/PON-SC+/react-scripts-frontend/ && export PORT=4998 && pm2 start /home/your_username/PON-SC+/react-scripts-frontend/node_modules/react-scripts/scripts/start.js --name view-scp
+pm2 --name view-scp start "export PORT=4998 && yarn --cwd /home/your_username/PON-SC+/react-scripts-frontend/ start"
 ```
 #### Start to run Node.js services for both backend and frontend
 ```bash
